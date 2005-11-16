@@ -1,5 +1,7 @@
 2005-11-17  FUNABARA Masao
 
+	* init.c の Warning メッセージを出ないように修正
+
 	* init.c の Warning メッセージをほぼ出ないように修正
 
 2005-11-16  FUNABARA Masao

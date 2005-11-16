@@ -553,7 +553,7 @@ void
 init_color(void)
 {
 	register short i, j;
-	unsigned char *p;
+	char *p;
 
 	if (color_str && *color_str) {
 		for (i = 0; i < 5 && color_str[i]; i++) {
@@ -562,12 +562,12 @@ init_color(void)
 				c_buf[i] = j;
 		}
 		for (p = "-|#+"; *p; p++)
-			c_attr[*p] = c_buf[0] << 8;
+			c_attr[(signed)*p] = c_buf[0] << 8;
 		c_attr['.'] = c_buf[1] << 8;
 		for (i = 'A'; i <= 'Z'; i++)
 			c_attr[i] = c_buf[2] << 8;
 		for (p = "%!?/=)]^*:,"; *p; p++)
-			c_attr[*p] = c_buf[3] << 8;
+			c_attr[(signed)*p] = c_buf[3] << 8;
 		c_attr[rogue.fchar] = c_buf[4] << 8;
 	} else {
 		for (i = 0; i < 5; i++)
