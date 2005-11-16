@@ -229,8 +229,8 @@ inv_rings()
 #endif /* ORIGINAL */
 }
 
-ring_stats(pr)
-boolean pr;
+void
+ring_stats(boolean pr)
 {
 	short i;
 	object *ring;

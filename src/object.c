@@ -535,9 +535,8 @@ object *obj;
 	}
 }
 
-get_food(obj, force_ration)
-object *obj;
-boolean force_ration;
+void
+get_food(object *obj, boolean force_ration)
 {
 	obj->what_is = FOOD;
 

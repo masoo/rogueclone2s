@@ -18,8 +18,8 @@ static int rand_deg = 31;
 static int rand_sep = 3;
 static long *end_ptr = &rntb[32];
 
-srrandom(x)
-int x;
+void
+srrandom(int x)
 {
 	register int i;
 	long rrandom();

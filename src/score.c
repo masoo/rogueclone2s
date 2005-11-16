@@ -397,8 +397,8 @@ register char *ban;
 }
 #endif
 
-quit(from_intrpt)
-boolean from_intrpt;
+void
+quit(boolean from_intrpt)
 {
 	char buf[128];
 	short i, orow, ocol;
@@ -443,9 +443,8 @@ boolean from_intrpt;
 }
 
 #ifndef ORIGINAL
-put_scores(monster, other)
-object *monster;
-short other;
+void
+put_scores(object *monster, short other)
 {
 	short i, n, ne, rank;
 #ifndef TOPSCO

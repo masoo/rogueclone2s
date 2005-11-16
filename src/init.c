@@ -10,9 +10,22 @@
  *
  */
 
+
 #include <stdio.h>
 #include "rogue.h"
+#include <string.h>
+
 #include "init.h"
+#include "curses.h"
+#include "invent.h"
+#include "machdep.h"
+#include "message.h"
+#include "object.h"
+#include "pack.h"
+#include "random.h"
+#include "ring.h"
+#include "save.h"
+#include "score.h"
 
 char login_name[30];
 char *nick_name = "";
@@ -110,7 +123,8 @@ init(int argc, char *argv[])
 	return(0);
 }
 
-player_init()
+void
+player_init(void)
 {
 	object *obj;
 
@@ -158,8 +172,8 @@ player_init()
 	(void) add_to_pack(obj, &rogue.pack, 1);
 }
 
-clean_up(estr)
-char *estr;
+void
+clean_up(char *estr)
 {
 	if (save_is_interactive) {
 		if (init_curses) {
@@ -186,7 +200,8 @@ char *estr;
 	md_exit(0);
 }
 
-start_window()
+void
+start_window(void)
 {
 #ifdef MSDOS
 	if (*init_str)
@@ -205,7 +220,8 @@ start_window()
 #endif /*MSDOS*/
 }
 
-stop_window()
+void
+stop_window(void)
 {
 	endwin();
 #ifndef MSDOS
@@ -218,7 +234,8 @@ stop_window()
 }
 
 #ifndef MSDOS
-byebye()
+void
+byebye(void)
 {
 	md_ignore_signals();
 	if (ask_quit) {
@@ -233,7 +250,8 @@ byebye()
 #if defined(MSDOS) && (!defined(__TURBOC__) || __TURBOC__ >= 0x0200)
 void
 #endif
-onintr()
+void
+onintr(void)
 {
 	md_ignore_signals();
 	if (cant_int) {
@@ -255,16 +273,16 @@ ignintr()
 }
 #endif
 
-error_save()
+void
+error_save(void)
 {
 	save_is_interactive = 0;
 	save_into_file(error_file);
 	clean_up("");
 }
 
-do_args(argc, argv)
-int argc;
-char *argv[];
+void
+do_args(int argc, char *argv[])
 {
 	short i, j;
 
@@ -403,7 +421,8 @@ mac macs[] = {
 };
 #endif /*MSDOS*/
 
-do_opts()
+void
+do_opts(void)
 {
 	register char *ep, *p;
 	char envname[10];
@@ -413,7 +432,7 @@ do_opts()
 	envbuf[0] = 0;
 	for (p = "S123456789"; *p; p++) {
 		envname[8] = *p;
-		if (ep = md_getenv(envname)) {
+		if ( (ep = md_getenv(envname)) ) {
 			strcat(envbuf, ",");
 			strcat(envbuf, ep);
 		}
@@ -421,13 +440,14 @@ do_opts()
 	set_opts(envbuf);
 }
 
-set_opts(env)
-char *env;
+void
+set_opts(char *env)
 {
-	short not, i;
+	short not;
 	register char *ep, *p;
 	opt *op;
 #ifdef MSDOS
+	short i;
 	mac *mp;
 #endif
 	char optname[20];
@@ -529,10 +549,11 @@ char *env;
 }
 
 #ifdef COLOR
-init_color()
+void
+init_color(void)
 {
 	register short i, j;
-	char *p;
+	unsigned char *p;
 
 	if (color_str && *color_str) {
 		for (i = 0; i < 5 && color_str[i]; i++) {
@@ -580,9 +601,8 @@ int n;
 }
 #endif /* MSDOS */
 
-env_get_value(s, e, add_blank, no_colon)
-char **s, *e;
-boolean add_blank, no_colon;
+void
+env_get_value(char **s, char *e, boolean add_blank, boolean no_colon)
 {
 	short i = 0;
 	char *t;

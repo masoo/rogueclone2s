@@ -149,8 +149,8 @@ putstr(s)
 }
 
 #else
-putstr(s)
-	register char *s;
+void
+putstr(register char *s)
 {
 	while (*s)
 		putchar(*s++);
@@ -201,8 +201,8 @@ int len;
  * return 0 on success, or -1 on failure.
  */
 
-md_chdir(dir)
-char *dir;
+void
+md_chdir(char *dir)
 {
 #if defined(UNIX) || defined(HUMAN)
 /*#ifdef UNIX*/
@@ -326,8 +326,8 @@ md_slurp()
  * cause certain command characters to be unavailable.
  */
 
-md_control_keyboard(mode)
-boolean mode;
+void
+md_control_keyboard(boolean mode)
 {
 #ifdef UNIX
 	static boolean called_before = 0;
@@ -398,7 +398,8 @@ boolean mode;
  * input, this is not usually critical.
  */
 
-md_heed_signals()
+void
+md_heed_signals(void)
 {
 #ifdef UNIX
 	signal(SIGINT, onintr);
@@ -431,7 +432,8 @@ md_heed_signals()
  * file, corruption.
  */
 
-md_ignore_signals()
+void
+md_ignore_signals(void)
 {
 #ifdef UNIX
 	signal(SIGQUIT, SIG_IGN);
@@ -782,7 +784,8 @@ int n;
  * exactly the same way given the same input.
  */
 
-md_gseed()
+int
+md_gseed(void)
 {
 #ifdef UNIX
 	return(getpid());
@@ -802,8 +805,8 @@ md_gseed()
  * hang when it should quit.
  */
 
-md_exit(status)
-int status;
+void
+md_exit(int status)
 {
 #ifndef ORIGINAL
 	if (org_dir && *org_dir)

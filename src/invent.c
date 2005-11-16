@@ -136,7 +136,8 @@ nextpage:
 		goto nextpage;
 }
 
-mix_colors()
+void
+mix_colors(void)
 {
 	short i, j;
 	char *t;
@@ -152,7 +153,8 @@ mix_colors()
 	}
 }
 
-make_scroll_titles()
+void
+make_scroll_titles(void)
 {
 	short i, j, n, len;
 	short sylls, s;
@@ -530,7 +532,8 @@ ANA:
 }
 #endif /*JAPAN for whole function get_desc() */
 
-get_wand_and_ring_materials()
+void
+get_wand_and_ring_materials(void)
 {
 	short i, j;
 	char *p;

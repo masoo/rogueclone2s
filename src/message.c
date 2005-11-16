@@ -67,7 +67,8 @@ remessage()
 	}
 }
 
-check_message()
+void
+check_message(void)
 {
 	if (msg_cleared) {
 		return;
@@ -531,10 +532,8 @@ short ch;
 	return(boolean)((ch >= '0') && (ch <= '9'));
 }
 
-r_index(str, ch, last)
-char *str;
-int ch;
-boolean last;
+int
+r_index(char *str, int ch, boolean last)
 {
 	int i;
 

@@ -341,8 +341,8 @@ object *obj;
 	rogue.armor = (object *) 0;
 }
 
-do_wear(obj)
-object *obj;
+void
+do_wear(object *obj)
 {
 	rogue.armor = obj;
 	obj->in_use_flags |= BEING_WORN;
@@ -391,8 +391,8 @@ wield()
 	}
 }
 
-do_wield(obj)
-object *obj;
+void
+do_wield(object *obj)
 {
 	rogue.weapon = obj;
 	obj->in_use_flags |= BEING_WIELDED;

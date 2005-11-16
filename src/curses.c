@@ -39,6 +39,7 @@
 
 #include <stdio.h>
 #include "rogue.h"
+#include "curses.h"
 
 #ifndef MSDOS
 boolean tc_tname();
@@ -119,7 +120,8 @@ char *TC = (char *) 0;		/* by Yasha */
 
 short cur_row, cur_col;
 
-initscr()
+void
+initscr(void)
 {
 #ifndef MSDOS
 	get_term_info();
@@ -133,7 +135,8 @@ initscr()
 #endif
 }
 
-endwin()
+void
+endwin(void)
 {
 #ifdef COLOR
 	putstr("\033[m");
@@ -149,7 +152,8 @@ endwin()
 }
 
 #ifdef COLOR
-repaint_screen()
+void
+repaint_screen(void)
 {
 	register col, row;
 	short ch;
@@ -162,8 +166,8 @@ repaint_screen()
 }
 #endif
 
-move(row, col)
-short row, col;
+void
+move(short row, short col)
 {
 	curscr->_cury = row;
 	curscr->_curx = col;
@@ -258,7 +262,8 @@ register int row;
 }
 #endif /*JAPAN*/
 
-refresh()
+void
+refresh(void)
 {
 	int i, j;
 	short old_row, old_col;
@@ -363,7 +368,8 @@ clear()
 	clear_buffers();
 }
 
-clrtoeol()
+void
+clrtoeol(void)
 {
 	register short row, col;
 
@@ -404,21 +410,24 @@ standend()
 #endif
 
 #ifndef MSDOS
-crmode()
+void
+crmode(void)
 {
 	md_cbreak_no_echo_nonl(1);
 }
 #endif
 
 #ifndef MSDOS
-noecho()
+void
+noecho(void)
 {
 	/* crmode() takes care of this */
 }
 #endif
 
 #ifndef MSDOS
-nonl()
+void
+nonl(void)
 {
 	/* crmode() takes care of this */
 }

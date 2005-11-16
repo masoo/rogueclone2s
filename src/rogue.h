@@ -436,7 +436,9 @@ unsigned short gr_what_is();
 long rrandom();
 long lget_number();
 long xxx();
-int byebye(), error_save();
+/* int byebye(), error_save(); */
+void byebye();
+void error_save();
 #ifdef MSDOS
 #if defined(__TURBOC__) && __TURBOC__ < 0x0200
 int onintr(), ignintr();
@@ -444,7 +446,7 @@ int onintr(), ignintr();
 void onintr();
 #endif
 #else
-int onintr();
+void onintr();
 #endif
 
 struct rogue_time {

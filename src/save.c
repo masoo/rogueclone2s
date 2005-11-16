@@ -58,8 +58,8 @@ save_game()
 	save_into_file(fname);
 }
 
-save_into_file(sfile)
-char *sfile;
+void
+save_into_file(char *sfile)
 {
 	FILE *fp;
 	int file_id;
@@ -165,8 +165,8 @@ err_return:
 #endif
 }
 
-restore(fname)
-char *fname;
+void
+restore(char *fname)
 {
 	FILE *fp;
 	struct rogue_time saved_time, mod_time;
