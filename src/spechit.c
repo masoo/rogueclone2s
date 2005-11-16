@@ -10,7 +10,23 @@
  *
  */
 
+#include <stdio.h>
 #include "rogue.h"
+#include "spechit.h"
+#include "random.h"
+#include "object.h"
+#include "message.h"
+#include "monster.h"
+#include "score.h"
+#include "ring.h"
+#include "invent.h"
+#include "use.h"
+#include "curses.h"
+#include "room.h"
+#include "pack.h"
+#include "level.h"
+#include "use.h"
+#include "hit.h"
 
 short less_hp = 0;
 char *flame_name = mesg[200];
@@ -22,8 +38,8 @@ extern boolean detect_monster, mon_disappeared;
 extern boolean sustain_strength, maintain_armor;
 extern char *you_can_move_again;
 
-special_hit(monster)
-object *monster;
+void
+special_hit(object *monster)
 {
 	if ((monster->m_flags & CONFUSED) && rand_percent(66)) {
 		return;
@@ -53,8 +69,8 @@ object *monster;
 	}
 }
 
-rust(monster)
-object *monster;
+void
+rust(object *monster)
 {
 	if ((!rogue.armor) || (get_armor_class(rogue.armor) <= 1) ||
 		(rogue.armor->which_kind == LEATHER)) {
@@ -72,8 +88,8 @@ object *monster;
 	}
 }
 
-freeze(monster)
-object *monster;
+void
+freeze(object *monster)
 {
 	short freeze_percent = 99;
 	short i, n;
@@ -104,8 +120,8 @@ object *monster;
 	}
 }
 
-steal_gold(monster)
-object *monster;
+void
+steal_gold(object *monster)
 {
 	int amount;
 
@@ -124,11 +140,11 @@ object *monster;
 	disappear(monster);
 }
 
-steal_item(monster)
-object *monster;
+void
+steal_item(object *monster)
 {
 	object *obj;
-	short i, n, t;
+	short i, n, t=0; /* 未初期化変数の使用の警告のための初期化。 0 を代入 */
 	char desc[80];
 	boolean has_something = 0;
 
@@ -201,8 +217,8 @@ DSPR:
 	disappear(monster);
 }
 
-disappear(monster)
-object *monster;
+void
+disappear(object *monster)
 {
 	short row, col;
 
@@ -218,8 +234,8 @@ object *monster;
 	mon_disappeared = 1;
 }
 
-cough_up(monster)
-object *monster;
+void
+cough_up(object *monster)
 {
 	object *obj;
 	short row, col, i, n;
@@ -262,9 +278,8 @@ object *monster;
 	free_object(obj);
 }
 
-try_to_cough(row, col, obj)
-short row, col;
-object *obj;
+int
+try_to_cough(short row, short col, object *obj)
 {
 	if ((row < MIN_ROW) || (row > (DROWS-2)) || (col < 0) || (col>(DCOLS-1))) {
 		return(0);
@@ -281,8 +296,8 @@ object *obj;
 	return(0);
 }
 
-seek_gold(monster)
-object *monster;
+int
+seek_gold(object *monster)
 {
 	short i, j, rn, s;
 
@@ -313,8 +328,8 @@ object *monster;
 	return(0);
 }
 
-gold_at(row, col)
-short row, col;
+int
+gold_at(short row, short col)
 {
 	if (dungeon[row][col] & OBJECT) {
 		object *obj;
@@ -327,14 +342,14 @@ short row, col;
 	return(0);
 }
 
-check_gold_seeker(monster)
-object *monster;
+void
+check_gold_seeker(object *monster)
 {
 	monster->m_flags &= (~SEEKS_GOLD);
 }
 
-check_imitator(monster)
-object *monster;
+int
+check_imitator(object *monster)
 {
 	char msg[80];
 
@@ -353,13 +368,13 @@ object *monster;
 	return(0);
 }
 
-imitating(row, col)
-register short row, col;
+int
+imitating(register short row, register short col)
 {
 	if (dungeon[row][col] & MONSTER) {
 		object *object_at(), *monster;
 
-		if (monster = object_at(&level_monsters, row, col)) {
+		if ( (monster = object_at(&level_monsters, row, col)) ) {
 			if (monster->m_flags & IMITATES) {
 				return(1);
 			}
@@ -368,8 +383,8 @@ register short row, col;
 	return(0);
 }
 
-sting(monster)
-object *monster;
+void
+sting(object *monster)
 {
 	short sting_chance = 35;
 	char msg[80];
@@ -391,7 +406,8 @@ object *monster;
 	}
 }
 
-drop_level()
+void
+drop_level(void)
 {
 	int hp;
 
@@ -410,7 +426,8 @@ drop_level()
 	add_exp(1, 0);
 }
 
-drain_life()
+void
+drain_life(void)
 {
 	short n;
 
@@ -438,8 +455,8 @@ drain_life()
 	print_stats((STAT_STRENGTH | STAT_HP));
 }
 
-m_confuse(monster)
-object *monster;
+int
+m_confuse(object *monster)
 {
 	char msg[80];
 
@@ -461,8 +478,8 @@ object *monster;
 	return(0);
 }
 
-flame_broil(monster)
-object *monster;
+int
+flame_broil(object *monster)
 {
 	short row, col;
 
@@ -508,9 +525,8 @@ object *monster;
 	return(1);
 }
 
-get_closer(row, col, trow, tcol)
-short *row, *col;
-short trow, tcol;
+void
+get_closer(short *row, short *col, short trow, short tcol)
 {
 	if (*row < trow) {
 		(*row)++;

@@ -77,13 +77,14 @@ get_rand(register int x, register int y)
 	return(r);
 }
 
-rand_percent(percentage)
-register int percentage;
+int
+rand_percent(register int percentage)
 {
 	return(get_rand(1, 100) <= percentage);
 }
 
-coin_toss()
+int
+coin_toss(void)
 {
 
 	return(((rrandom() & 01) ? 1 : 0));

@@ -1,5 +1,53 @@
 2005-11-17  FUNABARA Masao
 
+	* hit.c : 関数の外部宣言のチェック
+
+	* curese.c : 構造体名宣言のポインタ位置の修正
+
+	* curses.c : 関数の外部宣言のチェック
+
+	* curses.c : #ifdef を出来るだけ関数の範囲にまとめる
+
+	* zap.c の Warning メッセージを出さないように修正
+
+	* use.c の Warning メッセージを出さないように修正
+
+	* throw.c の Warning メッセージを出さないように修正
+
+	* spechit.c の Warning メッセージを出さないように修正
+
+	* score.c の Warning メッセージを出さないように修正
+
+	* save.c の Warning メッセージを出さないように修正
+
+	* room.c の Warning メッセージを出さないように修正
+
+	* ring.c の Warning メッセージを出さないように修正
+
+	* pack.c の Warning メッセージを出さないように修正
+
+	* move.c の Warning メッセージを出さないように修正
+
+	* machdep.c の Warning メッセージを出さないように修正
+
+	* invent.c の Warning メッセージを出さないように修正
+
+	* curses.c の Warning メッセージを出さないように修正
+
+	* trap.c の Warning メッセージを出さないように修正
+
+	* play.c の Warning メッセージを出さないように修正
+
+	* object.c の Warning メッセージを出さないように修正
+
+	* monster.c の Warning メッセージを出さないように修正
+
+	* hit.c の Warning メッセージを出さないように修正
+
+	* message.c Warning メッセージを出さないように修正
+
+	* level.c の Warning メッセージを出さないように修正
+
 	* init.c の Warning メッセージを出ないように修正
 
 	* init.c の Warning メッセージをほぼ出ないように修正

@@ -10,7 +10,22 @@
  *
  */
 
+#include <stdio.h>
 #include "rogue.h"
+#include <string.h>
+#include <strings.h>
+#include "zap.h"
+#include "message.h"
+#include "pack.h"
+#include "curses.h"
+#include "object.h"
+#include "monster.h"
+#include "room.h"
+#include "use.h"
+#include "hit.h"
+#include "spechit.h"
+#include "random.h"
+#include "score.h"
 
 boolean wizard = 0;
 #ifndef ORIGINAL
@@ -19,7 +34,8 @@ char *wiz_passwd = "\253\104\114\266\134\245\000\333\355\064\000";
 
 extern boolean being_held, score_only, detect_monster;
 
-zapp()
+void
+zapp(void)
 {
 	short wch;
 	object *wand;
@@ -137,9 +153,8 @@ short *row, *col;
 }
 #endif
 
-zap_monster(monster, kind)
-object *monster;
-unsigned short kind;
+void
+zap_monster(object *monster, unsigned short kind)
 {
 	short row, col;
 	object *nm;
@@ -212,8 +227,8 @@ unsigned short kind;
 	}
 }
 
-tele_away(monster)
-object *monster;
+void
+tele_away(object *monster)
 {
 	short row, col;
 
@@ -235,7 +250,8 @@ object *monster;
 	}
 }
 
-wizardize()
+void
+wizardize(void)
 {
 	char buf[100];
 

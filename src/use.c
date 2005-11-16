@@ -10,7 +10,20 @@
  *
  */
 
+#include <stdio.h>
 #include "rogue.h"
+#include "use.h"
+#include "pack.h"
+#include "message.h"
+#include "random.h"
+#include "level.h"
+#include "monster.h"
+#include "object.h"
+#include "room.h"
+#include "ring.h"
+#include "invent.h"
+#include "curses.h"
+#include "machdep.h"
 
 short halluc = 0;
 short blind = 0;
@@ -31,7 +44,8 @@ extern char *fruit, *you_can_move_again;
 extern boolean sustain_strength;
 
 #ifdef JAPAN
-quaff()
+void
+quaff(void)
 {
 	short ch;
 	char buf[80];
@@ -268,7 +282,8 @@ quaff()
 #endif /*JAPAN*/
 
 #ifdef JAPAN
-read_scroll()
+void
+read_scroll(void)
 {
 	short ch;
 	object *obj;
@@ -482,10 +497,8 @@ read_scroll()
    arrow (or whatever) in the quiver.  It will only decrement the count.
 */
 
-vanish(obj, rm, pack)
-object *obj;
-short rm;
-object *pack;
+void
+vanish(object *obj, short rm, object *pack)
 {
 	if (obj->quantity > 1) {
 		obj->quantity--;
@@ -505,7 +518,8 @@ object *pack;
 	}
 }
 
-potion_heal(extra)
+void
+potion_heal(int extra)
 {
 	long ratio;
 	short add;
@@ -550,7 +564,8 @@ potion_heal(extra)
 	}
 }
 
-idntfy()
+void
+idntfy(void)
 {
 	short ch;
 	object *obj;
@@ -576,7 +591,8 @@ AGAIN:
 	message(desc, 0);
 }
 
-eat()
+void
+eat(void)
 {
 	short ch;
 	short moves;
@@ -621,7 +637,8 @@ eat()
 	vanish(obj, 1, &rogue.pack);
 }
 
-hold_monster()
+void
+hold_monster(void)
 {
 	short i, j;
 	short mcount = 0;
@@ -653,7 +670,8 @@ hold_monster()
 	}
 }
 
-tele()
+void
+tele(void)
 {
 	mvaddch(rogue.row, rogue.col, colored(get_dungeon_char(rogue.row, rogue.col)));
 
@@ -665,7 +683,8 @@ tele()
 	bear_trap = 0;
 }
 
-hallucinate()
+void
+hallucinate(void)
 {
 	object *obj, *monster;
 	short ch;
@@ -694,14 +713,16 @@ hallucinate()
 	}
 }
 
-unhallucinate()
+void
+unhallucinate(void)
 {
 	halluc = 0;
 	relight();
 	message(mesg[272], 1);
 }
 
-unblind()
+void
+unblind(void)
 {
 	blind = 0;
 	message(mesg[273], 1);
@@ -714,7 +735,8 @@ unblind()
 	}
 }
 
-relight()
+void
+relight(void)
 {
 	if (cur_room == PASSAGE) {
 		light_passage(rogue.row, rogue.col);
@@ -724,7 +746,8 @@ relight()
 	mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
 }
 
-take_a_nap()
+void
+take_a_nap(void)
 {
 	short i;
 
@@ -738,7 +761,8 @@ take_a_nap()
 	message(you_can_move_again, 0);
 }
 
-go_blind()
+void
+go_blind(void)
 {
 	short i, j;
 
@@ -778,12 +802,14 @@ get_ench_color()
 	return(mesg[275]);
 }
 
-confuse()
+void
+confuse(void)
 {
 	confused += get_rand(12, 22);
 }
 
-unconfuse()
+void
+unconfuse(void)
 {
 	char msg[80];
 
@@ -795,7 +821,8 @@ unconfuse()
 	message(msg, 1);
 }
 
-uncurse_all()
+void
+uncurse_all(void)
 {
 	object *obj;
 

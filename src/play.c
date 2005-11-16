@@ -11,8 +11,29 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "rogue.h"
+#include <string.h>
 #include "play.h"
+#include "message.h"
+#include "curses.h"
+#include "move.h"
+#include "trap.h"
+#include "invent.h"
+#include "hit.h"
+#include "use.h"
+#include "pack.h"
+#include "ring.h"
+#include "zap.h"
+#include "level.h"
+#include "throw.h"
+#include "score.h"
+#include "room.h"
+#include "object.h"
+#include "monster.h"
+#include "save.h"
+#include "init.h"
+#include "machdep.h"
 
 #define	CTRL(c)	((c) & 037)
 
@@ -165,7 +186,7 @@ message("Rogue-clone: Version II. (Tim Stoehr was here), tektronix!zeus!tims ", 
 #ifndef ORIGINAL
 message("Japanese edition: Ver.1.3a (enhanced by ohta@src.ricoh.co.jp)", 0);
 message("Ver.1.3aS program bug fix/separate (by brx@kmc.kyoto-u.ac.jp)", 0);	/* by Yasha */
-message(mesg[1]);		/* for message version */
+message(mesg[1], 0);		/* for message version */
 #endif
 			break;
 		case 'Q':
@@ -303,7 +324,8 @@ mesg[134], mesg[135], mesg[136], mesg[137],
 (char *) 0
 };
 
-help()
+void
+help(void)
 {
 	register int row, col;
 	int n;
@@ -355,7 +377,8 @@ static char *o_names[] = {
 	mesg[150], mesg[151], mesg[152], mesg[153], mesg[154]
 };
 
-identify()
+void
+identify(void)
 {
 	short ch, n;
 	char *p, buf[80];
@@ -367,7 +390,7 @@ again:
 	if (ch == '\033') {
 		check_message();
 		return;
-	} else if (ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z') {
+	} else if ( ( ch >= 'a' && ch <= 'z' ) || ( ch >= 'A' && ch <= 'Z' )) {
 		check_message();
 		if (ch >= 'a' && ch <= 'z')
 			ch += 'A' - 'a';
@@ -383,7 +406,8 @@ again:
 	message(buf, 0);
 }
 
-options()
+void
+options(void)
 {
 	register int row, col;
 	int n, i, j, changed;
@@ -520,7 +544,8 @@ options()
 #endif
 #endif
 
-doshell()
+void
+doshell(void)
 {
 	char *cmd, *md_getenv();
 

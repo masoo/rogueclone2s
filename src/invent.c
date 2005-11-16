@@ -10,7 +10,15 @@
  *
  */
 
+#include <stdio.h>
 #include "rogue.h"
+#include <string.h>
+#include "invent.h"
+#include "message.h"
+#include "curses.h"
+#include "pack.h"
+#include "object.h"
+#include "random.h"
 
 #define swap_string(x,y) {t = x; x = y; y = t;}
 
@@ -44,9 +52,8 @@ extern boolean wizard;
 
 char descs[DROWS][DCOLS];	/* multi-purpose screen saver */
 
-inventory(pack, mask)
-object *pack;
-unsigned short mask;
+void
+inventory(object *pack, unsigned short mask)
 {
 	object *obj;
 	short i, j, maxlen, n;
@@ -186,10 +193,8 @@ make_scroll_titles(void)
 }
 
 #ifdef JAPAN /* for whole function */
-get_desc(obj, desc, capitalized)
-register object *obj;
-register char *desc;
-boolean capitalized;
+void
+get_desc(register object *obj, register char *desc, boolean capitalized)
 {
 	char *item_name, *p;
 	struct id *id_table;
@@ -570,8 +575,8 @@ get_wand_and_ring_materials(void)
 	}
 }
 
-single_inv(ichar)
-short ichar;
+void
+single_inv(short ichar)
 {
 	short ch;
 	char *p;
@@ -616,8 +621,8 @@ object *obj;
 	return((struct id *) 0);
 }
 
-inv_armor_weapon(is_weapon)
-boolean is_weapon;
+void
+inv_armor_weapon(boolean is_weapon)
 {
 	if (is_weapon) {
 		if (rogue.weapon) {
@@ -656,7 +661,8 @@ struct	dobj {
 		{ 0 }
 };
 
-discovered()
+void
+discovered(void)
 {
 	short i, j, n;
 	short ch, maxlen, found;
@@ -759,7 +765,7 @@ nextpage:
 		dp++;
 	}
 
-	if (i == 0 || i == 1 && !descs[0][0]) {
+	if (i == 0 || ( i == 1 && !descs[0][0] ) ) {
 		/*
 		 * can be here only in 2nd pass (exactly one page)
 		 */
@@ -818,9 +824,8 @@ nextpage:
 #ifdef JAPAN
 static char *_num[10] = { "£°","£±","£²","£³","£´","£µ","£¶","£·","£¸","£¹" };
 
-znum(buf, n, plus)
-char *buf;
-int n, plus;
+void
+znum(char *buf, int n, int plus)
 {
 	char s[10], *p;
 
@@ -837,10 +842,8 @@ int n, plus;
 	}
 }
 
-lznum(buf, n, plus)
-char *buf;
-long n;
-int plus;
+void
+lznum(char *buf, long n, int plus)
 {
 	char s[13], *p;
 

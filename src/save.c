@@ -12,6 +12,16 @@
 
 #include <stdio.h>
 #include "rogue.h"
+#include <string.h>
+#include "save.h"
+#include "message.h"
+#include "machdep.h"
+#include "init.h"
+#include "curses.h"
+#include "ring.h"
+#include "pack.h"
+#include "object.h"
+#include "score.h"
 
 short write_failed = 0;
 char *save_file = "";
@@ -40,7 +50,8 @@ extern short m_moves;
 
 extern boolean msg_cleared;
 
-save_game()
+void
+save_game(void)
 {
 	char fname[64];
 
@@ -72,7 +83,7 @@ save_into_file(char *sfile)
 		md_chdir(org_dir);
 #endif
 	if (sfile[0] == '~') {
-		if (hptr = md_getenv("HOME")) {
+		if ( (hptr = md_getenv("HOME")) ) {
 #ifdef MSDOS
 			hptr = strcpy(name_buffer, hptr);
 			while (*hptr)
@@ -168,7 +179,7 @@ err_return:
 void
 restore(char *fname)
 {
-	FILE *fp;
+    FILE *fp = {NULL}; /* 未初期化変数の使用の警告除去のため NULL で初期化 */
 	struct rogue_time saved_time, mod_time;
 	char buf[4];
 	char tbuf[40];
@@ -296,23 +307,20 @@ restore(char *fname)
 #endif
 }
 
-write_pack(pack, fp)
-object *pack;
-FILE *fp;
+void
+write_pack(object *pack, FILE *fp)
 {
 	object t;
 
-	while (pack = pack->next_object) {
+	while ( (pack = pack->next_object) ) {
 		r_write(fp, (char *) pack, sizeof(object));
 	}
 	t.ichar = t.what_is = 0;
 	r_write(fp, (char *) &t, sizeof(object));
 }
 
-read_pack(pack, fp, is_rogue)
-object *pack;
-FILE *fp;
-boolean is_rogue;
+void
+read_pack(object *pack, FILE *fp, boolean is_rogue)
 {
 	object read_obj, *new_obj;
 
@@ -340,9 +348,8 @@ boolean is_rogue;
 	}
 }
 
-rw_dungeon(fp, rw)
-FILE *fp;
-boolean rw;
+void
+rw_dungeon(FILE *fp, boolean rw)
 {
 	short i, j;
 	char buf[DCOLS];
@@ -384,11 +391,8 @@ boolean rw;
 	}
 }
 
-rw_id(id_table, fp, n, wr)
-struct id id_table[];
-FILE *fp;
-int n;
-boolean wr;
+void
+rw_id(struct id id_table[], FILE *fp, int n, boolean wr)
 {
 	short i;
 
@@ -407,9 +411,8 @@ boolean wr;
 	}
 }
 
-write_string(s, fp)
-char *s;
-FILE *fp;
+void
+write_string(char *s, FILE *fp)
 {
 	short n;
 
@@ -419,9 +422,8 @@ FILE *fp;
 	r_write(fp, s, n);
 }
 
-read_string(s, fp)
-char *s;
-FILE *fp;
+void
+read_string(char *s, FILE *fp)
 {
 	short n;
 
@@ -430,9 +432,8 @@ FILE *fp;
 	xxxx(s, n);
 }
 
-rw_rooms(fp, rw)
-FILE *fp;
-boolean rw;
+void
+rw_rooms(FILE *fp, boolean rw)
 {
 	short i;
 
@@ -442,10 +443,8 @@ boolean rw;
 	}
 }
 
-r_read(fp, buf, n)
-FILE *fp;
-char *buf;
-int n;
+void
+r_read(FILE *fp, char *buf, int n)
 {
 	if (fread(buf, sizeof(char), n, fp) != n) {
 #ifdef JAPAN
@@ -456,10 +455,8 @@ int n;
 	}
 }
 
-r_write(fp, buf, n)
-FILE *fp;
-char *buf;
-int n;
+void
+r_write(FILE *fp, char *buf, int n)
 {
 	if (!write_failed) {
 		if (fwrite(buf, sizeof(char), n, fp) != n) {

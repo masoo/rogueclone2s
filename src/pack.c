@@ -10,18 +10,26 @@
  *
  */
 
+#include <stdio.h>
 #include "rogue.h"
+#include <string.h>
+#include "pack.h"
+#include "object.h"
+#include "message.h"
+#include "use.h"
+#include "monster.h"
+#include "ring.h"
+#include "invent.h"
 
 char *curse_message = mesg[85];
 
 object *
-add_to_pack(obj, pack, condense)
-object *obj, *pack;
+add_to_pack(object *obj, object *pack, int condense)
 {
 	object *op, *p;
 	
 	if (condense) {
-		if (op = check_duplicate(obj, pack)) {
+		if ( (op = check_duplicate(obj, pack)) ) {
 			free_object(obj);
 			return(op);
 		} else {
@@ -56,8 +64,8 @@ object *obj, *pack;
 #endif
 }
 
-take_from_pack(obj, pack)
-object *obj, *pack;
+void
+take_from_pack(object *obj, object *pack)
 {
 	while (pack->next_object != obj) {
 		pack = pack->next_object;
@@ -66,8 +74,7 @@ object *obj, *pack;
 }
 
 object *
-pick_up(row, col, status)
-short *status;
+pick_up(int row, int col, short *status)
 {
 	object *obj;
 
@@ -103,7 +110,8 @@ short *status;
 	return(obj);
 }
 
-drop()
+void
+drop(void)
 {
 	object *obj, *new;
 	short ch;
@@ -204,10 +212,11 @@ object *obj, *pack;
 	return(0);
 }
 
-next_avail_ichar()
+int
+next_avail_ichar(void)
 {
 	register object *obj;
-	register i;
+	register int i;
 	boolean ichars[26];
 
 	for (i = 0; i < 26; i++) {
@@ -226,14 +235,14 @@ next_avail_ichar()
 	return('?');
 }
 
-wait_for_ack()
+void
+wait_for_ack(void)
 {
 	while (rgetchar() != ' ') ;
 }
 
-pack_letter(prompt, mask)
-char *prompt;
-unsigned short mask;
+int
+pack_letter(char *prompt, unsigned short mask)
 {
 	short ch;
 	unsigned short tmask = mask;
@@ -267,7 +276,8 @@ unsigned short mask;
 	return(ch);
 }
 
-take_off()
+void
+take_off(void)
 {
 	char desc[DCOLS];
 	object *obj;
@@ -295,7 +305,8 @@ take_off()
 	}
 }
 
-wear()
+void
+wear(void)
 {
 	short ch;
 	register object *obj;
@@ -332,8 +343,8 @@ wear()
 	(void) reg_move();
 }
 
-unwear(obj)
-object *obj;
+void
+unwear(object *obj)
 {
 	if (obj) {
 		obj->in_use_flags &= (~BEING_WORN);
@@ -349,7 +360,8 @@ do_wear(object *obj)
 	obj->identified = 1;
 }
 
-wield()
+void
+wield(void)
 {
 	short ch;
 	register object *obj;
@@ -398,8 +410,8 @@ do_wield(object *obj)
 	obj->in_use_flags |= BEING_WIELDED;
 }
 
-unwield(obj)
-object *obj;
+void
+unwield(object *obj)
 {
 	if (obj) {
 		obj->in_use_flags &= (~BEING_WIELDED);
@@ -407,7 +419,8 @@ object *obj;
 	rogue.weapon = (object *) 0;
 }
 
-call_it()
+void
+call_it(void)
 {
 	short ch;
 	register object *obj;
@@ -454,8 +467,8 @@ call_it()
 #endif
 }
 
-pack_count(new_obj)
-object *new_obj;
+int
+pack_count(object *new_obj)
 {
 	object *obj;
 	short count = 0;
@@ -495,9 +508,8 @@ unsigned short mask;
 	return(0);
 }
 
-is_pack_letter(c, mask)
-short *c;
-unsigned short *mask;
+int
+is_pack_letter(short *c, unsigned short *mask)
 {
 	switch(*c) {
 	case '?': *mask = SCROL;  goto found;
@@ -508,19 +520,21 @@ unsigned short *mask;
 	case '/': *mask = WAND;   goto found;
 	case '=': *mask = RING;   goto found;
 	case ',': *mask = AMULET; goto found;
-	default: return(*c >= 'a' && *c <= 'z' || *c == CANCEL || *c == LIST);
+	default: return( (*c >= 'a' && *c <= 'z') || *c == CANCEL || *c == LIST);
 	}
 found:
 	*c = LIST;
 	return(1);
 }
 
-has_amulet()
+int
+has_amulet(void)
 {
 	return(mask_pack(&rogue.pack, AMULET));
 }
 
-kick_into_pack()
+void
+kick_into_pack(void)
 {
 	object *obj;
 	char *p;
@@ -534,10 +548,10 @@ kick_into_pack()
 #ifndef ORIGINAL
 		if (levitate) {
 			message(mesg[113], 0);
-			return 0;
+			return ;
 		}
 #endif
-		if (obj = pick_up(rogue.row, rogue.col, &stat)) {
+		if ( (obj = pick_up(rogue.row, rogue.col, &stat)) ) {
 			get_desc(obj, desc, 1);
 #ifdef JAPAN
 			(void) strcat(desc, mesg[114]);

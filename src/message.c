@@ -12,7 +12,12 @@
 
 #include <stdio.h>
 #include "rogue.h"
+#include <string.h>
 #include "message.h"
+#include "machdep.h"
+#include "curses.h"
+#include "pack.h"
+#include "object.h"
 
 #define	CTRL(c)	((c) & 037)
 
@@ -60,7 +65,8 @@ message(char *msg, boolean intrpt)
 	}
 }
 
-remessage()
+void
+remessage(void)
 {
 	if (msg_line[0]) {
 		message(msg_line, 0);
@@ -79,7 +85,8 @@ check_message(void)
 	msg_cleared = 1;
 }
 
-get_direction()
+int
+get_direction(void)
 {
 	int dir;
 
@@ -90,9 +97,8 @@ get_direction()
 	return dir;
 }
 
-get_input_line(prompt, insert, buf, if_cancelled, add_blank, do_echo)
-char *prompt, *buf, *insert, *if_cancelled;
-boolean add_blank, do_echo;
+int
+get_input_line(char *prompt, char *insert, char *buf,  char *if_cancelled, boolean add_blank, boolean do_echo)
 {
 	int n;
 
@@ -101,19 +107,14 @@ boolean add_blank, do_echo;
 	return ((n < 0)? 0: n);
 }
 
-input_line(row, col, insert, buf, ch)
-int row, col, ch;
-char *insert, *buf;
+int
+input_line(int row, int col, char *insert, char *buf, int ch)
 {
 	return (do_input_line(0, row, col, "", insert, buf, "", 0, 1, ch));
 }
 
-do_input_line(is_msg, row,col, prompt, insert, buf, if_cancelled, add_blank, do_echo, first_ch)
-boolean is_msg;
-int row, col;
-char *prompt, *buf, *insert, *if_cancelled;
-boolean add_blank, do_echo;
-int first_ch;
+int
+do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char *buf, char *if_cancelled, boolean add_blank, boolean do_echo, int first_ch)
 {
 	short ch;
 	short i = 0, n = 0;
@@ -257,9 +258,10 @@ int first_ch;
 	return (i);
 }
 
-rgetchar()
+int
+rgetchar(void)
 {
-	register ch;
+	register int ch;
 #if defined(NeXT) && !defined(CURSES)	/* by Yasha (till "#endif") */
 	int y, x;
 #endif
@@ -475,9 +477,8 @@ char *get_status_line()			/* added func. by Yasha */
 }
 #endif
 
-pad(s, n)
-char *s;
-short n;
+void
+pad(char *s, short n)
 {
 	short i;
 
@@ -486,7 +487,8 @@ short n;
 	}
 }
 
-save_screen()
+void
+save_screen(void)
 {
 	FILE *fp;
 	short i, j;
@@ -519,7 +521,8 @@ save_screen()
 	}
 }
 
-sound_bell()
+void
+sound_bell(void)
 {
 	putchar(7);
 	fflush(stdout);

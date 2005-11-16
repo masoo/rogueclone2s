@@ -12,6 +12,16 @@
 
 #include <stdio.h>
 #include "rogue.h"
+#include <string.h>
+#include "score.h"
+#include "machdep.h"
+#include "curses.h"
+#include "invent.h"
+#include "message.h"
+#include "pack.h"
+#include "ring.h"
+#include "init.h"
+#include "level.h"
 
 #ifdef UNIX
 char *score_file = "rogue.scores";
@@ -31,9 +41,8 @@ extern boolean do_color;
 
 #ifndef ORIGINAL
 #ifdef JAPAN
-killed_by(monster, other)
-object *monster;
-short other;
+void
+killed_by(object *monster, short other)
 {
 	int i;
 	char *p, *q;
@@ -292,7 +301,8 @@ short other;
 }
 #endif /*if ORIGINAL*/
 
-win()
+void
+win(void)
 {
 #ifndef ORIGINAL
 	register int i;
@@ -321,7 +331,7 @@ win()
 #define OO___OO_  0xc6
 #define OO__O___  0xc8
 #define OOO_____  0xe0
-	static char ban[7][8] = {
+	static int ban[7][8] = {
     {O___O___,________,____O___,O_______,____O___,_______O,OO__O___,__O_____},
     {O___O___,________,____OO_O,O_______,____O___,________,O___O___,__O_____},
     {O___O__O,OO__O___,O___O_O_,O__OOO__,_OOOO__O,OO______,O__OOO__,__O_____},
@@ -370,9 +380,8 @@ win()
 }
 
 #ifndef ORIGINAL
-mvaddbanner(row, col, ban)
-short row, col;
-register char *ban;
+void
+mvaddbanner(int row, int col, register int *ban)
 {
 	register int i;
 #ifdef COLOR
@@ -401,8 +410,8 @@ void
 quit(boolean from_intrpt)
 {
 	char buf[128];
-	short i, orow, ocol;
-	boolean mc;
+	short i, orow = 0, ocol =0; /* 初期化されず使われている変数のため 0 を代入 */
+	boolean mc = 0;
 
 	md_ignore_signals();
 
@@ -749,15 +758,11 @@ short other;
 #endif /* if ORIGINAL */
 
 #ifdef JAPAN
-insert_score(scores, n_names, n_name, rank, n, monster, other)
-char scores[][82];
-char n_names[][30];
-char *n_name;
-short rank, n;
-object *monster;
+void
+insert_score(char scores[][82], char n_names[][30], char *n_name, short rank, short n, object *monster, int other)
 {
 	short i;
-	char *p;
+	char *p = NULL; /* 初期化されず使用される自動変数を初期化します。 */
 	char buf[82];
 
 	if (n > 0) {
@@ -882,8 +887,8 @@ object *monster;
 }
 #endif /*JAPAN*/
 
-is_vowel(ch)
-short ch;
+int
+is_vowel(short ch)
 {
 	return( (ch == 'a') ||
 		(ch == 'e') ||
@@ -892,7 +897,8 @@ short ch;
 		(ch == 'u') );
 }
 
-sell_pack()
+void
+sell_pack(void)
 {
 	object *obj;
 	short row = 2, val;
@@ -924,8 +930,8 @@ sell_pack()
 	message("", 0);
 }
 
-get_value(obj)
-object *obj;
+int
+get_value(object *obj)
 {
 	short wc;
 	int val;
@@ -962,6 +968,8 @@ object *obj;
 	case RING:
 		val = id_rings[wc].value * (obj->class + 1);
 		break;
+	default:
+	    val = 10;
 	}
 	if (val <= 0) {
 		val = 10;
@@ -969,7 +977,8 @@ object *obj;
 	return(val);
 }
 
-id_all()
+void
+id_all(void)
 {
 	short i;
 
@@ -1033,9 +1042,8 @@ char *s1, *s2;
 #endif /*ORIGINAL*/
 #endif /*TOPSCO*/
 
-xxxx(buf, n)
-char *buf;
-short n;
+void
+xxxx(char *buf, short n)
 {
 	short i;
 #ifndef ORIGINAL
@@ -1075,8 +1083,8 @@ boolean st;
 	return(r);
 }
 
-nickize(buf, score, n_name)
-char *buf, *score, *n_name;
+void
+nickize(char *buf, char *score, char *n_name)
 {
 	short i = 15, j;
 
@@ -1100,9 +1108,8 @@ char *buf, *score, *n_name;
 	buf[79] = 0;
 }
 
-center(row, buf)
-short row;
-char *buf;
+void
+center(short row, char *buf)
 {
 	short margin;
 
@@ -1110,7 +1117,8 @@ char *buf;
 	mvaddstr(row, margin, buf);
 }
 
-sf_error()
+void
+sf_error(void)
 {
 	message("", 1);
 	clean_up(mesg[199]);

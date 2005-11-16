@@ -85,7 +85,10 @@
 #endif /* MSDOS */
 #endif /* HUMAN */
 #include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "rogue.h"
+#include "machdep.h"
 
 #ifdef HUMAN
 getchar()		/* by Yasha */
@@ -201,7 +204,7 @@ int len;
  * return 0 on success, or -1 on failure.
  */
 
-void
+int
 md_chdir(char *dir)
 {
 #if defined(UNIX) || defined(HUMAN)
@@ -263,7 +266,8 @@ char *dir;
  * big deal.
  */
 
-md_slurp()
+void
+md_slurp(void)
 {
 #ifdef UNIX
 	long ln = 0;
@@ -466,8 +470,7 @@ md_ignore_signals(void)
  */
 
 int
-md_get_file_id(fname)
-char *fname;
+md_get_file_id(char *fname)
 {
 #ifdef UNIX
 	struct stat sbuf;
@@ -493,8 +496,7 @@ char *fname;
 
 #ifndef MSDOS
 int
-md_link_count(fname)
-char *fname;
+md_link_count(char *fname)
 {
 #ifdef UNIX
 	struct stat sbuf;
@@ -519,8 +521,8 @@ char *fname;
  * saved-game files and play them.  
  */
 
-md_gct(rt_buf)
-struct rogue_time *rt_buf;
+void
+md_gct(struct rogue_time *rt_buf)
 {
 	struct tm *t, *localtime();
 	long seconds;
@@ -552,9 +554,8 @@ struct rogue_time *rt_buf;
  * saved-games that have been modified.
  */
 
-md_gfmt(fname, rt_buf)
-char *fname;
-struct rogue_time *rt_buf;
+void
+md_gfmt(char *fname, struct rogue_time *rt_buf)
 {
 #ifdef LC4
 	int fd;
@@ -671,8 +672,8 @@ md_gln()
  * effects.
  */
 
-md_sleep(nsecs)
-int nsecs;
+void
+md_sleep(int nsecs)
 {
 	(void) sleep(nsecs);
 }
@@ -761,7 +762,7 @@ char *
 md_malloc(n)
 int n;
 {
-	char *malloc();
+	void *malloc();
 
 	return malloc(n);
 }
@@ -894,8 +895,8 @@ unsigned setvalue;
  *
  */
 
-md_cbreak_no_echo_nonl(on)
-boolean on;
+void
+md_cbreak_no_echo_nonl(boolean on)
 {
 #ifdef UNIX
 #ifdef UNIX_BSD4_2
@@ -983,7 +984,8 @@ md_gdtcf()
  */
 
 #ifndef MSDOS
-md_tstp()
+void
+md_tstp(void)
 {
 #ifdef UNIX
 #ifdef UNIX_BSD4_2

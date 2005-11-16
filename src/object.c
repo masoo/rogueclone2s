@@ -10,8 +10,19 @@
  *
  */
 
+#include <stdio.h>
 #include "rogue.h"
+#include <string.h>
 #include "object.h"
+#include "random.h"
+#include "ring.h"
+#include "room.h"
+#include "message.h"
+#include "save.h"
+#include "monster.h"
+#include "curses.h"
+#include "pack.h"
+#include "invent.h"
 
 object level_objects;
 unsigned short dungeon[DROWS][DCOLS];
@@ -131,8 +142,8 @@ extern boolean is_wood[];
 extern boolean do_color;
 extern short c_attr[];
 
-colored(c)
-register c;
+int
+colored(register int c)
 {
 	c &= 0xff;
 	return (do_color? (c | c_attr[c]): c);
@@ -163,7 +174,8 @@ put_objects(void)
 	put_gold();
 }
 
-put_gold()
+void
+put_gold(void)
 {
 	short i, j;
 	short row,col;
@@ -192,9 +204,8 @@ put_gold()
 	}
 }
 
-plant_gold(row, col, is_maze)
-short row, col;
-boolean is_maze;
+void
+plant_gold(short row, short col, boolean is_maze)
 {
 	object *obj;
 
@@ -209,8 +220,8 @@ boolean is_maze;
 	(void) add_to_pack(obj, &level_objects, 0);
 }
 
-place_at(obj, row, col)
-object *obj;
+void
+place_at(object *obj, int row, int col)
 {
 	obj->row = row;
 	obj->col = col;
@@ -234,7 +245,7 @@ short row, col;
 }
 
 object *
-get_letter_object(ch)
+get_letter_object(int ch)
 {
 	object *obj;
 
@@ -409,8 +420,8 @@ gr_what_is()
 	}
 }
 
-gr_scroll(obj)
-object *obj;
+void
+gr_scroll(object *obj)
 {
 	short percent;
 	register int i;
@@ -428,8 +439,8 @@ object *obj;
 	}
 }
 
-gr_potion(obj)
-object *obj;
+void
+gr_potion(object *obj)
 {
 	short percent;
 	register int i;
@@ -447,9 +458,8 @@ object *obj;
 	}
 }
 
-gr_weapon(obj, assign_wk)
-object *obj;
-int assign_wk;
+void
+gr_weapon(object *obj, int assign_wk)
 {
 	short i;
 	short percent;
@@ -493,9 +503,8 @@ int assign_wk;
 }
 
 /*gr_armor(obj)*/
-gr_armor(obj, assign_wk)	/* by Yasha */
-object *obj;
-int assign_wk;			/* by Yasha */
+void
+gr_armor(object *obj, int assign_wk)	/* by Yasha */
 {
 	short percent;
 	short blessing;
@@ -521,8 +530,8 @@ int assign_wk;			/* by Yasha */
 	}
 }
 
-gr_wand(obj)
-object *obj;
+void
+gr_wand(object *obj)
 {
 	obj->what_is = WAND;
 	obj->which_kind = get_rand(0, (WANDS - 1));
@@ -556,8 +565,8 @@ put_stairs(void)
 	dungeon[row][col] |= STAIRS;
 }
 
-get_armor_class(obj)
-object *obj;
+int
+get_armor_class(object *obj)
 {
 	if (obj) {
 		return(obj->class + obj->d_enchant);
@@ -590,14 +599,15 @@ alloc_object()
 	return(obj);
 }
 
-free_object(obj)
-object *obj;
+void
+free_object(object *obj)
 {
 	obj->next_object = free_list;
 	free_list = obj;
 }
 
-make_party()
+void
+make_party(void)
 {
 	short n;
 
@@ -609,7 +619,8 @@ make_party()
 	}
 }
 
-show_objects()
+void
+show_objects(void)
 {
 	object *obj;
 	short mc, rc, row, col;
@@ -624,7 +635,7 @@ show_objects()
 		rc = get_mask_char(obj->what_is);
 
 		if (dungeon[row][col] & MONSTER) {
-			if (monster = object_at(&level_monsters, row, col)) {
+			if ( (monster = object_at(&level_monsters, row, col)) ) {
 				monster->trail_char = rc;
 			}
 		}
@@ -646,7 +657,8 @@ show_objects()
 	}
 }
 
-put_amulet()
+void
+put_amulet(void)
 {
 	object *obj;
 
@@ -655,8 +667,8 @@ put_amulet()
 	rand_place(obj);
 }
 
-rand_place(obj)
-object *obj;
+void
+rand_place(object *obj)
 {
 	short row, col;
 
@@ -665,9 +677,10 @@ object *obj;
 
 }
 
-new_object_for_wizard()
+void
+new_object_for_wizard(void)
 {
-	short ch, max;
+    short ch, max=0; /* 未初期化変数の使用の Warning の対策で 0 を不可 */
 #ifdef ORIGINAL
 	short wk;
 #endif
@@ -731,8 +744,7 @@ new_object_for_wizard()
 			message(buf, 0);
 			for (;;) {
 				ch = rgetchar();
-				if (ch != LIST && ch != CANCEL
-						&& ch < 'a' || ch > 'a'+max)
+				if ( ( ch != LIST && ch != CANCEL && ch < 'a' ) || ch > 'a'+max)
 					sound_bell();
 				else
 					break;
@@ -780,9 +792,8 @@ new_object_for_wizard()
 }
 
 #ifndef ORIGINAL
-list_object(obj, max)
-object *obj;
-short max;
+void
+list_object(object *obj, short max)
 {
 	short i, j, maxlen, n;
 	char descs[DROWS][DCOLS];
@@ -868,7 +879,8 @@ short max;
 }
 #endif /*ORIGINAL*/
 
-next_party()
+int
+next_party(void)
 {
 	int n;
 

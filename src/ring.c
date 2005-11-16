@@ -11,6 +11,12 @@
  */
 
 #include "rogue.h"
+#include "ring.h"
+#include "message.h"
+#include "pack.h"
+#include "invent.h"
+#include "random.h"
+#include "use.h"
 
 char *left_or_right = mesg[158];
 char *no_ring = mesg[159];
@@ -21,7 +27,8 @@ boolean r_teleport, r_see_invisible, sustain_strength, maintain_armor;
 extern char *curse_message;
 extern boolean wizard;
 
-put_on_ring()
+void
+put_on_ring(void)
 {
 	short ch;
 	char desc[DCOLS];
@@ -81,9 +88,8 @@ put_on_ring()
  * serious problems when do_put_on() is called from read_pack() in restore().
  */
 
-do_put_on(ring, on_left)
-object *ring;
-boolean on_left;
+void
+do_put_on(object *ring, boolean on_left)
 {
 	if (on_left) {
 		ring->in_use_flags |= ON_LEFT_HAND;
@@ -94,7 +100,8 @@ boolean on_left;
 	}
 }
 
-remove_ring()
+void
+remove_ring(void)
 {
 	boolean left = 0, right = 0;
 	short ch;
@@ -128,6 +135,7 @@ remove_ring()
 			ring = rogue.right_ring;
 		} else {
 			message(no_ring, 0);
+			ring = rogue.right_ring;
 		}
 		if (ring->is_cursed) {
 			message(curse_message, 0);
@@ -146,8 +154,8 @@ remove_ring()
 	}
 }
 
-un_put_on(ring)
-object *ring;
+void
+un_put_on(object *ring)
 {
 	if (ring) {
 		if (ring->in_use_flags & ON_LEFT_HAND) {
@@ -161,9 +169,8 @@ object *ring;
 	ring_stats(1);
 }
 
-gr_ring(ring, assign_wk)
-object *ring;
-boolean assign_wk;
+void
+gr_ring(object *ring, boolean assign_wk)
 {
 	ring->what_is = RING;
 	if (assign_wk) {
@@ -202,7 +209,8 @@ boolean assign_wk;
 	}
 }
 
-inv_rings()
+void
+inv_rings(void)
 {
 	char buf[DCOLS];
 

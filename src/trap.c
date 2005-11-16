@@ -10,8 +10,18 @@
  *
  */
 
+#include <stdio.h>
 #include "rogue.h"
 #include "trap.h"
+#include "random.h"
+#include "message.h"
+#include "curses.h"
+#include "object.h"
+#include "use.h"
+#include "hit.h"
+#include "score.h"
+#include "spechit.h"
+#include "room.h"
 
 trap traps[MAX_TRAPS];
 boolean trap_door = 0;
@@ -29,8 +39,8 @@ extern short ring_exp;
 extern boolean sustain_strength;
 extern short blind;
 
-trap_at(row, col)
-register row, col;
+int
+trap_at(register int row, register int col)
 {
 	short i;
 
@@ -42,8 +52,8 @@ register row, col;
 	return(NO_TRAP);
 }
 
-trap_player(row, col)
-short row, col;
+void
+trap_player(short row, short col)
 {
 	short t;
 
@@ -139,7 +149,8 @@ add_traps(void)
 	}
 }
 
-id_trap()
+void
+id_trap(void)
 {
 	short dir, row, col;
 	short t;
@@ -161,7 +172,8 @@ id_trap()
 	}
 }
 
-show_traps()
+void
+show_traps(void)
 {
 	short i, j;
 
@@ -174,9 +186,8 @@ show_traps()
 	}
 }
 
-search(n, is_auto)
-short n;
-boolean is_auto;
+void
+search(short n, boolean is_auto)
 {
 	short s, i, j, row, col, t;
 	short shown = 0, found = 0;

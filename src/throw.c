@@ -10,13 +10,28 @@
  *
  */
 
+#include <stdio.h>
 #include "rogue.h"
+#include "throw.h"
+#include "message.h"
+#include "pack.h"
+#include "monster.h"
+#include "ring.h"
+#include "curses.h"
+#include "object.h"
+#include "room.h"
+#include "spechit.h"
+#include "use.h"
+#include "hit.h"
+#include "random.h"
+#include "zap.h"
 
 extern short cur_room;
 extern char *curse_message;
 extern char hit_message[];
 
-throw()
+void
+throw(void)
 {
 	short wch;
 	object *weapon;
@@ -71,8 +86,8 @@ throw()
 	vanish(weapon, 1, &rogue.pack);
 }
 
-throw_at_monster(monster, weapon)
-object *monster, *weapon;
+int
+throw_at_monster(object *monster, object *weapon)
 {
 	short damage, hit_chance;
 	short t;
@@ -157,9 +172,8 @@ short *row, *col;
 	return(0);
 }
 
-flop_weapon(weapon, row, col)
-object *weapon;
-short row, col;
+void
+flop_weapon(object *weapon, short row, short col)
 {
 	object *new_weapon, *monster;
 	short i = 0;
@@ -193,7 +207,7 @@ short row, col;
 			dch = get_dungeon_char(row, col);
 			if (mon) {
 				mch = mvinch(row, col);
-				if (monster = object_at(&level_monsters, row, col)) {
+				if ( (monster = object_at(&level_monsters, row, col)) ) {
 					monster->trail_char = dch;
 				}
 				if ((mch < 'A') || (mch > 'Z')) {
@@ -216,8 +230,8 @@ short row, col;
 	}
 }
 
-rand_around(i, r, c)
-short i, *r, *c;
+void
+rand_around(short i, short  *r, short *c)
 {
 /*	static char* pos = "\010\007\001\003\004\005\002\006\0";	*/
 	static char pos[] = "\010\007\001\003\004\005\002\006\0";/* by Yasha */
@@ -248,9 +262,8 @@ short i, *r, *c;
 }
 
 #ifndef ORIGINAL
-potion_monster(monster, kind)
-object *monster;
-unsigned short kind;
+void
+potion_monster(object *monster, unsigned short kind)
 {
 	short maxhp;
 

@@ -10,7 +10,22 @@
  *
  */
 
+#include <stdio.h>
 #include "rogue.h"
+#include "move.h"
+#include "hit.h"
+#include "message.h"
+#include "random.h"
+#include "use.h"
+#include "room.h"
+#include "monster.h"
+#include "curses.h"
+#include "object.h"
+#include "invent.h"
+#include "trap.h"
+#include "score.h"
+/* strchr の影響で string.h をインクルードできないので直接外部宣言を書く */
+extern size_t strlen(const char *s);
 
 short m_moves = 0;
 #ifndef ORIGINAL
@@ -32,8 +47,8 @@ extern boolean pass_go;
 extern char *strchr();
 #endif
 
-one_move_rogue(dirch, pickup)
-short dirch, pickup;
+int
+one_move_rogue(short dirch, short pickup)
 {
 	register short row, col;
 	short r, c;
@@ -114,7 +129,7 @@ short dirch, pickup;
 			return(STOPPED_ON_SOMETHING);
 		}
 		if (pickup && !levitate) {
-			if (obj = pick_up(row, col, &status)) {
+			if ( (obj = pick_up(row, col, &status)) ) {
 				get_desc(obj, desc, 1);
 				if (obj->what_is == GOLD) {
 					free_object(obj);
@@ -166,12 +181,13 @@ MVED:	if (reg_move()) {			/* fainted from hunger */
 	return((confused ? STOPPED_ON_SOMETHING : MOVED));
 }
 
-multiple_move_rogue(dirch)
+void
+multiple_move_rogue(int dirch)
 {
 	short row, col;
 	short m;
 #ifndef ORIGINAL
-	short n, i, ch;
+	short n, i, ch=0; /* 未初期化変数の警告除去のため 0 で初期化 */
 	char *dir, *strchr();
 #endif
 
@@ -264,8 +280,8 @@ multiple_move_rogue(dirch)
 	}
 }
 
-is_passable(row, col)
-register row, col;
+int
+is_passable(register int row, register int col)
 {
 	if ((row < MIN_ROW) || (row > (DROWS - 2)) || (col < 0) ||
 		(col > (DCOLS-1))) {
@@ -277,8 +293,8 @@ register row, col;
 	return(int)(dungeon[row][col] & (FLOOR|TUNNEL|DOOR|STAIRS|TRAP));
 }
 
-next_to_something(drow, dcol)
-register drow, dcol;
+int
+next_to_something(register int drow, register int dcol)
 {
 	short i, j, i_end, j_end, row, col;
 	short pass_count = 0;
@@ -295,8 +311,8 @@ register drow, dcol;
 
 	for (i = ((rogue.row > MIN_ROW) ? -1 : 0); i <= i_end; i++) {
 		for (j = ((rogue.col > 0) ? -1 : 0); j <= j_end; j++) {
-			if (i == 0 && j == 0 ||
-			    rogue.row+i == drow && rogue.col+j == dcol) {
+			if ( (i == 0 && j == 0) ||
+			     (rogue.row+i == drow && rogue.col+j == dcol )) {
 				continue;
 			}
 			row = rogue.row + i;
@@ -338,7 +354,8 @@ register drow, dcol;
 	return(0);
 }
 
-can_move(row1, col1, row2, col2) 
+int
+can_move(int row1, int col1, int row2, int col2) 
 {
 	if (!is_passable(row2, col2)) {
 		return(0);
@@ -352,7 +369,8 @@ can_move(row1, col1, row2, col2)
 	return(1);
 }
 
-move_onto()
+void
+move_onto(void)
 {
 	short ch;
 
@@ -363,7 +381,7 @@ move_onto()
 }
 
 boolean
-is_direction(c)
+is_direction(int c)
 {
 	return(boolean)((strchr("hjklbyun\033", c) != (char *)0)? 1: 0);
 }
@@ -499,7 +517,8 @@ reg_move()
 	return(fainted);
 }
 
-rest(count)
+void
+rest(int count)
 {
 	int i;
 
@@ -513,12 +532,14 @@ rest(count)
 	}
 }
 
-gr_dir()
+int
+gr_dir(void)
 {
 	return (*("jklhyubn" + get_rand(1, 8) - 1));
 }
 
-heal()
+void
+heal(void)
 {
 	static short heal_exp = -1, n, c = 0;
 	static boolean alt;
@@ -535,7 +556,7 @@ heal()
 	if (++c >= n) {
 		c = 0;
 		rogue.hp_current++;
-		if (alt = !alt) {
+		if ( (alt = !alt) ) {
 			rogue.hp_current++;
 		}
 		if ((rogue.hp_current += regeneration) > rogue.hp_max) {
