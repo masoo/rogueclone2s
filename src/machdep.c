@@ -278,10 +278,14 @@ md_slurp()
 #ifdef UNIX_386BSD
 	fpurge(stdin);
 #else
+#ifdef UNIX_SYSV
+	fflush(stdin);
+#else
 	ln += stdin->_cnt;
 	for (; ln > 0; ln--) {
 		(void) getchar();
 	}
+#endif /* UNIX_SYSV */
 #endif /*386BSD*/
 #endif /* UNIX */
 
@@ -364,7 +368,7 @@ boolean mode;
 		tc_temp.t_startc = tc_temp.t_stopc = -1;
 #endif /* UNIX_BSD4_2 */
 #ifdef UNIX_SYSV
-		_tty.c_cc[VSWTCH] = CNSWTCH;
+		/* _tty.c_cc[VSWTCH] = CNSWTCH; */
 #endif /* UNIX_SYSV */
 	}
 #ifdef UNIX_BSD4_2

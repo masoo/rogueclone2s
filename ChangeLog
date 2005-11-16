@@ -1,4 +1,7 @@
-2005-11-16  FUNABARA Masao  <masao@107steps.samurai.jp>
+2005-11-16  FUNABARA Masao
+
+	* 発生していたコンパイルエラーを修正し、コンパイルを完了できるように修正する
+	machdep.c : コンパイルエラーを修正
 
 	* automake / autoconf 化
 	AUTHORS, COPYING, ChangeLog, INSTALL, NEWS, README, TODO のメッセージ作成する
