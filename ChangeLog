@@ -1,4 +1,8 @@
-2005-11-16  FUNABARA Masao
+2005-11-16  FUNABARA Masao  <masao@107steps.samurai.jp>
+
+	* automake / autoconf 化
+	AUTHORS, COPYING, ChangeLog, INSTALL, NEWS, README, TODO のメッセージ作成する
+	Makefile.am, configure.ac のファイルを追加する
 
 	* rogueclone2s のプログラム作成開始
 	データ分離版ローグ・クローンIIのソースを CVS にそのまま入れる
