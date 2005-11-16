@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include "rogue.h"
+#include "message.h"
 
 #define	CTRL(c)	((c) & 037)
 
@@ -27,9 +28,8 @@ extern boolean cant_int, did_int, interrupted, save_is_interactive;
 extern short add_strength;
 extern short cur_level;
 
-message(msg, intrpt)
-char *msg;
-boolean intrpt;
+void
+message(char *msg, boolean intrpt)
 {
 	if (!save_is_interactive) {
 		return;
@@ -315,8 +315,8 @@ Level: 99 Gold: 999999 Hp: 999(999) Str: 99(99) Arm: 99 Exp: 21/10000000 Hungry
 0    5    1    5    2    5    3    5    4    5    5    5    6    5    7    5
 */
 
-print_stats(stat_mask)
-register stat_mask;
+void
+print_stats(register int stat_mask)
 {
 	char buf[16];
 	boolean label;

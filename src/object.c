@@ -11,6 +11,7 @@
  */
 
 #include "rogue.h"
+#include "object.h"
 
 object level_objects;
 unsigned short dungeon[DROWS][DCOLS];
@@ -138,7 +139,8 @@ register c;
 }
 #endif
 
-put_objects()
+void
+put_objects(void)
 {
 	short i, n;
 	object *obj;
@@ -244,8 +246,8 @@ get_letter_object(ch)
 	return(obj);
 }
 
-free_stuff(objlist)
-object *objlist;
+void
+free_stuff(object *objlist)
 {
 	object *obj;
 
@@ -546,7 +548,8 @@ boolean force_ration;
 	}
 }
 
-put_stairs()
+void
+put_stairs(void)
 {
 	short row, col;
 

@@ -11,6 +11,7 @@
  */
 
 #include "rogue.h"
+#include "monster.h"
 
 object level_monsters;
 boolean mon_disappeared;
@@ -62,7 +63,8 @@ extern short blind, halluc, haste_self;
 extern boolean detect_monster, see_invisible, r_see_invisible;
 extern short stealthy;
 
-put_mons()
+void
+put_mons(void)
 {
 	short i;
 	short n;

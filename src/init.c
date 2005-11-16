@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include "rogue.h"
+#include "init.h"
 
 char login_name[30];
 char *nick_name = "";
@@ -48,9 +49,8 @@ extern char *save_file;
 extern short party_room, party_counter;
 extern boolean jump;
 
-init(argc, argv)
-int argc;
-char *argv[];
+int
+init(int argc, char *argv[])
 {
 	char *pn;
 	int seed;

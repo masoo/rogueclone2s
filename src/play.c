@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include "rogue.h"
+#include "play.h"
 
 #define	CTRL(c)	((c) & 037)
 
@@ -22,7 +23,8 @@ extern short party_room, bear_trap;
 extern char hit_message[];
 extern boolean wizard, trap_door;
 
-play_level()
+void
+play_level(void)
 {
 	short ch, cmd, oldcmd;
 	int count;

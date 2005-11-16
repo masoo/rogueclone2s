@@ -11,6 +11,7 @@
  */
 
 #include "rogue.h"
+#include "level.h"
 
 #define swap(x,y) {t = x; x = y; y = t;}
 
@@ -50,7 +51,8 @@ extern boolean see_invisible;
 extern short bear_trap, levitate, extra_hp, less_hp, cur_room;
 extern short party_counter;
 
-make_level()
+void
+make_level(void)
 {
 	register short i, j;
 	short must_exist1, must_exist2, must_exist3;
@@ -257,7 +259,8 @@ register short room1, room2;
 	return(1);
 }
 
-clear_level()
+void
+clear_level(void)
 {
 	register short i, j;
 
@@ -640,8 +643,8 @@ short row1, col1, row2, col2, n;
 	}
 }
 
-put_player(nr)
-short nr;		/* try not to put in this room */
+void
+put_player(short nr)     /* try not to put in this room */
 {
 	register short rn = nr, misses;
 	short row, col;

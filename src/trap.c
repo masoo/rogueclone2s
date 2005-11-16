@@ -11,6 +11,7 @@
  */
 
 #include "rogue.h"
+#include "trap.h"
 
 trap traps[MAX_TRAPS];
 boolean trap_door = 0;
@@ -93,7 +94,8 @@ short row, col;
 	}
 }
 
-add_traps()
+void
+add_traps(void)
 {
 	short i, n, tries = 0;
 	short row, col;

@@ -1,3 +1,5 @@
+#include "random.h"
+
 static long rntb[32] = {
 	         3, 0x9a319039, 0x32d9c024, 0x9b663182, 0x5da1f342, 
 	0xde3b81e0, 0xdf0a6fb5, 0xf103bc02, 0x48f340fb, 0x7449e56b,
@@ -57,8 +59,8 @@ rrandom()
 	return(i);
 }
 
-get_rand(x, y)
-register int x, y;
+int
+get_rand(register int x, register int y)
 {
 	register int r, t;
 	long lr;
