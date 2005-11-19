@@ -192,10 +192,11 @@ make_scroll_titles(void)
 	}
 }
 
-#ifdef JAPAN /* for whole function */
 void
 get_desc(register object *obj, register char *desc, boolean capitalized)
 {
+
+#ifdef JAPAN /* for whole function */
 	char *item_name, *p;
 	struct id *id_table;
 	char more_info[32];
@@ -357,15 +358,8 @@ ANA:
 		p = "";
 	}
 	(void) strcat(desc, p);
-}
 
 #else /*JAPAN for whole function get_desc */
-
-get_desc(obj, desc, capitalized)
-object *obj;
-char *desc;
-boolean capitalized;
-{
 	char *p;
 	char *item_name;
 	struct id *id_table;
@@ -534,8 +528,8 @@ ANA:
 		p = "";
 	}
 	(void) strcat(desc, p);
-}
 #endif /*JAPAN for whole function get_desc() */
+}
 
 void
 get_wand_and_ring_materials(void)
@@ -600,9 +594,8 @@ single_inv(short ichar)
 	message(desc, 0);
 }
 
-struct id *
-get_id_table(obj)
-object *obj;
+struct id
+* get_id_table(object *obj)
 {
 	switch(obj->what_is) {
 	case SCROL:
