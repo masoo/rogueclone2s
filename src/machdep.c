@@ -170,9 +170,7 @@ putstr(register char *s)
  */
 
 char *
-md_getcwd(dir, len)
-char *dir;
-int len;
+md_getcwd(char *dir, int len)
 {
 #ifdef UNIX
 #ifdef UNIX_BSD4_2
@@ -183,18 +181,18 @@ int len;
 	char *getcwd();
 
 	return (getcwd(dir, len));
-#endif
-#else
+#endif /* UNIX_BSD4_2 */
+#else /* UNIX */
 #ifdef LC4
 	return ((char *)getcwd(dir, len));
 #else
 	char *getcwd();
 
 	return (getcwd(dir, len));
-#endif
-#endif
+#endif /* LC4 */
+#endif /* UNIX_BSD_4_2 */
 }
-#endif
+#endif /* UNIX */
 
 #ifndef ORIGINAL
 /*
@@ -615,8 +613,7 @@ md_gfmt(char *fname, struct rogue_time *rt_buf)
  */
 
 boolean
-md_df(fname)
-char *fname;
+md_df(char *fname)
 {
 	if (unlink(fname)) {
 		return(0);
@@ -634,7 +631,7 @@ char *fname;
  */
 
 char *
-md_gln()
+md_gln(void)
 {
 #ifdef UNIX
 	char *getlogin();
@@ -742,8 +739,7 @@ int nsecs;
  */
 
 char *
-md_getenv(name)
-char *name;
+md_getenv(char *name)
 {
 	char *getenv();
 
@@ -759,8 +755,7 @@ char *name;
  */
 
 char *
-md_malloc(n)
-int n;
+md_malloc(int n)
 {
 	void *malloc();
 
@@ -966,7 +961,7 @@ md_cbreak_no_echo_nonl(boolean on)
 
 #ifndef MSDOS
 char *
-md_gdtcf()
+md_gdtcf(void)
 {
 #ifdef UNIX
 	return("/etc/termcap");

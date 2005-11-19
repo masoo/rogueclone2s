@@ -1,5 +1,7 @@
 2005-11-20  FUNABARA Masao
 
+	* machdep.c : 関数の外部宣言のチェック
+
 	* level.c : 関数の外部宣言のチェック
 
 2005-11-18  FUNABARA Masao

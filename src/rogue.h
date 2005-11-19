@@ -409,9 +409,6 @@ char *name_of();
 char *md_gln();
 char *md_getenv();
 char *md_malloc();
-#ifndef ORIGINAL
-char *md_getcwd();
-#endif
 boolean is_direction();
 boolean mon_sees();
 boolean mask_pack();
