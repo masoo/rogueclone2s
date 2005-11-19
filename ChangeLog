@@ -1,3 +1,7 @@
+2005-11-20  FUNABARA Masao
+
+	* level.c : 関数の外部宣言のチェック
+
 2005-11-18  FUNABARA Masao
 
 	* invent.c : 関数の外部宣言のチェック

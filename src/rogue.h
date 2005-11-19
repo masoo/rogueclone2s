@@ -415,7 +415,6 @@ char *md_getcwd();
 boolean is_direction();
 boolean mon_sees();
 boolean mask_pack();
-boolean mask_room();
 boolean is_digit();
 boolean check_hunger();
 boolean reg_move();

@@ -19,5 +19,6 @@ extern object *pick_up(int row, int col, short *status);
 extern void unwield(object *obj);
 extern void unwear(object *obj);
 extern int is_pack_letter(short *c, unsigned short *mask);
+extern int has_amulet(void);
 
 #endif /* __PACK_H__ */

@@ -21,6 +21,7 @@
 #include "message.h"
 #include "score.h"
 #include "invent.h"
+#include "pack.h"
 
 #define swap(x,y) {t = x; x = y; y = t;}
 
@@ -538,10 +539,7 @@ recursive_deadend(short rn, short *offsets, short srow, short scol)
 }
 
 boolean
-mask_room(rn, row, col, mask)
-short   rn;
-short  *row, *col;
-unsigned short mask;
+mask_room(short rn, short *row, short *col, unsigned short mask)
 {
     register short i, j;
 
