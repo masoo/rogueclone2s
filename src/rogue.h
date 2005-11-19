@@ -412,7 +412,6 @@ char *md_malloc();
 boolean is_direction();
 boolean mon_sees();
 boolean mask_pack();
-boolean is_digit();
 boolean check_hunger();
 boolean reg_move();
 boolean md_df();

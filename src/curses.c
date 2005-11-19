@@ -44,6 +44,7 @@
 #include "machdep.h"
 #include "object.h"
 #include "init.h"
+#include "message.h"
 
 #define BS 010
 #define LF 012

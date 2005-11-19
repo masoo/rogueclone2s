@@ -152,7 +152,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 				k++;
 			}
 		}
-#endif
+#endif /* JAPAN */
 		move(row, col+n+i);
 		refresh();
 	}
@@ -529,8 +529,7 @@ sound_bell(void)
 }
 
 boolean
-is_digit(ch)
-short ch;
+is_digit(short ch)
 {
 	return(boolean)((ch >= '0') && (ch <= '9'));
 }
