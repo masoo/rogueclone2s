@@ -1,5 +1,7 @@
 2005-11-20  FUNABARA Masao
 
+	* spechit.c : 関数の外部宣言のチェック
+
 	* score.c : 関数の外部宣言のチェック
 
 	* save.c : 関数の外部宣言のチェック
