@@ -417,7 +417,6 @@ object *add_to_pack();
 object *alloc_object();
 object *get_letter_object();
 object *gr_monster();
-object *get_thrown_at_monster();
 object *get_zapped_monster();
 object *check_duplicate();
 object *gr_object();

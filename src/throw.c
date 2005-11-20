@@ -129,10 +129,7 @@ throw_at_monster(object *monster, object *weapon)
 }
 
 object *
-get_thrown_at_monster(obj, dir, row, col)
-object *obj;
-short dir;
-short *row, *col;
+get_thrown_at_monster(object *obj, short dir, short *row, short *col)
 {
 	short orow, ocol;
 	short i, ch;
