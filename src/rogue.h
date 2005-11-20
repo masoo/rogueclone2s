@@ -426,7 +426,6 @@ struct id *get_id_table();
 unsigned short gr_what_is();
 long rrandom();
 long lget_number();
-long xxx();
 /* int byebye(), error_save(); */
 void byebye();
 void error_save();

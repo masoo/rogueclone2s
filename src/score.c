@@ -1066,8 +1066,7 @@ xxxx(char *buf, short n)
 }
 
 long
-xxx(st)
-boolean st;
+xxx(boolean st)
 {
 	static long f, s;
 	long r;
