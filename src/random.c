@@ -38,7 +38,7 @@ srrandom(int x)
 }
 
 long
-rrandom()
+rrandom(void)
 {
 	long i;
 	
