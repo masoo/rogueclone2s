@@ -40,7 +40,7 @@ zapp(void)
 	short wch;
 	object *wand;
 	short dir, row, col;
-	object *monster, *get_missiled_monster();
+	object *monster;
 
 	dir = get_direction();
 	if (dir == CANCEL) {
@@ -90,9 +90,7 @@ zapp(void)
 }
 
 object *
-get_zapped_monster(dir, row, col)
-short dir;
-short *row, *col;
+get_zapped_monster(short dir, short *row, short *col)
 {
 	short orow, ocol;
 
@@ -114,9 +112,7 @@ short *row, *col;
 
 #ifndef ORIGINAL
 object *
-get_missiled_monster(dir, row, col)
-short dir;
-short *row, *col;
+get_missiled_monster(short dir, short *row, short *col)
 {
 	short orow, ocol, first = 1;
 
