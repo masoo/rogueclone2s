@@ -794,7 +794,7 @@ go_blind(void)
 }
 
 char *
-get_ench_color()
+get_ench_color(void)
 {
 	if (halluc) {
 		return(id_potions[get_rand(0, POTIONS-1)].title);
