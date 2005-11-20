@@ -230,9 +230,7 @@ place_at(object *obj, int row, int col)
 }
 
 object *
-object_at(pack, row, col)
-register object *pack;
-short row, col;
+object_at(register object *pack, short row, short col)
 {
 	object *obj;
 
@@ -271,8 +269,7 @@ free_stuff(object *objlist)
 }
 
 char *
-name_of(obj)
-object *obj;
+name_of(object *obj)
 {
 #ifndef ORIGINAL
 	int i;
@@ -364,7 +361,7 @@ object *obj;
 }
 
 object *
-gr_object()
+gr_object(void)
 {
 	object *obj;
 
@@ -403,7 +400,7 @@ gr_object()
 }
 
 unsigned short
-gr_what_is()
+gr_what_is(void)
 {
 	register short percent;
 	register int i;
@@ -502,7 +499,6 @@ gr_weapon(object *obj, int assign_wk)
 	obj->damage = da[obj->which_kind];
 }
 
-/*gr_armor(obj)*/
 void
 gr_armor(object *obj, int assign_wk)	/* by Yasha */
 {
@@ -575,7 +571,7 @@ get_armor_class(object *obj)
 }
 
 object *
-alloc_object()
+alloc_object(void)
 {
 	object *obj;
 

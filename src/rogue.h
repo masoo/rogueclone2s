@@ -422,7 +422,6 @@ object *get_thrown_at_monster();
 object *get_zapped_monster();
 object *check_duplicate();
 object *gr_object();
-object *object_at();
 object *pick_up();
 struct id *get_id_table();
 unsigned short gr_what_is();
