@@ -179,8 +179,7 @@ drop(void)
 }
 
 object *
-check_duplicate(obj, pack)
-object *obj, *pack;
+check_duplicate(object *obj, object *pack)
 {
 	object *op;
 
@@ -458,13 +457,13 @@ call_it(void)
 		id_table[obj->which_kind].id_status = CALLED;
 		(void) strcpy(id_table[obj->which_kind].title, buf);
 	}
-#else
+#else /* JAPAN */
 	if (get_input_line(mesg[111],
 			"", buf, id_table[obj->which_kind].title, 1, 1)) {
 		id_table[obj->which_kind].id_status = CALLED;
 		(void) strcpy(id_table[obj->which_kind].title, buf);
 	}
-#endif
+#endif /* JAPAN */
 }
 
 int
@@ -495,9 +494,7 @@ pack_count(object *new_obj)
 }
 
 boolean
-mask_pack(pack, mask)
-object *pack;
-unsigned short mask;
+mask_pack(object *pack, unsigned short mask)
 {
 	while (pack->next_object) {
 		pack = pack->next_object;
