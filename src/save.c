@@ -471,11 +471,10 @@ r_write(FILE *fp, char *buf, int n)
 	}
 }
 
-#ifndef ORIGINAL
 boolean
-has_been_touched(saved_time, mod_time)
-struct rogue_time *saved_time, *mod_time;
+has_been_touched(register struct rogue_time *saved_time, register struct rogue_time *mod_time)
 {
+#ifndef ORIGINAL
 	register short *sav, *mod;
 	int i;
 
@@ -488,12 +487,7 @@ struct rogue_time *saved_time, *mod_time;
 			return 0;
 	}
 	return 0;
-}
 #else
-boolean
-has_been_touched(saved_time, mod_time)
-register struct rogue_time *saved_time, *mod_time;
-{
 	if (saved_time->year < mod_time->year) {
 		return(1);
 	} else if (saved_time->year > mod_time->year) {
@@ -523,5 +517,6 @@ register struct rogue_time *saved_time, *mod_time;
 		return(1);
 	}
 	return(0);
-}
 #endif
+}
+
