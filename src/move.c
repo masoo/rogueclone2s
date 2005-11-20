@@ -387,8 +387,7 @@ is_direction(int c)
 }
 
 boolean
-check_hunger(messages_only)
-boolean messages_only;
+check_hunger(boolean messages_only)
 {
 	register short i, n;
 	boolean fainted = 0;
@@ -461,7 +460,7 @@ boolean messages_only;
 }
 
 boolean
-reg_move()
+reg_move(void)
 {
 	boolean fainted;
 
