@@ -403,7 +403,6 @@ char *strcpy();
 char *strncpy();
 char *strcat();
 
-char *mon_name();
 char *get_ench_color();
 char *name_of();
 char *md_gln();

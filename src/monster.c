@@ -499,8 +499,7 @@ wake_room(short rn, boolean entering, short row, short col)
 }
 
 char *
-mon_name(monster)
-object *monster;
+mon_name(object *monster)
 {
 	short ch;
 

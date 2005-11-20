@@ -19,5 +19,6 @@ extern void disappear(object *monster);
 extern int try_to_cough(short row, short col, object *obj);
 extern int gold_at(short row, short col);
 extern void get_closer(short *row, short *col, short trow, short tcol);
+extern int m_confuse(object *monster);
 
 #endif /* __SPECHIT_H__ */

@@ -1,4 +1,6 @@
-2005-11-20  FUNABARA Masao  <l07steps@users.sourceforge.jp>
+2005-11-20  FUNABARA Masao
+
+	* monster.c : 関数の外部宣言のチェック
 
 	* message.c : 関数の外部宣言のチェック
 
