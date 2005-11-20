@@ -410,7 +410,6 @@ char *md_getenv();
 char *md_malloc();
 boolean is_direction();
 boolean mon_sees();
-boolean mask_pack();
 boolean reg_move();
 boolean md_df();
 boolean has_been_touched();
