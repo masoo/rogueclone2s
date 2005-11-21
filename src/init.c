@@ -12,9 +12,8 @@
 
 
 #include <stdio.h>
-#include "rogue.h"
 #include <string.h>
-
+#include "rogue.h"
 #include "init.h"
 #include "curses.h"
 #include "invent.h"
@@ -235,7 +234,7 @@ stop_window(void)
 
 #ifndef MSDOS
 void
-byebye(void)
+byebye(int sig)
 {
 	md_ignore_signals();
 	if (ask_quit) {
@@ -251,7 +250,7 @@ byebye(void)
 void
 #endif
 void
-onintr(void)
+onintr(int sig)
 {
 	md_ignore_signals();
 	if (cant_int) {
@@ -274,7 +273,7 @@ ignintr()
 #endif
 
 void
-error_save(void)
+error_save(int sig)
 {
 	save_is_interactive = 0;
 	save_into_file(error_file);

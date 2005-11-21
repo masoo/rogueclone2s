@@ -38,8 +38,8 @@
  */
 
 #include <stdio.h>
-#include "rogue.h"
 #include <string.h>
+#include "rogue.h"
 #include "curses.h"
 #include "machdep.h"
 #include "object.h"

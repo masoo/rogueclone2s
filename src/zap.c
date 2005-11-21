@@ -11,9 +11,9 @@
  */
 
 #include <stdio.h>
-#include "rogue.h"
 #include <string.h>
 #include <strings.h>
+#include "rogue.h"
 #include "zap.h"
 #include "message.h"
 #include "pack.h"
@@ -26,6 +26,8 @@
 #include "spechit.h"
 #include "random.h"
 #include "score.h"
+#include "save.h"
+#include "move.h"
 
 boolean wizard = 0;
 #ifndef ORIGINAL

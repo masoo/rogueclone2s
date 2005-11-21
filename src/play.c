@@ -11,9 +11,9 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include "rogue.h"
-#include <string.h>
 #include "play.h"
 #include "message.h"
 #include "curses.h"

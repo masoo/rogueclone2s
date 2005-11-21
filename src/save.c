@@ -11,8 +11,8 @@
  */
 
 #include <stdio.h>
-#include "rogue.h"
 #include <string.h>
+#include "rogue.h"
 #include "save.h"
 #include "message.h"
 #include "machdep.h"

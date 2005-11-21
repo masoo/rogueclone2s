@@ -20,8 +20,10 @@
 #include "use.h"
 #include "hit.h"
 #include "score.h"
+#include "save.h"
 #include "spechit.h"
 #include "room.h"
+#include "move.h"
 
 trap traps[MAX_TRAPS];
 boolean trap_door = 0;

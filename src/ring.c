@@ -10,13 +10,16 @@
  *
  */
 
+#include <string.h>
 #include "rogue.h"
 #include "ring.h"
+#include "move.h"
 #include "message.h"
 #include "pack.h"
 #include "invent.h"
 #include "random.h"
 #include "use.h"
+#include "object.h"
 
 char *left_or_right = mesg[158];
 char *no_ring = mesg[159];

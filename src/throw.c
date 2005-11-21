@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include "rogue.h"
 #include "throw.h"
 #include "message.h"

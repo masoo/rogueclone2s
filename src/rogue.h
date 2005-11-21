@@ -399,43 +399,6 @@ extern char mesg[][80];
 
 /* external routine declarations.
  */
-char *strcpy();
-char *strncpy();
-char *strcat();
-
-char *get_ench_color();
-char *name_of();
-char *md_gln();
-char *md_getenv();
-char *md_malloc();
-boolean is_direction();
-boolean mon_sees();
-boolean reg_move();
-boolean md_df();
-boolean has_been_touched();
-object *add_to_pack();
-object *alloc_object();
-object *get_letter_object();
-object *gr_monster();
-object *check_duplicate();
-object *gr_object();
-object *pick_up();
-struct id *get_id_table();
-unsigned short gr_what_is();
-long rrandom();
-long lget_number();
-/* int byebye(), error_save(); */
-void byebye();
-void error_save();
-#ifdef MSDOS
-#if defined(__TURBOC__) && __TURBOC__ < 0x0200
-int onintr(), ignintr();
-#else
-void onintr();
-#endif
-#else
-void onintr();
-#endif
 
 struct rogue_time {
 	short year;		/* >= 1987 */

@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include "rogue.h"
 #include "spechit.h"
 #include "random.h"

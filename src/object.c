@@ -11,8 +11,9 @@
  */
 
 #include <stdio.h>
-#include "rogue.h"
 #include <string.h>
+#include "rogue.h"
+#include "machdep.h"
 #include "object.h"
 #include "random.h"
 #include "ring.h"

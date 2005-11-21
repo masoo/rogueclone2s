@@ -24,6 +24,8 @@
 #include "invent.h"
 #include "curses.h"
 #include "machdep.h"
+#include "save.h"
+#include "move.h"
 
 short halluc = 0;
 short blind = 0;

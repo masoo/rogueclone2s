@@ -11,8 +11,9 @@
  */
 
 #include <stdio.h>
-#include "rogue.h"
 #include <string.h>
+#include "rogue.h"
+#include "move.h"
 #include "pack.h"
 #include "object.h"
 #include "message.h"

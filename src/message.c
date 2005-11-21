@@ -11,13 +11,15 @@
  */
 
 #include <stdio.h>
-#include "rogue.h"
 #include <string.h>
+#include "rogue.h"
+#include "move.h"
 #include "message.h"
 #include "machdep.h"
 #include "curses.h"
 #include "pack.h"
 #include "object.h"
+#include "init.h"
 
 #define	CTRL(c)	((c) & 037)
 
@@ -61,7 +63,7 @@ message(char *msg, boolean intrpt)
 	cant_int = 0;
 	if (did_int) {
 		did_int = 0;
-		onintr();
+		onintr(0); /* 「0」に意味はないが警告除去のために値を入れる。onintr関数を見直す必要がある。 */
 	}
 }
 

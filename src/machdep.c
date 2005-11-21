@@ -89,6 +89,7 @@
 #include <unistd.h>
 #include "rogue.h"
 #include "machdep.h"
+#include "init.h"
 
 #ifdef HUMAN
 getchar()		/* by Yasha */
@@ -404,6 +405,7 @@ void
 md_heed_signals(void)
 {
 #ifdef UNIX
+void onintr(int);
 	signal(SIGINT, onintr);
 	signal(SIGQUIT, byebye);
 	signal(SIGHUP, error_save);

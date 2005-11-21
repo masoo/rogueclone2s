@@ -15,7 +15,7 @@ extern void unblind(void);
 extern void relight(void);
 extern void take_a_nap(void);
 extern void go_blind(void);
-extern char * get_ench_color(void);
+extern char *get_ench_color(void);
 extern void confuse(void);
 extern void unconfuse(void);
 extern void uncurse_all(void);

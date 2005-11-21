@@ -22,6 +22,7 @@
 #include "move.h"
 #include "throw.h"
 #include "message.h"
+#include "pack.h"
 
 object level_monsters;
 boolean mon_disappeared;

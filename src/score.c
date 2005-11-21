@@ -11,8 +11,8 @@
  */
 
 #include <stdio.h>
-#include "rogue.h"
 #include <string.h>
+#include "rogue.h"
 #include "score.h"
 #include "machdep.h"
 #include "curses.h"
@@ -22,6 +22,7 @@
 #include "ring.h"
 #include "init.h"
 #include "level.h"
+#include "hit.h"
 
 #ifdef UNIX
 char *score_file = "rogue.scores";

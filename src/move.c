@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include "rogue.h"
 #include "move.h"
 #include "hit.h"
@@ -24,6 +25,7 @@
 #include "invent.h"
 #include "trap.h"
 #include "score.h"
+#include "pack.h"
 /* strchr の影響で string.h をインクルードできないので直接外部宣言を書く */
 extern size_t strlen(const char *s);
 
@@ -44,7 +46,6 @@ extern char hunger_str[];
 extern boolean being_held, interrupted, r_teleport;
 #ifndef ORIGINAL
 extern boolean pass_go;
-extern char *strchr();
 #endif
 
 int
@@ -188,7 +189,7 @@ multiple_move_rogue(int dirch)
 	short m;
 #ifndef ORIGINAL
 	short n, i, ch=0; /* 未初期化変数の警告除去のため 0 で初期化 */
-	char *dir, *strchr();
+	char *dir;
 #endif
 
 	switch(dirch) {

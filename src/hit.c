@@ -11,8 +11,8 @@
  */
 
 #include <stdio.h>
-#include "rogue.h"
 #include <string.h>
+#include "rogue.h"
 #include "hit.h"
 #include "random.h"
 #include "message.h"
