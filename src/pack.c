@@ -215,8 +215,8 @@ check_duplicate(object *obj, object *pack)
 int
 next_avail_ichar(void)
 {
-	register object *obj;
-	register int i;
+	object *obj;
+	int i;
 	boolean ichars[26];
 
 	for (i = 0; i < 26; i++) {
@@ -309,7 +309,7 @@ void
 wear(void)
 {
 	short ch;
-	register object *obj;
+	object *obj;
 	char desc[DCOLS];
 
 	if (rogue.armor) {
@@ -364,7 +364,7 @@ void
 wield(void)
 {
 	short ch;
-	register object *obj;
+	object *obj;
 	char desc[DCOLS];
 
 	if (rogue.weapon && rogue.weapon->is_cursed) {
@@ -423,7 +423,7 @@ void
 call_it(void)
 {
 	short ch;
-	register object *obj;
+	object *obj;
 	struct id *id_table;
 	char buf[MAX_TITLE_LENGTH+2];
 

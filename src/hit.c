@@ -35,7 +35,7 @@ extern short add_strength, ring_exp, r_rings;
 extern boolean being_held, interrupted, wizard;
 
 void
-mon_hit(register object *monster, char *other, boolean flame)
+mon_hit(object *monster, char *other, boolean flame)
 {
     short   damage, hit_chance;
     char   *mn;
@@ -109,7 +109,7 @@ mon_hit(register object *monster, char *other, boolean flame)
 }
 
 void
-rogue_hit(register object *monster, boolean force_hit)
+rogue_hit(object *monster, boolean force_hit)
 {
     short   damage, hit_chance;
 
@@ -157,7 +157,7 @@ rogue_damage(short d, object *monster)
 int
 get_damage(char *ds, boolean r)
 {
-    register int i = 0, j, n, d, total = 0;
+    int i = 0, j, n, d, total = 0;
 
     while (ds[i]) {
 	n = get_number(ds + i);
@@ -184,8 +184,8 @@ int
 get_w_damage(object *obj)
 {
     char    new_damage[12];
-    register int to_hit, damage;
-    register int i = 0;
+    int to_hit, damage;
+    int i = 0;
 
     if ((!obj) || (obj->what_is != WEAPON)) {
 	return (-1);
@@ -200,9 +200,9 @@ get_w_damage(object *obj)
 }
 
 int
-get_number(register char *s)
+get_number(char *s)
 {
-    register int total = 0;
+    int total = 0;
 
     while (*s >= '0' && *s <= '9') {
 	total = (10 * total) + (*s++ - '0');
@@ -211,9 +211,9 @@ get_number(register char *s)
 }
 
 long
-lget_number(register char *s)
+lget_number(char *s)
 {
-    register long total = 0;
+    long total = 0;
 
     while (*s >= '0' && *s <= '9') {
 	total = (10 * total) + (*s++ - '0');

@@ -263,7 +263,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 int
 rgetchar(void)
 {
-	register int ch;
+	int ch;
 #if defined(NeXT) && !defined(CURSES)	/* by Yasha (till "#endif") */
 	int y, x;
 #endif
@@ -321,7 +321,7 @@ Level: 99 Gold: 999999 Hp: 999(999) Str: 99(99) Arm: 99 Exp: 21/10000000 Hungry
 */
 
 void
-print_stats(register int stat_mask)
+print_stats(int stat_mask)
 {
 	char buf[16];
 	boolean label;

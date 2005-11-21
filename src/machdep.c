@@ -101,7 +101,7 @@ getchar()		/* by Yasha */
 /*#ifdef MSDOS*/
 getchar()
 {
-	register int c;
+	int c;
 
 	/*
 	 * hide cursor, and do console input
@@ -134,7 +134,7 @@ putchar(c)
 }
 
 putstr(s)
-	register char *s;
+	char *s;
 {
 #ifdef __TURBOC__
 	while (*s) {
@@ -154,7 +154,7 @@ putstr(s)
 
 #else
 void
-putstr(register char *s)
+putstr(char *s)
 {
 	while (*s)
 		putchar(*s++);

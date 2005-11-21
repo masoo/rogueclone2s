@@ -144,7 +144,7 @@ extern boolean do_color;
 extern short c_attr[];
 
 int
-colored(register int c)
+colored(int c)
 {
 	c &= 0xff;
 	return (do_color? (c | c_attr[c]): c);
@@ -231,7 +231,7 @@ place_at(object *obj, int row, int col)
 }
 
 object *
-object_at(register object *pack, short row, short col)
+object_at(object *pack, short row, short col)
 {
 	object *obj;
 
@@ -403,8 +403,8 @@ gr_object(void)
 unsigned short
 gr_what_is(void)
 {
-	register short percent;
-	register int i;
+	short percent;
+	int i;
 	static short per[] = { 30, 60, 64, 74, 83, 88, 91 };
 	static unsigned short ret[] = {
 		SCROL, POTION, WAND, WEAPON, ARMOR, FOOD, RING
@@ -422,7 +422,7 @@ void
 gr_scroll(object *obj)
 {
 	short percent;
-	register int i;
+	int i;
 	static short per[SCROLS] = {
 		5, 11, 16, 21, 36, 44, 51, 56, 65, 74, 80, 85
 	};
@@ -441,7 +441,7 @@ void
 gr_potion(object *obj)
 {
 	short percent;
-	register int i;
+	int i;
 	static short per[POTIONS] = {
 		10, 20, 30, 40, 50, 55, 65, 75, 85, 95, 105, 110, 114, 118
 	};

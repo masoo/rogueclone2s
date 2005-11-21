@@ -51,7 +51,7 @@ extern boolean pass_go;
 int
 one_move_rogue(short dirch, short pickup)
 {
-	register short row, col;
+	short row, col;
 	short r, c;
 	char *p;
 	object *obj;
@@ -282,7 +282,7 @@ multiple_move_rogue(int dirch)
 }
 
 int
-is_passable(register int row, register int col)
+is_passable(int row, int col)
 {
 	if ((row < MIN_ROW) || (row > (DROWS - 2)) || (col < 0) ||
 		(col > (DCOLS-1))) {
@@ -295,7 +295,7 @@ is_passable(register int row, register int col)
 }
 
 int
-next_to_something(register int drow, register int dcol)
+next_to_something(int drow, int dcol)
 {
 	short i, j, i_end, j_end, row, col;
 	short pass_count = 0;
@@ -390,7 +390,7 @@ is_direction(int c)
 boolean
 check_hunger(boolean messages_only)
 {
-	register short i, n;
+	short i, n;
 	boolean fainted = 0;
 	static short move_left_cou = 0;		/* Yasha */
 

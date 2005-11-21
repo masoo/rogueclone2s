@@ -156,7 +156,7 @@ endwin(void)
 void
 repaint_screen(void)
 {
-    register int col, row;
+    int col, row;
     short   ch;
 
     for (row = MIN_ROW; row < DROWS - 1; row++)
@@ -183,7 +183,7 @@ mvaddstr(short row, short col, char *str)
 }
 
 void
-addstr(register char *str)
+addstr(char *str)
 {
     while (*str) {
 /*	addch((int) *str++);*/
@@ -192,10 +192,10 @@ addstr(register char *str)
 }
 
 void
-addch(register int ch)
+addch(int ch)
 {
 #ifdef COLOR
-    register short row, col;
+    short row, col;
 
     if (ch == '\t') {
 	col = curscr->_curx % 8;
@@ -215,7 +215,7 @@ addch(register int ch)
     lines_dirty[row] = 1;
     screen_dirty = 1;
 #else /* COLOR */
-    register short row, col;
+    short row, col;
 
     if (ch == '\t') {
 	col = curscr->_curx % 8;
@@ -247,9 +247,9 @@ mvaddch(short row, short col, int ch)
 
 #ifdef JAPAN
 void
-touch(register int row, int bcol, int ecol)
+touch(int row, int bcol, int ecol)
 {
-    register int i;
+    int i;
 
     for (i = bcol; i <= ecol; i++)
 	terminal[row][i] = 0;
@@ -264,9 +264,9 @@ refresh(void)
     short   old_row, old_col;
 /*#ifdef COLOR*/
 #if defined(COLOR) || defined(JAPAN)	/* short when kanji by Yasha */
-    register short *bp, *tp;
+    short *bp, *tp;
 #else
-    register char *bp, *tp;
+    char *bp, *tp;
 #endif
 
     if (screen_dirty) {
@@ -300,12 +300,12 @@ void
 wrefresh(WINDOW *scr)
 {
     short   i;
-    register short col;
+    short col;
 /*#ifdef COLOR*/
 #if defined(COLOR) || defined(JAPAN)	/* short when kanji by Yasha */
-    register short *p;
+    short *p;
 #else
-    register char *p;
+    char *p;
 #endif
 
 #ifdef MSDOS
@@ -340,7 +340,7 @@ wrefresh(WINDOW *scr)
 }
 
 int
-mvinch(register short row, register short col)
+mvinch(short row, short col)
 {
     move(row, col);
 #ifdef COLOR
@@ -367,7 +367,7 @@ clear(void)
 void
 clrtoeol(void)
 {
-    register short row, col;
+    short row, col;
 
     row = curscr->_cury;
 
@@ -435,9 +435,9 @@ clear_buffers(void)
     int     i, j;
 /*#ifdef COLOR*/
 #if defined(COLOR) || defined(JAPAN)	/* short when kanji by Yasha */
-    register short *bufp, *termp;
+    short *bufp, *termp;
 #else
-    register char *bufp, *termp;
+    char *bufp, *termp;
 #endif
 
     screen_dirty = 0;
@@ -453,10 +453,10 @@ clear_buffers(void)
 }
 
 void
-put_cursor(register int row, register int col)
+put_cursor(int row, int col)
 {
 #ifdef MSDOS
-    register char *p;
+    char *p;
     char    buf[10];
 
     if (row == cur_row && col == cur_col)
@@ -478,7 +478,7 @@ put_cursor(register int row, register int col)
     *p = 0;
     putstr(buf);
 #else /* MSDOS */
-    register int i, rdif, cdif;
+    int i, rdif, cdif;
     short   ch, t;
 
     rdif = (row > cur_row) ? row - cur_row : cur_row - row;
@@ -550,10 +550,10 @@ put_cursor(register int row, register int col)
 }
 
 void
-put_st_char(register int ch)
+put_st_char(int ch)
 {
 #ifdef COLOR
-    register int m;
+    int m;
 #ifdef HUMAN
     static char *cstr[] = {
 	"\033[m", "\033[32m", "\033[32m", "\033[36m",

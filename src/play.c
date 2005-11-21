@@ -327,7 +327,7 @@ mesg[134], mesg[135], mesg[136], mesg[137],
 void
 help(void)
 {
-	register int row, col;
+	int row, col;
 	int n;
 
 	for (row = 0; row < DROWS; row++)
@@ -409,7 +409,7 @@ again:
 void
 options(void)
 {
-	register int row, col;
+	int row, col;
 	int n, i, j, changed;
 	short ch;
 	short pos[DROWS];

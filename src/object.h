@@ -1,12 +1,12 @@
 #ifndef __OBJECT_H__
 #define __OBJECT_H__
 
-extern int colored(register int c);
+extern int colored(int c);
 extern void put_objects(void);
 extern void put_gold(void);
 extern void plant_gold(short row, short col, boolean is_maze);
 extern void place_at(object *obj, int row, int col);
-extern object *object_at(register object *pack, short row, short col);
+extern object *object_at(object *pack, short row, short col);
 extern object *get_letter_object(int ch);
 extern void free_stuff(object *objlist);
 extern char *name_of(object *obj);

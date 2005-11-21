@@ -64,7 +64,7 @@ extern short party_counter;
 void
 make_level(void)
 {
-    register short i, j;
+    short i, j;
     short   must_exist1, must_exist2, must_exist3;
     boolean big_room;
     boolean vertical;
@@ -137,7 +137,7 @@ make_room(short rn, short r1, short r2, short r3)
     short   left_col, right_col, top_row, bottom_row;
     short   width, height;
     short   row_offset, col_offset;
-    register short i, j;
+    short i, j;
     short   ch;
 
     if (rn == BIG_ROOM) {
@@ -224,7 +224,7 @@ make_room(short rn, short r1, short r2, short r3)
 }
 
 int
-connect_rooms(register short room1, register short room2)
+connect_rooms(short room1, short room2)
 {
     short   row1, col1, row2, col2, dir, rev;
     door   *dp;
@@ -276,7 +276,7 @@ connect_rooms(register short room1, register short room2)
 void
 clear_level(void)
 {
-    register short i, j;
+    short i, j;
 
     for (i = 0; i < MAXROOMS; i++) {
 	rooms[i].is_room = R_NOTHING;
@@ -301,7 +301,7 @@ clear_level(void)
 }
 
 void
-put_door(room * rm, short dir, register short *row, register short *col)
+put_door(room * rm, short dir, short *row, short *col)
 {
     short   wall_width;
 
@@ -338,7 +338,7 @@ put_door(room * rm, short dir, register short *row, register short *col)
 void
 draw_simple_passage(short row1, short col1, short row2, short col2, short dir)
 {
-    register short i;
+    short i;
     short   middle, t;
 
     if ((dir == LEFT) || (dir == RIGHT)) {
@@ -392,7 +392,7 @@ same_col(int room1, int room2)
 void
 add_mazes(void)
 {
-    register short i, j;
+    short i, j;
     short   start;
     short   maze_percent;
 
@@ -426,7 +426,7 @@ add_mazes(void)
 void
 fill_out_level(void)
 {
-    register short i, rn;
+    short i, rn;
 
     mix_random_rooms();
 
@@ -445,9 +445,9 @@ fill_out_level(void)
 }
 
 void
-fill_it(register int rn, boolean do_rec_de)
+fill_it(int rn, boolean do_rec_de)
 {
-    register short i;
+    short i;
     short   tunnel_dir, door_dir, drow, dcol;
     short   target_room, rooms_found = 0;
     short   srow, scol, t;
@@ -508,7 +508,7 @@ fill_it(register int rn, boolean do_rec_de)
 void
 recursive_deadend(short rn, short *offsets, short srow, short scol)
 {
-    register short i, de;
+    short i, de;
     short   drow, dcol, tunnel_dir;
 
     rooms[rn].is_room = R_DEADEND;
@@ -541,7 +541,7 @@ recursive_deadend(short rn, short *offsets, short srow, short scol)
 boolean
 mask_room(short rn, short *row, short *col, unsigned short mask)
 {
-    register short i, j;
+    short i, j;
 
     for (i = rooms[rn].top_row; i <= rooms[rn].bottom_row; i++) {
 	for (j = rooms[rn].left_col; j <= rooms[rn].right_col; j++) {
@@ -556,7 +556,7 @@ mask_room(short rn, short *row, short *col, unsigned short mask)
 }
 
 void
-make_maze(register short r, register short c, register short tr, register short br, register short lc, register short rc)
+make_maze(short r, short c, short tr, short br, short lc, short rc)
 {
     char    dirs[4];
     short   i, t;
@@ -623,7 +623,7 @@ make_maze(register short r, register short c, register short tr, register short 
 void
 hide_boxed_passage(short row1, short col1, short row2, short col2, short n)
 {
-    register short i, j, t;
+    short i, j, t;
     short   row, col, row_cut, col_cut;
     short   h, w;
 
@@ -658,7 +658,7 @@ hide_boxed_passage(short row1, short col1, short row2, short col2, short n)
 void
 put_player(short nr)
 {				/* try not to put in this room */
-    register short rn = nr, misses;
+    short rn = nr, misses;
     short   row, col;
 
     for (misses = 0; ((misses < 2) && (rn == nr)); misses++) {
@@ -731,7 +731,7 @@ add_exp(int e, boolean promotion)
 {
     char    mbuf[40];
     short   new_exp;
-    register short i, hp;
+    short i, hp;
 #ifdef JAPAN
     char    bf[8];
 #endif
@@ -768,7 +768,7 @@ add_exp(int e, boolean promotion)
 int
 get_exp_level(long e)
 {
-    register short i;
+    short i;
 
     for (i = 0; i < (MAX_EXP_LEVEL - 1); i++) {
 	if (level_points[i] > e) {
@@ -781,7 +781,7 @@ get_exp_level(long e)
 int
 hp_raise(void)
 {
-    register int hp;
+    int hp;
 
     hp = (wizard ? 10 : get_rand(3, 10));
     return (hp);
@@ -812,7 +812,7 @@ show_average_hp(void)
 void
 mix_random_rooms(void)
 {
-    register short i, t;
+    short i, t;
     short   j;
 
     for (i = 0; i < MAXROOMS; i++) {

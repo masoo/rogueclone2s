@@ -193,7 +193,7 @@ make_scroll_titles(void)
 }
 
 void
-get_desc(register object *obj, register char *desc, boolean capitalized)
+get_desc(object *obj, char *desc, boolean capitalized)
 {
 
 #ifdef JAPAN /* for whole function */

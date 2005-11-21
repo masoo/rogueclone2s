@@ -1,7 +1,7 @@
 #ifndef __MACHDEP_H__
 #define __MACHDEP_H__
 
-extern void putstr(register char *s);
+extern void putstr(char *s);
 #ifndef ORIGINAL
 extern char *md_getcwd(char *dir, int len);
 #endif

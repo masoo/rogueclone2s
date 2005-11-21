@@ -95,7 +95,7 @@ put_mons(void)
 }
 
 object *
-gr_monster(register object *monster, register int mn)
+gr_monster(object *monster, int mn)
 {
 	if (!monster) {
 		monster = alloc_object();
@@ -122,7 +122,7 @@ gr_monster(register object *monster, register int mn)
 void
 mv_mons(void)
 {
-	register object *monster, *next_monster;
+	object *monster, *next_monster;
 	boolean flew;
 
 	if (haste_self % 2) {
@@ -202,7 +202,7 @@ party_monsters(int rn, int n)
 }
 
 int
-gmc_row_col(register int row, register int col)
+gmc_row_col(int row, int col)
 {
 	object *monster;
 
@@ -225,7 +225,7 @@ gmc(object *monster)
 }
 
 void
-mv_monster(register object *monster, short row, short col)
+mv_monster(object *monster, short row, short col)
 {
 	short i, n;
 	boolean tried[6];
@@ -362,7 +362,7 @@ O:
 }
 
 int
-mtry(register object *monster, register short row, register short col)
+mtry(object *monster, short row, short col)
 {
 	if (mon_can_go(monster, row, col)) {
 		move_mon_to(monster, row, col);
@@ -372,10 +372,10 @@ mtry(register object *monster, register short row, register short col)
 }
 
 void
-move_mon_to(register object *monster, register short row, register short col)
+move_mon_to(object *monster, short row, short col)
 {
 	short c;
-	register int mrow, mcol;
+	int mrow, mcol;
 
 	mrow = monster->row;
 	mcol = monster->col;
@@ -421,7 +421,7 @@ move_mon_to(register object *monster, register short row, register short col)
 }
 
 int
-mon_can_go(register object *monster, register short row, register short col)
+mon_can_go(object *monster, short row, short col)
 {
 	object *obj;
 	short dr, dc;
@@ -519,7 +519,7 @@ mon_name(object *monster)
 int
 rogue_is_around(short row, short col)
 {
-	register short rdif, cdif;
+	short rdif, cdif;
 
 	rdif = row - rogue.row;
 	cdif = col - rogue.col;
@@ -583,7 +583,7 @@ show_monsters(void)
 void
 create_monster(void)
 {
-	register short row, col;
+	short row, col;
 	short r, c;
 	short i;
 	boolean found = 0;
@@ -649,7 +649,7 @@ aim_monster(object *monster)
 }
 
 int
-rogue_can_see(register int row, register int col)
+rogue_can_see(int row, int col)
 {
 	return (!blind && (((get_room_number(row, col) == cur_room) &&
 			!(rooms[cur_room].is_room & R_MAZE)) ||
@@ -726,7 +726,7 @@ gr_obj_char(void)
 int
 no_room_for_monster(int rn)
 {
-	register short i, j;
+	short i, j;
 
 	for (i = rooms[rn].top_row+1; i < rooms[rn].bottom_row; i++) {
 		for (j = rooms[rn].left_col+1; j < rooms[rn].right_col; j++) {
@@ -777,7 +777,7 @@ mon_sees(object *monster, int row, int col)
 void
 mv_aquatars(void)
 {
-	register object *monster;
+	object *monster;
 
 	monster = level_monsters.next_monster;
 

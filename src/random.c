@@ -21,7 +21,7 @@ static long *end_ptr = &rntb[32];
 void
 srrandom(int x)
 {
-	register int i;
+	int i;
 	long rrandom();
 
 	state[0] = (long) x;
@@ -60,9 +60,9 @@ rrandom(void)
 }
 
 int
-get_rand(register int x, register int y)
+get_rand(int x, int y)
 {
-	register int r, t;
+	int r, t;
 	long lr;
 
 	if (x > y) {
@@ -78,7 +78,7 @@ get_rand(register int x, register int y)
 }
 
 int
-rand_percent(register int percentage)
+rand_percent(int percentage)
 {
 	return(get_rand(1, 100) <= percentage);
 }

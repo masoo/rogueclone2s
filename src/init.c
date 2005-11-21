@@ -423,7 +423,7 @@ mac macs[] = {
 void
 do_opts(void)
 {
-	register char *ep, *p;
+	char *ep, *p;
 	char envname[10];
 	char envbuf[BUFSIZ];
 
@@ -443,7 +443,7 @@ void
 set_opts(char *env)
 {
 	short not;
-	register char *ep, *p;
+	char *ep, *p;
 	opt *op;
 #ifdef MSDOS
 	short i;
@@ -551,7 +551,7 @@ set_opts(char *env)
 void
 init_color(void)
 {
-	register short i, j;
+	short i, j;
 	char *p;
 
 	if (color_str && *color_str) {
@@ -579,7 +579,7 @@ init_color(void)
 
 #ifdef MSDOS
 get_hex_num(p, n)
-register char *p;
+char *p;
 int n;
 {
 	int x;
