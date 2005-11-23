@@ -2,6 +2,8 @@
 
 	* Release 1
 
+	* doc : Makefile.am の commit を行う
+
 	* doc : doc ディレクトリ以下のファイルが配布パッケージに含まれない問題に対する修正
 
 	* INSTALL : インストール時のディレクトリ構成を変更
