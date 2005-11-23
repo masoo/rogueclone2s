@@ -25,7 +25,7 @@
 #include "hit.h"
 
 #ifdef UNIX
-char *score_file = "rogue.scores";
+char *score_file = ".rogue.scores";
 #endif
 #ifdef MSDOS
 char *score_file = "rogue.sco";

@@ -2,6 +2,8 @@
 
 	* Release 1 
 
+	* score.c : スコアファイルをドットファイルに変更
+
 	* move.c : strlen の外部宣言が冗長なので削除
 
 	* MANIFEST : 配布用にマニュアル類を修正
