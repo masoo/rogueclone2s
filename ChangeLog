@@ -1,6 +1,11 @@
-2005-11-23  FUNABARA Masao
+2005-11-24  FUNABARA Masao
 
-	* Release 1 
+	* Release 1
+
+	* INSTALL : インストール時のディレクトリ構成を変更
+	メッセージファイルの標準インストール先を $(datadir)/share/rogue にする。
+
+2005-11-23  FUNABARA Masao
 
 	* score.c : スコアファイルをドットファイルに変更
 

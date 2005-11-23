@@ -1,4 +1,2 @@
-docdir = $(prefix)/doc
 EXTRA_DIST = AUTHORS ChangeLog INSTALL MANIFEST NEWS README TODO
-SUBDIRS = doc man msg src
-doc_DATA = AUTHORS ChangeLog INSTALL MANIFEST NEWS README TODO
+SUBDIRS = man msg src

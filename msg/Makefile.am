@@ -1,3 +1,3 @@
-gamesdir = $(prefix)/games
+datadir = $(prefix)/share/rogue
 EXTRA_DIST = mesg mesg_E
-games_DATA = mesg mesg_E
+data_DATA = mesg mesg_E

@@ -30,7 +30,6 @@ AC_FUNC_STAT
 AC_CHECK_FUNCS([getcwd memset putenv setenv strchr])
 
 AC_CONFIG_FILES([Makefile
-                 doc/Makefile
                  man/Makefile
                  msg/Makefile
                  src/Makefile])
