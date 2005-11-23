@@ -1,3 +1,7 @@
+2005-11-23  FUNABARA Masao
+
+	* configure.ac/Makefile.am : 配布ファイル作成のための設定を記述
+
 2005-11-22  FUNABARA Masao
 
 	* 全てのファイル : register の記憶クラス演算子をファイルから削除
