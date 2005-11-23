@@ -1,5 +1,9 @@
 2005-11-23  FUNABARA Masao
 
+	* Release 1 
+
+	* MANIFEST : 配布用にマニュアル類を修正
+
 	* configure.ac/Makefile.am : 配布ファイル作成のための設定を記述
 
 2005-11-22  FUNABARA Masao

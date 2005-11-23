@@ -1,54 +1,85 @@
+　配布ファイル一覧
 
-			ファイル一覧
+説明に @ を付記したものについては「データ分離版ローグクローンII」と変更がないファイルです。
 
-  ドキュメントのうち (ito) と付記したものは私(伊藤)が書いたものです。
-その他のものはすべて太田 純さん((株)リコー ソフトウェア事業部)が書いた
-ものです。
-
------ 各 OS で共有するファイル -----
-
-MANIFEST	配布ファイル一覧(ito)
-README		今回の配布内容についての説明(ito)
-README.1st	最初に読むドキュメント
-README.doc	オリジナルの日本語版の配布内容についての説明
-options.doc	起動時オプション、環境オプションの説明
-rogue.doc	ローグの遊び方についてのドキュメント
-rogue.man	オリジナルのオンラインマニュアルの和訳
-
-rogue.h		ローグ・クローン２ 日本語版 1.3aS のソースプログラム
-curses.c	〃
-hit.c		〃
-init.c		〃
-invent.c	〃
-level.c		〃
-machdep.c	〃
-main.c		〃
-message.c	〃
-monster.c	〃
-move.c		〃
-object.c	〃
-pack.c		〃
-play.c		〃
-random.c	〃
-ring.c		〃
-room.c		〃
-save.c		〃
-score.c		〃
-spechit.c	〃
-throw.c		〃
-trap.c		〃
-use.c		〃
-zap.c		〃
-Makefile.nix	UNIX 用の Makefile
-
------ MS-DOS に依存するファイル -----
-
-Makefile.tcc	Turbo C 1.5 用の Makefile（参考）
-playmenu.c	ローグクローン２　プレイヤーメニューのソース（参考）
-install.uue	Makefile を作成するバッチファイル（install.bat）
-batchcom.uue	バッチファイル用ユーティリティー（batchcom.com）(動きません)
-
------ メッセージファイル -----
-
-mesg		オリジナルの日本語版ローグ・クローン２のメッセージ
-mesg_E		オリジナルの英語版ローグ・クローン２のメッセージ
+AUTHORS                   -- 著作者一覧（AUTHORS）
+COPYING                   -- 使用許諾書（LICENSE）
+ChangeLog                 -- 変更履歴
+INSTALL                   -- インストール方法
+MANIFEST                  -- 配布ファイル一覧（このファイル）
+Makefile.am
+Makefile.in
+NEWS                      -- NEWS
+README                    -- rogueclone2s の説明
+TODO                      -- TODO
+aclocal.m4
+compile
+config.h.in
+configure
+configure.ac
+depcomp
+install-sh
+missing
+doc/Makefile.am
+doc/Makefile.in
+doc/README.1st.org        --@最初に読むドキュメント
+doc/README.doc.org        --@オリジナルの日本語版の配布内容についての説明
+doc/README.org            --@
+doc/options.doc.org       --@起動時オプション、環境オプションの説明
+doc/rogue.doc.org         --@ローグの遊び方についてのドキュメント
+man/Makefile.am
+man/Makefile.in
+man/rogue.man             --@オリジナルのオンラインマニュアルの和訳
+msg/Makefile.am
+msg/Makefile.in
+msg/mesg                  --@オリジナルの日本語版ローグ・クローン２のメッセージ
+msg/mesg_E                --@オリジナルの英語版ローグ・クローン２のメッセージ
+src/Makefile.am
+src/Makefile.in
+src/curses.c              -- rogueclone2s のソースファイル
+src/curses.h              -- rogueclone2s のソースファイル
+src/hit.c                 -- rogueclone2s のソースファイル
+src/hit.h                 -- rogueclone2s のソースファイル
+src/init.c                -- rogueclone2s のソースファイル
+src/init.h                -- rogueclone2s のソースファイル
+src/invent.c              -- rogueclone2s のソースファイル
+src/invent.h              -- rogueclone2s のソースファイル
+src/level.c               -- rogueclone2s のソースファイル
+src/level.h               -- rogueclone2s のソースファイル
+src/machdep.c             -- rogueclone2s のソースファイル
+src/machdep.h             -- rogueclone2s のソースファイル
+src/main.c                -- rogueclone2s のソースファイル
+src/main.h                -- rogueclone2s のソースファイル
+src/message.c             -- rogueclone2s のソースファイル
+src/message.h             -- rogueclone2s のソースファイル
+src/monster.c             -- rogueclone2s のソースファイル
+src/monster.h             -- rogueclone2s のソースファイル
+src/move.c                -- rogueclone2s のソースファイル
+src/move.h                -- rogueclone2s のソースファイル
+src/object.c              -- rogueclone2s のソースファイル
+src/object.h              -- rogueclone2s のソースファイル
+src/pack.c                -- rogueclone2s のソースファイル
+src/pack.h                -- rogueclone2s のソースファイル
+src/play.c                -- rogueclone2s のソースファイル
+src/play.h                -- rogueclone2s のソースファイル
+src/random.c              -- rogueclone2s のソースファイル
+src/random.h              -- rogueclone2s のソースファイル
+src/ring.c                -- rogueclone2s のソースファイル
+src/ring.h                -- rogueclone2s のソースファイル
+src/rogue.h               -- rogueclone2s のソースファイル
+src/room.c                -- rogueclone2s のソースファイル
+src/room.h                -- rogueclone2s のソースファイル
+src/save.c                -- rogueclone2s のソースファイル
+src/save.h                -- rogueclone2s のソースファイル
+src/score.c               -- rogueclone2s のソースファイル
+src/score.h               -- rogueclone2s のソースファイル
+src/spechit.c             -- rogueclone2s のソースファイル
+src/spechit.h             -- rogueclone2s のソースファイル
+src/throw.c               -- rogueclone2s のソースファイル
+src/throw.h               -- rogueclone2s のソースファイル
+src/trap.c                -- rogueclone2s のソースファイル
+src/trap.h                -- rogueclone2s のソースファイル
+src/use.c                 -- rogueclone2s のソースファイル
+src/use.h                 -- rogueclone2s のソースファイル
+src/zap.c                 -- rogueclone2s のソースファイル
+src/zap.h                 -- rogueclone2s のソースファイル
