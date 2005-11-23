@@ -26,8 +26,6 @@
 #include "trap.h"
 #include "score.h"
 #include "pack.h"
-/* strchr の影響で string.h をインクルードできないので直接外部宣言を書く */
-extern size_t strlen(const char *s);
 
 short m_moves = 0;
 #ifndef ORIGINAL
