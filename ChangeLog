@@ -1,6 +1,10 @@
+2005-11-26  FUNABARA Masao
+
+	* configure.ac : Release 2 作成に向けてパッケージバージョンを 2.0 とする
+
 2005-11-24  FUNABARA Masao
 
-	* Release 1
+	* Release 1 公開
 
 	* doc : Makefile.am の commit を行う
 
