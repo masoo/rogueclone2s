@@ -10,14 +10,6 @@
  *
  */
 
-#ifndef CURSES
-#ifdef NeXT		/* by Yasha (for NeXT jcurses) */
-#include "jcurses.h"	/* by Yasha (for NeXT jcurses) */
-#else
-#include <curses.h>
-#endif
-#endif /*CURSES*/
-
 #ifdef MSDOS
 #undef	getchar
 #undef	putchar
@@ -422,15 +414,6 @@ extern char *optdesc[];
 #endif
 
 #ifdef CURSES
-struct _win_st {
-	short _cury, _curx;
-	short _maxy, _maxx;
-};
-
-typedef struct _win_st WINDOW;
-
-extern int LINES, COLS;
-extern WINDOW *curscr;
 #ifndef MSDOS
 extern char *CL;
 char *md_gdtcf();

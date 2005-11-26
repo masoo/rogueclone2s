@@ -13,21 +13,22 @@
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "zap.h"
-#include "message.h"
-#include "pack.h"
-#include "curses.h"
-#include "object.h"
-#include "monster.h"
-#include "room.h"
-#include "use.h"
 #include "hit.h"
-#include "spechit.h"
-#include "random.h"
-#include "score.h"
-#include "save.h"
+#include "message.h"
+#include "monster.h"
 #include "move.h"
+#include "object.h"
+#include "pack.h"
+#include "random.h"
+#include "room.h"
+#include "save.h"
+#include "score.h"
+#include "spechit.h"
+#include "use.h"
 
 boolean wizard = 0;
 #ifndef ORIGINAL

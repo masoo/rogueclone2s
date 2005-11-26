@@ -11,18 +11,19 @@
  */
 
 #include <stdio.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "monster.h"
+#include "hit.h"
+#include "message.h"
+#include "move.h"
+#include "object.h"
+#include "pack.h"
 #include "random.h"
 #include "room.h"
-#include "hit.h"
 #include "spechit.h"
-#include "curses.h"
-#include "object.h"
-#include "move.h"
 #include "throw.h"
-#include "message.h"
-#include "pack.h"
 
 object level_monsters;
 boolean mon_disappeared;

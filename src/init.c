@@ -13,9 +13,10 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "init.h"
-#include "curses.h"
 #include "invent.h"
 #include "machdep.h"
 #include "message.h"
@@ -71,9 +72,6 @@ init(int argc, char *argv[])
 	md_getcwd(org_dir, 64);
 #endif
 	do_args(argc, argv);
-#ifdef COLOR
-	init_color();
-#endif
 	do_opts();
 
 	pn = md_gln();
@@ -532,50 +530,11 @@ set_opts(char *env)
 	}
 #endif
 
-#ifdef COLOR
-	init_color();
-#endif
-
 #ifndef ORIGINAL
 	if (game_dir && *game_dir)
 		md_chdir(game_dir);
 #endif
-
-#ifdef COLOR
-	if (init_curses)
-		repaint_screen();
-#endif
 }
-
-#ifdef COLOR
-void
-init_color(void)
-{
-	short i, j;
-	char *p;
-
-	if (color_str && *color_str) {
-		for (i = 0; i < 5 && color_str[i]; i++) {
-			j = r_index("wrgybmc?WRGYBMC", color_str[i], 0);
-			if (j >= 0)
-				c_buf[i] = j;
-		}
-		for (p = "-|#+"; *p; p++)
-			c_attr[(signed)*p] = c_buf[0] << 8;
-		c_attr['.'] = c_buf[1] << 8;
-		for (i = 'A'; i <= 'Z'; i++)
-			c_attr[i] = c_buf[2] << 8;
-		for (p = "%!?/=)]^*:,"; *p; p++)
-			c_attr[(signed)*p] = c_buf[3] << 8;
-		c_attr[rogue.fchar] = c_buf[4] << 8;
-	} else {
-		for (i = 0; i < 5; i++)
-			c_buf[i] = 0;
-		for (i = 0; i < 256; i++)
-			c_attr[i] = 0;
-	}
-}
-#endif
 
 #ifdef MSDOS
 get_hex_num(p, n)

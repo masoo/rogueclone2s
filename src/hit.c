@@ -12,19 +12,20 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "hit.h"
-#include "random.h"
-#include "message.h"
-#include "object.h"
-#include "spechit.h"
-#include "monster.h"
-#include "score.h"
-#include "curses.h"
-#include "room.h"
 #include "level.h"
-#include "pack.h"
+#include "message.h"
+#include "monster.h"
 #include "move.h"
+#include "object.h"
+#include "pack.h"
+#include "random.h"
+#include "room.h"
+#include "score.h"
+#include "spechit.h"
 
 extern char *nick_name;
 object *fight_monster = 0;

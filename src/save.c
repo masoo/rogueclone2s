@@ -12,15 +12,16 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "save.h"
-#include "message.h"
-#include "machdep.h"
 #include "init.h"
-#include "curses.h"
-#include "ring.h"
-#include "pack.h"
+#include "machdep.h"
+#include "message.h"
 #include "object.h"
+#include "pack.h"
+#include "ring.h"
 #include "score.h"
 
 short write_failed = 0;

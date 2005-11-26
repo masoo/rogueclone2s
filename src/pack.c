@@ -12,15 +12,16 @@
 
 #include <stdio.h>
 #include <string.h>
+
 #include "rogue.h"
-#include "move.h"
 #include "pack.h"
-#include "object.h"
-#include "message.h"
-#include "use.h"
-#include "monster.h"
-#include "ring.h"
 #include "invent.h"
+#include "message.h"
+#include "monster.h"
+#include "move.h"
+#include "object.h"
+#include "ring.h"
+#include "use.h"
 
 char *curse_message = mesg[85];
 

@@ -12,14 +12,15 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <curses.h>
+
 #include "rogue.h"
-#include "move.h"
 #include "message.h"
-#include "machdep.h"
-#include "curses.h"
-#include "pack.h"
-#include "object.h"
 #include "init.h"
+#include "machdep.h"
+#include "move.h"
+#include "object.h"
+#include "pack.h"
 
 #define	CTRL(c)	((c) & 037)
 
@@ -434,13 +435,6 @@ print_stats(int stat_mask)
 #ifdef JAPAN
 #ifdef CURSES
 /*#ifdef COLOR*/
-#if defined(COLOR) || defined(JAPAN)	/* short when kanji by Yasha */
-		extern short terminal[DROWS][DCOLS];
-#else
-		extern char terminal[DROWS][DCOLS];
-#endif
-		terminal[row][75] = '\0';	/* magic cookie (by Yasha) */
-/*		terminal[row][75] = ' ';*/	/* magic cookie */
 #endif
 		mvaddstr(row, 75, hunger_str);
 		clrtoeol();

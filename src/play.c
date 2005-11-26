@@ -13,27 +13,28 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "play.h"
-#include "message.h"
-#include "curses.h"
-#include "move.h"
-#include "trap.h"
-#include "invent.h"
 #include "hit.h"
-#include "use.h"
+#include "init.h"
+#include "invent.h"
+#include "level.h"
+#include "machdep.h"
+#include "message.h"
+#include "monster.h"
+#include "move.h"
+#include "object.h"
 #include "pack.h"
 #include "ring.h"
-#include "zap.h"
-#include "level.h"
-#include "throw.h"
-#include "score.h"
 #include "room.h"
-#include "object.h"
-#include "monster.h"
 #include "save.h"
-#include "init.h"
-#include "machdep.h"
+#include "score.h"
+#include "throw.h"
+#include "trap.h"
+#include "use.h"
+#include "zap.h"
 
 #define	CTRL(c)	((c) & 037)
 
@@ -345,9 +346,6 @@ help(void)
 	for (row = 0; row < DROWS - 1; row++) {	/* by Yasha */
 #else
 	for (row = 0; row < DROWS; row++) {
-#ifdef JAPAN
-		touch(row, 0, DCOLS-1);
-#endif
 #endif
 		move(row, 0);
 #if !defined(CURSES) && defined(JAPAN)
@@ -492,10 +490,6 @@ options(void)
 		wait_for_ack();
 	}
 #if defined(CURSES) || !defined(JAPAN)	/* #if.. by Yasha */
-#ifdef JAPAN
-	for (row = 0; row < n; row++)
-		touch(row, 0, DCOLS-1);
-#endif
 	for (row = 0; row < DROWS; row++) {
 #else
 	for (row = 0; row < DROWS - 1; row++) {	/* by Yasha */

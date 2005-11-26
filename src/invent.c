@@ -12,12 +12,13 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "invent.h"
 #include "message.h"
-#include "curses.h"
-#include "pack.h"
 #include "object.h"
+#include "pack.h"
 #include "random.h"
 
 #define swap_string(x,y) {t = x; x = y; y = t;}
@@ -133,12 +134,6 @@ nextpage:
 #endif
 #endif
 
-#ifdef CURSES	/* if.. by Yasha */
-#ifdef JAPAN
-	for (j = 0; j < i; j++)
-		touch(j, col, DCOLS-1);
-#endif
-#endif
 	if (obj)
 		goto nextpage;
 }
@@ -803,12 +798,6 @@ nextpage:
 #endif
 #endif
 
-#ifdef CURSES	/* if.. by Yasha */
-#ifdef JAPAN
-	for (j = 0; j < i; j++)
-		touch(j, col, DCOLS-1);
-#endif
-#endif
 	if (dp < enddp)
 		goto nextpage;
 }

@@ -28,6 +28,7 @@ AC_FUNC_MEMCMP
 AC_TYPE_SIGNAL
 AC_FUNC_STAT
 AC_CHECK_FUNCS([getcwd memset putenv setenv strchr])
+AC_CHECK_LIB([ncurses], [initscr])
 
 AC_CONFIG_FILES([Makefile
                  doc/Makefile

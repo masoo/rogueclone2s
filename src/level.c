@@ -11,17 +11,18 @@
  */
 
 #include <stdio.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "level.h"
+#include "invent.h"
+#include "message.h"
+#include "monster.h"
+#include "object.h"
+#include "pack.h"
 #include "random.h"
 #include "room.h"
-#include "object.h"
-#include "curses.h"
-#include "monster.h"
-#include "message.h"
 #include "score.h"
-#include "invent.h"
-#include "pack.h"
 
 #define swap(x,y) {t = x; x = y; y = t;}
 

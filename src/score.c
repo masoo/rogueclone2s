@@ -12,17 +12,18 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "score.h"
-#include "machdep.h"
-#include "curses.h"
+#include "hit.h"
+#include "init.h"
 #include "invent.h"
+#include "level.h"
+#include "machdep.h"
 #include "message.h"
 #include "pack.h"
 #include "ring.h"
-#include "init.h"
-#include "level.h"
-#include "hit.h"
 
 #ifdef UNIX
 char *score_file = ".rogue.scores";
@@ -98,13 +99,9 @@ killed_by(object *monster, short other)
 	if (show_skull && other != QUIT) {
 		md_gct(&rt);
 		clear();
-#ifdef COLOR
-		color(GREEN);
-#endif
 		for (i = 0; i < 14; i++)
 			mvaddstr(i+3, xpos[i], str[i]);
 #ifdef COLOR
-		color(YELLOW);
 		mvaddch(15, DCOLS/2-11, '*');	/* by Yasha */
 		mvaddch(15, DCOLS/2-4, '*');	/* by Yasha */
 		mvaddch(15, DCOLS/2-1, '*');	/* by Yasha */
@@ -115,9 +112,6 @@ killed_by(object *monster, short other)
 		mvaddch(15, 39, '*');
 		mvaddch(15, 42, '*');
 		mvaddch(15, 51, '*');*/
-#endif
-#ifdef COLOR
-		color(YELLOW);
 #endif
 		center(6, mesg[177]);
 		center(7, mesg[178]);
@@ -198,14 +192,8 @@ short other;
 	if (show_skull && other != QUIT) {
 		md_gct(&rt);
 		clear();
-#ifdef COLOR
-		color(GREEN);
-#endif
 		for (i = 0; i < 13; i++)
 			mvaddstr(i+4, xpos[i], str[i]);
-#ifdef COLOR
-		color(YELLOW);
-#endif
 		center( 6, mesg[177]);
 		center( 7, mesg[178]);
 		center( 8, mesg[179]);
@@ -353,9 +341,6 @@ win(void)
 	for (i = 0; i < 7; i++)
 		mvaddbanner(i+6, DCOLS/2-30, ban[i]);
 /*		mvaddbanner(i+6, 10, ban[i]);*/
-#ifdef COLOR
-	color(YELLOW);
-#endif
 	center(15, mesg[182]);
 	center(16, mesg[183]);
 	center(17, mesg[184]);
@@ -566,16 +551,10 @@ put_scores(object *monster, short other)
 
 	md_ignore_signals();
 	clear();
-#ifdef COLOR
-	color(YELLOW);
-#endif
 #ifdef JAPAN
 	mvaddstr(3, 20, mesg[187]);
 #else
 	mvaddstr(3, 25, mesg[187]);
-#endif
-#ifdef COLOR
-	color(GREEN);
 #endif
 	mvaddstr(6, 0, mesg[188]);
 #ifdef COLOR
@@ -586,14 +565,7 @@ put_scores(object *monster, short other)
 		scores[i][2] = (i == 9)? '0': '1' + i;
 		nickize(buf, scores[i], n_names[i]);
 		if (i == rank) {
-#ifdef COLOR
-			if (do_color)
-				color(RCYAN);
-			else
-				standout();
-#else
 			standout();
-#endif
 			mvaddstr(i+8, 0, buf);
 			standend();
 		} else

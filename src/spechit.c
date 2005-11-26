@@ -12,22 +12,23 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "spechit.h"
-#include "random.h"
-#include "object.h"
+#include "hit.h"
+#include "invent.h"
+#include "level.h"
 #include "message.h"
 #include "monster.h"
-#include "score.h"
-#include "ring.h"
-#include "invent.h"
-#include "use.h"
-#include "curses.h"
-#include "room.h"
+#include "object.h"
 #include "pack.h"
-#include "level.h"
+#include "random.h"
+#include "ring.h"
+#include "room.h"
+#include "score.h"
 #include "use.h"
-#include "hit.h"
+#include "use.h"
 
 short less_hp = 0;
 char *flame_name = mesg[200];
@@ -503,11 +504,7 @@ flame_broil(object *monster)
 		row = monster->row;
 		col = monster->col;
 		get_closer(&row, &col, rogue.row, rogue.col);
-#ifdef COLOR
-		color(RRED);
-#else
 		standout();
-#endif
 		do {
 			mvaddch(row, col, '~');
 			refresh();

@@ -11,21 +11,22 @@
  */
 
 #include <stdio.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "use.h"
-#include "pack.h"
-#include "message.h"
-#include "random.h"
-#include "level.h"
-#include "monster.h"
-#include "object.h"
-#include "room.h"
-#include "ring.h"
 #include "invent.h"
-#include "curses.h"
+#include "level.h"
 #include "machdep.h"
-#include "save.h"
+#include "message.h"
+#include "monster.h"
 #include "move.h"
+#include "object.h"
+#include "pack.h"
+#include "random.h"
+#include "ring.h"
+#include "room.h"
+#include "save.h"
 
 short halluc = 0;
 short blind = 0;

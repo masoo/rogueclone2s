@@ -1,3 +1,8 @@
+2005-11-27  FUNABARA Masao
+
+	* curses.c : 付属の curses.c を削除し、 Ncurses を使用するように変更
+	それに伴い現状は画面がカラーにならず、白黒のみとなる。
+
 2005-11-26  FUNABARA Masao
 
 	* configure.ac : Release 2 作成に向けてパッケージバージョンを 2.0 とする

@@ -12,7 +12,6 @@ extern void error_save(int sig);
 extern void do_args(int argc, char *argv[]);
 extern void do_opts(void);
 extern void set_opts(char *env);
-extern void init_color(void);
 extern void env_get_value(char **s, char *e, boolean add_blank, boolean no_colon);
 
 #endif /* __INIT_H__ */

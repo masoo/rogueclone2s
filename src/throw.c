@@ -12,19 +12,20 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "throw.h"
+#include "hit.h"
 #include "message.h"
-#include "pack.h"
 #include "monster.h"
-#include "ring.h"
-#include "curses.h"
 #include "object.h"
+#include "pack.h"
+#include "random.h"
+#include "ring.h"
 #include "room.h"
 #include "spechit.h"
 #include "use.h"
-#include "hit.h"
-#include "random.h"
 #include "zap.h"
 
 extern short cur_room;

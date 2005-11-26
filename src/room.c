@@ -11,14 +11,15 @@
  */
 
 #include <stdio.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "room.h"
-#include "curses.h"
-#include "object.h"
-#include "move.h"
-#include "spechit.h"
 #include "monster.h"
+#include "move.h"
+#include "object.h"
 #include "random.h"
+#include "spechit.h"
 
 room rooms[MAXROOMS];
 boolean rooms_visited[MAXROOMS];

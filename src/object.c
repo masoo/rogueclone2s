@@ -12,18 +12,19 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <curses.h>
+
 #include "rogue.h"
-#include "machdep.h"
 #include "object.h"
+#include "invent.h"
+#include "machdep.h"
+#include "message.h"
+#include "monster.h"
+#include "pack.h"
 #include "random.h"
 #include "ring.h"
 #include "room.h"
-#include "message.h"
 #include "save.h"
-#include "monster.h"
-#include "curses.h"
-#include "pack.h"
-#include "invent.h"
 
 object level_objects;
 unsigned short dungeon[DROWS][DCOLS];

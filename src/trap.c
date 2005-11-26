@@ -11,19 +11,20 @@
  */
 
 #include <stdio.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "trap.h"
-#include "random.h"
-#include "message.h"
-#include "curses.h"
-#include "object.h"
-#include "use.h"
 #include "hit.h"
-#include "score.h"
-#include "save.h"
-#include "spechit.h"
-#include "room.h"
+#include "message.h"
 #include "move.h"
+#include "object.h"
+#include "random.h"
+#include "room.h"
+#include "save.h"
+#include "score.h"
+#include "spechit.h"
+#include "use.h"
 
 trap traps[MAX_TRAPS];
 boolean trap_door = 0;

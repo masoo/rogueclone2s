@@ -2,7 +2,6 @@ bin_PROGRAMS = rogue
 
 rogue_SOURCES = \
 	rogue.h \
-	curses.c curses.h \
 	hit.c hit.h \
 	init.c init.h \
 	invent.c invent.h \

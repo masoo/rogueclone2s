@@ -12,20 +12,21 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <curses.h>
+
 #include "rogue.h"
 #include "move.h"
 #include "hit.h"
-#include "message.h"
-#include "random.h"
-#include "use.h"
-#include "room.h"
-#include "monster.h"
-#include "curses.h"
-#include "object.h"
 #include "invent.h"
-#include "trap.h"
-#include "score.h"
+#include "message.h"
+#include "monster.h"
+#include "object.h"
 #include "pack.h"
+#include "random.h"
+#include "room.h"
+#include "score.h"
+#include "trap.h"
+#include "use.h"
 
 short m_moves = 0;
 #ifndef ORIGINAL
