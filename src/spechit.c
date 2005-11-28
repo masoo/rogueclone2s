@@ -371,7 +371,7 @@ check_imitator(object *monster)
 }
 
 int
-imitating(register short row, register short col)
+imitating(short row, short col)
 {
 	if (dungeon[row][col] & MONSTER) {
 		object *monster;

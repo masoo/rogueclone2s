@@ -1,3 +1,7 @@
+2005-11-29  FUNABARA Masao
+
+	* 全てのファイル : 削除できていなかったregister の記憶クラス演算子を削除
+
 2005-11-27  FUNABARA Masao
 
 	* curses.c : 付属の curses.c を削除し、 Ncurses を使用するように変更

@@ -473,10 +473,10 @@ r_write(FILE *fp, char *buf, int n)
 }
 
 boolean
-has_been_touched(register struct rogue_time *saved_time, register struct rogue_time *mod_time)
+has_been_touched(struct rogue_time *saved_time, struct rogue_time *mod_time)
 {
 #ifndef ORIGINAL
-	register short *sav, *mod;
+	short *sav, *mod;
 	int i;
 
 	sav = (short *)saved_time;

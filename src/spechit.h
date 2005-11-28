@@ -13,7 +13,7 @@ extern int seek_gold(object *monster);
 extern int gold_at(short row, short col);
 extern void check_gold_seeker(object *monster);
 extern int check_imitator(object *monster);
-extern int imitating(register short row, register short col);
+extern int imitating(short row, short col);
 extern void sting(object *monster);
 extern void drop_level(void);
 extern void drain_life(void);

@@ -1,7 +1,7 @@
 #ifndef __TRAP_H__
 #define __TRAP_H__
 
-extern int trap_at(register int row, register int col);
+extern int trap_at(int row, int col);
 extern void trap_player(short row, short col);
 extern void add_traps(void);
 extern void id_trap(void);

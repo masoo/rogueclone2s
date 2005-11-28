@@ -43,7 +43,7 @@ extern boolean sustain_strength;
 extern short blind;
 
 int
-trap_at(register int row, register int col)
+trap_at(int row, int col)
 {
 	short i;
 

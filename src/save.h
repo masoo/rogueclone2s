@@ -13,6 +13,6 @@ extern void read_string(char *s, FILE *fp);
 extern void rw_rooms(FILE *fp, boolean rw);
 extern void r_read(FILE *fp, char *buf, int n);
 extern void r_write(FILE *fp, char *buf, int n);
-extern boolean has_been_touched(register struct rogue_time *saved_time, register struct rogue_time *mod_time);
+extern boolean has_been_touched(struct rogue_time *saved_time, struct rogue_time *mod_time);
 
 #endif /* __SAVE_H__ */

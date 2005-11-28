@@ -294,7 +294,7 @@ void
 win(void)
 {
 #ifndef ORIGINAL
-	register int i;
+	int i;
 #define ________  0x00
 #define _______O  0x01
 #define ____O___  0x08
@@ -367,9 +367,9 @@ win(void)
 
 #ifndef ORIGINAL
 void
-mvaddbanner(int row, int col, register int *ban)
+mvaddbanner(int row, int col, int *ban)
 {
-	register int i;
+	int i;
 #ifdef COLOR
 #ifdef HUMAN
 	int rev = ' ' | (12 << 8);	/* by Yasha (reverse cyan) */

@@ -99,9 +99,9 @@ darken_room(short rn)
 }
 
 int
-get_dungeon_char(register int row, register int col)
+get_dungeon_char(int row, int col)
 {
-	register unsigned short mask = dungeon[row][col];
+	unsigned short mask = dungeon[row][col];
 
 	if (mask & MONSTER) {
 		return(gmc_row_col(row, col));
@@ -147,7 +147,7 @@ get_dungeon_char(register int row, register int col)
 }
 
 int
-get_mask_char(register unsigned short mask)
+get_mask_char(unsigned short mask)
 {
 		switch(mask) {
 		case SCROL:
@@ -239,7 +239,7 @@ party_objects(int rn)
 }
 
 int
-get_room_number(register int row, register int col)
+get_room_number(int row, int col)
 {
 	short i;
 
