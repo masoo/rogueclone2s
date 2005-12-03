@@ -549,48 +549,66 @@ set_opts(char *env)
 void
 set_color_map(void)
 {
-    int c_buf[5];
+    int color_map_list[5];
     char color_type[] = "wrgybmcWRGYBMC";
 
     if ( color_str && *color_str ) {
 	for ( int i = 0;  i < 5 && color_str[i]; i++) {
 	    int j;
 	    j = r_index(color_type, color_str[i], 0);
-	    if (j >= 0) {
+	    if ( j >= 0 ) {
 		switch ( color_type[j] ) {
+		default:
+		    color_map_list[i] = 0;
+		    break;
 		case 'w':
-		case 'W':
-		    c_buf[i] = WHITE;
+		    color_map_list[i] = WHITE;
 		    break;
 		case 'r':
-		case 'R':
-		    c_buf[i] = RED;
+		    color_map_list[i] = RED;
 		    break;
 		case 'g':
-		case 'G':
-		    c_buf[i] = GREEN;
+		    color_map_list[i] = GREEN;
 		    break;
 		case 'y':
-		case 'Y':
-		    c_buf[i] = YELLOW;
+		    color_map_list[i] = YELLOW;
 		    break;
 		case 'b':
-		case 'B':
-		    c_buf[i] = BLUE;
+		    color_map_list[i] = BLUE;
 		    break;
 		case 'm':
-		case 'M':
-		    c_buf[i] = MAGENTA;
+		    color_map_list[i] = MAGENTA;
 		    break;
 		case 'c':
-		case 'C':
-		    c_buf[i] = CYAN;
+		    color_map_list[i] = CYAN;
 		    break;
-		default:
-		    c_buf[i] = 0;
+		case 'W':
+		    color_map_list[i] = WHITE_REVERSE;
+		    break;
+		case 'R':
+		    color_map_list[i] = RED_REVERSE;
+		    break;
+		case 'G':
+		    color_map_list[i] = GREEN_REVERSE;
+		    break;
+		case 'Y':
+		    color_map_list[i] = YELLOW_REVERSE;
+		    break;
+		case 'B':
+		    color_map_list[i] = BLUE_REVERSE;
+		    break;
+		case 'M':
+		    color_map_list[i] = MAGENTA_REVERSE;
+		    break;
+		case 'C':
+		    color_map_list[i] = CYAN_REVERSE;
 		    break;
 		}
 	    }
+	}
+    } else {
+	for ( int i = 0; i < 5; i++ ) {
+	    color_map_list[i] = 0;
 	}
     }
     if ( has_colors() ) {
@@ -602,18 +620,25 @@ set_color_map(void)
         init_pair(BLUE, COLOR_BLUE, COLOR_BLACK);
         init_pair(MAGENTA, COLOR_MAGENTA, COLOR_BLACK);
         init_pair(CYAN, COLOR_CYAN, COLOR_BLACK);
+	init_pair(WHITE_REVERSE, COLOR_BLACK, COLOR_WHITE);
+	init_pair(RED_REVERSE, COLOR_BLACK, COLOR_RED);
+	init_pair(GREEN_REVERSE, COLOR_BLACK, COLOR_GREEN);
+	init_pair(YELLOW_REVERSE, COLOR_BLACK, COLOR_YELLOW);
+	init_pair(BLUE_REVERSE, COLOR_BLACK, COLOR_BLUE);
+	init_pair(MAGENTA_REVERSE, COLOR_BLACK, COLOR_MAGENTA);
+	init_pair(CYAN_REVERSE, COLOR_BLACK, COLOR_CYAN);
         //カラーマップ毎の処理を記述
         for ( char *ch = "-|#+"; *ch; ch++ ) {
-            ch_attr[(signed)*ch] = c_buf[0];
+            ch_attr[(signed)*ch] = color_map_list[0];
         }
-        ch_attr['.'] = c_buf[1];
+        ch_attr['.'] = color_map_list[1];
         for ( char ch = 'A'; ch <= 'Z'; ch++ ) {
-            ch_attr[(signed)ch] = c_buf[2];
+            ch_attr[(signed)ch] = color_map_list[2];
         }
         for ( char *ch = "%!?/=)]^*:,"; *ch; ch++ ) {
-            ch_attr[(signed)*ch] = c_buf[3];
+            ch_attr[(signed)*ch] = color_map_list[3];
         }
-        ch_attr[rogue.fchar] = c_buf[4];
+        ch_attr[rogue.fchar] = color_map_list[4];
     }
 }
 #ifdef MSDOS
