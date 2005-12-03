@@ -358,12 +358,6 @@ rw_dungeon(FILE *fp, boolean rw)
 	for (i = 0; i < DROWS; i++) {
 		if (rw) {
 			r_write(fp, (char *) dungeon[i], (DCOLS * sizeof(dungeon[0][0])));
-#if defined(JAPAN) && !defined(CURSES)
-			if (i == DROWS - 1) {				/* by Yasha */
-				r_write(fp, get_status_line(), DCOLS);	/* by Yasha */
-				break;					/* by Yasha */
-			}						/* by Yasha */
-#endif
 			for (j = 0; j < DCOLS; j++) {
 			    buf[j] = mvinch(i, j) & A_CHARTEXT;
 			}
@@ -372,13 +366,6 @@ rw_dungeon(FILE *fp, boolean rw)
 			r_read(fp, (char *) dungeon[i], (DCOLS * sizeof(dungeon[0][0])));
 			r_read(fp, buf, DCOLS);
 
-#if defined(JAPAN) && !defined(CURSES)
-			if (i == DROWS - 1) {			/* by Yasha */
-			    attrset( COLOR_PAIR(0) );
-			    mvaddstr(DROWS - 1, 0, buf);	/* by Yasha */
-			    break;				/* by Yasha */
-			}					/* by Yasha */
-#endif
 			for (j = 0; j < DCOLS; j++) {
 #ifdef COLOR
 			    if (i < MIN_ROW || i >= DROWS - 1) {

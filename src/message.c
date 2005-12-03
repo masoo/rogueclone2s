@@ -28,9 +28,6 @@ char msg_line[DCOLS] = "";
 short msg_col = 0;
 boolean msg_cleared = 1;
 char hunger_str[8] = "";
-#if defined(JAPAN) && !defined(CURSES)
-static char hunger_buffer[5] = "";	/* by Yasha */
-#endif
 
 extern boolean cant_int, did_int, interrupted, save_is_interactive;
 extern short add_strength;
@@ -128,9 +125,6 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
     short k;
     char kanji[MAX_TITLE_LENGTH];
 #endif
-#if defined(JAPAN) && !defined(CURSES)
-    char kdispbuf[3];		/* by Yasha */
-#endif
 
     if (is_msg) {
 	message(prompt, 0);
@@ -208,19 +202,12 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 			buf[i+1] = rgetchar();
 			kanji[i] = kanji[i+1] = 1;
 			if (do_echo) {
-#if defined(JAPAN) && !defined(CURSES)
-				kdispbuf[0] = buf[i];	/* by Yasha */
-				kdispbuf[1] = buf[i+1];	/* by Yasha */
-				kdispbuf[2] = '\0';	/* by Yasha */
-				addstr(kdispbuf);	/* by Yahsa */
-#else
 				attrset( COLOR_PAIR( ch_attr[(unsigned char)buf[i]] ) );
 				addch((unsigned char) buf[i]);
 				attrset( COLOR_PAIR(0) );
 				attrset( COLOR_PAIR( ch_attr[(unsigned char)buf[i+1]] ) );
 				addch((unsigned char) buf[i+1]);
 				attrset( COLOR_PAIR(0) );
-#endif
 			}
 			i += 2;
 		}
@@ -283,7 +270,7 @@ int
 rgetchar(void)
 {
 	int ch;
-#if defined(NeXT) && !defined(CURSES)	/* by Yasha (till "#endif") */
+#ifdef NeXT	/* by Yasha (till "#endif") */
 	int y, x;
 #endif
 
@@ -292,13 +279,13 @@ rgetchar(void)
 
 		switch(ch) {
 		case '\022':
-#if defined(NeXT) && !defined(CURSES)	/* by Yasha (till "#endif") */
+#ifdef NeXT	/* by Yasha (till "#endif") */
 			getyx(stdscr, y, x);
 			move(0, 0);
 			refresh();
 #endif
 			wrefresh(curscr);
-#if defined(NeXT) && !defined(CURSES)	/* by Yasha (till "#endif") */
+#ifdef NeXT	/* by Yasha (till "#endif") */
 			move(y, x);
 			refresh();
 #endif
@@ -308,7 +295,7 @@ rgetchar(void)
 			/* putstr(CL); */
 			fflush(stdout);
 			tstp();
-#if defined(NeXT) && !defined(CURSES)   /* by Yasha (till "#endif") */
+#ifdef NeXT   /* by Yasha (till "#endif") */
                         getyx(stdscr, y, x);
                         move(0, 0);
                         refresh();
@@ -463,9 +450,6 @@ print_stats(int stat_mask)
 	}
 	if (stat_mask & STAT_HUNGER) {
 #ifdef JAPAN
-#ifdef CURSES
-/*#ifdef COLOR*/
-#endif
 	        attrset( COLOR_PAIR(0) );
 		mvaddstr(row, 75, hunger_str);
 		clrtoeol();
@@ -474,36 +458,9 @@ print_stats(int stat_mask)
 		mvaddstr(row, 73, hunger_str);
 		clrtoeol();
 #endif
-#if defined(JAPAN) && !defined(CURSES)
-		strncpy(hunger_buffer, hunger_str, 4);	/* by Yasha */
-#endif
 	}
 	refresh();
 }
-
-#if defined(JAPAN) && !defined(CURSES)
-char *get_status_line()			/* added func. by Yasha */
-{
-	static char bf[DCOLS];
-	int i;
-
-	strcpy(bf, mesg[62]);
-	sprintf(bf+ 4, "%d",  cur_level);
-	sprintf(bf+13, "%ld", rogue.gold);
-	sprintf(bf+26, "%d(%d)", rogue.hp_current, rogue.hp_max);
-	sprintf(bf+41, "%d(%d)", (rogue.str_current + add_strength),
-		rogue.str_max);
-	sprintf(bf+54, "%d", get_armor_class(rogue.armor));
-	sprintf(bf+63, "%d/%ld", rogue.exp, rogue.exp_points);
-	strncpy(bf+75, hunger_buffer, 4);
-
-	for (i = 74 ; i >= 0; --i)
-		if (bf[i] == '\0')
-			bf[i] = ' ';
-
-	return bf;
-}
-#endif
 
 void
 pad(char *s, short n)

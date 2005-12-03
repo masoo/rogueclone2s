@@ -125,7 +125,7 @@ nextpage:
 	}
     }
 #else
-#if defined(CURSES) || !defined(JAPAN)	/* if.. by Yasha */
+#ifndef JAPAN	/* if.. by Yasha */
     for (j = 1; j < i; j++) {
 	attrset( COLOR_PAIR(0) );
 	mvaddstr(j, col, descs[j-1]);
@@ -139,8 +139,8 @@ nextpage:
     move(DROWS - 1, 0);	        /* by Yasha */
     clrtoeol();		        /* by Yasha */
     print_stats(STAT_ALL);	/* by Yasha */
-#endif
-#endif
+#endif /* JAPAN */
+#endif /* COLOR */
 
     if (obj) {
 	goto nextpage;
@@ -801,7 +801,7 @@ nextpage:
 	}
     }
 #else
-#if defined(CURSES) || !defined(JAPAN)	/* if.. by Yasha */
+#ifndef JAPAN	/* if.. by Yasha */
     for (j = 1; j < i; j++) {
 	attrset( COLOR_PAIR(0) );
 	mvaddstr(j, col, descs[j-1]);
@@ -815,8 +815,8 @@ nextpage:
     move(DROWS - 1, 0);	/* by Yasha */
     clrtoeol();		/* by Yasha */
     print_stats(STAT_ALL);	/* by Yasha */
-#endif
-#endif
+#endif /* JAPAN */
+#endif /* COLOR */
 
     if (dp < enddp) {
 	goto nextpage;

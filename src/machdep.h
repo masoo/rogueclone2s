@@ -21,10 +21,5 @@ extern char *md_getenv(char *name);
 extern char *md_malloc(int n);
 extern int md_gseed(void);
 extern void md_exit(int status);
-extern void md_cbreak_no_echo_nonl(boolean on);
-extern char *md_gdtcf(void);
-#ifndef MSDOS
-extern void md_tstp(void);
-#endif
 
 #endif /* __MACHDEP_H__ */

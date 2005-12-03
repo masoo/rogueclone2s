@@ -192,15 +192,9 @@ clean_up(char *estr)
 			refresh();
 			stop_window();
 		}
-#if defined(JAPAN) && !defined(CURSES)
-		raw();			/* by Yasha */
-#endif
 		putstr("\r\n");
 		putstr(estr);
 		putstr("\r\n");
-#if defined(JAPAN) && !defined(CURSES)
-		md_control_keyboard(1);		/* by Yasha */
-#endif
 	}
 	md_exit(0);
 }
@@ -215,9 +209,6 @@ start_window(void)
 #else
 	crmode();
 	noecho();
-#if defined(JAPAN) && !defined(CURSES)
-	raw();		/* by Yasha */
-#endif
 #ifndef BAD_NONL
 	nonl();
 #endif /*BAD_NONL*/

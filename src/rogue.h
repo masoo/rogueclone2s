@@ -413,13 +413,6 @@ extern opt envopt[];
 extern char *optdesc[];
 #endif
 
-#ifdef CURSES
-#ifndef MSDOS
-extern char *CL;
-char *md_gdtcf();
-#endif
-#endif /*CURSES*/
-
 #ifdef COLOR
 enum rogue_colors {
     WHITE = 1,

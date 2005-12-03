@@ -1,5 +1,7 @@
 2005-12-03  FUNABARA Masao
 
+	* ALL_FILE : CURSES 定義とコンパイルオプション -DCURSES を消去
+
 	* ChangeLog : ChangeLog の書式を統一
 
 	* TODO : 修正予定の追加

@@ -28,7 +28,6 @@ rogue_SOURCES = \
 rogue_CFLAGS = -Wall \
                -DUNIX \
                -DUNIX_SYSV \
-               -DCURSES \
                -DCOLOR \
                -DJAPAN \
                -DEUC \

@@ -345,15 +345,8 @@ help(void)
 	refresh();
 	wait_for_ack();
 
-#if !defined(CURSES) && defined(JAPAN)	/* if.. by Yasha (for NeXT jcurses) */
-	for (row = 0; row < DROWS - 1; row++) {	/* by Yasha */
-#else
 	for (row = 0; row < DROWS; row++) {
-#endif
 		move(row, 0);
-#if !defined(CURSES) && defined(JAPAN)
-		clrtoeol();	/* by Yasha */
-#endif
 		for (col = 0; col < DCOLS; col++) {
 		    if (row == DROWS - 1 && col == DCOLS - 1) {
 			continue;
@@ -368,11 +361,6 @@ help(void)
 		    }
 		}
 	}
-#if !defined(CURSES) && defined(JAPAN)
-	move(DROWS - 1, 0);	/* by Yasha */
-	clrtoeol();		/* by Yasha */
-	print_stats(STAT_ALL);	/* by Yasha */
-#endif
 	refresh();
 }
 
@@ -501,15 +489,12 @@ options(void)
 		refresh();
 		wait_for_ack();
 	}
-#if defined(CURSES) || !defined(JAPAN)	/* #if.. by Yasha */
+#ifndef JAPAN 	/* #if.. by Yasha */
 	for (row = 0; row < DROWS; row++) {
 #else
 	for (row = 0; row < DROWS - 1; row++) {	/* by Yasha */
-#endif
+#endif /* JAPAN */
 		move(row, 0);
-#if !defined(CURSES) && defined(JAPAN)
-		clrtoeol();			/* by Yasha */
-#endif
 		for (col = 0; col < DCOLS; col++) {
 			if (row == DROWS - 1 && col == DCOLS - 1)
 				continue;
@@ -524,11 +509,6 @@ options(void)
 			}
 		}
 	}
-#if !defined(CURSES) && defined(JAPAN)
-	move(DROWS - 1, 0);	/* by Yasha */
-	clrtoeol();		/* by Yasha */
-	print_stats(STAT_ALL);	/* by Yasha */
-#endif
 
 	if (changed) {
 		optbuf[0] = 0;
@@ -595,9 +575,6 @@ doshell(void)
 #endif /*MSDOS*/
 #ifdef UNIX
 	md_ignore_signals();
-#if defined(JAPAN) && !defined(CURSES)
-	raw();				/* by Yasha */
-#endif
 	putstr(mesg[157]);
 	putstr("\r\n");
 	system(cmd);
