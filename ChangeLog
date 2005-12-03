@@ -1,4 +1,6 @@
-2005-12-03  FUNABARA Masao  <l07steps@users.sourceforge.jp>
+2005-12-03  FUNABARA Masao
+
+	* TODO : 修正予定の追加
 
 	* object.c : colored 関数を使用しなくてもカラー化しているので関数を削除する
 	また、 colored 関数を使用している部分の修正
