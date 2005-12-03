@@ -363,7 +363,7 @@ help(void)
 			addch((unsigned char) descs[row][col]);
 		    } else {
 			attrset( COLOR_PAIR( ch_attr[(unsigned char)descs[row][col]] ) );
-			addch(colored(descs[row][col]));
+			addch(descs[row][col]);
 			attrset( COLOR_PAIR(0) );
 		    }
 		}
@@ -519,7 +519,7 @@ options(void)
 			    attrset( COLOR_PAIR(0) );
 			} else {
 			    attrset( COLOR_PAIR( ch_attr[(unsigned char)descs[row][col]] ) );
-			    addch(colored(descs[row][col]));
+			    addch(descs[row][col]);
 			    attrset( COLOR_PAIR(0) );
 			}
 		}

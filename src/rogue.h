@@ -445,9 +445,6 @@ enum rogue_colors {
 #define RMAGENTA 13
 #define RCYAN	 14
 extern int ch_attr[];
-#else
-/*#define colored(ch) ch*/
-#define colored(ch) (unsigned char) ch
 #endif
 
 #ifndef ORIGINAL

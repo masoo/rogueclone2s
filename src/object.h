@@ -1,7 +1,6 @@
 #ifndef __OBJECT_H__
 #define __OBJECT_H__
 
-extern int colored(int c);
 extern void put_objects(void);
 extern void put_gold(void);
 extern void plant_gold(short row, short col, boolean is_maze);

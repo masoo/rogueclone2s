@@ -230,7 +230,7 @@ disappear(object *monster)
 	dungeon[row][col] &= ~MONSTER;
 	if (rogue_can_see(row, col)) {
 	    attrset( COLOR_PAIR( ch_attr[get_dungeon_char(row, col)] ) );
-	    mvaddch(row, col, colored(get_dungeon_char(row, col)));
+	    mvaddch(row, col, get_dungeon_char(row, col));
 	    attrset( COLOR_PAIR(0) );
 	}
 	take_from_pack(monster, &level_monsters);
@@ -294,7 +294,7 @@ try_to_cough(short row, short col, object *obj)
 		if (((row != rogue.row) || (col != rogue.col)) &&
 			(!(dungeon[row][col] & MONSTER))) {
 		    attrset( COLOR_PAIR( get_dungeon_char(row, col) ) );
-		    mvaddch(row, col, colored(get_dungeon_char(row, col)));
+		    mvaddch(row, col, get_dungeon_char(row, col));
 		    attrset( COLOR_PAIR(0) );
 		}
 		return(1);
@@ -364,7 +364,7 @@ check_imitator(object *monster)
 		if (!blind) {
 		    attrset( COLOR_PAIR( ch_attr[get_dungeon_char(monster->row, monster->col)] ) );
 		    mvaddch(monster->row, monster->col,
-			    colored(get_dungeon_char(monster->row, monster->col)));
+			    get_dungeon_char(monster->row, monster->col));
 		    attrset( COLOR_PAIR(0) );
 		    check_message();
 		    sprintf(msg, mesg[206],
@@ -523,7 +523,7 @@ flame_broil(object *monster)
 		get_closer(&row, &col, rogue.row, rogue.col);
 		do {
 		    attrset( COLOR_PAIR( get_dungeon_char(row, col) ) );
-		    mvaddch(row, col, colored(get_dungeon_char(row, col)));
+		    mvaddch(row, col, get_dungeon_char(row, col));
 		    attrset( COLOR_PAIR(0) );
 		    refresh();
 		    get_closer(&row, &col, rogue.row, rogue.col);

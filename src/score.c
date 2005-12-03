@@ -37,9 +37,6 @@ extern char *m_names[];
 extern short cur_level, max_level;
 extern boolean score_only, show_skull, msg_cleared;
 extern char *byebye_string, *nick_name;
-#ifdef COLOR
-extern boolean do_color;
-#endif
 
 #ifndef ORIGINAL
 #ifdef JAPAN

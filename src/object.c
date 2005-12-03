@@ -143,13 +143,6 @@ extern boolean is_wood[];
 #ifdef COLOR
 extern boolean do_color;
 
-int
-colored(int c)
-{
-	c &= 0xff;
-//	return (do_color? (c | ch_attr[c]): c);
-	return c;
-}
 #endif
 
 void
@@ -641,7 +634,7 @@ show_objects(void)
 		if (((mc < 'A') || (mc > 'Z')) &&
 			((row != rogue.row) || (col != rogue.col))) {
 		    attrset( COLOR_PAIR( ch_attr[rc] ) );
-		    mvaddch(row, col, colored(rc));
+		    mvaddch(row, col, rc);
 		    attrset( COLOR_PAIR(0) );
 		}
 		obj = obj->next_object;
@@ -652,7 +645,7 @@ show_objects(void)
 	while (monster) {
 		if (monster->m_flags & IMITATES) {
 		    attrset( COLOR_PAIR( ch_attr[monster->disguise] ) );
-		    mvaddch(monster->row, monster->col, colored(monster->disguise));
+		    mvaddch(monster->row, monster->col, monster->disguise);
 		    attrset( COLOR_PAIR(0) );
 		}
 		monster = monster->next_monster;
@@ -874,7 +867,7 @@ list_object(object *obj, short max)
 	    move(j, col);
 	    for (p = descs[j-1]; *p; p++) {
 		attrset( COLOR_PAIR( ch_attr[(signed)*p] ) );
-		addch(colored(*p));
+		addch(*p);
 		attrset( COLOR_PAIR(0) );
 	    }
 	}

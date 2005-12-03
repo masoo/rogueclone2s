@@ -70,13 +70,13 @@ throw(void)
 	}
 	monster = get_thrown_at_monster(weapon, dir, &row, &col);
 	attrset( COLOR_PAIR( ch_attr[rogue.fchar] ) );
-	mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
+	mvaddch(rogue.row, rogue.col, rogue.fchar);
 	attrset( COLOR_PAIR(0) );
 	refresh();
 
 	if (rogue_can_see(row, col) && ((row != rogue.row) || (col != rogue.col))){
 	    attrset( COLOR_PAIR( ch_attr[get_dungeon_char(row, col)] ) );
-	    mvaddch(row, col, colored(get_dungeon_char(row, col)));
+	    mvaddch(row, col, get_dungeon_char(row, col));
 	    attrset( COLOR_PAIR(0) );
 	}
 	if (monster) {
@@ -155,13 +155,13 @@ get_thrown_at_monster(object *obj, short dir, short *row, short *col)
 		}
 		if ((i != 0) && rogue_can_see(orow, ocol)) {
 		    attrset( COLOR_PAIR( ch_attr[get_dungeon_char(orow, ocol)] ) );
-		    mvaddch(orow, ocol, colored(get_dungeon_char(orow, ocol)));
+		    mvaddch(orow, ocol, get_dungeon_char(orow, ocol));
 		    attrset( COLOR_PAIR(0) );
 		}
 		if (rogue_can_see(*row, *col)) {
 			if (!(dungeon[*row][*col] & MONSTER)) {
 			    attrset( COLOR_PAIR( ch_attr[ch] ) );
-			    mvaddch(*row, *col, colored(ch));
+			    mvaddch(*row, *col, ch);
 			    attrset( COLOR_PAIR(0) );
 			}
 			refresh();
@@ -219,12 +219,12 @@ flop_weapon(object *weapon, short row, short col)
 			    }
 			    if ((mch < 'A') || (mch > 'Z')) {
 				attrset( COLOR_PAIR( ch_attr[dch] ) );
-				mvaddch(row, col, colored(dch));
+				mvaddch(row, col, dch);
 				attrset( COLOR_PAIR(0) );
 			    }
 			} else {
 			    attrset( COLOR_PAIR( ch_attr[dch] ) );
-			    mvaddch(row, col, colored(dch));
+			    mvaddch(row, col, dch);
 			    attrset( COLOR_PAIR(0) );
 			}
 			dungeon[row][col] |= mon;

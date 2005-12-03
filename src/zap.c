@@ -71,14 +71,14 @@ zapp(void)
 		if (wand->which_kind == MAGIC_MISSILE) {
 		    monster = get_missiled_monster(dir, &row, &col);
 		    attrset( COLOR_PAIR( ch_attr[rogue.fchar] ) );
-		    mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
+		    mvaddch(rogue.row, rogue.col, rogue.fchar);
 		    attrset( COLOR_PAIR(0) );
 		    refresh();
 		    if ((row != rogue.row || col != rogue.col)
 			&& rogue_can_see(row, col)) {
 			attrset( COLOR_PAIR( ch_attr[get_dungeon_char(row, col)] ) );
 			mvaddch(row, col,
-				colored(get_dungeon_char(row, col)));
+				get_dungeon_char(row, col));
 			attrset( COLOR_PAIR(0) );
 		    }
 		} else {
@@ -136,7 +136,7 @@ get_missiled_monster(short dir, short *row, short *col)
 		if (!first && rogue_can_see(orow, ocol)) {
 		    attrset( COLOR_PAIR( ch_attr[get_dungeon_char(orow, ocol)] ) );
 		    mvaddch(orow, ocol,
-			    colored(get_dungeon_char(orow, ocol)));
+			    get_dungeon_char(orow, ocol));
 		    attrset( COLOR_PAIR(0) );
 		}
 		if (rogue_can_see(*row, *col)) {
@@ -256,7 +256,7 @@ tele_away(object *monster)
     if (detect_monster || rogue_can_see(row, col)) {
 #ifdef COLOR
 	attrset( COLOR_PAIR( ch_attr[gmc(monster)] ) );
-	mvaddch(row, col, colored(gmc(monster)));
+	mvaddch(row, col, gmc(monster));
 	attrset( COLOR_PAIR(0) );
 #else
 	mvaddch(row, col, gmc(monster));

@@ -387,7 +387,7 @@ rw_dungeon(FILE *fp, boolean rw)
 				attrset( COLOR_PAIR(0) );
 			    } else {
 				attrset( COLOR_PAIR( ch_attr[(unsigned char)buf[j]] ) );
-				mvaddch(i, j, colored(buf[j]));
+				mvaddch(i, j, buf[j]);
 				attrset( COLOR_PAIR(0) );
 			    }
 #else

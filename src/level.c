@@ -685,7 +685,7 @@ put_player(short nr)
 	new_level_message = 0;
     }
     attrset( COLOR_PAIR( ch_attr[rogue.fchar] ) );
-    mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
+    mvaddch(rogue.row, rogue.col, rogue.fchar);
     attrset( COLOR_PAIR(0) );
 }
 

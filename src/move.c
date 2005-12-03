@@ -117,10 +117,10 @@ one_move_rogue(short dirch, short pickup)
 			light_passage(row, col);
 	}
 	attrset( COLOR_PAIR( ch_attr[get_dungeon_char(rogue.row, rogue.col)]) );
-	mvaddch(rogue.row, rogue.col, colored(get_dungeon_char(rogue.row, rogue.col)));
+	mvaddch(rogue.row, rogue.col, get_dungeon_char(rogue.row, rogue.col));
 	attrset( COLOR_PAIR(0) );
 	attrset( COLOR_PAIR( ch_attr[rogue.fchar] ) );
-	mvaddch(row, col, colored(rogue.fchar));
+	mvaddch(row, col, rogue.fchar);
 	attrset( COLOR_PAIR(0) );
 
 	if (!jump) {

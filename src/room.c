@@ -48,12 +48,12 @@ light_up_room(int rn)
 		    }
 		}
 		attrset( COLOR_PAIR( ch_attr[get_dungeon_char(i, j)] ) );
-		mvaddch(i, j, colored(get_dungeon_char(i, j)));
+		mvaddch(i, j, get_dungeon_char(i, j));
 		attrset(COLOR_PAIR(0));
 	    }
 	}
 	attrset( COLOR_PAIR( ch_attr[rogue.fchar] ) );
-	mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
+	mvaddch(rogue.row, rogue.col, rogue.fchar);
 	attrset(COLOR_PAIR(0));
     }
 }
@@ -73,7 +73,7 @@ light_passage(int row, int col)
 	for (j = ((col > 0) ? -1 : 0); j <= j_end; j++) {
 	    if (can_move(row, col, row+i, col+j)) {
 		attrset( COLOR_PAIR( ch_attr[get_dungeon_char(row+i, col+j)] ) );
-		mvaddch(row+i, col+j, colored(get_dungeon_char(row+i, col+j)));
+		mvaddch(row+i, col+j, get_dungeon_char(row+i, col+j));
 		attrset( COLOR_PAIR(0) );
 	    }
 	}
@@ -89,19 +89,19 @@ darken_room(short rn)
 	for (j = rooms[rn].left_col + 1; j < rooms[rn].right_col; j++) {
 	    if (blind) {
 		attrset( COLOR_PAIR( ch_attr[' '] ) );
-		mvaddch(i, j, colored(' '));
+		mvaddch(i, j, ' ');
 		attrset( COLOR_PAIR(0) );
 	    } else {
 		if (!(dungeon[i][j] & (OBJECT | STAIRS)) &&
 		    !(detect_monster && (dungeon[i][j] & MONSTER))) {
 		    if (!imitating(i, j)) {
 			attrset( COLOR_PAIR( ch_attr[' '] ) );
-			mvaddch(i, j, colored(' '));
+			mvaddch(i, j, ' ');
 			attrset( COLOR_PAIR(0) );
 		    }
 		    if ((dungeon[i][j] & TRAP) && (!(dungeon[i][j] & HIDDEN))) {
 			attrset( COLOR_PAIR( ch_attr['^'] ) );
-			mvaddch(i, j, colored('^'));
+			mvaddch(i, j, '^');
 			attrset( COLOR_PAIR(0) );
 		    }
 		}
@@ -336,7 +336,7 @@ draw_magic_map(void)
 			}
 			if ((!(s & MONSTER)) || (och == ' ')) {
 			    attrset( COLOR_PAIR( ch_attr[ch] ) );
-			    addch(colored(ch));
+			    addch(ch);
 			    attrset( COLOR_PAIR(0) );
 			}
 			if (s & MONSTER) {

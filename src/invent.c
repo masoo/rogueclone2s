@@ -120,7 +120,7 @@ nextpage:
 	move(j, col);
 	for (p = descs[j-1]; *p; p++) {
 	    attrset( COLOR_PAIR( ch_attr[(signed)*p] ) );
-	    addch(colored(*p));
+	    addch(*p);
 	    attrset( COLOR_PAIR(0) );
 	}
     }
@@ -796,7 +796,7 @@ nextpage:
 	move(j, col);
 	for (p = descs[j-1]; *p; p++) {
 	    attrset( COLOR_PAIR( ch_attr[(signed)*p] ) );
-	    addch(colored(*p));
+	    addch(*p);
 	    attrset( COLOR_PAIR(0) );
 	}
     }
