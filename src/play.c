@@ -362,7 +362,7 @@ help(void)
 			attrset( COLOR_PAIR(0) );
 			addch((unsigned char) descs[row][col]);
 		    } else {
-			attrset( COLOR_PAIR( c_attr[(unsigned char)descs[row][col]] ) );
+			attrset( COLOR_PAIR( ch_attr[(unsigned char)descs[row][col]] ) );
 			addch(colored(descs[row][col]));
 			attrset( COLOR_PAIR(0) );
 		    }
@@ -514,11 +514,11 @@ options(void)
 			if (row == DROWS - 1 && col == DCOLS - 1)
 				continue;
 			if (row < MIN_ROW || row >= DROWS - 1) {
-			    attrset( COLOR_PAIR( c_attr[(unsigned char)descs[row][col]] ) );
+			    attrset( COLOR_PAIR( ch_attr[(unsigned char)descs[row][col]] ) );
 			    addch((unsigned char) descs[row][col]);
 			    attrset( COLOR_PAIR(0) );
 			} else {
-			    attrset( COLOR_PAIR( c_attr[(unsigned char)descs[row][col]] ) );
+			    attrset( COLOR_PAIR( ch_attr[(unsigned char)descs[row][col]] ) );
 			    addch(colored(descs[row][col]));
 			    attrset( COLOR_PAIR(0) );
 			}

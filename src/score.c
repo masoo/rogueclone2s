@@ -102,7 +102,7 @@ killed_by(object *monster, short other)
 		for (i = 0; i < 14; i++)
 			mvaddstr(i+3, xpos[i], str[i]);
 #ifdef COLOR
-		attrset( COLOR_PAIR( c_attr['*'] ) );
+		attrset( COLOR_PAIR( ch_attr['*'] ) );
 		mvaddch(15, DCOLS/2-11, '*');	/* by Yasha */
 		mvaddch(15, DCOLS/2-4, '*');	/* by Yasha */
 		mvaddch(15, DCOLS/2-1, '*');	/* by Yasha */
@@ -385,16 +385,16 @@ mvaddbanner(int row, int col, int *ban)
 	    if (ban[i >> 3] & (0x80 >> (i & 7))) {
 #ifdef COLOR
 
-		attrset( COLOR_PAIR( c_attr[rev] ) );
+		attrset( COLOR_PAIR( ch_attr[rev] ) );
 		addch(rev);
 		attrset( COLOR_PAIR(0) );
 #else
-		attrset( COLOR_PAIR( c_attr['@'] ) );
+		attrset( COLOR_PAIR( ch_attr['@'] ) );
 		addch('@');
 		attrset( COLOR_PAIR(0) );
 #endif
 	    } else {
-		attrset( COLOR_PAIR( c_attr[' '] ) );
+		attrset( COLOR_PAIR( ch_attr[' '] ) );
 		addch(' ');
 		attrset( COLOR_PAIR(0) );
 	    }
@@ -432,7 +432,7 @@ quit(boolean from_intrpt)
 		check_message();
 		if (from_intrpt) {
 			for (i = 0; i < DCOLS; i++) {
-			    attrset( COLOR_PAIR( c_attr[(unsigned char) buf[i]] ) );
+			    attrset( COLOR_PAIR( ch_attr[(unsigned char) buf[i]] ) );
 			    mvaddch(0, i, (unsigned char) buf[i]);
 			    attrset( COLOR_PAIR(0) );
 			}

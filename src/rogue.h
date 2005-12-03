@@ -421,22 +421,22 @@ char *md_gdtcf();
 #endif /*CURSES*/
 
 #ifdef COLOR
-enum rogue_color_map {
+enum rogue_colors {
     WHITE = 1,
     RED = 2,
     GREEN = 3,
     YELLOW = 4,
     BLUE = 5,
     MAGENTA = 6,
-    CYAN = 7
+    CYAN = 7,
+    WHITE_REVERSE = 8,
+    RED_REVERSE = 9,
+    GREEN_REVERSE = 10,
+    YELLOW_REVERSE = 11,
+    BLUE_REVERSE = 12,
+    MAGENTA_REVERSE = 13,
+    CYAN_REVERSE =14
 };
-//#define WHITE	 0
-//#define RED	 1
-//#define GREEN	 2
-//#define YELLOW	 3
-//#define BLUE	 4
-//#define	MAGENTA	 5
-//#define CYAN	 6
 #define RWHITE	 8
 #define RRED	 9
 #define RGREEN	 10
@@ -444,7 +444,7 @@ enum rogue_color_map {
 #define RBLUE	 12
 #define RMAGENTA 13
 #define RCYAN	 14
-extern short c_attr[];
+extern int ch_attr[];
 #else
 /*#define colored(ch) ch*/
 #define colored(ch) (unsigned char) ch

@@ -43,8 +43,7 @@ char org_dir[64], *game_dir = "";
 #ifdef COLOR
 char *color_str = "cbmyg";
 boolean do_color = 1;
-/* short c_buf[5]; */
-short c_attr[256];
+int ch_attr[256];
 #endif
 #ifdef UNIX
 char *error_file = "rogue.esave";
@@ -605,16 +604,16 @@ set_color_map(void)
         init_pair(CYAN, COLOR_CYAN, COLOR_BLACK);
         //カラーマップ毎の処理を記述
         for ( char *ch = "-|#+"; *ch; ch++ ) {
-            c_attr[(signed)*ch] = c_buf[0];
+            ch_attr[(signed)*ch] = c_buf[0];
         }
-        c_attr['.'] = c_buf[1];
+        ch_attr['.'] = c_buf[1];
         for ( char ch = 'A'; ch <= 'Z'; ch++ ) {
-            c_attr[(signed)ch] = c_buf[2];
+            ch_attr[(signed)ch] = c_buf[2];
         }
         for ( char *ch = "%!?/=)]^*:,"; *ch; ch++ ) {
-            c_attr[(signed)*ch] = c_buf[3];
+            ch_attr[(signed)*ch] = c_buf[3];
         }
-        c_attr[rogue.fchar] = c_buf[4];
+        ch_attr[rogue.fchar] = c_buf[4];
     }
 }
 #ifdef MSDOS

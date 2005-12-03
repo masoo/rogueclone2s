@@ -70,13 +70,13 @@ zapp(void)
 #ifndef ORIGINAL
 		if (wand->which_kind == MAGIC_MISSILE) {
 		    monster = get_missiled_monster(dir, &row, &col);
-		    attrset( COLOR_PAIR( c_attr[rogue.fchar] ) );
+		    attrset( COLOR_PAIR( ch_attr[rogue.fchar] ) );
 		    mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
 		    attrset( COLOR_PAIR(0) );
 		    refresh();
 		    if ((row != rogue.row || col != rogue.col)
 			&& rogue_can_see(row, col)) {
-			attrset( COLOR_PAIR( c_attr[get_dungeon_char(row, col)] ) );
+			attrset( COLOR_PAIR( ch_attr[get_dungeon_char(row, col)] ) );
 			mvaddch(row, col,
 				colored(get_dungeon_char(row, col)));
 			attrset( COLOR_PAIR(0) );
@@ -134,7 +134,7 @@ get_missiled_monster(short dir, short *row, short *col)
 			return(0);
 		}
 		if (!first && rogue_can_see(orow, ocol)) {
-		    attrset( COLOR_PAIR( c_attr[get_dungeon_char(orow, ocol)] ) );
+		    attrset( COLOR_PAIR( ch_attr[get_dungeon_char(orow, ocol)] ) );
 		    mvaddch(orow, ocol,
 			    colored(get_dungeon_char(orow, ocol)));
 		    attrset( COLOR_PAIR(0) );
@@ -142,7 +142,7 @@ get_missiled_monster(short dir, short *row, short *col)
 		if (rogue_can_see(*row, *col)) {
 		    if (!(dungeon[*row][*col] & MONSTER)) {
 #ifdef COLOR
-			attrset( COLOR_PAIR( c_attr['*'] ) );
+			attrset( COLOR_PAIR( ch_attr['*'] ) );
 			//mvaddch(*row, *col, '*' | (RED << 8));
 			mvaddch(*row, *col, '*');
 			attrset( COLOR_PAIR(0) );
@@ -246,7 +246,7 @@ tele_away(object *monster)
 	being_held = 0;
     }
     gr_row_col(&row, &col, (FLOOR | TUNNEL | STAIRS | OBJECT));
-    attrset( COLOR_PAIR( c_attr[(unsigned char)monster->trail_char] ) );
+    attrset( COLOR_PAIR( ch_attr[(unsigned char)monster->trail_char] ) );
     mvaddch(monster->row, monster->col,(unsigned char)monster->trail_char);
     attrset( COLOR_PAIR(0) );
     dungeon[monster->row][monster->col] &= ~MONSTER;
@@ -255,7 +255,7 @@ tele_away(object *monster)
     monster->trail_char = mvinch(row, col) & A_CHARTEXT;
     if (detect_monster || rogue_can_see(row, col)) {
 #ifdef COLOR
-	attrset( COLOR_PAIR( c_attr[gmc(monster)] ) );
+	attrset( COLOR_PAIR( ch_attr[gmc(monster)] ) );
 	mvaddch(row, col, colored(gmc(monster)));
 	attrset( COLOR_PAIR(0) );
 #else

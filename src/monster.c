@@ -388,19 +388,19 @@ move_mon_to(object *monster, short row, short col)
 
 	if ((c >= 'A') && (c <= 'Z')) {
 		if (!detect_monster) {
-		    attrset( COLOR_PAIR( c_attr[monster->trail_char] ) );
+		    attrset( COLOR_PAIR( ch_attr[monster->trail_char] ) );
 		    mvaddch(mrow, mcol, colored(monster->trail_char));
 		    attrset( COLOR_PAIR(0) );
 		} else {
 			if (rogue_can_see(mrow, mcol)) {
-			    attrset( COLOR_PAIR( c_attr[monster->trail_char] ) );
+			    attrset( COLOR_PAIR( ch_attr[monster->trail_char] ) );
 			    mvaddch(mrow, mcol, colored(monster->trail_char));
 			    attrset( COLOR_PAIR(0) );
 			} else {
 				if (monster->trail_char == '.') {
 					monster->trail_char = ' ';
 				}
-				attrset( COLOR_PAIR( c_attr[monster->trail_char] ) );
+				attrset( COLOR_PAIR( ch_attr[monster->trail_char] ) );
 				mvaddch(mrow, mcol, colored(monster->trail_char));
 				attrset( COLOR_PAIR(0) );
 			}
@@ -410,7 +410,7 @@ move_mon_to(object *monster, short row, short col)
 	if (!blind && (detect_monster || rogue_can_see(row, col))) {
 	    if ((!(monster->m_flags & INVISIBLE) ||
 		 (detect_monster || see_invisible || r_see_invisible))) {
-		attrset( COLOR_PAIR( c_attr[gmc(monster)] ) );
+		attrset( COLOR_PAIR( ch_attr[gmc(monster)] ) );
 		mvaddch(row, col, colored(gmc(monster)));
 		attrset( COLOR_PAIR(0) );
 	    }
@@ -418,7 +418,7 @@ move_mon_to(object *monster, short row, short col)
 	if ((dungeon[row][col] & DOOR) &&
 	    (get_room_number(row, col) != cur_room) &&
 	    (dungeon[mrow][mcol] == FLOOR) && !blind) {
-	    attrset( COLOR_PAIR( c_attr[' '] ) );
+	    attrset( COLOR_PAIR( ch_attr[' '] ) );
 	    mvaddch(mrow, mcol, colored(' '));
 	    attrset( COLOR_PAIR(0) );
 	}
@@ -582,7 +582,7 @@ show_monsters(void)
 	monster = level_monsters.next_monster;
 
 	while (monster) {
-	    attrset( COLOR_PAIR( c_attr[monster->m_char] ) );
+	    attrset( COLOR_PAIR( ch_attr[monster->m_char] ) );
 	    mvaddch(monster->row, monster->col, colored(monster->m_char));
 	    attrset( COLOR_PAIR(0) );
 	    if (monster->m_flags & IMITATES) {
@@ -623,7 +623,7 @@ create_monster(void)
 	if (found) {
 		monster = gr_monster((object *) 0, 0);
 		put_m_at(row, col, monster);
-		attrset( COLOR_PAIR( c_attr[gmc(monster)] ) );
+		attrset( COLOR_PAIR( ch_attr[gmc(monster)] ) );
 		mvaddch(row, col, colored(gmc(monster)));
 		attrset( COLOR_PAIR(0) );
 		if (monster->m_flags & (WANDERS | WAKENS)) {
@@ -765,7 +765,7 @@ aggravate(void)
 		wake_up(monster);
 		monster->m_flags &= (~IMITATES);
 		if (rogue_can_see(monster->row, monster->col)) {
-		    attrset( COLOR_PAIR( c_attr[monster->m_char] ) );
+		    attrset( COLOR_PAIR( ch_attr[monster->m_char] ) );
 		    mvaddch(monster->row, monster->col, colored(monster->m_char));
 		    attrset( COLOR_PAIR(0) );
 		}

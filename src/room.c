@@ -47,12 +47,12 @@ light_up_room(int rn)
 			dungeon[monster->row][monster->col] |= MONSTER;
 		    }
 		}
-		attrset( COLOR_PAIR( c_attr[get_dungeon_char(i, j)] ) );
+		attrset( COLOR_PAIR( ch_attr[get_dungeon_char(i, j)] ) );
 		mvaddch(i, j, colored(get_dungeon_char(i, j)));
 		attrset(COLOR_PAIR(0));
 	    }
 	}
-	attrset( COLOR_PAIR( c_attr[rogue.fchar] ) );
+	attrset( COLOR_PAIR( ch_attr[rogue.fchar] ) );
 	mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
 	attrset(COLOR_PAIR(0));
     }
@@ -72,7 +72,7 @@ light_passage(int row, int col)
     for (i = ((row > MIN_ROW) ? -1 : 0); i <= i_end; i++) {
 	for (j = ((col > 0) ? -1 : 0); j <= j_end; j++) {
 	    if (can_move(row, col, row+i, col+j)) {
-		attrset( COLOR_PAIR( c_attr[get_dungeon_char(row+i, col+j)] ) );
+		attrset( COLOR_PAIR( ch_attr[get_dungeon_char(row+i, col+j)] ) );
 		mvaddch(row+i, col+j, colored(get_dungeon_char(row+i, col+j)));
 		attrset( COLOR_PAIR(0) );
 	    }
@@ -88,19 +88,19 @@ darken_room(short rn)
     for (i = rooms[rn].top_row + 1; i < rooms[rn].bottom_row; i++) {
 	for (j = rooms[rn].left_col + 1; j < rooms[rn].right_col; j++) {
 	    if (blind) {
-		attrset( COLOR_PAIR( c_attr[' '] ) );
+		attrset( COLOR_PAIR( ch_attr[' '] ) );
 		mvaddch(i, j, colored(' '));
 		attrset( COLOR_PAIR(0) );
 	    } else {
 		if (!(dungeon[i][j] & (OBJECT | STAIRS)) &&
 		    !(detect_monster && (dungeon[i][j] & MONSTER))) {
 		    if (!imitating(i, j)) {
-			attrset( COLOR_PAIR( c_attr[' '] ) );
+			attrset( COLOR_PAIR( ch_attr[' '] ) );
 			mvaddch(i, j, colored(' '));
 			attrset( COLOR_PAIR(0) );
 		    }
 		    if ((dungeon[i][j] & TRAP) && (!(dungeon[i][j] & HIDDEN))) {
-			attrset( COLOR_PAIR( c_attr['^'] ) );
+			attrset( COLOR_PAIR( ch_attr['^'] ) );
 			mvaddch(i, j, colored('^'));
 			attrset( COLOR_PAIR(0) );
 		    }
@@ -335,7 +335,7 @@ draw_magic_map(void)
 			    continue;
 			}
 			if ((!(s & MONSTER)) || (och == ' ')) {
-			    attrset( COLOR_PAIR( c_attr[ch] ) );
+			    attrset( COLOR_PAIR( ch_attr[ch] ) );
 			    addch(colored(ch));
 			    attrset( COLOR_PAIR(0) );
 			}

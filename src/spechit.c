@@ -229,7 +229,7 @@ disappear(object *monster)
 
 	dungeon[row][col] &= ~MONSTER;
 	if (rogue_can_see(row, col)) {
-	    attrset( COLOR_PAIR( c_attr[get_dungeon_char(row, col)] ) );
+	    attrset( COLOR_PAIR( ch_attr[get_dungeon_char(row, col)] ) );
 	    mvaddch(row, col, colored(get_dungeon_char(row, col)));
 	    attrset( COLOR_PAIR(0) );
 	}
@@ -362,7 +362,7 @@ check_imitator(object *monster)
 	if (monster->m_flags & IMITATES) {
 		wake_up(monster);
 		if (!blind) {
-		    attrset( COLOR_PAIR( c_attr[get_dungeon_char(monster->row, monster->col)] ) );
+		    attrset( COLOR_PAIR( ch_attr[get_dungeon_char(monster->row, monster->col)] ) );
 		    mvaddch(monster->row, monster->col,
 			    colored(get_dungeon_char(monster->row, monster->col)));
 		    attrset( COLOR_PAIR(0) );
@@ -512,7 +512,7 @@ flame_broil(object *monster)
 		get_closer(&row, &col, rogue.row, rogue.col);
 		standout();
 		do {
-		    attrset( COLOR_PAIR( c_attr['~'] ) );
+		    attrset( COLOR_PAIR( ch_attr['~'] ) );
 		    mvaddch(row, col, '~');
 		    attrset( COLOR_PAIR(0) );
 		    refresh();

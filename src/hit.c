@@ -263,7 +263,7 @@ mon_damage(object *monster, int damage)
 	row = monster->row;
 	col = monster->col;
 	dungeon[row][col] &= ~MONSTER;
-	attrset( COLOR_PAIR( c_attr[get_dungeon_char(row, col)] ) ); 
+	attrset( COLOR_PAIR( ch_attr[get_dungeon_char(row, col)] ) ); 
 	mvaddch(row, col, colored(get_dungeon_char(row, col)));
 	attrset( COLOR_PAIR(0));
 

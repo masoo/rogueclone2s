@@ -676,7 +676,7 @@ hold_monster(void)
 void
 tele(void)
 {
-    attrset( COLOR_PAIR( c_attr[get_dungeon_char(rogue.row, rogue.col)] ) );
+    attrset( COLOR_PAIR( ch_attr[get_dungeon_char(rogue.row, rogue.col)] ) );
     mvaddch(rogue.row, rogue.col, colored(get_dungeon_char(rogue.row, rogue.col)));
     attrset( COLOR_PAIR(0) );
 
@@ -703,7 +703,7 @@ hallucinate(void)
 	    if (((ch < 'A') || (ch > 'Z')) &&
 		((obj->row != rogue.row) || (obj->col != rogue.col)))
 		if ((ch != ' ') && (ch != '.') && (ch != '#') && (ch != '+')) {
-		    attrset( COLOR_PAIR( c_attr[gr_obj_char()] ) );
+		    attrset( COLOR_PAIR( ch_attr[gr_obj_char()] ) );
 		    addch(colored(gr_obj_char()));
 		    attrset( COLOR_PAIR(0) );
 		}
@@ -714,7 +714,7 @@ hallucinate(void)
 	while (monster) {
 	    ch = mvinch(monster->row, monster->col) & A_CHARTEXT;
 	    if ((ch >= 'A') && (ch <= 'Z')) {
-		attrset( COLOR_PAIR( c_attr['A'] ) );
+		attrset( COLOR_PAIR( ch_attr['A'] ) );
 		addch(colored(get_rand('A', 'Z')));
 		attrset( COLOR_PAIR(0) );
 	    }
@@ -752,7 +752,7 @@ relight(void)
     } else {
 	light_up_room(cur_room);
     }
-    attrset( COLOR_PAIR( c_attr[rogue.fchar] ) );
+    attrset( COLOR_PAIR( ch_attr[rogue.fchar] ) );
     mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
     attrset( COLOR_PAIR(0) );
 }
@@ -788,7 +788,7 @@ go_blind(void)
 		monster = level_monsters.next_monster;
 
 		while (monster) {
-		    attrset( COLOR_PAIR( c_attr[monster->trail_char] ) );
+		    attrset( COLOR_PAIR( ch_attr[monster->trail_char] ) );
 		    mvaddch(monster->row, monster->col, colored(monster->trail_char));
 		    attrset( COLOR_PAIR(0) );
 		    monster = monster->next_monster;
@@ -799,13 +799,13 @@ go_blind(void)
 			 i < rooms[cur_room].bottom_row; i++) {
 			for (j = rooms[cur_room].left_col + 1;
 				 j < rooms[cur_room].right_col; j++) {
-			    attrset( COLOR_PAIR( c_attr[' '] ) );
+			    attrset( COLOR_PAIR( ch_attr[' '] ) );
 			    mvaddch(i, j, colored(' '));
 			    attrset( COLOR_PAIR(0) );
 			}
 		}
 	}
-	attrset( COLOR_PAIR( c_attr[rogue.fchar] ) );
+	attrset( COLOR_PAIR( ch_attr[rogue.fchar] ) );
 	mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
 	attrset( COLOR_PAIR(0) );
 }

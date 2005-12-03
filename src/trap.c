@@ -78,7 +78,7 @@ trap_player(short row, short col)
 	    bear_trap = get_rand(4, 7);
 	    break;
 	case TELE_TRAP:
-	    attrset( COLOR_PAIR( c_attr['^'] ) );
+	    attrset( COLOR_PAIR( ch_attr['^'] ) );
 	    mvaddch(rogue.row, rogue.col, colored('^'));
 	    attrset( COLOR_PAIR(0) );
 	    tele();
@@ -185,7 +185,7 @@ show_traps(void)
     for (i = 0; i < DROWS; i++) {
 	for (j = 0; j < DCOLS; j++) {
 	    if (dungeon[i][j] & TRAP) {
-		attrset( COLOR_PAIR( c_attr['^'] ) );
+		attrset( COLOR_PAIR( ch_attr['^'] ) );
 		mvaddch(i, j, colored('^'));
 		attrset( COLOR_PAIR(0) );
 	    }
@@ -227,7 +227,7 @@ search(short n, boolean is_auto)
 						dungeon[row][col] &= (~HIDDEN);
 						if ((!blind) && ((row != rogue.row) ||
 								(col != rogue.col))) {
-						    attrset( COLOR_PAIR( c_attr[get_dungeon_char(row, col)] ) );
+						    attrset( COLOR_PAIR( ch_attr[get_dungeon_char(row, col)] ) );
 						    mvaddch(row, col, colored(get_dungeon_char(row, col)));
 						    attrset( COLOR_PAIR(0) );
 						}

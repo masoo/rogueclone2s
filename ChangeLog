@@ -1,4 +1,6 @@
-2005-12-03  FUNABARA Masao
+2005-12-03  FUNABARA Masao  <l07steps@users.sourceforge.jp>
+
+	* ALL_FILE : c_attr の配列名を ch_attr と変更し意味を明確にする
 
 	* ALL_FILE : Ncurses での画面のカラー化
 

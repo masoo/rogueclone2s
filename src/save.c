@@ -382,16 +382,16 @@ rw_dungeon(FILE *fp, boolean rw)
 			for (j = 0; j < DCOLS; j++) {
 #ifdef COLOR
 			    if (i < MIN_ROW || i >= DROWS - 1) {
-				attrset( COLOR_PAIR( c_attr[(unsigned char)buf[j]] ) );
+				attrset( COLOR_PAIR( ch_attr[(unsigned char)buf[j]] ) );
 				mvaddch(i, j, (unsigned char) buf[j]);
 				attrset( COLOR_PAIR(0) );
 			    } else {
-				attrset( COLOR_PAIR( c_attr[(unsigned char)buf[j]] ) );
+				attrset( COLOR_PAIR( ch_attr[(unsigned char)buf[j]] ) );
 				mvaddch(i, j, colored(buf[j]));
 				attrset( COLOR_PAIR(0) );
 			    }
 #else
-			    attrset( COLOR_PAIR( c_attr[buf[j]] ) );
+			    attrset( COLOR_PAIR( ch_attr[buf[j]] ) );
 			    mvaddch(i, j, (unsigned char) buf[j]);
 			    attrset( COLOR_PAIR(0) );
 #endif

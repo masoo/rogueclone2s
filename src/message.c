@@ -57,7 +57,7 @@ message(char *msg, boolean intrpt)
     (void) strcpy(msg_line, msg);
     attrset( COLOR_PAIR(0) );
     mvaddstr(MIN_ROW-1, 0, msg);
-    attrset( COLOR_PAIR( c_attr[' '] ) );
+    attrset( COLOR_PAIR( ch_attr[' '] ) );
     addch(' ');
     attrset( COLOR_PAIR(0) );
     refresh();
@@ -192,7 +192,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 				buf[i] = ch;
 				kanji[i] = 0;
 				if (do_echo) {
-				    attrset( COLOR_PAIR( c_attr[ch] ) );
+				    attrset( COLOR_PAIR( ch_attr[ch] ) );
 				    addch((unsigned char) ch);
 				    attrset( COLOR_PAIR(0) );
 				}
@@ -214,10 +214,10 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 				kdispbuf[2] = '\0';	/* by Yasha */
 				addstr(kdispbuf);	/* by Yahsa */
 #else
-				attrset( COLOR_PAIR( c_attr[(unsigned char)buf[i]] ) );
+				attrset( COLOR_PAIR( ch_attr[(unsigned char)buf[i]] ) );
 				addch((unsigned char) buf[i]);
 				attrset( COLOR_PAIR(0) );
-				attrset( COLOR_PAIR( c_attr[(unsigned char)buf[i+1]] ) );
+				attrset( COLOR_PAIR( ch_attr[(unsigned char)buf[i+1]] ) );
 				addch((unsigned char) buf[i+1]);
 				attrset( COLOR_PAIR(0) );
 #endif
@@ -240,7 +240,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 			if ((ch != ' ') || (i > 0)) {
 				buf[i++] = ch;
 				if (do_echo) {
-				    attrset( COLOR_PAIR( c_attr[(unsigned char) ch] ) );
+				    attrset( COLOR_PAIR( ch_attr[(unsigned char) ch] ) );
 				    addch((unsigned char) ch);
 				    attrset( COLOR_PAIR(0) );
 				}
@@ -249,7 +249,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 		if ((ch == '\b') && (i > 0)) {
 			i--;
 			if (do_echo) {
-			    attrset( COLOR_PAIR( c_attr[' '] ) );
+			    attrset( COLOR_PAIR( ch_attr[' '] ) );
 			    mvaddch(row, col+n+i, ' ');
 			    attrset( COLOR_PAIR(0) );
 			    move(row, col+n+i);
@@ -511,7 +511,7 @@ pad(char *s, short n)
 	short i;
 
 	for (i = strlen(s); i < n; i++) {
-	    attrset( COLOR_PAIR( c_attr[' '] ) );
+	    attrset( COLOR_PAIR( ch_attr[' '] ) );
 	    addch(' ');
 	    attrset( COLOR_PAIR(0) );
 	}
