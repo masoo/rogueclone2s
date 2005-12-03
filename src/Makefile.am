@@ -25,10 +25,8 @@ rogue_SOURCES = \
 	use.c use.h \
 	zap.c zap.h
 
-rogue_CFLAGS = -Wall \
-               -DUNIX \
+rogue_CFLAGS = -DUNIX \
                -DUNIX_SYSV \
-               -DCOLOR \
                -DJAPAN \
                -DEUC \
                -DTOPSCO

@@ -35,4 +35,15 @@ AC_CONFIG_FILES([Makefile
                  man/Makefile
                  msg/Makefile
                  src/Makefile])
+
+AC_ARG_ENABLE([color],
+              AS_HELP_STRING([--enable-color],
+                             [include color(default yes)]), ,)
+
+
+
+if test "$enable_color" != "no"; then
+AC_DEFINE([COLOR], , [Define if you have the 'COLOR'])
+fi
+
 AC_OUTPUT

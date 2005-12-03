@@ -1,5 +1,7 @@
 2005-12-03  FUNABARA Masao
 
+	* configure.ac : --enable-color オプションの追加
+
 	* ALL_FILE : CURSES 定義とコンパイルオプション -DCURSES を消去
 
 	* ChangeLog : ChangeLog の書式を統一
