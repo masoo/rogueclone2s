@@ -56,86 +56,95 @@ char descs[DROWS][DCOLS];	/* multi-purpose screen saver */
 void
 inventory(object *pack, unsigned short mask)
 {
-	object *obj;
-	short i, j, maxlen, n;
-	short row, col;
-	char *p;
+    object *obj;
+    short i, j, maxlen, n;
+    short row, col;
+    char *p;
 #ifdef JAPAN
-	char *msg = "  ＝スペースを押してください＝";
-	short len = 30;
+    char *msg = "  ＝スペースを押してください＝";
+    short len = 30;
 #else
-	char *msg = " --Press space to continue--";
-	short len = 28;
+    char *msg = " --Press space to continue--";
+    short len = 28;
 #endif
 
-	if (!(obj = pack->next_object)) {
-		message(mesg[26], 0);
-		return;
-	}
+    if (!(obj = pack->next_object)) {
+	message(mesg[26], 0);
+	return;
+    }
 
 #define	Protected(obj)	((obj->what_is & ARMOR) && obj->is_protected)
 nextpage:
-	i = 0;
-	maxlen = len;
-	while (obj && i < DROWS - 2) {
-		if (obj->what_is & mask) {
-			p = descs[i];
-			*p++ = ' ';
-			*p++ = obj->ichar;
-			*p++ = Protected(obj)? '}': ')';
-			*p++ = ' ';
-			get_desc(obj, p, 0);
-			if ((n = strlen(descs[i])) > maxlen)
-				maxlen = n;
-			i++;
-		}
-		obj = obj->next_object;
+    i = 0;
+    maxlen = len;
+    while (obj && i < DROWS - 2) {
+	if (obj->what_is & mask) {
+	    p = descs[i];
+	    *p++ = ' ';
+	    *p++ = obj->ichar;
+	    *p++ = Protected(obj)? '}': ')';
+	    *p++ = ' ';
+	    get_desc(obj, p, 0);
+	    if ((n = strlen(descs[i])) > maxlen) {
+		maxlen = n;
+	    }
+	    i++;
 	}
-	(void) strcpy(descs[i++], msg);
+	obj = obj->next_object;
+    }
+    (void) strcpy(descs[i++], msg);
 
-	if (i == 0)
-		return;
+    if (i == 0) {
+	return;
+    }
 
-	col = DCOLS - (maxlen + 2);
-	for (row = 0; row < i; row++) {
-		if (row > 0) {
-			for (j = col; j < DCOLS; j++) {
-				descs[row-1][j-col] = mvinch(row, j);
-			}
-			descs[row-1][j-col] = 0;
-		}
-		mvaddstr(row, col, descs[row]);
-		clrtoeol();
+    col = DCOLS - (maxlen + 2);
+    for (row = 0; row < i; row++) {
+	if (row > 0) {
+	    for (j = col; j < DCOLS; j++) {
+		descs[row-1][j-col] = mvinch(row, j) & A_CHARTEXT;
+	    }
+	    descs[row-1][j-col] = 0;
 	}
-	refresh();
-	wait_for_ack();
-
-	move(0, 0);
+	attrset( COLOR_PAIR(0) );
+	mvaddstr(row, col, descs[row]);
 	clrtoeol();
+    }
+    refresh();
+    wait_for_ack();
+
+    move(0, 0);
+    clrtoeol();
 #ifdef COLOR
-	for (j = 1; j < i; j++) {
-		move(j, col);
-		for (p = descs[j-1]; *p; p++)
-			addch(colored(*p));
+    for (j = 1; j < i; j++) {
+	move(j, col);
+	for (p = descs[j-1]; *p; p++) {
+	    attrset( COLOR_PAIR( c_attr[(signed)*p] ) );
+	    addch(colored(*p));
+	    attrset( COLOR_PAIR(0) );
 	}
+    }
 #else
 #if defined(CURSES) || !defined(JAPAN)	/* if.. by Yasha */
-	for (j = 1; j < i; j++)
-		mvaddstr(j, col, descs[j-1]);
+    for (j = 1; j < i; j++) {
+	attrset( COLOR_PAIR(0) );
+	mvaddstr(j, col, descs[j-1]);
+    }
 #else
-	for (j = 1; j < i; j++) {	/* by Yasha */
-		move(j, col);		/* by Yasha */
-		clrtoeol();		/* by Yasha */
-		addstr(descs[j-1]);	/* by Yasha */
-	}				/* by Yasha */
-	move(DROWS - 1, 0);	/* by Yasha */
+    for (j = 1; j < i; j++) {	/* by Yasha */
+	move(j, col);		/* by Yasha */
 	clrtoeol();		/* by Yasha */
-	print_stats(STAT_ALL);	/* by Yasha */
+	addstr(descs[j-1]);	/* by Yasha */
+    }				/* by Yasha */
+    move(DROWS - 1, 0);	        /* by Yasha */
+    clrtoeol();		        /* by Yasha */
+    print_stats(STAT_ALL);	/* by Yasha */
 #endif
 #endif
 
-	if (obj)
-		goto nextpage;
+    if (obj) {
+	goto nextpage;
+    }
 }
 
 void
@@ -652,154 +661,166 @@ struct	dobj {
 void
 discovered(void)
 {
-	short i, j, n;
-	short ch, maxlen, found;
-	short row, col;
-	struct dlist *dp, *enddp;
-	struct dobj *op;
-	char *p;
+    short i, j, n;
+    short ch, maxlen, found;
+    short row, col;
+    struct dlist *dp, *enddp;
+    struct dobj *op;
+    char *p;
 #ifdef JAPAN
-	char *msg = "  ＝スペースを押してください＝";
-	short len = 30;
+    char *msg = "  ＝スペースを押してください＝";
+    short len = 30;
 #else
-	char *msg = " --Press space to continue--";
-	short len = 28;
+    char *msg = " --Press space to continue--";
+    short len = 28;
 #endif
 
-	message(mesg[45], 0);
-	while (r_index("?!/=*\033", (ch = rgetchar()), 0) == -1)
-		sound_bell();
-	check_message();
-	if (ch == '\033')
-		return;
+    message(mesg[45], 0);
+    while (r_index("?!/=*\033", (ch = rgetchar()), 0) == -1) {
+	sound_bell();
+    }
+    check_message();
+    if (ch == '\033') {
+	return;
+    }
 
-	found = 0;
-	dp = dlist;
-	for (op = dobj; op->type; op++) {
-		if (ch != op->ch && ch != '*')
-			continue;
-		for (i = 0; i < op->max; i++) {
-			j = op->id[i].id_status;
-			if (j == IDENTIFIED || j == CALLED) {
-				dp->type = op->type;
-				dp->no = i;
-				dp->name = op->name;
-				if (wizard || j == IDENTIFIED) {
-					dp->real = op->id[i].real;
+    found = 0;
+    dp = dlist;
+    for (op = dobj; op->type; op++) {
+	if (ch != op->ch && ch != '*') {
+	    continue;
+	}
+	for (i = 0; i < op->max; i++) {
+	    j = op->id[i].id_status;
+	    if (j == IDENTIFIED || j == CALLED) {
+		dp->type = op->type;
+		dp->no = i;
+		dp->name = op->name;
+		if (wizard || j == IDENTIFIED) {
+		    dp->real = op->id[i].real;
 #ifdef JAPAN
-					dp->sub  = "";
+		    dp->sub  = "";
 #endif
-				} else {
-					dp->real = op->id[i].title;
+		} else {
+		    dp->real = op->id[i].title;
 #ifdef JAPAN
-					dp->sub  = mesg[34];
+		    dp->sub  = mesg[34];
 #endif
-				}
+		}
 #ifndef JAPAN
-				if (op->type == WAND && is_wood[i])
-					dp->name = "staff ";
+		if (op->type == WAND && is_wood[i]) {
+		    dp->name = "staff ";
+		}
 #endif
-				found |= op->type;
-				dp++;
-			}
-		}
-		if ((found & op->type) == 0) {
-			dp->type = op->type;
-			dp->no = -1;
-			dp->name = op->name;
-			dp++;
-		}
-		dp->type = 0;
+		found |= op->type;
 		dp++;
+	    }
 	}
-	enddp = dp;
-
-	if (found == 0) {
-		message(mesg[46], 0);
-		return;
+	if ((found & op->type) == 0) {
+	    dp->type = op->type;
+	    dp->no = -1;
+	    dp->name = op->name;
+	    dp++;
 	}
+	dp->type = 0;
+	dp++;
+    }
+    enddp = dp;
 
-	dp = dlist;
+    if (found == 0) {
+	message(mesg[46], 0);
+	return;
+    }
+
+    dp = dlist;
 
 nextpage:
-	i = 0;
-	maxlen = len;
-	while (dp < enddp && i < DROWS-2) {
-		p = descs[i];
-		if (dp->type == 0) {
-			(void) strcpy(p, "");
-		} else if (dp->no < 0) {
-			(void) sprintf(p, mesg[47], dp->name);
+    i = 0;
+    maxlen = len;
+    while (dp < enddp && i < DROWS-2) {
+	p = descs[i];
+	if (dp->type == 0) {
+	    (void) strcpy(p, "");
+	} else if (dp->no < 0) {
+	    (void) sprintf(p, mesg[47], dp->name);
 #ifndef JAPAN
-			descs[i][strlen(p)-1] = 's';
+	    descs[i][strlen(p)-1] = 's';
 #endif
+	} else {
 #ifdef JAPAN
-		} else {
-			(void) strcpy(p, "  ");
-			(void) strcat(p, dp->real);
-			(void) strcat(p, dp->sub);
-			(void) strcat(p, dp->name);
+	    (void) strcpy(p, "  ");
+	    (void) strcat(p, dp->real);
+	    (void) strcat(p, dp->sub);
+	    (void) strcat(p, dp->name);
 #else
-		} else {
-			p[0] = ' ';
-			(void) strcpy(p+1, dp->name);
-			(void) strcat(p, dp->real);
-			p[1] -= 'a' - 'A';
+	    p[0] = ' ';
+	    (void) strcpy(p+1, dp->name);
+	    (void) strcat(p, dp->real);
+	    p[1] -= 'a' - 'A';
 #endif
-		}
-		if ((n = strlen(p)) > maxlen)
-			maxlen = n;
-		i++;
-		dp++;
 	}
-
-	if (i == 0 || ( i == 1 && !descs[0][0] ) ) {
-		/*
-		 * can be here only in 2nd pass (exactly one page)
-		 */
-		return;
+	if ((n = strlen(p)) > maxlen) {
+	    maxlen = n;
 	}
+	i++;
+	dp++;
+    }
 
-	strcpy(descs[i++], msg);
-	col = DCOLS - (maxlen + 2);
-	for (row = 0; row < i; row++) {
-		if (row > 0) {
-			for (j = col; j < DCOLS; j++)
-				descs[row-1][j-col] = mvinch(row, j);
-			descs[row-1][j-col] = 0;
-		}
-		mvaddstr(row, col, descs[row]);
-		clrtoeol();
+    if (i == 0 || ( i == 1 && !descs[0][0] ) ) {
+	/*
+	 * can be here only in 2nd pass (exactly one page)
+	 */
+	return;
+    }
+
+    strcpy(descs[i++], msg);
+    col = DCOLS - (maxlen + 2);
+    for (row = 0; row < i; row++) {
+	if (row > 0) {
+	    for (j = col; j < DCOLS; j++) {
+		descs[row-1][j-col] = mvinch(row, j) & A_CHARTEXT;
+	    }
+	    descs[row-1][j-col] = 0;
 	}
-	refresh();
-	wait_for_ack();
-
-	move(0, 0);
+	attrset( COLOR_PAIR(0) );
+	mvaddstr(row, col, descs[row]);
 	clrtoeol();
+    }
+    refresh();
+    wait_for_ack();
+
+    move(0, 0);
+    clrtoeol();
 #ifdef COLOR
-	for (j = 1; j < i; j++) {
-		move(j, col);
-		for (p = descs[j-1]; *p; p++)
-			addch(colored(*p));
+    for (j = 1; j < i; j++) {
+	move(j, col);
+	for (p = descs[j-1]; *p; p++) {
+	    attrset( COLOR_PAIR( c_attr[(signed)*p] ) );
+	    addch(colored(*p));
+	    attrset( COLOR_PAIR(0) );
 	}
+    }
 #else
 #if defined(CURSES) || !defined(JAPAN)	/* if.. by Yasha */
-	for (j = 1; j < i; j++)
-		mvaddstr(j, col, descs[j-1]);
+    for (j = 1; j < i; j++) {
+	attrset( COLOR_PAIR(0) );
+	mvaddstr(j, col, descs[j-1]);
+    }
 #else
-	for (j = 1; j < i; j++) {	/* by Yasha */
-		move(j, col);		/* by Yasha */
-		clrtoeol();		/* by Yasha */
-		addstr(descs[j-1]);	/* by Yasha */
-	}				/* by Yasha */
-	move(DROWS - 1, 0);	/* by Yasha */
+    for (j = 1; j < i; j++) {	/* by Yasha */
+	move(j, col);		/* by Yasha */
 	clrtoeol();		/* by Yasha */
-	print_stats(STAT_ALL);	/* by Yasha */
+	addstr(descs[j-1]);	/* by Yasha */
+    }				/* by Yasha */
+    move(DROWS - 1, 0);	/* by Yasha */
+    clrtoeol();		/* by Yasha */
+    print_stats(STAT_ALL);	/* by Yasha */
 #endif
 #endif
 
-	if (dp < enddp)
-		goto nextpage;
+    if (dp < enddp) {
+	goto nextpage;
+    }
 }
 #endif /*ORIGINAL*/
 

@@ -70,40 +70,42 @@ trap_player(short row, short col)
 	}
 	switch(t) {
 	case TRAP_DOOR:
-		trap_door = 1;
-		new_level_message = trap_strings[(t*2)+1];
-		break;
+	    trap_door = 1;
+	    new_level_message = trap_strings[(t*2)+1];
+	    break;
 	case BEAR_TRAP:
-		message(trap_strings[(t*2)+1], 1);
-		bear_trap = get_rand(4, 7);
-		break;
+	    message(trap_strings[(t*2)+1], 1);
+	    bear_trap = get_rand(4, 7);
+	    break;
 	case TELE_TRAP:
-		mvaddch(rogue.row, rogue.col, colored('^'));
-		tele();
-		break;
+	    attrset( COLOR_PAIR( c_attr['^'] ) );
+	    mvaddch(rogue.row, rogue.col, colored('^'));
+	    attrset( COLOR_PAIR(0) );
+	    tele();
+	    break;
 	case DART_TRAP:
-		message(trap_strings[(t*2)+1], 1);
-		rogue.hp_current -= get_damage("1d6", 1);
-		if (rogue.hp_current <= 0) {
-			rogue.hp_current = 0;
-		}
-		if ((!sustain_strength) && rand_percent(40) &&
-			(rogue.str_current >= 3)) {
-			rogue.str_current--;
-		}
-		print_stats(STAT_HP | STAT_STRENGTH);
-		if (rogue.hp_current <= 0) {
-			killed_by((object *) 0, POISON_DART);
-		}
-		break;
+	    message(trap_strings[(t*2)+1], 1);
+	    rogue.hp_current -= get_damage("1d6", 1);
+	    if (rogue.hp_current <= 0) {
+		rogue.hp_current = 0;
+	    }
+	    if ((!sustain_strength) && rand_percent(40) &&
+		(rogue.str_current >= 3)) {
+		rogue.str_current--;
+	    }
+	    print_stats(STAT_HP | STAT_STRENGTH);
+	    if (rogue.hp_current <= 0) {
+		killed_by((object *) 0, POISON_DART);
+	    }
+	    break;
 	case SLEEPING_GAS_TRAP:
-		message(trap_strings[(t*2)+1], 1);
-		take_a_nap();
-		break;
+	    message(trap_strings[(t*2)+1], 1);
+	    take_a_nap();
+	    break;
 	case RUST_TRAP:
-		message(trap_strings[(t*2)+1], 1);
-		rust((object *) 0);
-		break;
+	    message(trap_strings[(t*2)+1], 1);
+	    rust((object *) 0);
+	    break;
 	}
 }
 
@@ -178,15 +180,17 @@ id_trap(void)
 void
 show_traps(void)
 {
-	short i, j;
+    short i, j;
 
-	for (i = 0; i < DROWS; i++) {
-		for (j = 0; j < DCOLS; j++) {
-			if (dungeon[i][j] & TRAP) {
-				mvaddch(i, j, colored('^'));
-			}
-		}
+    for (i = 0; i < DROWS; i++) {
+	for (j = 0; j < DCOLS; j++) {
+	    if (dungeon[i][j] & TRAP) {
+		attrset( COLOR_PAIR( c_attr['^'] ) );
+		mvaddch(i, j, colored('^'));
+		attrset( COLOR_PAIR(0) );
+	    }
 	}
+    }
 }
 
 void
@@ -223,7 +227,9 @@ search(short n, boolean is_auto)
 						dungeon[row][col] &= (~HIDDEN);
 						if ((!blind) && ((row != rogue.row) ||
 								(col != rogue.col))) {
-							mvaddch(row, col, colored(get_dungeon_char(row, col)));
+						    attrset( COLOR_PAIR( c_attr[get_dungeon_char(row, col)] ) );
+						    mvaddch(row, col, colored(get_dungeon_char(row, col)));
+						    attrset( COLOR_PAIR(0) );
 						}
 						shown++;
 						if (dungeon[row][col] & TRAP) {

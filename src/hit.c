@@ -263,7 +263,9 @@ mon_damage(object *monster, int damage)
 	row = monster->row;
 	col = monster->col;
 	dungeon[row][col] &= ~MONSTER;
+	attrset( COLOR_PAIR( c_attr[get_dungeon_char(row, col)] ) ); 
 	mvaddch(row, col, colored(get_dungeon_char(row, col)));
+	attrset( COLOR_PAIR(0));
 
 	fight_monster = 0;
 	cough_up(monster);
@@ -299,7 +301,7 @@ fight(boolean to_the_death)
     col = rogue.col;
     get_dir_rc(ch, &row, &col, 0);
 
-    c = mvinch(row, col);
+    c = mvinch(row, col) & A_CHARTEXT;
     if (((c < 'A') || (c > 'Z')) ||
 	(!can_move(rogue.row, rogue.col, row, col))) {
 	message(mesg[25], 0);

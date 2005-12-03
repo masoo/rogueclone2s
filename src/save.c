@@ -365,7 +365,7 @@ rw_dungeon(FILE *fp, boolean rw)
 			}						/* by Yasha */
 #endif
 			for (j = 0; j < DCOLS; j++) {
-				buf[j] = mvinch(i, j);
+			    buf[j] = mvinch(i, j) & A_CHARTEXT;
 			}
 			r_write(fp, buf, DCOLS);
 		} else {
@@ -374,18 +374,26 @@ rw_dungeon(FILE *fp, boolean rw)
 
 #if defined(JAPAN) && !defined(CURSES)
 			if (i == DROWS - 1) {			/* by Yasha */
-				mvaddstr(DROWS - 1, 0, buf);	/* by Yasha */
-				break;				/* by Yasha */
+			    attrset( COLOR_PAIR(0) );
+			    mvaddstr(DROWS - 1, 0, buf);	/* by Yasha */
+			    break;				/* by Yasha */
 			}					/* by Yasha */
 #endif
 			for (j = 0; j < DCOLS; j++) {
 #ifdef COLOR
-				if (i < MIN_ROW || i >= DROWS - 1)
-					mvaddch(i, j, (unsigned char) buf[j]);
-				else
-					mvaddch(i, j, colored(buf[j]));
-#else
+			    if (i < MIN_ROW || i >= DROWS - 1) {
+				attrset( COLOR_PAIR( c_attr[(unsigned char)buf[j]] ) );
 				mvaddch(i, j, (unsigned char) buf[j]);
+				attrset( COLOR_PAIR(0) );
+			    } else {
+				attrset( COLOR_PAIR( c_attr[(unsigned char)buf[j]] ) );
+				mvaddch(i, j, colored(buf[j]));
+				attrset( COLOR_PAIR(0) );
+			    }
+#else
+			    attrset( COLOR_PAIR( c_attr[buf[j]] ) );
+			    mvaddch(i, j, (unsigned char) buf[j]);
+			    attrset( COLOR_PAIR(0) );
 #endif
 			}
 		}

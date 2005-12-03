@@ -43,7 +43,7 @@ char org_dir[64], *game_dir = "";
 #ifdef COLOR
 char *color_str = "cbmyg";
 boolean do_color = 1;
-short c_buf[5];
+/* short c_buf[5]; */
 short c_attr[256];
 #endif
 #ifdef UNIX
@@ -65,59 +65,68 @@ extern boolean jump;
 int
 init(int argc, char *argv[])
 {
-	char *pn;
-	int seed;
+    char *pn;
+    int seed;
+    WINDOW *main_window;
 
 #ifndef ORIGINAL
-	md_getcwd(org_dir, 64);
+    md_getcwd(org_dir, 64);
 #endif
-	do_args(argc, argv);
-	do_opts();
+    do_args(argc, argv);
+    do_opts();
 
-	pn = md_gln();
-	if ((!pn) || (strlen(pn) >= 30)) {
-		clean_up(mesg[13]);
-	}
-	(void) strcpy(login_name, pn);
-	if (!nick_name[0])
-		nick_name = login_name;
+    pn = md_gln();
+    if ((!pn) || (strlen(pn) >= 30)) {
+	clean_up(mesg[13]);
+    }
+    (void) strcpy(login_name, pn);
+    if (!nick_name[0]) {
+	nick_name = login_name;
+    }
 
-	initscr();
+    /* init curses */
+    main_window = initscr();
+    if ( main_window == NULL ) {
+	return 1;
+    }
+
+    set_color_map();
 
 #ifndef MSDOS
-	if ((LINES < DROWS) || (COLS < DCOLS)) {
-		clean_up(mesg[14]);
-	}
+    if ((LINES < DROWS) || (COLS < DCOLS)) {
+	clean_up(mesg[14]);
+    }
 #endif
 
-	start_window();
-	init_curses = 1;
-	md_heed_signals();
+    start_window();
+    init_curses = 1;
+    md_heed_signals();
 
-	if (score_only) {
-		message("", 0);		/* by Yasha */
-		put_scores((object *) 0, 0);
-	}
-	seed = md_gseed();
-	(void) srrandom(seed);
+    if (score_only) {
+	message("", 0);		/* by Yasha */
+	put_scores((object *) 0, 0);
+    }
+    seed = md_gseed();
+    (void) srrandom(seed);
 #ifndef ORIGINAL
-	if (do_restore && save_file && *save_file)
-		rest_file = save_file;
+    if (do_restore && save_file && *save_file) {
+	rest_file = save_file;
+    }
 #endif
-	if (rest_file) {
-		restore(rest_file);
-		return(1);
-	}
-	mix_colors();
-	get_wand_and_ring_materials();
-	make_scroll_titles();
+    if (rest_file) {
+	restore(rest_file);
+	return(1);
+    }
+    mix_colors();
+    get_wand_and_ring_materials();
+    make_scroll_titles();
 
-	level_objects.next_object = 0;
-	level_monsters.next_monster = 0;
-	player_init();
-	party_counter = get_rand(1, PARTY_TIME);
-	ring_stats(0);
-	return(0);
+    level_objects.next_object = 0;
+    level_monsters.next_monster = 0;
+    player_init();
+    party_counter = get_rand(1, PARTY_TIME);
+    ring_stats(0);
+    return(0);
 }
 
 void
@@ -530,12 +539,84 @@ set_opts(char *env)
 	}
 #endif
 
+	set_color_map();
+
 #ifndef ORIGINAL
 	if (game_dir && *game_dir)
 		md_chdir(game_dir);
 #endif
 }
 
+void
+set_color_map(void)
+{
+    int c_buf[5];
+    char color_type[] = "wrgybmcWRGYBMC";
+
+    if ( color_str && *color_str ) {
+	for ( int i = 0;  i < 5 && color_str[i]; i++) {
+	    int j;
+	    j = r_index(color_type, color_str[i], 0);
+	    if (j >= 0) {
+		switch ( color_type[j] ) {
+		case 'w':
+		case 'W':
+		    c_buf[i] = WHITE;
+		    break;
+		case 'r':
+		case 'R':
+		    c_buf[i] = RED;
+		    break;
+		case 'g':
+		case 'G':
+		    c_buf[i] = GREEN;
+		    break;
+		case 'y':
+		case 'Y':
+		    c_buf[i] = YELLOW;
+		    break;
+		case 'b':
+		case 'B':
+		    c_buf[i] = BLUE;
+		    break;
+		case 'm':
+		case 'M':
+		    c_buf[i] = MAGENTA;
+		    break;
+		case 'c':
+		case 'C':
+		    c_buf[i] = CYAN;
+		    break;
+		default:
+		    c_buf[i] = 0;
+		    break;
+		}
+	    }
+	}
+    }
+    if ( has_colors() ) {
+	start_color();
+        init_pair(WHITE, COLOR_WHITE, COLOR_BLACK);
+        init_pair(RED, COLOR_RED, COLOR_BLACK);
+        init_pair(GREEN, COLOR_GREEN, COLOR_BLACK);
+        init_pair(YELLOW, COLOR_YELLOW, COLOR_BLACK);
+        init_pair(BLUE, COLOR_BLUE, COLOR_BLACK);
+        init_pair(MAGENTA, COLOR_MAGENTA, COLOR_BLACK);
+        init_pair(CYAN, COLOR_CYAN, COLOR_BLACK);
+        //カラーマップ毎の処理を記述
+        for ( char *ch = "-|#+"; *ch; ch++ ) {
+            c_attr[(signed)*ch] = c_buf[0];
+        }
+        c_attr['.'] = c_buf[1];
+        for ( char ch = 'A'; ch <= 'Z'; ch++ ) {
+            c_attr[(signed)ch] = c_buf[2];
+        }
+        for ( char *ch = "%!?/=)]^*:,"; *ch; ch++ ) {
+            c_attr[(signed)*ch] = c_buf[3];
+        }
+        c_attr[rogue.fchar] = c_buf[4];
+    }
+}
 #ifdef MSDOS
 get_hex_num(p, n)
 char *p;

@@ -421,13 +421,22 @@ char *md_gdtcf();
 #endif /*CURSES*/
 
 #ifdef COLOR
-#define WHITE	 0
-#define RED	 1
-#define GREEN	 2
-#define YELLOW	 3
-#define BLUE	 4
-#define	MAGENTA	 5
-#define CYAN	 6
+enum rogue_color_map {
+    WHITE = 1,
+    RED = 2,
+    GREEN = 3,
+    YELLOW = 4,
+    BLUE = 5,
+    MAGENTA = 6,
+    CYAN = 7
+};
+//#define WHITE	 0
+//#define RED	 1
+//#define GREEN	 2
+//#define YELLOW	 3
+//#define BLUE	 4
+//#define	MAGENTA	 5
+//#define CYAN	 6
 #define RWHITE	 8
 #define RRED	 9
 #define RGREEN	 10

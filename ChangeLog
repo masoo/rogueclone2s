@@ -1,6 +1,10 @@
+2005-12-03  FUNABARA Masao
+
+	* ALL_FILE : Ncurses での画面のカラー化
+
 2005-11-29  FUNABARA Masao
 
-	* 全てのファイル : 削除できていなかったregister の記憶クラス演算子を削除
+	* ALL_FILE : 削除できていなかったregister の記憶クラス演算子を削除
 
 2005-11-27  FUNABARA Masao
 
@@ -34,7 +38,7 @@
 
 2005-11-22  FUNABARA Masao
 
-	* 全てのファイル : register の記憶クラス演算子をファイルから削除
+	* ALL_FILE : register の記憶クラス演算子をファイルから削除
 
 	* rogue.h : 関数の外部宣言の削除
 	各ヘッダファイルに外部宣言を分散させたことによる

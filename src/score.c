@@ -102,11 +102,13 @@ killed_by(object *monster, short other)
 		for (i = 0; i < 14; i++)
 			mvaddstr(i+3, xpos[i], str[i]);
 #ifdef COLOR
+		attrset( COLOR_PAIR( c_attr['*'] ) );
 		mvaddch(15, DCOLS/2-11, '*');	/* by Yasha */
 		mvaddch(15, DCOLS/2-4, '*');	/* by Yasha */
 		mvaddch(15, DCOLS/2-1, '*');	/* by Yasha */
 		mvaddch(15, DCOLS/2+2, '*');	/* by Yasha */
 		mvaddch(15, DCOLS/2+11, '*');	/* by Yasha */
+		attrset( COLOR_PAIR(0) );
 /*		mvaddch(15, 29, '*');
 		mvaddch(15, 36, '*');
 		mvaddch(15, 39, '*');
@@ -380,14 +382,22 @@ mvaddbanner(int row, int col, int *ban)
 
 	move(row, col);
 	for (i = 0; i < 59; i++) {
-		if (ban[i >> 3] & (0x80 >> (i & 7)))
+	    if (ban[i >> 3] & (0x80 >> (i & 7))) {
 #ifdef COLOR
-			addch(rev);
+
+		attrset( COLOR_PAIR( c_attr[rev] ) );
+		addch(rev);
+		attrset( COLOR_PAIR(0) );
 #else
-			addch('@');
+		attrset( COLOR_PAIR( c_attr['@'] ) );
+		addch('@');
+		attrset( COLOR_PAIR(0) );
 #endif
-		else
-			addch(' ');
+	    } else {
+		attrset( COLOR_PAIR( c_attr[' '] ) );
+		addch(' ');
+		attrset( COLOR_PAIR(0) );
+	    }
 	}
 }
 #endif
@@ -408,7 +418,7 @@ quit(boolean from_intrpt)
 		mc = msg_cleared;
 
 		for (i = 0; i < DCOLS; i++) {
-			buf[i] = mvinch(0, i);
+		    buf[i] = mvinch(0, i) & A_CHARTEXT;
 		}
 	}
 	check_message();
@@ -422,7 +432,9 @@ quit(boolean from_intrpt)
 		check_message();
 		if (from_intrpt) {
 			for (i = 0; i < DCOLS; i++) {
-				mvaddch(0, i, (unsigned char) buf[i]);
+			    attrset( COLOR_PAIR( c_attr[(unsigned char) buf[i]] ) );
+			    mvaddch(0, i, (unsigned char) buf[i]);
+			    attrset( COLOR_PAIR(0) );
 			}
 			msg_cleared = mc;
 			move(orow, ocol);
@@ -552,11 +564,15 @@ put_scores(object *monster, short other)
 	md_ignore_signals();
 	clear();
 #ifdef JAPAN
+	attrset( COLOR_PAIR(YELLOW) );
 	mvaddstr(3, 20, mesg[187]);
+	attrset( COLOR_PAIR(0) );
 #else
 	mvaddstr(3, 25, mesg[187]);
 #endif
+	attrset( COLOR_PAIR(GREEN) );
 	mvaddstr(6, 0, mesg[188]);
+	attrset( COLOR_PAIR(0) );
 #ifdef COLOR
 	standend();
 #endif
@@ -565,9 +581,11 @@ put_scores(object *monster, short other)
 		scores[i][2] = (i == 9)? '0': '1' + i;
 		nickize(buf, scores[i], n_names[i]);
 		if (i == rank) {
-			standout();
+			attrset( COLOR_PAIR(CYAN) );
+			attron(A_REVERSE);
 			mvaddstr(i+8, 0, buf);
-			standend();
+			attroff(A_REVERSE);
+			attrset( COLOR_PAIR(0) );
 		} else
 			mvaddstr(i+8, 0, buf);
 	}

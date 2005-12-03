@@ -39,33 +39,36 @@ extern short cur_level;
 void
 message(char *msg, boolean intrpt)
 {
-	if (!save_is_interactive) {
-		return;
-	}
-	if (intrpt) {
-		interrupted = 1;
-		md_slurp();
-	}
-	cant_int = 1;
+    if (!save_is_interactive) {
+	return;
+    }
+    if (intrpt) {
+	interrupted = 1;
+	md_slurp();
+    }
+    cant_int = 1;
 
-	if (!msg_cleared) {
-		mvaddstr(MIN_ROW-1, msg_col, mesg[11]);
-		refresh();
-		wait_for_ack();
-		check_message();
-	}
-	(void) strcpy(msg_line, msg);
-	mvaddstr(MIN_ROW-1, 0, msg);
-	addch(' ');
+    if (!msg_cleared) {
+	mvaddstr(MIN_ROW-1, msg_col, mesg[11]);
 	refresh();
-	msg_cleared = 0;
-	msg_col = strlen(msg);
+	wait_for_ack();
+	check_message();
+    }
+    (void) strcpy(msg_line, msg);
+    attrset( COLOR_PAIR(0) );
+    mvaddstr(MIN_ROW-1, 0, msg);
+    attrset( COLOR_PAIR( c_attr[' '] ) );
+    addch(' ');
+    attrset( COLOR_PAIR(0) );
+    refresh();
+    msg_cleared = 0;
+    msg_col = strlen(msg);
 
-	cant_int = 0;
-	if (did_int) {
-		did_int = 0;
-		onintr(0); /* 「0」に意味はないが警告除去のために値を入れる。onintr関数を見直す必要がある。 */
-	}
+    cant_int = 0;
+    if (did_int) {
+	did_int = 0;
+	onintr(0); /* 「0」に意味はないが警告除去のために値を入れる。onintr関数を見直す必要がある。 */
+    }
 }
 
 void
@@ -119,46 +122,49 @@ input_line(int row, int col, char *insert, char *buf, int ch)
 int
 do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char *buf, char *if_cancelled, boolean add_blank, boolean do_echo, int first_ch)
 {
-	short ch;
-	short i = 0, n = 0;
+    short ch;
+    short i = 0, n = 0;
 #ifdef JAPAN
-	short k;
-	char kanji[MAX_TITLE_LENGTH];
+    short k;
+    char kanji[MAX_TITLE_LENGTH];
 #endif
 #if defined(JAPAN) && !defined(CURSES)
-	char kdispbuf[3];		/* by Yasha */
+    char kdispbuf[3];		/* by Yasha */
 #endif
 
-	if (is_msg) {
-		message(prompt, 0);
-		n = strlen(prompt) + 1;
-	} else
-		mvaddstr(row, col, prompt);
+    if (is_msg) {
+	message(prompt, 0);
+	n = strlen(prompt) + 1;
+    } else {
+	attrset( COLOR_PAIR(0) );
+	mvaddstr(row, col, prompt);
+    }
 
-	if (insert[0]) {
-		mvaddstr(row, col+n, insert);
-		(void) strcpy(buf, insert);
-		i = strlen(insert);
+    if (insert[0]) {
+	attrset( COLOR_PAIR(0) );
+	mvaddstr(row, col+n, insert);
+	(void) strcpy(buf, insert);
+	i = strlen(insert);
 #ifdef JAPAN
-		k = 0;
-		while (k < i) {
-			ch = (unsigned char) insert[k];
+	k = 0;
+	while (k < i) {
+	    ch = (unsigned char) insert[k];
 #ifdef EUC
-			if (ch & 0x80) {	/* for EUC code by Yasha */
+	    if (ch & 0x80) {	/* for EUC code by Yasha */
 #else	/* Shift JIS */
-			if (ch>=0x81 && ch<=0x9f || ch>=0xe0 && ch<=0xfc) {
+	    if (ch>=0x81 && ch<=0x9f || ch>=0xe0 && ch<=0xfc) {
 #endif
-				kanji[k] = kanji[k+1] = 1;
-				k += 2;
-			} else {
-				kanji[k] = 0;
-				k++;
-			}
-		}
+		kanji[k] = kanji[k+1] = 1;
+		k += 2;
+	    } else {
+		kanji[k] = 0;
+		k++;
+	    }
+	}
 #endif /* JAPAN */
 		move(row, col+n+i);
 		refresh();
-	}
+    }
 
 #ifdef JAPAN
 	for (;;) {
@@ -172,8 +178,9 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 		if ((ch == '\b') && (i > 0)) {
 			i -= kanji[i-1]? 2: 1;
 			if (do_echo) {
-				mvaddstr(row, col+n+i, "  ");
-				move(row, col+n+i);
+			    attrset( COLOR_PAIR(0) );
+			    mvaddstr(row, col+n+i, "  ");
+			    move(row, col+n+i);
 			}
 #ifdef EUC
 		} else if ((ch >= ' ' && !(ch & 0x80))	/* by Yasha */
@@ -184,8 +191,11 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 			if ((ch != ' ') || (i > 0)) {
 				buf[i] = ch;
 				kanji[i] = 0;
-				if (do_echo)
-					addch((unsigned char) ch);
+				if (do_echo) {
+				    attrset( COLOR_PAIR( c_attr[ch] ) );
+				    addch((unsigned char) ch);
+				    attrset( COLOR_PAIR(0) );
+				}
 				i++;
 			}
 #ifdef EUC
@@ -204,8 +214,12 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 				kdispbuf[2] = '\0';	/* by Yasha */
 				addstr(kdispbuf);	/* by Yahsa */
 #else
+				attrset( COLOR_PAIR( c_attr[(unsigned char)buf[i]] ) );
 				addch((unsigned char) buf[i]);
+				attrset( COLOR_PAIR(0) );
+				attrset( COLOR_PAIR( c_attr[(unsigned char)buf[i+1]] ) );
 				addch((unsigned char) buf[i+1]);
+				attrset( COLOR_PAIR(0) );
 #endif
 			}
 			i += 2;
@@ -226,15 +240,19 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 			if ((ch != ' ') || (i > 0)) {
 				buf[i++] = ch;
 				if (do_echo) {
-					addch((unsigned char) ch);
+				    attrset( COLOR_PAIR( c_attr[(unsigned char) ch] ) );
+				    addch((unsigned char) ch);
+				    attrset( COLOR_PAIR(0) );
 				}
 			}
 		}
 		if ((ch == '\b') && (i > 0)) {
 			i--;
 			if (do_echo) {
-				mvaddch(row, col+n+i, ' ');
-				move(row, col+n+i);
+			    attrset( COLOR_PAIR( c_attr[' '] ) );
+			    mvaddch(row, col+n+i, ' ');
+			    attrset( COLOR_PAIR(0) );
+			    move(row, col+n+i);
 			}
 		}
 		refresh();
@@ -332,10 +350,12 @@ print_stats(int stat_mask)
 
 	if (stat_mask & STAT_LEVEL) {
 		if (label) {
-			mvaddstr(row, 0, mesg[56]);
+		    attrset( COLOR_PAIR(0) );
+		    mvaddstr(row, 0, mesg[56]);
 		}
 		/* max level taken care of in make_level() */
 		sprintf(buf, "%d", cur_level);
+		attrset( COLOR_PAIR(0) );
 #ifdef JAPAN
 		mvaddstr(row, 4, buf);
 #else
@@ -345,16 +365,18 @@ print_stats(int stat_mask)
 	}
 	if (stat_mask & STAT_GOLD) {
 		if (label) {
-			if (rogue.gold > MAX_GOLD) {
-				rogue.gold = MAX_GOLD;
-			}
+		    if (rogue.gold > MAX_GOLD) {
+			rogue.gold = MAX_GOLD;
+		    }
+		    attrset( COLOR_PAIR(0) );
 #ifdef JAPAN
-			mvaddstr(row, 7, mesg[57]);
+		    mvaddstr(row, 7, mesg[57]);
 #else
-			mvaddstr(row, 10, mesg[57]);
+		    mvaddstr(row, 10, mesg[57]);
 #endif
 		}
 		sprintf(buf, "%ld", rogue.gold);
+		attrset( COLOR_PAIR(0) );
 #ifdef JAPAN
 		mvaddstr(row, 13, buf);
 #else
@@ -364,17 +386,19 @@ print_stats(int stat_mask)
 	}
 	if (stat_mask & STAT_HP) {
 		if (label) {
+		    attrset( COLOR_PAIR(0) );
 #ifdef JAPAN
-			mvaddstr(row, 20, mesg[58]);
+		    mvaddstr(row, 20, mesg[58]);
 #else
-			mvaddstr(row, 23, mesg[58]);
+		    mvaddstr(row, 23, mesg[58]);
 #endif
-			if (rogue.hp_max > MAX_HP) {
-				rogue.hp_current -= (rogue.hp_max - MAX_HP);
-				rogue.hp_max = MAX_HP;
-			}
+		    if (rogue.hp_max > MAX_HP) {
+			rogue.hp_current -= (rogue.hp_max - MAX_HP);
+			rogue.hp_max = MAX_HP;
+		    }
 		}
 		sprintf(buf, "%d(%d)", rogue.hp_current, rogue.hp_max);
+		attrset( COLOR_PAIR(0) );
 #ifdef JAPAN
 		mvaddstr(row, 26, buf);
 #else
@@ -384,10 +408,11 @@ print_stats(int stat_mask)
 	}
 	if (stat_mask & STAT_STRENGTH) {
 		if (label) {
+		    attrset( COLOR_PAIR(0) );
 #ifdef JAPAN
-			mvaddstr(row, 35, mesg[59]);
+		    mvaddstr(row, 35, mesg[59]);
 #else
-			mvaddstr(row, 36, mesg[59]);
+		    mvaddstr(row, 36, mesg[59]);
 #endif
 		}
 		if (rogue.str_max > MAX_STRENGTH) {
@@ -396,17 +421,20 @@ print_stats(int stat_mask)
 		}
 		sprintf(buf, "%d(%d)", (rogue.str_current + add_strength),
 			rogue.str_max);
+		attrset( COLOR_PAIR(0) );
 		mvaddstr(row, 41, buf);
 		pad(buf, 6);
 	}
 	if (stat_mask & STAT_ARMOR) {
 		if (label) {
-			mvaddstr(row, 48, mesg[60]);
+		    attrset( COLOR_PAIR(0) );
+		    mvaddstr(row, 48, mesg[60]);
 		}
 		if (rogue.armor && (rogue.armor->d_enchant > MAX_ARMOR)) {
 			rogue.armor->d_enchant = MAX_ARMOR;
 		}
 		sprintf(buf, "%d", get_armor_class(rogue.armor));
+		attrset( COLOR_PAIR(0) );
 #ifdef JAPAN
 		mvaddstr(row, 54, buf);
 #else
@@ -416,14 +444,16 @@ print_stats(int stat_mask)
 	}
 	if (stat_mask & STAT_EXP) {
 		if (label) {
+		    attrset( COLOR_PAIR(0) );
 #ifdef JAPAN
-			mvaddstr(row, 57, mesg[61]);
+		    mvaddstr(row, 57, mesg[61]);
 #else
-			mvaddstr(row, 56, mesg[61]);
+		    mvaddstr(row, 56, mesg[61]);
 #endif
 		}
 		/*  Max exp taken care of in add_exp() */
 		sprintf(buf, "%d/%ld", rogue.exp, rogue.exp_points);
+		attrset( COLOR_PAIR(0) );
 #ifdef JAPAN
 		mvaddstr(row, 63, buf);
 #else
@@ -436,9 +466,11 @@ print_stats(int stat_mask)
 #ifdef CURSES
 /*#ifdef COLOR*/
 #endif
+	        attrset( COLOR_PAIR(0) );
 		mvaddstr(row, 75, hunger_str);
 		clrtoeol();
 #else
+		attrset( COLOR_PAIR(0) );
 		mvaddstr(row, 73, hunger_str);
 		clrtoeol();
 #endif
@@ -479,7 +511,9 @@ pad(char *s, short n)
 	short i;
 
 	for (i = strlen(s); i < n; i++) {
-		addch(' ');
+	    attrset( COLOR_PAIR( c_attr[' '] ) );
+	    addch(' ');
+	    attrset( COLOR_PAIR(0) );
 	}
 }
 
@@ -500,13 +534,13 @@ save_screen(void)
 		for (i = 0; i < DROWS; i++) {
 			found_non_blank = 0;
 			for (j = (DCOLS - 1); j >= 0; j--) {
-				buf[j] = mvinch(i, j);
-				if (!found_non_blank) {
-					if ((buf[j] != ' ') || (j == 0)) {
-						buf[j + ((j == 0) ? 0 : 1)] = 0;
-						found_non_blank = 1;
-					}
+			    buf[j] = mvinch(i, j) & A_CHARTEXT;
+			    if (!found_non_blank) {
+				if ((buf[j] != ' ') || (j == 0)) {
+				    buf[j + ((j == 0) ? 0 : 1)] = 0;
+				    found_non_blank = 1;
 				}
+			    }
 			}
 			fputs(buf, fp);
 			putc('\n', fp);

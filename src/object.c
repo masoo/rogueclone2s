@@ -148,7 +148,8 @@ int
 colored(int c)
 {
 	c &= 0xff;
-	return (do_color? (c | c_attr[c]): c);
+//	return (do_color? (c | c_attr[c]): c);
+	return c;
 }
 #endif
 
@@ -637,10 +638,12 @@ show_objects(void)
 				monster->trail_char = rc;
 			}
 		}
-		mc = mvinch(row, col);
+		mc = mvinch(row, col) & A_CHARTEXT;
 		if (((mc < 'A') || (mc > 'Z')) &&
 			((row != rogue.row) || (col != rogue.col))) {
-			mvaddch(row, col, colored(rc));
+		    attrset( COLOR_PAIR( c_attr[rc] ) );
+		    mvaddch(row, col, colored(rc));
+		    attrset( COLOR_PAIR(0) );
 		}
 		obj = obj->next_object;
 	}
@@ -649,7 +652,9 @@ show_objects(void)
 
 	while (monster) {
 		if (monster->m_flags & IMITATES) {
-			mvaddch(monster->row, monster->col, colored(monster->disguise));
+		    attrset( COLOR_PAIR( c_attr[monster->disguise] ) );
+		    mvaddch(monster->row, monster->col, colored(monster->disguise));
+		    attrset( COLOR_PAIR(0) );
 		}
 		monster = monster->next_monster;
 	}
@@ -850,14 +855,15 @@ list_object(object *obj, short max)
 
 	col = DCOLS - (maxlen + 2);
 	for (row = 0; row < i; row++) {
-		if (row > 0) {
-			for (j = col; j < DCOLS; j++) {
-				descs[row-1][j-col] = mvinch(row, j);
-			}
-			descs[row-1][j-col] = 0;
+	    if (row > 0) {
+		for (j = col; j < DCOLS; j++) {
+		    descs[row-1][j-col] = mvinch(row, j) & A_CHARTEXT;
 		}
-		mvaddstr(row, col, descs[row]);
-		clrtoeol();
+		descs[row-1][j-col] = 0;
+	    }
+	    attrset( COLOR_PAIR(0) );
+	    mvaddstr(row, col, descs[row]);
+	    clrtoeol();
 	}
 	refresh();
 	wait_for_ack();
@@ -866,13 +872,18 @@ list_object(object *obj, short max)
 	clrtoeol();
 #ifdef COLOR
 	for (j = 1; j < i; j++) {
-		move(j, col);
-		for (p = descs[j-1]; *p; p++)
-			addch(colored(*p));
+	    move(j, col);
+	    for (p = descs[j-1]; *p; p++) {
+		attrset( COLOR_PAIR( c_attr[(signed)*p] ) );
+		addch(colored(*p));
+		attrset( COLOR_PAIR(0) );
+	    }
 	}
 #else
-	for (j = 1; j < i; j++)
-		mvaddstr(j, col, descs[j-1]);
+	for (j = 1; j < i; j++) {
+	    attrset( COLOR_PAIR(0) );
+	    mvaddstr(j, col, descs[j-1]);
+	}
 #endif
 }
 #endif /*ORIGINAL*/

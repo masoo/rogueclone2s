@@ -30,72 +30,84 @@ extern boolean detect_monster;
 void
 light_up_room(int rn)
 {
-	short i, j;
+    short i, j;
 
-	if (!blind) {
-		for (i = rooms[rn].top_row;
-			i <= rooms[rn].bottom_row; i++) {
-			for (j = rooms[rn].left_col;
-				j <= rooms[rn].right_col; j++) {
-				if (dungeon[i][j] & MONSTER) {
-					object *monster;
+    if (!blind) {
+	for (i = rooms[rn].top_row;
+	     i <= rooms[rn].bottom_row; i++) {
+	    for (j = rooms[rn].left_col;
+		 j <= rooms[rn].right_col; j++) {
+		if (dungeon[i][j] & MONSTER) {
+		    object *monster;
 
-					if ( (monster = object_at(&level_monsters, i, j)) ) {
-						dungeon[monster->row][monster->col] &= (~MONSTER);
-						monster->trail_char =
-							get_dungeon_char(monster->row, monster->col);
-						dungeon[monster->row][monster->col] |= MONSTER;
-					}
-				}
-				mvaddch(i, j, colored(get_dungeon_char(i, j)));
-			}
+		    if ( (monster = object_at(&level_monsters, i, j)) ) {
+			dungeon[monster->row][monster->col] &= (~MONSTER);
+			monster->trail_char =
+			    get_dungeon_char(monster->row, monster->col);
+			dungeon[monster->row][monster->col] |= MONSTER;
+		    }
 		}
-		mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
+		attrset( COLOR_PAIR( c_attr[get_dungeon_char(i, j)] ) );
+		mvaddch(i, j, colored(get_dungeon_char(i, j)));
+		attrset(COLOR_PAIR(0));
+	    }
 	}
+	attrset( COLOR_PAIR( c_attr[rogue.fchar] ) );
+	mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
+	attrset(COLOR_PAIR(0));
+    }
 }
 
 void
 light_passage(int row, int col)
 {
-	short i, j, i_end, j_end;
+    short i, j, i_end, j_end;
 
-	if (blind) {
-		return;
-	}
-	i_end = (row < (DROWS-2)) ? 1 : 0;
-	j_end = (col < (DCOLS-1)) ? 1 : 0;
+    if (blind) {
+	return;
+    }
+    i_end = (row < (DROWS-2)) ? 1 : 0;
+    j_end = (col < (DCOLS-1)) ? 1 : 0;
 
-	for (i = ((row > MIN_ROW) ? -1 : 0); i <= i_end; i++) {
-		for (j = ((col > 0) ? -1 : 0); j <= j_end; j++) {
-			if (can_move(row, col, row+i, col+j)) {
-				mvaddch(row+i, col+j, colored(get_dungeon_char(row+i, col+j)));
-			}
-		}
+    for (i = ((row > MIN_ROW) ? -1 : 0); i <= i_end; i++) {
+	for (j = ((col > 0) ? -1 : 0); j <= j_end; j++) {
+	    if (can_move(row, col, row+i, col+j)) {
+		attrset( COLOR_PAIR( c_attr[get_dungeon_char(row+i, col+j)] ) );
+		mvaddch(row+i, col+j, colored(get_dungeon_char(row+i, col+j)));
+		attrset( COLOR_PAIR(0) );
+	    }
 	}
+    }
 }
 
 void
 darken_room(short rn)
 {
-	short i, j;
+    short i, j;
 
-	for (i = rooms[rn].top_row + 1; i < rooms[rn].bottom_row; i++) {
-		for (j = rooms[rn].left_col + 1; j < rooms[rn].right_col; j++) {
-			if (blind) {
-				mvaddch(i, j, colored(' '));
-			} else {
-				if (!(dungeon[i][j] & (OBJECT | STAIRS)) &&
-					!(detect_monster && (dungeon[i][j] & MONSTER))) {
-					if (!imitating(i, j)) {
-						mvaddch(i, j, colored(' '));
-					}
-					if ((dungeon[i][j] & TRAP) && (!(dungeon[i][j] & HIDDEN))) {
-						mvaddch(i, j, colored('^'));
-					}
-				}
-			}
+    for (i = rooms[rn].top_row + 1; i < rooms[rn].bottom_row; i++) {
+	for (j = rooms[rn].left_col + 1; j < rooms[rn].right_col; j++) {
+	    if (blind) {
+		attrset( COLOR_PAIR( c_attr[' '] ) );
+		mvaddch(i, j, colored(' '));
+		attrset( COLOR_PAIR(0) );
+	    } else {
+		if (!(dungeon[i][j] & (OBJECT | STAIRS)) &&
+		    !(detect_monster && (dungeon[i][j] & MONSTER))) {
+		    if (!imitating(i, j)) {
+			attrset( COLOR_PAIR( c_attr[' '] ) );
+			mvaddch(i, j, colored(' '));
+			attrset( COLOR_PAIR(0) );
+		    }
+		    if ((dungeon[i][j] & TRAP) && (!(dungeon[i][j] & HIDDEN))) {
+			attrset( COLOR_PAIR( c_attr['^'] ) );
+			mvaddch(i, j, colored('^'));
+			attrset( COLOR_PAIR(0) );
+		    }
 		}
+	    }
 	}
+    }
 }
 
 int
@@ -299,41 +311,44 @@ draw_magic_map(void)
 	unsigned short s;
 
 	for (i = 0; i < DROWS; i++) {
-		for (j = 0; j < DCOLS; j++) {
-			s = dungeon[i][j];
-			if (s & mask) {
-				if (((ch = mvinch(i, j)) == ' ') ||
-					((ch >= 'A') && (ch <= 'Z')) || (s & (TRAP | HIDDEN))) {
-					och = ch;
-					dungeon[i][j] &= (~HIDDEN);
-					if (s & HORWALL) {
-						ch = '-';
-					} else if (s & VERTWALL) {
-						ch = '|';
-					} else if (s & DOOR) {
-						ch = '+';
-					} else if (s & TRAP) {
-						ch = '^';
-					} else if (s & STAIRS) {
-						ch = '%';
-					} else if (s & TUNNEL) {
-						ch = '#';
-					} else {
-						continue;
-					}
-					if ((!(s & MONSTER)) || (och == ' ')) {
-						addch(colored(ch));
-					}
-					if (s & MONSTER) {
-						object *monster;
-
-						if ( (monster = object_at(&level_monsters, i, j)) ) {
-							monster->trail_char = ch;
-						}
-					}
-				}
+	    for (j = 0; j < DCOLS; j++) {
+		s = dungeon[i][j];
+		if (s & mask) {
+		    ch = mvinch(i, j) & A_CHARTEXT;
+		    if ((ch == ' ') ||
+			((ch >= 'A') && (ch <= 'Z')) || (s & (TRAP | HIDDEN))) {
+			och = ch;
+			dungeon[i][j] &= (~HIDDEN);
+			if (s & HORWALL) {
+			    ch = '-';
+			} else if (s & VERTWALL) {
+			    ch = '|';
+			} else if (s & DOOR) {
+			    ch = '+';
+			} else if (s & TRAP) {
+			    ch = '^';
+			} else if (s & STAIRS) {
+			    ch = '%';
+			} else if (s & TUNNEL) {
+			    ch = '#';
+			} else {
+			    continue;
 			}
+			if ((!(s & MONSTER)) || (och == ' ')) {
+			    attrset( COLOR_PAIR( c_attr[ch] ) );
+			    addch(colored(ch));
+			    attrset( COLOR_PAIR(0) );
+			}
+			if (s & MONSTER) {
+			    object *monster;
+
+			    if ( (monster = object_at(&level_monsters, i, j)) ) {
+				monster->trail_char = ch;
+			    }
+			}
+		    }
 		}
+	    }
 	}
 }
 

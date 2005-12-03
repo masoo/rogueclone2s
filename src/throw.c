@@ -69,11 +69,15 @@ throw(void)
 		un_put_on(weapon);
 	}
 	monster = get_thrown_at_monster(weapon, dir, &row, &col);
+	attrset( COLOR_PAIR( c_attr[rogue.fchar] ) );
 	mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
+	attrset( COLOR_PAIR(0) );
 	refresh();
 
 	if (rogue_can_see(row, col) && ((row != rogue.row) || (col != rogue.col))){
-		mvaddch(row, col, colored(get_dungeon_char(row, col)));
+	    attrset( COLOR_PAIR( c_attr[get_dungeon_char(row, col)] ) );
+	    mvaddch(row, col, colored(get_dungeon_char(row, col)));
+	    attrset( COLOR_PAIR(0) );
 	}
 	if (monster) {
 		wake_up(monster);
@@ -150,11 +154,15 @@ get_thrown_at_monster(object *obj, short dir, short *row, short *col)
 			return(0);
 		}
 		if ((i != 0) && rogue_can_see(orow, ocol)) {
-			mvaddch(orow, ocol, colored(get_dungeon_char(orow, ocol)));
+		    attrset( COLOR_PAIR( c_attr[get_dungeon_char(orow, ocol)] ) );
+		    mvaddch(orow, ocol, colored(get_dungeon_char(orow, ocol)));
+		    attrset( COLOR_PAIR(0) );
 		}
 		if (rogue_can_see(*row, *col)) {
 			if (!(dungeon[*row][*col] & MONSTER)) {
-				mvaddch(*row, *col, colored(ch));
+			    attrset( COLOR_PAIR( c_attr[ch] ) );
+			    mvaddch(*row, *col, colored(ch));
+			    attrset( COLOR_PAIR(0) );
 			}
 			refresh();
 		}
@@ -205,15 +213,19 @@ flop_weapon(object *weapon, short row, short col)
 			dungeon[row][col] &= (~MONSTER);
 			dch = get_dungeon_char(row, col);
 			if (mon) {
-				mch = mvinch(row, col);
-				if ( (monster = object_at(&level_monsters, row, col)) ) {
-					monster->trail_char = dch;
-				}
-				if ((mch < 'A') || (mch > 'Z')) {
-					mvaddch(row, col, colored(dch));
-				}
-			} else {
+			    mch = mvinch(row, col) & A_CHARTEXT;
+			    if ( (monster = object_at(&level_monsters, row, col)) ) {
+				monster->trail_char = dch;
+			    }
+			    if ((mch < 'A') || (mch > 'Z')) {
+				attrset( COLOR_PAIR( c_attr[dch] ) );
 				mvaddch(row, col, colored(dch));
+				attrset( COLOR_PAIR(0) );
+			    }
+			} else {
+			    attrset( COLOR_PAIR( c_attr[dch] ) );
+			    mvaddch(row, col, colored(dch));
+			    attrset( COLOR_PAIR(0) );
 			}
 			dungeon[row][col] |= mon;
 		}

@@ -331,13 +331,16 @@ help(void)
 	int row, col;
 	int n;
 
-	for (row = 0; row < DROWS; row++)
-		for (col = 0; col < DCOLS; col++)
-			descs[row][col] = mvinch(row, col);
+	for (row = 0; row < DROWS; row++) {
+	    for (col = 0; col < DCOLS; col++) {
+		descs[row][col] = mvinch(row, col) & A_CHARTEXT;
+	    }
+	}
 	clear();
 	for (n = 0; help_message[n]; n++) {
-		mvaddstr(n, 0, help_message[n]);
-		clrtoeol();
+	    attrset( COLOR_PAIR(0) );
+	    mvaddstr(n, 0, help_message[n]);
+	    clrtoeol();
 	}
 	refresh();
 	wait_for_ack();
@@ -352,12 +355,17 @@ help(void)
 		clrtoeol();	/* by Yasha */
 #endif
 		for (col = 0; col < DCOLS; col++) {
-			if (row == DROWS - 1 && col == DCOLS - 1)
-				continue;
-			if (row < MIN_ROW || row >= DROWS - 1)
-				addch((unsigned char) descs[row][col]);
-			else
-				addch(colored(descs[row][col]));
+		    if (row == DROWS - 1 && col == DCOLS - 1) {
+			continue;
+		    }
+		    if (row < MIN_ROW || row >= DROWS - 1) {
+			attrset( COLOR_PAIR(0) );
+			addch((unsigned char) descs[row][col]);
+		    } else {
+			attrset( COLOR_PAIR( c_attr[(unsigned char)descs[row][col]] ) );
+			addch(colored(descs[row][col]));
+			attrset( COLOR_PAIR(0) );
+		    }
 		}
 	}
 #if !defined(CURSES) && defined(JAPAN)
@@ -415,27 +423,30 @@ options(void)
 	char cbuf[DROWS][MAX_TITLE_LENGTH];
 	char optbuf[BUFSIZ];
 
-	for (row = 0; row < DROWS; row++)
-		for (col = 0; col < DCOLS; col++)
-			descs[row][col] = mvinch(row, col);
+	for (row = 0; row < DROWS; row++) {
+	    for (col = 0; col < DCOLS; col++) {
+		descs[row][col] = mvinch(row, col) & A_CHARTEXT;
+	    }
+	}
 	clear();
 	for (n = 0; envopt[n].name; n++) {
-		mvaddstr(n, 0, optdesc[n]);
-		addstr(" (\"");
-		addstr(envopt[n].name);
-		addstr("\"): ");
-		if (envopt[n].bp) {
-			bbuf[n] = *(envopt[n].bp);
-			addstr(bbuf[n]? "Yes": "No");
-		} else {
-			strcpy(cbuf[n], *(envopt[n].cp));
-			if (envopt[n].ab) {
-				i = strlen(cbuf[n]);
-				cbuf[n][i-1] = 0;
-			}
-			addstr(cbuf[n]);
+	    attrset( COLOR_PAIR(0) );
+	    mvaddstr(n, 0, optdesc[n]);
+	    addstr(" (\"");
+	    addstr(envopt[n].name);
+	    addstr("\"): ");
+	    if (envopt[n].bp) {
+		bbuf[n] = *(envopt[n].bp);
+		addstr(bbuf[n]? "Yes": "No");
+	    } else {
+		strcpy(cbuf[n], *(envopt[n].cp));
+		if (envopt[n].ab) {
+		    i = strlen(cbuf[n]);
+		    cbuf[n][i-1] = 0;
 		}
-		pos[n] = strlen(optdesc[n]) + strlen(envopt[n].name) + 7;
+		addstr(cbuf[n]);
+	    }
+	    pos[n] = strlen(optdesc[n]) + strlen(envopt[n].name) + 7;
 	}
 
 	i = 0;
@@ -463,8 +474,9 @@ options(void)
 			if (ch >= 'A' && ch <= 'Z')
 				ch += 'a'- 'Z';
 			if (ch != 'y' && ch != 'n') {
-				mvaddstr(i, pos[i], "(Yes or No)");
-				continue;
+			    attrset( COLOR_PAIR(0) );
+			    mvaddstr(i, pos[i], "(Yes or No)");
+			    continue;
 			}
 			addstr((ch == 'y')? "Yes": "No");
 			clrtoeol();
@@ -501,10 +513,15 @@ options(void)
 		for (col = 0; col < DCOLS; col++) {
 			if (row == DROWS - 1 && col == DCOLS - 1)
 				continue;
-			if (row < MIN_ROW || row >= DROWS - 1)
-				addch((unsigned char) descs[row][col]);
-			else
-				addch(colored(descs[row][col]));
+			if (row < MIN_ROW || row >= DROWS - 1) {
+			    attrset( COLOR_PAIR( c_attr[(unsigned char)descs[row][col]] ) );
+			    addch((unsigned char) descs[row][col]);
+			    attrset( COLOR_PAIR(0) );
+			} else {
+			    attrset( COLOR_PAIR( c_attr[(unsigned char)descs[row][col]] ) );
+			    addch(colored(descs[row][col]));
+			    attrset( COLOR_PAIR(0) );
+			}
 		}
 	}
 #if !defined(CURSES) && defined(JAPAN)

@@ -69,14 +69,18 @@ zapp(void)
 		row = rogue.row; col = rogue.col;
 #ifndef ORIGINAL
 		if (wand->which_kind == MAGIC_MISSILE) {
-			monster = get_missiled_monster(dir, &row, &col);
-			mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
-			refresh();
-			if ((row != rogue.row || col != rogue.col)
-					&& rogue_can_see(row, col)) {
-				mvaddch(row, col,
-					colored(get_dungeon_char(row, col)));
-			}
+		    monster = get_missiled_monster(dir, &row, &col);
+		    attrset( COLOR_PAIR( c_attr[rogue.fchar] ) );
+		    mvaddch(rogue.row, rogue.col, colored(rogue.fchar));
+		    attrset( COLOR_PAIR(0) );
+		    refresh();
+		    if ((row != rogue.row || col != rogue.col)
+			&& rogue_can_see(row, col)) {
+			attrset( COLOR_PAIR( c_attr[get_dungeon_char(row, col)] ) );
+			mvaddch(row, col,
+				colored(get_dungeon_char(row, col)));
+			attrset( COLOR_PAIR(0) );
+		    }
 		} else {
 			monster = get_zapped_monster(dir, &row, &col);
 		}
@@ -129,16 +133,23 @@ get_missiled_monster(short dir, short *row, short *col)
 			*col = ocol;
 			return(0);
 		}
-		if (!first && rogue_can_see(orow, ocol))
-			mvaddch(orow, ocol,
-				colored(get_dungeon_char(orow, ocol)));
+		if (!first && rogue_can_see(orow, ocol)) {
+		    attrset( COLOR_PAIR( c_attr[get_dungeon_char(orow, ocol)] ) );
+		    mvaddch(orow, ocol,
+			    colored(get_dungeon_char(orow, ocol)));
+		    attrset( COLOR_PAIR(0) );
+		}
 		if (rogue_can_see(*row, *col)) {
-			if (!(dungeon[*row][*col] & MONSTER))
+		    if (!(dungeon[*row][*col] & MONSTER)) {
 #ifdef COLOR
-				mvaddch(*row, *col, '*' | (RED << 8));
+			attrset( COLOR_PAIR( c_attr['*'] ) );
+			//mvaddch(*row, *col, '*' | (RED << 8));
+			mvaddch(*row, *col, '*');
+			attrset( COLOR_PAIR(0) );
 #else
-				mvaddch(*row, *col, '*');
+			mvaddch(*row, *col, '*');
 #endif
+		    }
 			refresh();
 		}
 		if (dungeon[*row][*col] & MONSTER) {
@@ -229,24 +240,28 @@ zap_monster(object *monster, unsigned short kind)
 void
 tele_away(object *monster)
 {
-	short row, col;
+    short row, col;
 
-	if (monster->m_flags & HOLDS) {
-		being_held = 0;
-	}
-	gr_row_col(&row, &col, (FLOOR | TUNNEL | STAIRS | OBJECT));
-	mvaddch(monster->row, monster->col,(unsigned char)monster->trail_char);
-	dungeon[monster->row][monster->col] &= ~MONSTER;
-	monster->row = row; monster->col = col;
-	dungeon[row][col] |= MONSTER;
-	monster->trail_char = mvinch(row, col);
-	if (detect_monster || rogue_can_see(row, col)) {
+    if (monster->m_flags & HOLDS) {
+	being_held = 0;
+    }
+    gr_row_col(&row, &col, (FLOOR | TUNNEL | STAIRS | OBJECT));
+    attrset( COLOR_PAIR( c_attr[(unsigned char)monster->trail_char] ) );
+    mvaddch(monster->row, monster->col,(unsigned char)monster->trail_char);
+    attrset( COLOR_PAIR(0) );
+    dungeon[monster->row][monster->col] &= ~MONSTER;
+    monster->row = row; monster->col = col;
+    dungeon[row][col] |= MONSTER;
+    monster->trail_char = mvinch(row, col) & A_CHARTEXT;
+    if (detect_monster || rogue_can_see(row, col)) {
 #ifdef COLOR
-		mvaddch(row, col, colored(gmc(monster)));
+	attrset( COLOR_PAIR( c_attr[gmc(monster)] ) );
+	mvaddch(row, col, colored(gmc(monster)));
+	attrset( COLOR_PAIR(0) );
 #else
-		mvaddch(row, col, gmc(monster));
+	mvaddch(row, col, gmc(monster));
 #endif
-	}
+    }
 }
 
 void
