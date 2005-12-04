@@ -150,7 +150,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 #ifdef EUC
 	    if (ch & 0x80) {	/* for EUC code by Yasha */
 #else /* Shift JIS */
-//	    if (ch >= 0x81 && ch <= 0x9f || ch >= 0xe0 && ch <= 0xfc) {
+	    if (ch >= 0x81 && ch <= 0x9f || ch >= 0xe0 && ch <= 0xfc) {
 #endif
 		kanji[k] = kanji[k + 1] = 1;
 		k += 2;
@@ -184,7 +184,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 #ifdef EUC
 	} else if ((ch >= ' ' && !(ch & 0x80))	/* by Yasha */
 #else /* Shift JIS */
-//	} else if ((ch >= ' ' && ch <= '~' || ch >= 0xa0 && ch <= 0xde)
+	} else if ((ch >= ' ' && ch <= '~' || ch >= 0xa0 && ch <= 0xde)
 #endif
 		   && (i < MAX_TITLE_LENGTH - 2)) {
 	    if ((ch != ' ') || (i > 0)) {
@@ -200,7 +200,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 #ifdef EUC
 	} else if ((ch & 0x80)	/* for EUC code by Yasha */
 #else /* Shift JIS */
-//	} else if ((ch >= 0x81 && ch <= 0x9f || ch >= 0xe0 && ch <= 0xfc)
+	} else if ((ch >= 0x81 && ch <= 0x9f || ch >= 0xe0 && ch <= 0xfc)
 #endif
 		   && (i < MAX_TITLE_LENGTH - 3)) {
 	    buf[i] = ch;
