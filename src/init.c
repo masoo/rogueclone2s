@@ -41,9 +41,7 @@ char org_dir[64], *game_dir = "";
 char *color_str = "cbmyg";
 boolean use_color = 1;
 int ch_attr[256];
-#ifdef UNIX
 char *error_file = "rogue.esave";
-#endif
 
 extern char *fruit;
 extern char *save_file;
