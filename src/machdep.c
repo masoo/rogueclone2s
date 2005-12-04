@@ -63,18 +63,6 @@
 #    include <sgtty.h>
 #  endif /* UNIX_BSD4_2 */
 #endif /* UNIX */
-#ifdef MSDOS
-#  ifdef LC4
-#    include <fcntl.h>
-#  else
-#    if !defined(__TURBOC__) || __TURBOC__ >= 0x0200
-#      include <sys\types.h>
-#    endif /* __TURBOC__ */
-#    include <sys\stat.h>
-#  endif /* LC4 */
-#  include <time.h>
-#  include <dos.h>
-#endif /* MSDOS */
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -83,69 +71,12 @@
 #include "machdep.h"
 #include "init.h"
 
-#if defined(MSDOS)	/* by Yasha */
-/*#ifdef MSDOS*/
-getchar()
-{
-	int c;
-
-	/*
-	 * hide cursor, and do console input
-	 */
-	putstr(cursor_on);
-#ifdef __TURBOC__
-	_AH = 0x07;
-	geninterrupt(0x21);
-	c = _AL;
-#else
-	c = bdos(7, 0, 0) & 0xff;
-#endif
-	putstr(cursor_off);
-	return (c);
-}
-
-putchar(c)
-	int c;
-{
-#ifdef __TURBOC__
-	_AH = 0x02;
-	_AL = c;
-	geninterrupt(0x29);
-#else /* MS-C */
-	union REGS regs;
-	regs.h.ah = 0x02;
-	regs.h.al = c;
-	int86(0x29, &regs, &regs);
-#endif
-}
-
-putstr(s)
-	char *s;
-{
-#ifdef __TURBOC__
-	while (*s) {
-		_AH = 0x02;
-		_AL = *s++;
-		geninterrupt(0x29);
-	}
-#else /* MS-C */
-	union REGS regs;
-	while (*s) {
-		regs.h.ah = 0x02;
-		regs.h.al = *s++;
-		int86(0x29, &regs, &regs);
-	}
-#endif
-}
-
-#else /* MSDOS */
 void
 putstr(char *s)
 {
 	while (*s)
 		putchar(*s++);
 }
-#endif /* MSDOS */
 
 #ifndef ORIGINAL
 /*
@@ -188,7 +119,6 @@ md_getcwd(char *dir, int len)
  * change directory to dir.  also change drive in MSDOS environment.
  * return 0 on success, or -1 on failure.
  */
-
 int
 md_chdir(char *dir)
 {
@@ -196,48 +126,8 @@ md_chdir(char *dir)
 /*#ifdef UNIX*/
 	return (chdir(dir));
 #endif /* UNIX */
-
-#if defined(MSDOS)
-/*#ifdef MSDOS*/
-	chdrive(dir);
-	return (chdir(dir));
-#endif /* MSDOS */
 }
 #endif /* ORIGINAL */
-
-#if defined(MSDOS)
-/*#ifdef MSDOS*/
-/*
- * chdrive:
- *
- * change the default drive to drive.
- */
-#define SELECTDISK	0x0E
-chdrive(dir)
-char *dir;
-{
-	char *p, *strchr();
-	char drive;
-#ifndef __TURBOC__
-	union REGS regs;
-#endif
-
-	p = strchr(dir, ':');
-	if (p == NULL)
-		return;
-	p--;
-	drive = (*p >= 'A' && *p <= 'Z')? *p - 'A': *p - 'a';
-#ifdef __TURBOC__
-	_AH = SELECTDISK;
-	_DL = drive;
-	geninterrupt(0x21);
-#else
-	regs.h.ah = SELECTDISK;
-	regs.h.dl = drive;
-	intdos(&regs, &regs);
-#endif
-}
-#endif /* MSDOS */
 
 /* md_slurp:
  *
@@ -277,21 +167,8 @@ md_slurp(void)
 #endif /* UNIX_SYSV */
 #endif /*386BSD*/
 #endif /* UNIX */
-
-#ifdef MSDOS
-#ifdef __TURBOC__
-	while (_AH = 0x0b, geninterrupt(0x21), _AL) {
-		_AH = 0x07;
-		geninterrupt(0x21);
-	}
-#else
-	while (kbhit())
-		bdos(7, 0, 0);
-#endif
-#endif /* MSDOS */
 }
 
-#ifndef MSDOS
 /* md_control_keyboard():
  *
  * This routine is much like md_cbreak_no_echo_nonl() below.  It sets up the
@@ -364,7 +241,6 @@ md_control_keyboard(boolean mode)
 #endif /* UNIX_SYSV */
 #endif /* UNIX */
 }
-#endif /*MSDOS*/
 
 /* md_heed_signals():
  *
@@ -391,14 +267,6 @@ void onintr(int);
 	signal(SIGQUIT, byebye);
 	signal(SIGHUP, error_save);
 #endif /* UNIX */
-
-#ifdef MSDOS
-#if defined(__TURBOC__) && __TURBOC__ < 0x0200
-	ctrlbrk(onintr);
-#else
-	signal(SIGINT, onintr);
-#endif /* __TURBOC__ */
-#endif /* MSDOS */
 }
 
 /* md_ignore_signals():
@@ -421,14 +289,6 @@ md_ignore_signals(void)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGHUP, SIG_IGN);
 #endif /* UNIX */
-
-#ifdef MSDOS
-#if defined(__TURBOC__) && __TURBOC__ < 0x0200
-	ctrlbrk(ignintr);
-#else
-	signal(SIGINT, SIG_IGN);
-#endif /* __TURBOC__ */
-#endif /* MSDOS */
 }
 
 /* md_get_file_id():
@@ -453,10 +313,6 @@ md_get_file_id(char *fname)
 	}
 	return((int) sbuf.st_ino);
 #endif /* UNIX */
-
-#ifdef MSDOS
-	return (0);
-#endif /* MSDOS */
 }
 
 /* md_link_count():
@@ -467,7 +323,6 @@ md_get_file_id(char *fname)
  * this routine can be stubbed by just returning 1.
  */
 
-#ifndef MSDOS
 int
 md_link_count(char *fname)
 {
@@ -478,7 +333,6 @@ md_link_count(char *fname)
 	return((int) sbuf.st_nlink);
 #endif /* UNIX */
 }
-#endif /* MSDOS */
 
 /* md_gct(): (Get Current Time)
  *
@@ -619,20 +473,6 @@ md_gln(void)
 /*	t = getlogin();*/	/* killed by Yasha */
 	return(t);
 #endif /* UNIX */
-
-#ifdef MSDOS
-	char *t;
-
-	if ((t = md_getenv("FIGHTER")) == NULL)		/* by Yasha */
-		if ((t = md_getenv("USER")) == NULL)	/* by Yasha */
-/*	if ((t = md_getenv("USER")) == NULL)*/
-#ifdef JAPAN
-		t = "Àï»Î";
-#else
-		t = "Fighter";
-#endif
-	return (t);
-#endif /* MSDOS */
 }
 
 /* md_sleep:
@@ -649,21 +489,6 @@ md_sleep(int nsecs)
 {
 	(void) sleep(nsecs);
 }
-#ifdef MSDOS
-#ifndef __TURBOC__
-sleep(nsecs)
-int nsecs;
-{
-	long t, time();
-
-	if (nsecs < 1)
-		nsecs = 1;
-	t = time(0L) + (long)nsecs;
-	while (time(0L) < t)
-		;
-}
-#endif /* __TURBOC__ */
-#endif /* MSDOS */
 
 /* md_getenv()
  *
@@ -748,12 +573,6 @@ md_gseed(void)
 #ifdef UNIX
 	return(getpid());
 #endif /* UNIX */
-
-#ifdef MSDOS
-	long time();
-
-	return ((int) time(0L));
-#endif /* MSDOS */
 }
 
 /* md_exit():
