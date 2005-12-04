@@ -66,8 +66,9 @@
 void
 putstr(char *s)
 {
-	while (*s)
-		putchar(*s++);
+    while (*s) {
+	putchar(*s++);
+    }
 }
 
 #ifndef ORIGINAL
@@ -82,9 +83,9 @@ putstr(char *s)
 char *
 md_getcwd(char *dir, int len)
 {
-	char *getcwd();
+    char *getcwd();
 
-	return (getcwd(dir, len));
+    return getcwd(dir, len);
 }
 #endif /* ORIGINAL */
 
@@ -98,7 +99,7 @@ md_getcwd(char *dir, int len)
 int
 md_chdir(char *dir)
 {
-	return (chdir(dir));
+    return chdir(dir);
 }
 #endif /* ORIGINAL */
 
@@ -117,11 +118,11 @@ md_chdir(char *dir)
 void
 md_slurp(void)
 {
-	long ln = 0;
+    long ln = 0;
 
-	ioctl(0, TCFLSH, &ln);
-	ln = 0;
-	fflush(stdin);
+    ioctl(0, TCFLSH, &ln);
+    ln = 0;
+    fflush(stdin);
 }
 
 /* md_control_keyboard():
@@ -145,20 +146,20 @@ md_slurp(void)
 void
 md_control_keyboard(boolean mode)
 {
-	static boolean called_before = 0;
-	static struct termio _oldtty;
-	struct termio _tty;
+    static boolean called_before = 0;
+    static struct termio _oldtty;
+    struct termio _tty;
 
-	if (!called_before) {
-		called_before = 1;
-		ioctl(0, TCGETA, &_oldtty);
-	}
-	_tty = _oldtty;
+    if (!called_before) {
+	called_before = 1;
+	ioctl(0, TCGETA, &_oldtty);
+    }
+    _tty = _oldtty;
 
-	if (!mode) {
-		/* _tty.c_cc[VSWTCH] = CNSWTCH; */
-	}
-	ioctl(0, TCSETA, &_tty);
+    if (!mode) {
+	/* _tty.c_cc[VSWTCH] = CNSWTCH; */
+    }
+    ioctl(0, TCSETA, &_tty);
 }
 
 /* md_heed_signals():
@@ -180,10 +181,10 @@ md_control_keyboard(boolean mode)
 void
 md_heed_signals(void)
 {
-void onintr(int);
-	signal(SIGINT, onintr);
-	signal(SIGQUIT, byebye);
-	signal(SIGHUP, error_save);
+    void onintr(int);
+    signal(SIGINT, onintr);
+    signal(SIGQUIT, byebye);
+    signal(SIGHUP, error_save);
 }
 
 /* md_ignore_signals():
@@ -201,9 +202,9 @@ void onintr(int);
 void
 md_ignore_signals(void)
 {
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGHUP, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
+    signal(SIGINT, SIG_IGN);
+    signal(SIGHUP, SIG_IGN);
 }
 
 /* md_get_file_id():
@@ -220,12 +221,12 @@ md_ignore_signals(void)
 int
 md_get_file_id(char *fname)
 {
-	struct stat sbuf;
+    struct stat sbuf;
 
-	if (stat(fname, &sbuf)) {
-		return(-1);
-	}
-	return((int) sbuf.st_ino);
+    if (stat(fname, &sbuf)) {
+	return -1;
+    }
+    return ((int) sbuf.st_ino);
 }
 
 /* md_link_count():
@@ -239,10 +240,10 @@ md_get_file_id(char *fname)
 int
 md_link_count(char *fname)
 {
-	struct stat sbuf;
+    struct stat sbuf;
 
-	stat(fname, &sbuf);
-	return((int) sbuf.st_nlink);
+    stat(fname, &sbuf);
+    return ((int) sbuf.st_nlink);
 }
 
 /* md_gct(): (Get Current Time)
@@ -262,18 +263,18 @@ md_link_count(char *fname)
 void
 md_gct(struct rogue_time *rt_buf)
 {
-	struct tm *t, *localtime();
-	long seconds;
+    struct tm *t, *localtime();
+    long seconds;
 
-	time(&seconds);
-	t = localtime(&seconds);
+    time(&seconds);
+    t = localtime(&seconds);
 
-	rt_buf->year = t->tm_year;
-	rt_buf->month = t->tm_mon + 1;
-	rt_buf->day = t->tm_mday;
-	rt_buf->hour = t->tm_hour;
-	rt_buf->minute = t->tm_min;
-	rt_buf->second = t->tm_sec;
+    rt_buf->year = t->tm_year;
+    rt_buf->month = t->tm_mon + 1;
+    rt_buf->day = t->tm_mday;
+    rt_buf->hour = t->tm_hour;
+    rt_buf->minute = t->tm_min;
+    rt_buf->second = t->tm_sec;
 }
 
 /* md_gfmt: (Get File Modification Time)
@@ -296,48 +297,48 @@ void
 md_gfmt(char *fname, struct rogue_time *rt_buf)
 {
 #ifdef LC4
-	int fd;
-	long ft;
-	char s[6];
+    int fd;
+    long ft;
+    char s[6];
 
-	fd = open(fname, O_RDONLY|O_RAW);
-	ft = getft(fd);
-	close(fd);
-	ftunpk(ft, s);
-	rt_buf->year = s[0] + 80;
-	rt_buf->month = s[1];
-	rt_buf->day = s[2];
-	rt_buf->hour = s[3];
-	rt_buf->minute = s[4];
-	rt_buf->second = s[5];
+    fd = open(fname, O_RDONLY | O_RAW);
+    ft = getft(fd);
+    close(fd);
+    ftunpk(ft, s);
+    rt_buf->year = s[0] + 80;
+    rt_buf->month = s[1];
+    rt_buf->day = s[2];
+    rt_buf->hour = s[3];
+    rt_buf->minute = s[4];
+    rt_buf->second = s[5];
 #else
-	struct stat sbuf;
-	long seconds;
-	struct tm *t;
+    struct stat sbuf;
+    long seconds;
+    struct tm *t;
 
-	stat(fname, &sbuf);
-	seconds = (long) sbuf.st_mtime;
-	t = localtime(&seconds);
+    stat(fname, &sbuf);
+    seconds = (long) sbuf.st_mtime;
+    t = localtime(&seconds);
 
 #if defined(__TURBOC__) && __TURBOC__ < 0x0200
-	/*
-	 * Time routines of Turbo C 1.5J (both from MSA, SPL)
-	 * has not been modified for Japanese use.
-	 * So we must check the daylight saving time flag,
-	 * and then re-correct the time.
-	 */
-	if (t->tm_isdst) {
-		seconds -= 3600;
-		t = localtime(&seconds);
-	}
+    /*
+     * Time routines of Turbo C 1.5J (both from MSA, SPL)
+     * has not been modified for Japanese use.
+     * So we must check the daylight saving time flag,
+     * and then re-correct the time.
+     */
+    if (t->tm_isdst) {
+	seconds -= 3600;
+	t = localtime(&seconds);
+    }
 #endif
 
-	rt_buf->year = t->tm_year;
-	rt_buf->month = t->tm_mon + 1;
-	rt_buf->day = t->tm_mday;
-	rt_buf->hour = t->tm_hour;
-	rt_buf->minute = t->tm_min;
-	rt_buf->second = t->tm_sec;
+    rt_buf->year = t->tm_year;
+    rt_buf->month = t->tm_mon + 1;
+    rt_buf->day = t->tm_mday;
+    rt_buf->hour = t->tm_hour;
+    rt_buf->minute = t->tm_min;
+    rt_buf->second = t->tm_sec;
 #endif /* !LC4 */
 }
 
@@ -355,10 +356,10 @@ md_gfmt(char *fname, struct rogue_time *rt_buf)
 boolean
 md_df(char *fname)
 {
-	if (unlink(fname)) {
-		return(0);
-	}
-	return(1);
+    if (unlink(fname)) {
+	return 0;
+    }
+    return 1;
 }
 
 /* md_gln: (Get login name)
@@ -373,15 +374,15 @@ md_df(char *fname)
 char *
 md_gln(void)
 {
-	char *getlogin();
-	char *t;
-	char *md_getenv();	/* by Yasha */
+    char *getlogin();
+    char *t;
+    char *md_getenv();		/* by Yasha */
 
-	if ((t = md_getenv("FIGHTER")) == NULL)	/* by Yasha */
-		if ((t = getlogin()) == NULL)	/* by Yasha */
-			t = md_getenv("USER");	/* by Yasha */
-/*	t = getlogin();*/	/* killed by Yasha */
-	return(t);
+    if ((t = md_getenv("FIGHTER")) == NULL)	/* by Yasha */
+	if ((t = getlogin()) == NULL)	/* by Yasha */
+	    t = md_getenv("USER");	/* by Yasha */
+    /*	t = getlogin();*//* killed by Yasha */
+    return t;
 }
 
 /* md_sleep:
@@ -396,7 +397,7 @@ md_gln(void)
 void
 md_sleep(int nsecs)
 {
-	(void) sleep(nsecs);
+    (void) sleep(nsecs);
 }
 
 /* md_getenv()
@@ -437,9 +438,9 @@ md_sleep(int nsecs)
 char *
 md_getenv(char *name)
 {
-	char *getenv();
+    char *getenv();
 
-	return getenv(name);
+    return getenv(name);
 }
 
 /* md_malloc()
@@ -453,9 +454,9 @@ md_getenv(char *name)
 char *
 md_malloc(int n)
 {
-	void *malloc();
+    void *malloc();
 
-	return malloc(n);
+    return malloc(n);
 }
 
 /* md_gseed() (Get Seed)
@@ -479,7 +480,7 @@ md_malloc(int n)
 int
 md_gseed(void)
 {
-	return(getpid());
+    return getpid();
 }
 
 /* md_exit():
@@ -493,8 +494,8 @@ void
 md_exit(int status)
 {
 #ifndef ORIGINAL
-	if (org_dir && *org_dir)
-		md_chdir(org_dir);
+    if (org_dir && *org_dir)
+	md_chdir(org_dir);
 #endif
-	exit(status);
+    exit(status);
 }
