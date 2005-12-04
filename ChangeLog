@@ -1,5 +1,7 @@
 2005-12-05  FUNABARA Masao
 
+	* main.c : コードのクリーンアップ
+
 	* machdep.c : コードのクリーンアップ
 
 	* level.c : コードのクリーンアップ

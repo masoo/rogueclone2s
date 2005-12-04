@@ -27,19 +27,20 @@
 extern short party_room;
 #ifndef ORIGINAL
 extern char *nick_name;
-char    mesg[507][80];		/* for separation */
+char mesg[507][80];		/* for separation */
 #endif
 
 int
 main(int argc, char *argv[])
 {
 #ifndef ORIGINAL
-    int     first = 1;
-    char    buf[80];
+    int first = 1;
+    char buf[80];
 #endif
 
-    if (read_mesg(argc, argv))
+    if (read_mesg(argc, argv)) {
 	exit(1);
+    }
 
     if (init(argc - 1, argv + 1)) {	/* restored game */
 	goto PL;
@@ -59,10 +60,10 @@ main(int argc, char *argv[])
 	    sprintf(buf, mesg[10], nick_name);
 	    message(buf, 0);
 	}
-      PL:
+    PL:
 	first = 0;
 #else
-      PL:
+    PL:
 #endif
 	play_level();
 	free_stuff(&level_objects);
@@ -73,9 +74,9 @@ main(int argc, char *argv[])
 int
 read_mesg(int ac, char **av)
 {
-    FILE   *mesg_file;
-    char    buf[256];
-    int     i, n, s, e;
+    FILE *mesg_file;
+    char buf[256];
+    int i, n, s, e;
 
     if (ac < 2) {
 	fprintf(stderr, "%s: message_file [options...]\n", av[0]);
@@ -89,22 +90,24 @@ read_mesg(int ac, char **av)
 
     while (fgets(buf, 256, mesg_file) != NULL) {
 	if ((n = atoi(buf)) > 0 && n < 500) {
-	    for (i = 0; buf[i] && buf[i] != '\"'; ++i);
-	    if (buf[i])
+	    for (i = 0; buf[i] && buf[i] != '\"'; ++i) continue;
+	    if (buf[i]) {
 		s = i + 1;
-	    else {
-	      FMTERR:fprintf(stderr, "Illegal format '%s'\n",
-			av[1]);
+	    } else {
+	    FMTERR:
+		fprintf(stderr, "Illegal format '%s'\n", av[1]);
 		return 1;
 	    }
-	    for (i = s; buf[i] && buf[i] != '\"'; ++i);
-	    if (buf[i])
+	    for (i = s; buf[i] && buf[i] != '\"'; ++i) continue;
+	    if (buf[i]) {
 		e = i - 1;
-	    else
+	    } else {
 		goto FMTERR;
+	    }
 
-	    for (i = 0; i < e - s + 1 && i < 79; ++i)
+	    for (i = 0; i < e - s + 1 && i < 79; ++i) {
 		mesg[n][i] = buf[s + i];
+	    }
 	    mesg[n][i] = '\0';
 	}
     }
