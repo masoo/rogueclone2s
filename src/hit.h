@@ -1,8 +1,8 @@
 #ifndef __HIT_H__
 #define __HIT_H__
 
-extern void mon_hit(object * monster, char *other, boolean flame);
-extern void rogue_hit(object * monster, boolean force_hit);
+extern void mon_hit(object *monster, char *other, boolean flame);
+extern void rogue_hit(object *monster, boolean force_hit);
 extern void rogue_damage(short d, object *monster);
 extern int get_damage(char *ds, boolean r);
 extern int get_w_damage(object *obj);
