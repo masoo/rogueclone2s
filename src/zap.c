@@ -286,9 +286,7 @@ wizardize(void)
 			(void) xxx(1);
 			xxxx(buf, strlen(buf));
 #ifndef ORIGINAL
-#ifdef UNIX
 			if (!bcmp(buf, wiz_passwd, 11)) {
-#endif
 #else
 			if (!strncmp(buf, "\247\104\126\272\115\243\027", 7)) {
 #endif

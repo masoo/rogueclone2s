@@ -90,7 +90,6 @@ save_into_file(char *sfile)
 			sfile = name_buffer;
 		}
 	}
-#ifdef UNIX
 	if (	((fp = fopen(sfile, "w")) == NULL) ||
 			((file_id = md_get_file_id(sfile)) == -1)) {
 #ifdef JAPAN
@@ -100,7 +99,6 @@ save_into_file(char *sfile)
 #endif
 		goto err_return;
 	}
-#endif
 	md_ignore_signals();
 	write_failed = 0;
 	(void) xxx(1);
@@ -171,7 +169,6 @@ restore(char *fname)
 		md_chdir(org_dir);
 #endif
 
-#ifdef UNIX
 	if (((new_file_id = md_get_file_id(fname)) == -1) ||
 			((fp = fopen(fname, "r")) == NULL)) {
 #ifdef JAPAN
@@ -187,7 +184,6 @@ restore(char *fname)
 		clean_up("File has link");
 #endif
 	}
-#endif
 	(void) xxx(1);
 	r_read(fp, (char *) &detect_monster, sizeof(detect_monster));
 	r_read(fp, (char *) &cur_level, sizeof(cur_level));

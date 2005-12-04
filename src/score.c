@@ -25,9 +25,7 @@
 #include "pack.h"
 #include "ring.h"
 
-#ifdef UNIX
 char *score_file = ".rogue.scores";
-#endif
 
 extern char login_name[];
 extern char *m_names[];
@@ -452,7 +450,6 @@ put_scores(object *monster, short other)
 	char *p, buf[100], file[100];
 	FILE *fp;
 
-#ifdef UNIX
 	fp = NULL;
 	if ((!game_dir || !*game_dir) && (p = md_getenv("HOME")) != NULL) {
 		p = strcpy(file, p);
@@ -473,7 +470,6 @@ put_scores(object *monster, short other)
 		message(mesg[186], 0);
 		sf_error();
 	}
-#endif
 	(void) xxx(1);
 	for (i = 0; i < 10; i++) {
 		if ((n = fread(scores[i], sizeof(char), 80, fp)) == 0)
@@ -569,9 +565,7 @@ put_scores(object *monster, short other)
 	}
 	refresh();
 	if (rank < 10) {
-#ifdef UNIX
 		if ((fp = fopen(file, "w")) == NULL) {
-#endif
 			message(mesg[186], 0);
 			sf_error();
 		}
@@ -599,15 +593,11 @@ short other;
 	FILE *fp;
 	long s;
 	boolean failed = 0;
-#ifdef UNIX
 	char *mode = "r+w";
-#endif
 
 	while ((fp = fopen(score_file, mode)) == NULL) {
 		if (!failed) {
-#ifdef UNIX
 			mode = "w";
-#endif
 		} else {
 			message("Cannot read/write/create score file", 0);
 			sf_error();

@@ -539,22 +539,18 @@ doshell(void)
 {
 	char *cmd, *md_getenv();
 
-#ifdef UNIX
 	if ((cmd = md_getenv("SHELL")) == NULL)
 		cmd = "/bin/sh";
-#endif /*UNIX*/
 	move(DROWS-1, 0);
 	refresh();
 	stop_window();
 	if (*org_dir)
 		md_chdir(org_dir);
-#ifdef UNIX
 	md_ignore_signals();
 	putstr(mesg[157]);
 	putstr("\r\n");
 	system(cmd);
 	md_heed_signals();
-#endif /*UNIX*/
 	if (game_dir && *game_dir)
 		md_chdir(game_dir);
 	start_window();
