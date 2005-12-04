@@ -1,8 +1,14 @@
+2005-12-04  FUNABARA Masao
+
+	* play.c : ゲーム中に表示されるバージョン情報の修正
+
+	* ALL_FILES : COLOR 定義の見直し
+
 2005-12-03  FUNABARA Masao
 
 	* configure.ac : --enable-color オプションの追加
 
-	* ALL_FILE : CURSES 定義とコンパイルオプション -DCURSES を消去
+	* ALL_FILES : CURSES 定義とコンパイルオプション -DCURSES を消去
 
 	* ChangeLog : ChangeLog の書式を統一
 
@@ -13,13 +19,13 @@
 
 	* init.c : ゲーム中にカラーマップを変更する機能を有効にする
 
-	* ALL_FILE : c_attr の配列名を ch_attr と変更し意味を明確にする
+	* ALL_FILES : c_attr の配列名を ch_attr と変更し意味を明確にする
 
-	* ALL_FILE : Ncurses での画面のカラー化
+	* ALL_FILES : Ncurses での画面のカラー化
 
 2005-11-29  FUNABARA Masao
 
-	* ALL_FILE : 削除できていなかったregister の記憶クラス演算子を削除
+	* ALL_FILES : 削除できていなかったregister の記憶クラス演算子を削除
 
 2005-11-27  FUNABARA Masao
 
@@ -53,7 +59,7 @@
 
 2005-11-22  FUNABARA Masao
 
-	* ALL_FILE : register の記憶クラス演算子をファイルから削除
+	* ALL_FILES : register の記憶クラス演算子をファイルから削除
 
 	* rogue.h : 関数の外部宣言の削除
 	各ヘッダファイルに外部宣言を分散させたことによる

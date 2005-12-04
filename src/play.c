@@ -183,11 +183,15 @@ CH:
 			throw();
 			break;
 		case 'v':
-message("Rogue-clone: Version II. (Tim Stoehr was here), tektronix!zeus!tims ", 0);
 #ifndef ORIGINAL
-message("Japanese edition: Ver.1.3a (enhanced by ohta@src.ricoh.co.jp)", 0);
-message("Ver.1.3aS program bug fix/separate (by brx@kmc.kyoto-u.ac.jp)", 0);	/* by Yasha */
-message(mesg[1], 0);		/* for message version */
+		    message(PACKAGE_STRING " (by FUNABARA Masao) ",0);
+		    message("base by ...", 0);
+#endif
+		    message("Rogue-clone: Version II. (Tim Stoehr was here), tektronix!zeus!tims ", 0);
+#ifndef ORIGINAL
+		    message("Japanese edition: Ver.1.3a (enhanced by ohta@src.ricoh.co.jp)", 0);
+		    message("Ver.1.3aS program bug fix/separate (by brx@kmc.kyoto-u.ac.jp)", 0);	/* by Yasha */
+		    message(mesg[1], 0);		/* for message version */
 #endif
 			break;
 		case 'Q':
@@ -526,6 +530,7 @@ options(void)
 		}
 		set_opts(optbuf);
 	}
+	print_stats(STAT_ALL);
 	refresh();
 }
 

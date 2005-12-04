@@ -417,7 +417,6 @@ extern opt envopt[];
 extern char *optdesc[];
 #endif
 
-#ifdef COLOR
 enum rogue_colors {
     WHITE = 1,
     RED = 2,
@@ -434,6 +433,7 @@ enum rogue_colors {
     MAGENTA_REVERSE = 13,
     CYAN_REVERSE =14
 };
+#ifdef COLOR
 #define RWHITE	 8
 #define RRED	 9
 #define RGREEN	 10
@@ -441,8 +441,8 @@ enum rogue_colors {
 #define RBLUE	 12
 #define RMAGENTA 13
 #define RCYAN	 14
-extern int ch_attr[];
 #endif
+extern int ch_attr[];
 
 #ifndef ORIGINAL
 extern char org_dir[], *game_dir;

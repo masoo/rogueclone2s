@@ -37,6 +37,7 @@ extern char *m_names[];
 extern short cur_level, max_level;
 extern boolean score_only, show_skull, msg_cleared;
 extern char *byebye_string, *nick_name;
+extern boolean use_color;
 
 #ifndef ORIGINAL
 #ifdef JAPAN
@@ -562,12 +563,18 @@ put_scores(object *monster, short other)
 	clear();
 #ifdef JAPAN
 	attrset( COLOR_PAIR(YELLOW) );
+	if ( use_color == 0 ) {
+	    attrset( COLOR_PAIR(0) );
+	}
 	mvaddstr(3, 20, mesg[187]);
 	attrset( COLOR_PAIR(0) );
 #else
 	mvaddstr(3, 25, mesg[187]);
 #endif
 	attrset( COLOR_PAIR(GREEN) );
+	if ( use_color == 0 ) {
+	    attrset( COLOR_PAIR(0) );
+	}
 	mvaddstr(6, 0, mesg[188]);
 	attrset( COLOR_PAIR(0) );
 #ifdef COLOR
@@ -578,11 +585,14 @@ put_scores(object *monster, short other)
 		scores[i][2] = (i == 9)? '0': '1' + i;
 		nickize(buf, scores[i], n_names[i]);
 		if (i == rank) {
-			attrset( COLOR_PAIR(CYAN) );
-			attron(A_REVERSE);
-			mvaddstr(i+8, 0, buf);
-			attroff(A_REVERSE);
+		    attrset( COLOR_PAIR(CYAN) );
+		    if ( use_color == 0 ) {
 			attrset( COLOR_PAIR(0) );
+		    }
+		    attron(A_REVERSE);
+		    mvaddstr(i+8, 0, buf);
+		    attroff(A_REVERSE);
+		    attrset( COLOR_PAIR(0) );
 		} else
 			mvaddstr(i+8, 0, buf);
 	}

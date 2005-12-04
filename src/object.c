@@ -141,7 +141,7 @@ extern char *error_file;
 extern boolean is_wood[];
 
 #ifdef COLOR
-extern boolean do_color;
+extern boolean use_color;
 
 #endif
 
