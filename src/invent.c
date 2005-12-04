@@ -26,27 +26,27 @@
 boolean is_wood[WANDS];
 
 char *wand_materials[WAND_MATERIALS] = {
-	mesg[410], mesg[411], mesg[412], mesg[413], mesg[414], mesg[415],
-	mesg[416], mesg[417], mesg[418], mesg[419], mesg[420], mesg[421],
-	mesg[422], mesg[423], mesg[424], mesg[425], mesg[426], mesg[427],
-	mesg[428], mesg[429], mesg[430], mesg[431], mesg[432], mesg[433],
-	mesg[434], mesg[435], mesg[436], mesg[437], mesg[438], mesg[439]
+    mesg[410], mesg[411], mesg[412], mesg[413], mesg[414], mesg[415],
+    mesg[416], mesg[417], mesg[418], mesg[419], mesg[420], mesg[421],
+    mesg[422], mesg[423], mesg[424], mesg[425], mesg[426], mesg[427],
+    mesg[428], mesg[429], mesg[430], mesg[431], mesg[432], mesg[433],
+    mesg[434], mesg[435], mesg[436], mesg[437], mesg[438], mesg[439]
 };
 
 char *gems[GEMS] = {
-	mesg[440], mesg[441], mesg[442], mesg[443], mesg[444], mesg[445],
-	mesg[446], mesg[447], mesg[448], mesg[449], mesg[450], mesg[451],
-	mesg[452], mesg[453]
+    mesg[440], mesg[441], mesg[442], mesg[443], mesg[444], mesg[445],
+    mesg[446], mesg[447], mesg[448], mesg[449], mesg[450], mesg[451],
+    mesg[452], mesg[453]
 };
 
 char *syllables[MAXSYLLABLES] = {
-	mesg[454], mesg[455], mesg[456], mesg[457], mesg[458], mesg[459],
-	mesg[460], mesg[461], mesg[462], mesg[463], mesg[464], mesg[465],
-	mesg[466], mesg[467], mesg[468], mesg[469], mesg[470], mesg[471],
-	mesg[472], mesg[473], mesg[474], mesg[475], mesg[476], mesg[477],
-	mesg[478], mesg[479], mesg[480], mesg[481], mesg[482], mesg[483],
-	mesg[484], mesg[485], mesg[486], mesg[487], mesg[488], mesg[489],
-	mesg[490], mesg[491], mesg[492], mesg[493]
+    mesg[454], mesg[455], mesg[456], mesg[457], mesg[458], mesg[459],
+    mesg[460], mesg[461], mesg[462], mesg[463], mesg[464], mesg[465],
+    mesg[466], mesg[467], mesg[468], mesg[469], mesg[470], mesg[471],
+    mesg[472], mesg[473], mesg[474], mesg[475], mesg[476], mesg[477],
+    mesg[478], mesg[479], mesg[480], mesg[481], mesg[482], mesg[483],
+    mesg[484], mesg[485], mesg[486], mesg[487], mesg[488], mesg[489],
+    mesg[490], mesg[491], mesg[492], mesg[493]
 };
 
 extern boolean wizard;
@@ -72,7 +72,6 @@ inventory(object *pack, unsigned short mask)
 	message(mesg[26], 0);
 	return;
     }
-
 #define	Protected(obj)	((obj->what_is & ARMOR) && obj->is_protected)
 nextpage:
     i = 0;
@@ -82,7 +81,7 @@ nextpage:
 	    p = descs[i];
 	    *p++ = ' ';
 	    *p++ = obj->ichar;
-	    *p++ = Protected(obj)? '}': ')';
+	    *p++ = Protected(obj) ? '}' : ')';
 	    *p++ = ' ';
 	    get_desc(obj, p, 0);
 	    if ((n = strlen(descs[i])) > maxlen) {
@@ -102,11 +101,11 @@ nextpage:
     for (row = 0; row < i; row++) {
 	if (row > 0) {
 	    for (j = col; j < DCOLS; j++) {
-		descs[row-1][j-col] = mvinch(row, j) & A_CHARTEXT;
+		descs[row - 1][j - col] = mvinch(row, j) & A_CHARTEXT;
 	    }
-	    descs[row-1][j-col] = 0;
+	    descs[row - 1][j - col] = 0;
 	}
-	attrset( COLOR_PAIR(0) );
+	attrset(COLOR_PAIR(0));
 	mvaddstr(row, col, descs[row]);
 	clrtoeol();
     }
@@ -118,26 +117,26 @@ nextpage:
 #ifdef COLOR
     for (j = 1; j < i; j++) {
 	move(j, col);
-	for (p = descs[j-1]; *p; p++) {
-	    attrset( COLOR_PAIR( ch_attr[(signed)*p] ) );
+	for (p = descs[j - 1]; *p; p++) {
+	    attrset(COLOR_PAIR(ch_attr[(signed) *p]));
 	    addch(*p);
-	    attrset( COLOR_PAIR(0) );
+	    attrset(COLOR_PAIR(0));
 	}
     }
 #else
-#ifndef JAPAN	/* if.. by Yasha */
+#ifndef JAPAN			/* if.. by Yasha */
     for (j = 1; j < i; j++) {
-	attrset( COLOR_PAIR(0) );
-	mvaddstr(j, col, descs[j-1]);
+	attrset(COLOR_PAIR(0));
+	mvaddstr(j, col, descs[j - 1]);
     }
 #else
     for (j = 1; j < i; j++) {	/* by Yasha */
 	move(j, col);		/* by Yasha */
 	clrtoeol();		/* by Yasha */
-	addstr(descs[j-1]);	/* by Yasha */
+	addstr(descs[j - 1]);	/* by Yasha */
     }				/* by Yasha */
-    move(DROWS - 1, 0);	        /* by Yasha */
-    clrtoeol();		        /* by Yasha */
+    move(DROWS - 1, 0);		/* by Yasha */
+    clrtoeol();			/* by Yasha */
     print_stats(STAT_ALL);	/* by Yasha */
 #endif /* JAPAN */
 #endif /* COLOR */
@@ -150,512 +149,518 @@ nextpage:
 void
 mix_colors(void)
 {
-	short i, j;
-	char *t;
-	extern char *po_color[];
+    short i, j;
+    char *t;
+    extern char *po_color[];
 
-	for (i = 0; i < POTIONS; i++) {
-		strcpy(id_potions[i].title, po_color[i]);	/* by Yahsa */
+    for (i = 0; i < POTIONS; i++) {
+	strcpy(id_potions[i].title, po_color[i]);	/* by Yahsa */
 /*		id_potions[i].title = po_color[i];*/
-	}
-	for (i = 0; i < POTIONS; i++) {
-		j = get_rand(i, POTIONS - 1);
-		swap_string(id_potions[i].title, id_potions[j].title);
-	}
+    }
+    for (i = 0; i < POTIONS; i++) {
+	j = get_rand(i, POTIONS - 1);
+	swap_string(id_potions[i].title, id_potions[j].title);
+    }
 }
 
 void
 make_scroll_titles(void)
 {
-	short i, j, n, len;
-	short sylls, s;
+    short i, j, n, len;
+    short sylls, s;
 
-	for (i = 0; i < SCROLS; i++) {
-		sylls = get_rand(2, 5);
+    for (i = 0; i < SCROLS; i++) {
+	sylls = get_rand(2, 5);
 #ifdef JAPAN
-		(void) strcpy(id_scrolls[i].title, "¡Ö");
-		len = 2;
-		for (j = 0; j < sylls; j++) {
-			s = get_rand(1, (MAXSYLLABLES-1));
-			n = strlen(syllables[s]);
-			if (len + n - 1 >= MAX_TITLE_LENGTH - 2)
-				break;
-			(void) strcat(id_scrolls[i].title, syllables[s]);
-			len += n;
-		}
-		(void) strcpy(id_scrolls[i].title+(len-1), "¡×");
-#else
-		(void) strcpy(id_scrolls[i].title, "'");
-		for (j = 0; j < sylls; j++) {
-			s = get_rand(1, (MAXSYLLABLES-1));
-			(void) strcat(id_scrolls[i].title, syllables[s]);
-		}
-		n = strlen(id_scrolls[i].title);
-		(void) strcpy(id_scrolls[i].title+(n-1), "' ");
-#endif
+	(void) strcpy(id_scrolls[i].title, "¡Ö");
+	len = 2;
+	for (j = 0; j < sylls; j++) {
+	    s = get_rand(1, (MAXSYLLABLES - 1));
+	    n = strlen(syllables[s]);
+	    if (len + n - 1 >= MAX_TITLE_LENGTH - 2) {
+		break;
+	    }
+	    (void) strcat(id_scrolls[i].title, syllables[s]);
+	    len += n;
 	}
+	(void) strcpy(id_scrolls[i].title + (len - 1), "¡×");
+#else
+	(void) strcpy(id_scrolls[i].title, "'");
+	for (j = 0; j < sylls; j++) {
+	    s = get_rand(1, (MAXSYLLABLES - 1));
+	    (void) strcat(id_scrolls[i].title, syllables[s]);
+	}
+	n = strlen(id_scrolls[i].title);
+	(void) strcpy(id_scrolls[i].title + (n - 1), "' ");
+#endif
+    }
 }
 
 void
 get_desc(object *obj, char *desc, boolean capitalized)
 {
 
-#ifdef JAPAN /* for whole function */
-	char *item_name, *p;
-	struct id *id_table;
-	char more_info[32];
-	short i;
+#ifdef JAPAN			/* for whole function */
+    char *item_name, *p;
+    struct id *id_table;
+    char more_info[32];
+    short i;
 
-	*desc = 0;
-	if (obj->what_is == AMULET) {
-		(void) strcpy(desc, mesg[27]);
-		return;
-	}
-	item_name = name_of(obj);
-	if (obj->what_is == GOLD) {
-		znum(desc, obj->quantity, 0);
-		strcat(desc, mesg[28]);
-		return;
-	}
-	if (obj->what_is == WEAPON && obj->quantity > 1) {
-		znum(desc, obj->quantity, 0);
-		strcat(desc, mesg[29]);
-	} else if (obj->what_is == FOOD) {
-		znum(desc, obj->quantity, 0);
-		strcat(desc, (obj->which_kind == RATION)? mesg[30]: mesg[31]);
-		(void) strcat(desc, item_name);
-		goto ANA;
-	} else if (obj->what_is != ARMOR && obj->quantity > 1) {
-		znum(desc, obj->quantity, 0);
-		strcat(desc, mesg[32]);
-	}
-	id_table = get_id_table(obj);
+    *desc = 0;
+    if (obj->what_is == AMULET) {
+	(void) strcpy(desc, mesg[27]);
+	return;
+    }
+    item_name = name_of(obj);
+    if (obj->what_is == GOLD) {
+	znum(desc, obj->quantity, 0);
+	strcat(desc, mesg[28]);
+	return;
+    }
+    if (obj->what_is == WEAPON && obj->quantity > 1) {
+	znum(desc, obj->quantity, 0);
+	strcat(desc, mesg[29]);
+    } else if (obj->what_is == FOOD) {
+	znum(desc, obj->quantity, 0);
+	strcat(desc, (obj->which_kind == RATION) ? mesg[30] : mesg[31]);
+	(void) strcat(desc, item_name);
+	goto ANA;
+    } else if (obj->what_is != ARMOR && obj->quantity > 1) {
+	znum(desc, obj->quantity, 0);
+	strcat(desc, mesg[32]);
+    }
+    id_table = get_id_table(obj);
 
-	if (wizard) {
+    if (wizard) {
+	goto ID;
+    }
+    if (obj->what_is & (WEAPON | ARMOR | WAND | RING)) {
+	goto CHECK;
+    }
+
+    switch (id_table[obj->which_kind].id_status) {
+    case UNIDENTIFIED:
+    CHECK:
+	switch (obj->what_is) {
+	case SCROL:
+	    (void) strcat(desc, id_table[obj->which_kind].title);
+	    (void) strcat(desc, mesg[33]);
+	    (void) strcat(desc, item_name);
+	    break;
+	case POTION:
+	    (void) strcat(desc, id_table[obj->which_kind].title);
+	    (void) strcat(desc, item_name);
+	    break;
+	case WAND:
+	case RING:
+	    if (obj->identified ||
+		(id_table[obj->which_kind].id_status == IDENTIFIED)) {
 		goto ID;
+	    }
+	    if (id_table[obj->which_kind].id_status == CALLED) {
+		goto CALL;
+	    }
+	    (void) strcat(desc, id_table[obj->which_kind].title);
+	    (void) strcat(desc, item_name);
+	    break;
+	case ARMOR:
+	    if (obj->identified) {
+		goto ID;
+	    }
+	    (void) strcpy(desc, id_table[obj->which_kind].title);
+	    break;
+	case WEAPON:
+	    if (obj->identified) {
+		goto ID;
+	    }
+	    (void) strcat(desc, name_of(obj));
+	    break;
 	}
-	if (obj->what_is & (WEAPON | ARMOR | WAND | RING)) {
-		goto CHECK;
-	}
-
-	switch(id_table[obj->which_kind].id_status) {
-	case UNIDENTIFIED:
-CHECK:
-		switch(obj->what_is) {
-		case SCROL:
-			(void) strcat(desc, id_table[obj->which_kind].title);
-			(void) strcat(desc, mesg[33]);
-			(void) strcat(desc, item_name);
-			break;
-		case POTION:
-			(void) strcat(desc, id_table[obj->which_kind].title);
-			(void) strcat(desc, item_name);
-			break;
-		case WAND:
-		case RING:
-			if (obj->identified ||
-			(id_table[obj->which_kind].id_status == IDENTIFIED)) {
-				goto ID;
-			}
-			if (id_table[obj->which_kind].id_status == CALLED) {
-				goto CALL;
-			}
-			(void) strcat(desc, id_table[obj->which_kind].title);
-			(void) strcat(desc, item_name);
-			break;
-		case ARMOR:
-			if (obj->identified) {
-				goto ID;
-			}
-			(void) strcpy(desc, id_table[obj->which_kind].title);
-			break;
-		case WEAPON:
-			if (obj->identified) {
-				goto ID;
-			}
-			(void) strcat(desc, name_of(obj));
-			break;
-		}
-		break;
-	case CALLED:
-CALL:	switch(obj->what_is) {
-		case SCROL:
-		case POTION:
-		case WAND:
-		case RING:
-			p = id_table[obj->which_kind].title;
+	break;
+    case CALLED:
+    CALL:
+	switch (obj->what_is) {
+	case SCROL:
+	case POTION:
+	case WAND:
+	case RING:
+	    p = id_table[obj->which_kind].title;
 #ifdef EUC
-			if (*desc && *p >= ' ' && !(0x80 & *p))	/* by Yasha */
-#else	/* Shift JIS */
-			if (*desc && (*p >= ' ' && *p <= '~' ||
-						*p >= '\240' && *p < '\340'))
+	    if (*desc && *p >= ' ' && !(0x80 & *p))	/* by Yasha */
+#else /* Shift JIS */
+            if (*desc && (*p >= ' ' && *p <= '~' ||
+                          *p >= '\240' && *p < '\340'))
 #endif
-				(void) strcat(desc, " ");
-			(void) strcat(desc, p);
-			(void) strcat(desc, mesg[34]);
-			(void) strcat(desc, item_name);
-			break;
-		}
-		break;
-	case IDENTIFIED:
-ID:		switch(obj->what_is) {
-		case SCROL:
-		case POTION:
-			(void) strcat(desc, id_table[obj->which_kind].real);
-			(void) strcat(desc, item_name);
-			break;
-		case RING:
-			(void) strcat(desc, id_table[obj->which_kind].real);
-			if (wizard || obj->identified) {
-				if ((obj->which_kind == DEXTERITY) ||
-					(obj->which_kind == ADD_STRENGTH)) {
-					strcpy(more_info, "¡Ê");
-					znum(more_info, obj->class, 1);
-					strcat(more_info, "¡Ë");
-					(void) strcat(desc, more_info);
-				}
-			}
-			(void) strcat(desc, item_name);
-			break;
-		case WAND:
-			(void) strcat(desc, id_table[obj->which_kind].real);
-			(void) strcat(desc, item_name);
-			if (wizard || obj->identified) {
-				strcpy(more_info, "¡Î");
-				znum(more_info, obj->class, 0);
-				strcat(more_info, "¡Ï");
-				(void) strcat(desc, more_info);
-			}
-			break;
-		case ARMOR:
-			strcpy(desc, "¡Ê");
-			znum(desc, obj->d_enchant, 1);
-			strcat(desc, "¡Ë");
-			(void) strcat(desc, id_table[obj->which_kind].title);
-			strcpy(more_info, "¡Î");
-			znum(more_info, get_armor_class(obj), 0);
-			strcat(more_info, "¡Ï");
-			(void) strcat(desc, more_info);
-			break;
-		case WEAPON:
-			strcat(desc, "¡Ê");
-			znum(desc, obj->hit_enchant, 1);
-			strcat(desc, "¡¤");
-			znum(desc, obj->d_enchant, 1);
-			strcat(desc, "¡Ë");
-			(void) strcat(desc, name_of(obj));
-			break;
-		}
-		break;
+	    (void) strcat(desc, " ");
+	    (void) strcat(desc, p);
+	    (void) strcat(desc, mesg[34]);
+	    (void) strcat(desc, item_name);
+	    break;
 	}
+	break;
+    case IDENTIFIED:
+    ID:
+	switch (obj->what_is) {
+	case SCROL:
+	case POTION:
+	    (void) strcat(desc, id_table[obj->which_kind].real);
+	    (void) strcat(desc, item_name);
+	    break;
+	case RING:
+	    (void) strcat(desc, id_table[obj->which_kind].real);
+	    if (wizard || obj->identified) {
+		if ((obj->which_kind == DEXTERITY) ||
+		    (obj->which_kind == ADD_STRENGTH)) {
+		    strcpy(more_info, "¡Ê");
+		    znum(more_info, obj->class, 1);
+		    strcat(more_info, "¡Ë");
+		    (void) strcat(desc, more_info);
+		}
+	    }
+	    (void) strcat(desc, item_name);
+	    break;
+	case WAND:
+	    (void) strcat(desc, id_table[obj->which_kind].real);
+	    (void) strcat(desc, item_name);
+	    if (wizard || obj->identified) {
+		strcpy(more_info, "¡Î");
+		znum(more_info, obj->class, 0);
+		strcat(more_info, "¡Ï");
+		(void) strcat(desc, more_info);
+	    }
+	    break;
+	case ARMOR:
+	    strcpy(desc, "¡Ê");
+	    znum(desc, obj->d_enchant, 1);
+	    strcat(desc, "¡Ë");
+	    (void) strcat(desc, id_table[obj->which_kind].title);
+	    strcpy(more_info, "¡Î");
+	    znum(more_info, get_armor_class(obj), 0);
+	    strcat(more_info, "¡Ï");
+	    (void) strcat(desc, more_info);
+	    break;
+	case WEAPON:
+	    strcat(desc, "¡Ê");
+	    znum(desc, obj->hit_enchant, 1);
+	    strcat(desc, "¡¤");
+	    znum(desc, obj->d_enchant, 1);
+	    strcat(desc, "¡Ë");
+	    (void) strcat(desc, name_of(obj));
+	    break;
+	}
+	break;
+    }
 ANA:
-	i = obj->in_use_flags;
-	if (i & BEING_WIELDED) {
-		p = mesg[35];
-	} else if (i & BEING_WORN) {
-		p = mesg[36];
-	} else if (i & ON_LEFT_HAND) {
-		p = mesg[37];
-	} else if (i & ON_RIGHT_HAND) {
-		p = mesg[38];
-	} else {
-		p = "";
-	}
-	(void) strcat(desc, p);
+    i = obj->in_use_flags;
+    if (i & BEING_WIELDED) {
+	p = mesg[35];
+    } else if (i & BEING_WORN) {
+	p = mesg[36];
+    } else if (i & ON_LEFT_HAND) {
+	p = mesg[37];
+    } else if (i & ON_RIGHT_HAND) {
+	p = mesg[38];
+    } else {
+	p = "";
+    }
+    (void) strcat(desc, p);
 
 #else /*JAPAN for whole function get_desc */
-	char *p;
-	char *item_name;
-	struct id *id_table;
-	char more_info[32];
-	short i;
+    char *p;
+    char *item_name;
+    struct id *id_table;
+    char more_info[32];
+    short i;
 
-	if (obj->what_is == AMULET) {
-		(void) strcpy(desc, mesg[27]);
-		if (!capitalized)
-			*desc = 't';
-		return;
+    if (obj->what_is == AMULET) {
+	(void) strcpy(desc, mesg[27]);
+	if (!capitalized) {
+	    *desc = 't';
 	}
-	item_name = name_of(obj);
+	return;
+    }
+    item_name = name_of(obj);
 
-	if (obj->what_is == GOLD) {
-		sprintf(desc, mesg[28], obj->quantity);
-		return;
-	}
+    if (obj->what_is == GOLD) {
+	sprintf(desc, mesg[28], obj->quantity);
+	return;
+    }
 
-	if (obj->what_is != ARMOR) {
-		if (obj->quantity == 1) {
-			strcpy(desc, capitalized? "A ": "a ");
-		} else {
-			sprintf(desc, "%d ", obj->quantity);
-		}
-	}
-	if (obj->what_is == FOOD) {
-		if (obj->which_kind == RATION) {
-			if (obj->quantity > 1) {
-				sprintf(desc, mesg[30], obj->quantity);
-			} else {
-				strcpy(desc, capitalized? "Some ": "some ");
-			}
-		} else {
-			strcpy(desc, capitalized? "A ": "a ");
-		}
-		(void) strcat(desc, item_name);
-		goto ANA;
-	}
-	id_table = get_id_table(obj);
-
-	if (wizard) {
-		goto ID;
-	}
-	if (obj->what_is & (WEAPON | ARMOR | WAND | RING)) {
-		goto CHECK;
-	}
-
-	switch(id_table[obj->which_kind].id_status) {
-	case UNIDENTIFIED:
-CHECK:
-		switch(obj->what_is) {
-		case SCROL:
-			(void) strcat(desc, item_name);
-			(void) strcat(desc, mesg[33]);
-			(void) strcat(desc, id_table[obj->which_kind].title);
-			break;
-		case POTION:
-			(void) strcat(desc, id_table[obj->which_kind].title);
-			(void) strcat(desc, item_name);
-			break;
-		case WAND:
-		case RING:
-			if (obj->identified ||
-			(id_table[obj->which_kind].id_status == IDENTIFIED)) {
-				goto ID;
-			}
-			if (id_table[obj->which_kind].id_status == CALLED) {
-				goto CALL;
-			}
-			(void) strcat(desc, id_table[obj->which_kind].title);
-			(void) strcat(desc, item_name);
-			break;
-		case ARMOR:
-			if (obj->identified) {
-				goto ID;
-			}
-			(void) strcpy(desc, id_table[obj->which_kind].title);
-			break;
-		case WEAPON:
-			if (obj->identified) {
-				goto ID;
-			}
-			(void) strcat(desc, name_of(obj));
-			break;
-		}
-		break;
-	case CALLED:
-CALL:	switch(obj->what_is) {
-		case SCROL:
-		case POTION:
-		case WAND:
-		case RING:
-			(void) strcat(desc, item_name);
-			(void) strcat(desc, mesg[34]);
-			(void) strcat(desc, id_table[obj->which_kind].title);
-			break;
-		}
-		break;
-	case IDENTIFIED:
-ID:		switch(obj->what_is) {
-		case SCROL:
-		case POTION:
-			(void) strcat(desc, item_name);
-			(void) strcat(desc, id_table[obj->which_kind].real);
-			break;
-		case RING:
-			if (wizard || obj->identified) {
-				if ((obj->which_kind == DEXTERITY) ||
-					(obj->which_kind == ADD_STRENGTH)) {
-					sprintf(more_info, "%s%d ",
-						((obj->class > 0) ? "+" : ""),
-						obj->class);
-					(void) strcat(desc, more_info);
-				}
-			}
-			(void) strcat(desc, item_name);
-			(void) strcat(desc, id_table[obj->which_kind].real);
-			break;
-		case WAND:
-			(void) strcat(desc, item_name);
-			(void) strcat(desc, id_table[obj->which_kind].real);
-			if (wizard || obj->identified) {
-				sprintf(more_info, "[%d]", obj->class);
-				(void) strcat(desc, more_info);
-			}
-			break;
-		case ARMOR:
-			sprintf(desc, "%s%d ",
-				((obj->d_enchant >= 0) ? "+" : ""),
-				obj->d_enchant);
-			(void) strcat(desc, id_table[obj->which_kind].title);
-			sprintf(more_info, "[%d] ", get_armor_class(obj));
-			(void) strcat(desc, more_info);
-			break;
-		case WEAPON:
-			sprintf(desc+strlen(desc), "%s%d, %s%d ",
-				((obj->hit_enchant >= 0) ? "+" : ""),
-				obj->hit_enchant,
-				((obj->d_enchant >= 0) ? "+" : ""),
-				obj->d_enchant);
-			(void) strcat(desc, name_of(obj));
-			break;
-		}
-		break;
-	}
-ANA:
-	if (!strncmp(desc, (capitalized? "A ": "a "), 2)) {
-		if (is_vowel(desc[2])) {
-			for (i = strlen(desc) + 1; i > 1; i--) {
-				desc[i] = desc[i-1];
-			}
-			desc[1] = 'n';
-		}
-	}
-	i = obj->in_use_flags;
-	if (i & BEING_WIELDED) {
-		p = mesg[35];
-	} else if (i & BEING_WORN) {
-		p = mesg[36];
-	} else if (i & ON_LEFT_HAND) {
-		p = mesg[37];
-	} else if (i & ON_RIGHT_HAND) {
-		p = "(on right hand)";
+    if (obj->what_is != ARMOR) {
+	if (obj->quantity == 1) {
+	    strcpy(desc, capitalized ? "A " : "a ");
 	} else {
-		p = "";
+	    sprintf(desc, "%d ", obj->quantity);
 	}
-	(void) strcat(desc, p);
+    }
+    if (obj->what_is == FOOD) {
+	if (obj->which_kind == RATION) {
+	    if (obj->quantity > 1) {
+		sprintf(desc, mesg[30], obj->quantity);
+	    } else {
+		strcpy(desc, capitalized ? "Some " : "some ");
+	    }
+	} else {
+	    strcpy(desc, capitalized ? "A " : "a ");
+	}
+	(void) strcat(desc, item_name);
+	goto ANA;
+    }
+    id_table = get_id_table(obj);
+
+    if (wizard) {
+	goto ID;
+    }
+    if (obj->what_is & (WEAPON | ARMOR | WAND | RING)) {
+	goto CHECK;
+    }
+
+    switch (id_table[obj->which_kind].id_status) {
+    case UNIDENTIFIED:
+    CHECK:
+	switch (obj->what_is) {
+	case SCROL:
+	    (void) strcat(desc, item_name);
+	    (void) strcat(desc, mesg[33]);
+	    (void) strcat(desc, id_table[obj->which_kind].title);
+	    break;
+	case POTION:
+	    (void) strcat(desc, id_table[obj->which_kind].title);
+	    (void) strcat(desc, item_name);
+	    break;
+	case WAND:
+	case RING:
+	    if (obj->identified ||
+		(id_table[obj->which_kind].id_status == IDENTIFIED)) {
+		goto ID;
+	    }
+	    if (id_table[obj->which_kind].id_status == CALLED) {
+		goto CALL;
+	    }
+	    (void) strcat(desc, id_table[obj->which_kind].title);
+	    (void) strcat(desc, item_name);
+	    break;
+	case ARMOR:
+	    if (obj->identified) {
+		goto ID;
+	    }
+	    (void) strcpy(desc, id_table[obj->which_kind].title);
+	    break;
+	case WEAPON:
+	    if (obj->identified) {
+		goto ID;
+	    }
+	    (void) strcat(desc, name_of(obj));
+	    break;
+	}
+	break;
+    case CALLED:
+    CALL:
+	switch (obj->what_is) {
+	case SCROL:
+	case POTION:
+	case WAND:
+	case RING:
+	    (void) strcat(desc, item_name);
+	    (void) strcat(desc, mesg[34]);
+	    (void) strcat(desc, id_table[obj->which_kind].title);
+	    break;
+	}
+	break;
+    case IDENTIFIED:
+    ID:
+	switch (obj->what_is) {
+	case SCROL:
+	case POTION:
+	    (void) strcat(desc, item_name);
+	    (void) strcat(desc, id_table[obj->which_kind].real);
+	    break;
+	case RING:
+	    if (wizard || obj->identified) {
+		if ((obj->which_kind == DEXTERITY) ||
+		    (obj->which_kind == ADD_STRENGTH)) {
+		    sprintf(more_info, "%s%d ",
+			    ((obj->class > 0) ? "+" : ""), obj->class);
+		    (void) strcat(desc, more_info);
+		}
+	    }
+	    (void) strcat(desc, item_name);
+	    (void) strcat(desc, id_table[obj->which_kind].real);
+	    break;
+	case WAND:
+	    (void) strcat(desc, item_name);
+	    (void) strcat(desc, id_table[obj->which_kind].real);
+	    if (wizard || obj->identified) {
+		sprintf(more_info, "[%d]", obj->class);
+		(void) strcat(desc, more_info);
+	    }
+	    break;
+	case ARMOR:
+	    sprintf(desc, "%s%d ",
+		    ((obj->d_enchant >= 0) ? "+" : ""), obj->d_enchant);
+	    (void) strcat(desc, id_table[obj->which_kind].title);
+	    sprintf(more_info, "[%d] ", get_armor_class(obj));
+	    (void) strcat(desc, more_info);
+	    break;
+	case WEAPON:
+	    sprintf(desc + strlen(desc), "%s%d, %s%d ",
+		    ((obj->hit_enchant >= 0) ? "+" : ""),
+		    obj->hit_enchant,
+		    ((obj->d_enchant >= 0) ? "+" : ""), obj->d_enchant);
+	    (void) strcat(desc, name_of(obj));
+	    break;
+	}
+	break;
+    }
+ANA:
+    if (!strncmp(desc, (capitalized ? "A " : "a "), 2)) {
+	if (is_vowel(desc[2])) {
+	    for (i = strlen(desc) + 1; i > 1; i--) {
+		desc[i] = desc[i - 1];
+	    }
+	    desc[1] = 'n';
+	}
+    }
+    i = obj->in_use_flags;
+    if (i & BEING_WIELDED) {
+	p = mesg[35];
+    } else if (i & BEING_WORN) {
+	p = mesg[36];
+    } else if (i & ON_LEFT_HAND) {
+	p = mesg[37];
+    } else if (i & ON_RIGHT_HAND) {
+	p = "(on right hand)";
+    } else {
+	p = "";
+    }
+    (void) strcat(desc, p);
 #endif /*JAPAN for whole function get_desc() */
 }
 
 void
 get_wand_and_ring_materials(void)
 {
-	short i, j;
-	char *p;
-	boolean used[WAND_MATERIALS];
+    short i, j;
+    char *p;
+    boolean used[WAND_MATERIALS];
 
-	for (i = 0; i < WAND_MATERIALS; i++) {
-		used[i] = 0;
-	}
-	for (i = 0; i < WANDS; i++) {
-		do {
-			j = get_rand(0, WAND_MATERIALS-1);
-		} while (used[j]);
-		used[j] = 1;
-		p = id_wands[i].title;
-		(void) strcpy(p, wand_materials[j]);
+    for (i = 0; i < WAND_MATERIALS; i++) {
+	used[i] = 0;
+    }
+    for (i = 0; i < WANDS; i++) {
+	do {
+	    j = get_rand(0, WAND_MATERIALS - 1);
+	} while (used[j]);
+	used[j] = 1;
+	p = id_wands[i].title;
+	(void) strcpy(p, wand_materials[j]);
 #ifdef JAPAN
-		(void) strcat(p, mesg[39]);
+	(void) strcat(p, mesg[39]);
 #endif
-		is_wood[i] = (j > MAX_METAL);
-	}
-	for (i = 0; i < GEMS; i++) {
-		used[i] = 0;
-	}
-	for (i = 0; i < RINGS; i++) {
-		do {
-			j = get_rand(0, GEMS-1);
-		} while (used[j]);
-		used[j] = 1;
-		p = id_rings[i].title;
-		(void) strcpy(p, gems[j]);
+	is_wood[i] = (j > MAX_METAL);
+    }
+    for (i = 0; i < GEMS; i++) {
+	used[i] = 0;
+    }
+    for (i = 0; i < RINGS; i++) {
+	do {
+	    j = get_rand(0, GEMS - 1);
+	} while (used[j]);
+	used[j] = 1;
+	p = id_rings[i].title;
+	(void) strcpy(p, gems[j]);
 #ifdef JAPAN
-		(void) strcat(p, mesg[40]);
+	(void) strcat(p, mesg[40]);
 #endif
-	}
+    }
 }
 
 void
 single_inv(short ichar)
 {
-	short ch;
-	char *p;
-	object *obj;
-	char desc[DCOLS];
+    short ch;
+    char *p;
+    object *obj;
+    char desc[DCOLS];
 
-	ch = ichar? ichar: pack_letter(mesg[41], ALL_OBJECTS);
+    ch = ichar ? ichar : pack_letter(mesg[41], ALL_OBJECTS);
 
-	if (ch == CANCEL) {
-		return;
-	}
-	if (!(obj = get_letter_object(ch))) {
-		message(mesg[41], 0);
-		return;
-	}
-	p = desc;
-	*p++ = ch;
-	*p++ = ((obj->what_is & ARMOR) && obj->is_protected) ? '}' : ')';
-	*p++ = ' ';
-	get_desc(obj, p, 1);
-	message(desc, 0);
+    if (ch == CANCEL) {
+	return;
+    }
+    if (!(obj = get_letter_object(ch))) {
+	message(mesg[41], 0);
+	return;
+    }
+    p = desc;
+    *p++ = ch;
+    *p++ = ((obj->what_is & ARMOR) && obj->is_protected) ? '}' : ')';
+    *p++ = ' ';
+    get_desc(obj, p, 1);
+    message(desc, 0);
 }
 
-struct id
-* get_id_table(object *obj)
+struct id *
+get_id_table(object *obj)
 {
-	switch(obj->what_is) {
-	case SCROL:
-		return(id_scrolls);
-	case POTION:
-		return(id_potions);
-	case WAND:
-		return(id_wands);
-	case RING:
-		return(id_rings);
-	case WEAPON:
-		return(id_weapons);
-	case ARMOR:
-		return(id_armors);
-	}
-	return((struct id *) 0);
+    switch (obj->what_is) {
+    case SCROL:
+	return (id_scrolls);
+    case POTION:
+	return (id_potions);
+    case WAND:
+	return (id_wands);
+    case RING:
+	return (id_rings);
+    case WEAPON:
+	return (id_weapons);
+    case ARMOR:
+	return (id_armors);
+    }
+    return ((struct id *) 0);
 }
 
 void
 inv_armor_weapon(boolean is_weapon)
 {
-	if (is_weapon) {
-		if (rogue.weapon) {
-			single_inv(rogue.weapon->ichar);
-		} else {
-			message(mesg[43], 0);
-		}
+    if (is_weapon) {
+	if (rogue.weapon) {
+	    single_inv(rogue.weapon->ichar);
 	} else {
-		if (rogue.armor) {
-			single_inv(rogue.armor->ichar);
-		} else {
-			message(mesg[44], 0);
-		}
+	    message(mesg[43], 0);
 	}
+    } else {
+	if (rogue.armor) {
+	    single_inv(rogue.armor->ichar);
+	} else {
+	    message(mesg[44], 0);
+	}
+    }
 }
 
 #ifndef ORIGINAL
-struct	dlist {
-	short	type, no;
-	char	*name, *real;
+struct dlist
+{
+    short type, no;
+    char *name, *real;
 #ifdef JAPAN
-	char	*sub;
+    char *sub;
 #endif
-}	dlist[SCROLS + POTIONS + WANDS + RINGS + 4];
+} dlist[SCROLS + POTIONS + WANDS + RINGS + 4];
 
-struct	dobj {
-	short	type;
-	char	ch, max;
-	char	*name;
-	struct	id *id;
-}	dobj[] = {
-		{ SCROL,  '?', SCROLS,  mesg[3], id_scrolls },
-		{ POTION, '!', POTIONS, mesg[4], id_potions },
-		{ WAND,   '/', WANDS,   mesg[5], id_wands   },
-		{ RING,   '=', RINGS,   mesg[8], id_rings   },
-		{ 0 }
+struct dobj
+{
+    short type;
+    char ch, max;
+    char *name;
+    struct id *id;
+} dobj[] = {
+    {
+    SCROL, '?', SCROLS, mesg[3], id_scrolls}, {
+    POTION, '!', POTIONS, mesg[4], id_potions}, {
+    WAND, '/', WANDS, mesg[5], id_wands}, {
+    RING, '=', RINGS, mesg[8], id_rings}, {
+    0}
 };
 
 void
@@ -699,12 +704,12 @@ discovered(void)
 		if (wizard || j == IDENTIFIED) {
 		    dp->real = op->id[i].real;
 #ifdef JAPAN
-		    dp->sub  = "";
+		    dp->sub = "";
 #endif
 		} else {
 		    dp->real = op->id[i].title;
 #ifdef JAPAN
-		    dp->sub  = mesg[34];
+		    dp->sub = mesg[34];
 #endif
 		}
 #ifndef JAPAN
@@ -737,14 +742,14 @@ discovered(void)
 nextpage:
     i = 0;
     maxlen = len;
-    while (dp < enddp && i < DROWS-2) {
+    while (dp < enddp && i < DROWS - 2) {
 	p = descs[i];
 	if (dp->type == 0) {
 	    (void) strcpy(p, "");
 	} else if (dp->no < 0) {
 	    (void) sprintf(p, mesg[47], dp->name);
 #ifndef JAPAN
-	    descs[i][strlen(p)-1] = 's';
+	    descs[i][strlen(p) - 1] = 's';
 #endif
 	} else {
 #ifdef JAPAN
@@ -754,7 +759,7 @@ nextpage:
 	    (void) strcat(p, dp->name);
 #else
 	    p[0] = ' ';
-	    (void) strcpy(p+1, dp->name);
+	    (void) strcpy(p + 1, dp->name);
 	    (void) strcat(p, dp->real);
 	    p[1] -= 'a' - 'A';
 #endif
@@ -766,7 +771,7 @@ nextpage:
 	dp++;
     }
 
-    if (i == 0 || ( i == 1 && !descs[0][0] ) ) {
+    if (i == 0 || (i == 1 && !descs[0][0])) {
 	/*
 	 * can be here only in 2nd pass (exactly one page)
 	 */
@@ -778,11 +783,11 @@ nextpage:
     for (row = 0; row < i; row++) {
 	if (row > 0) {
 	    for (j = col; j < DCOLS; j++) {
-		descs[row-1][j-col] = mvinch(row, j) & A_CHARTEXT;
+		descs[row - 1][j - col] = mvinch(row, j) & A_CHARTEXT;
 	    }
-	    descs[row-1][j-col] = 0;
+	    descs[row - 1][j - col] = 0;
 	}
-	attrset( COLOR_PAIR(0) );
+	attrset(COLOR_PAIR(0));
 	mvaddstr(row, col, descs[row]);
 	clrtoeol();
     }
@@ -794,26 +799,26 @@ nextpage:
 #ifdef COLOR
     for (j = 1; j < i; j++) {
 	move(j, col);
-	for (p = descs[j-1]; *p; p++) {
-	    attrset( COLOR_PAIR( ch_attr[(signed)*p] ) );
+	for (p = descs[j - 1]; *p; p++) {
+	    attrset(COLOR_PAIR(ch_attr[(signed) *p]));
 	    addch(*p);
-	    attrset( COLOR_PAIR(0) );
+	    attrset(COLOR_PAIR(0));
 	}
     }
 #else
-#ifndef JAPAN	/* if.. by Yasha */
+#ifndef JAPAN			/* if.. by Yasha */
     for (j = 1; j < i; j++) {
-	attrset( COLOR_PAIR(0) );
-	mvaddstr(j, col, descs[j-1]);
+	attrset(COLOR_PAIR(0));
+	mvaddstr(j, col, descs[j - 1]);
     }
 #else
     for (j = 1; j < i; j++) {	/* by Yasha */
 	move(j, col);		/* by Yasha */
 	clrtoeol();		/* by Yasha */
-	addstr(descs[j-1]);	/* by Yasha */
+	addstr(descs[j - 1]);	/* by Yasha */
     }				/* by Yasha */
-    move(DROWS - 1, 0);	/* by Yasha */
-    clrtoeol();		/* by Yasha */
+    move(DROWS - 1, 0);		/* by Yasha */
+    clrtoeol();			/* by Yasha */
     print_stats(STAT_ALL);	/* by Yasha */
 #endif /* JAPAN */
 #endif /* COLOR */
@@ -823,43 +828,45 @@ nextpage:
     }
 }
 #endif /*ORIGINAL*/
-
 #ifdef JAPAN
-static char *_num[10] = { "£°","£±","£²","£³","£´","£µ","£¶","£·","£¸","£¹" };
+static char *_num[10] =
+    { "£°", "£±", "£²", "£³", "£´", "£µ", "£¶", "£·", "£¸", "£¹" };
 
 void
 znum(char *buf, int n, int plus)
 {
-	char s[10], *p;
+    char s[10], *p;
 
-	while (*buf)
-		buf++;
-	if (plus && n >= 0) {
-		strcpy(buf, "¡Ü");
-		buf += 2;
-	}
-	sprintf(s, "%d", n);
-	for (p = s; *p; p++) {
-		strcpy(buf, (*p == '-')? "¡Ý": _num[*p - '0']);
-		buf += 2;
-	}
+    while (*buf) {
+	buf++;
+    }
+    if (plus && n >= 0) {
+	strcpy(buf, "¡Ü");
+	buf += 2;
+    }
+    sprintf(s, "%d", n);
+    for (p = s; *p; p++) {
+	strcpy(buf, (*p == '-') ? "¡Ý" : _num[*p - '0']);
+	buf += 2;
+    }
 }
 
 void
 lznum(char *buf, long n, int plus)
 {
-	char s[13], *p;
+    char s[13], *p;
 
-	while (*buf)
-		buf++;
-	if (plus && n >= 0L) {
-		strcpy(buf, "¡Ü");
-		buf += 2;
-	}
-	sprintf(s, "%ld", n);
-	for (p = s; *p; p++) {
-		strcpy(buf, (*p == '-')? "¡Ý": _num[*p - '0']);
-		buf += 2;
-	}
+    while (*buf) {
+	buf++;
+    }
+    if (plus && n >= 0L) {
+	strcpy(buf, "¡Ü");
+	buf += 2;
+    }
+    sprintf(s, "%ld", n);
+    for (p = s; *p; p++) {
+	strcpy(buf, (*p == '-') ? "¡Ý" : _num[*p - '0']);
+	buf += 2;
+    }
 }
 #endif

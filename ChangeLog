@@ -1,3 +1,7 @@
+2005-12-05  FUNABARA Masao
+
+	* invent.c : コードのクリーンアップ
+
 2005-12-04  FUNABARA Masao
 
 	* init.c : コードのクリーンアップ
