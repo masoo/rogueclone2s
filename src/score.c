@@ -28,9 +28,6 @@
 #ifdef UNIX
 char *score_file = ".rogue.scores";
 #endif
-#ifdef MSDOS
-char *score_file = "rogue.sco";
-#endif
 
 extern char login_name[];
 extern char *m_names[];
@@ -477,28 +474,6 @@ put_scores(object *monster, short other)
 		sf_error();
 	}
 #endif
-#ifdef MSDOS
-	fp = NULL;
-	if ((!game_dir || !*game_dir) && (p = md_getenv("HOME")) != NULL) {
-		p = strcpy(file, p);
-		while (*p)
-			p++;
-		if (p[-1] != '\\')
-			*p++ = '\\';
-		strcpy(p, score_file);
-		if ((fp = fopen(file, "rb+")) == NULL)
-			fp = fopen(file, "wb+");
-	}
-	if (fp == NULL) {
-		strcpy(file, score_file);
-		if ((fp = fopen(file, "rb+")) == NULL)
-			fp = fopen(file, "wb+");
-	}
-	if (fp == NULL) {
-		message(mesg[186], 0);
-		sf_error();
-	}
-#endif
 	(void) xxx(1);
 	for (i = 0; i < 10; i++) {
 		if ((n = fread(scores[i], sizeof(char), 80, fp)) == 0)
@@ -597,9 +572,6 @@ put_scores(object *monster, short other)
 #ifdef UNIX
 		if ((fp = fopen(file, "w")) == NULL) {
 #endif
-#ifdef MSDOS
-		if ((fp = fopen(file, "wb")) == NULL) {
-#endif
 			message(mesg[186], 0);
 			sf_error();
 		}
@@ -630,17 +602,11 @@ short other;
 #ifdef UNIX
 	char *mode = "r+w";
 #endif
-#ifdef MSDOS
-	char *mode = "rb+";
-#endif
 
 	while ((fp = fopen(score_file, mode)) == NULL) {
 		if (!failed) {
 #ifdef UNIX
 			mode = "w";
-#endif
-#ifdef MSDOS
-			mode = "wb+";
 #endif
 		} else {
 			message("Cannot read/write/create score file", 0);

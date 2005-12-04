@@ -1,4 +1,14 @@
-2005-12-04  FUNABARA Masao  <l07steps@users.sourceforge.jp>
+2005-12-04  FUNABARA Masao
+
+	* zap.c : MSDOS マクロ定義を消去する
+
+	* save.c : MSDOS マクロ定義を消去するp
+
+	* play.c : MSDOS マクロ定義を消去する
+
+	* message.c : MSDOS マクロ定義を消去する
+
+	* machdep.c : MSDOS マクロ定義を消去する
 
 	* init.c : MSDOS マクロ定義を消去する
 

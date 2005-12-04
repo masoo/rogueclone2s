@@ -85,33 +85,13 @@ save_into_file(char *sfile)
 #endif
 	if (sfile[0] == '~') {
 		if ( (hptr = md_getenv("HOME")) ) {
-#ifdef MSDOS
-			hptr = strcpy(name_buffer, hptr);
-			while (*hptr)
-				hptr++;
-			if (hptr[-1] == '\\')
-				hptr--;
-			strcpy(hptr, sfile+1);
-#else
 			(void) strcpy(name_buffer, hptr);
 			(void) strcat(name_buffer, sfile+1);
-#endif
 			sfile = name_buffer;
 		}
 	}
 #ifdef UNIX
 	if (	((fp = fopen(sfile, "w")) == NULL) ||
-			((file_id = md_get_file_id(sfile)) == -1)) {
-#ifdef JAPAN
-		message("セーブファイルにアクセスできません。", 0);
-#else
-		message("Problem accessing the save file", 0);
-#endif
-		goto err_return;
-	}
-#endif
-#ifdef MSDOS
-	if (	((fp = fopen(sfile, "wb")) == NULL) ||
 			((file_id = md_get_file_id(sfile)) == -1)) {
 #ifdef JAPAN
 		message("セーブファイルにアクセスできません。", 0);
@@ -205,16 +185,6 @@ restore(char *fname)
 		clean_up("ファイルはリンクされています。");
 #else
 		clean_up("File has link");
-#endif
-	}
-#endif
-#ifdef MSDOS
-	if (((new_file_id = md_get_file_id(fname)) == -1) ||
-			((fp = fopen(fname, "rb")) == NULL)) {
-#ifdef JAPAN
-		clean_up("ファイルがオープンできませんでした。");
-#else
-		clean_up("Cannot open file");
 #endif
 	}
 #endif

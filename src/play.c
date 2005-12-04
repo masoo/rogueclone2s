@@ -534,28 +534,11 @@ options(void)
 	refresh();
 }
 
-#ifdef MSDOS
-#ifndef LC4
-#include <process.h>
-#endif
-#endif
-
 void
 doshell(void)
 {
 	char *cmd, *md_getenv();
 
-#if defined(MSDOS)		/* by Yasha */
-/*#ifdef MSDOS*/
-	if ((cmd = md_getenv("COMSPEC")) == NULL) {
-#ifdef JAPAN
-		message("環境変数 COMSPEC がセットされていません", 0);
-#else
-		message("Sorry, no COMSPEC...", 0);
-#endif
-		return;
-	}
-#endif /*MSDOS*/
 #ifdef UNIX
 	if ((cmd = md_getenv("SHELL")) == NULL)
 		cmd = "/bin/sh";
@@ -565,16 +548,6 @@ doshell(void)
 	stop_window();
 	if (*org_dir)
 		md_chdir(org_dir);
-#ifdef MSDOS
-	putstr("\r\n\r\n");
-	putstr(mesg[156]);
-	putstr("\r\n");
-#ifdef LC4
-	forkl(cmd, cmd, NULL);
-#else
-	spawnl(P_WAIT, cmd, cmd, NULL);
-#endif
-#endif /*MSDOS*/
 #ifdef UNIX
 	md_ignore_signals();
 	putstr(mesg[157]);

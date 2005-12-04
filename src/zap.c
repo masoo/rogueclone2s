@@ -289,9 +289,6 @@ wizardize(void)
 #ifdef UNIX
 			if (!bcmp(buf, wiz_passwd, 11)) {
 #endif
-#ifdef MSDOS
-			if (!memcmp(buf, wiz_passwd, 11)) {
-#endif
 #else
 			if (!strncmp(buf, "\247\104\126\272\115\243\027", 7)) {
 #endif
