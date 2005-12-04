@@ -53,14 +53,8 @@
 #include <sys/types.h>
 #include <sys/file.h>
 #include <sys/stat.h>
-#ifdef UNIX_SYSV
-#  include <time.h>
-#  include <termio.h>
-#endif /* UNIX_SYSV */
-#ifdef UNIX_BSD4_2
-#  include <sys/time.h>
-#  include <sgtty.h>
-#endif /* UNIX_BSD4_2 */
+#include <time.h>
+#include <termio.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -88,15 +82,9 @@ putstr(char *s)
 char *
 md_getcwd(char *dir, int len)
 {
-#ifdef UNIX_BSD4_2
-	char *getwd();
-
-	return (getwd(dir));
-#else /* UNIX_BSD4_2 */
 	char *getcwd();
 
 	return (getcwd(dir, len));
-#endif /* UNIX_BSD4_2 */
 }
 #endif /* ORIGINAL */
 
@@ -131,21 +119,9 @@ md_slurp(void)
 {
 	long ln = 0;
 
-#ifdef UNIX_BSD4_2
-	ioctl(0, FIONREAD, &ln);
-#endif /* UNIX_BSD4_2 */
-#ifdef UNIX_SYSV
 	ioctl(0, TCFLSH, &ln);
 	ln = 0;
-#endif /* UNIX_SYSV */
-#ifdef UNIX_SYSV
 	fflush(stdin);
-#else
-	ln += stdin->_cnt;
-	for (; ln > 0; ln--) {
-		(void) getchar();
-	}
-#endif /* UNIX_SYSV */
 }
 
 /* md_control_keyboard():
@@ -170,53 +146,19 @@ void
 md_control_keyboard(boolean mode)
 {
 	static boolean called_before = 0;
-#ifdef UNIX_BSD4_2
-	static struct ltchars ltc_orig;
-	static struct tchars tc_orig;
-	struct ltchars ltc_temp;
-	struct tchars tc_temp;
-#endif /* UNIX_BSD4_2 */
-#ifdef UNIX_SYSV
 	static struct termio _oldtty;
 	struct termio _tty;
-#endif /* UNIX_SYSV */
 
 	if (!called_before) {
 		called_before = 1;
-#ifdef UNIX_BSD4_2
-		ioctl(0, TIOCGETC, &tc_orig);
-		ioctl(0, TIOCGLTC, &ltc_orig);
-#endif /* UNIX_BSD4_2 */
-#ifdef UNIX_SYSV
 		ioctl(0, TCGETA, &_oldtty);
-#endif /* UNIX_SYSV */
 	}
-#ifdef UNIX_BSD4_2
-	ltc_temp = ltc_orig;
-	tc_temp = tc_orig;
-#endif /* UNIX_BSD4_2 */
-#ifdef UNIX_SYSV
 	_tty = _oldtty;
-#endif /* UNIX_SYSV */
 
 	if (!mode) {
-#ifdef UNIX_BSD4_2
-		ltc_temp.t_suspc = ltc_temp.t_dsuspc = -1;
-		ltc_temp.t_rprntc = ltc_temp.t_flushc = -1;
-		ltc_temp.t_werasc = ltc_temp.t_lnextc = -1;
-		tc_temp.t_startc = tc_temp.t_stopc = -1;
-#endif /* UNIX_BSD4_2 */
-#ifdef UNIX_SYSV
 		/* _tty.c_cc[VSWTCH] = CNSWTCH; */
-#endif /* UNIX_SYSV */
 	}
-#ifdef UNIX_BSD4_2
-	ioctl(0, TIOCSETC, &tc_temp);
-	ioctl(0, TIOCSLTC, &ltc_temp);
-#endif /* UNIX_BSD4_2 */
-#ifdef UNIX_SYSV
 	ioctl(0, TCSETA, &_tty);
-#endif /* UNIX_SYSV */
 }
 
 /* md_heed_signals():

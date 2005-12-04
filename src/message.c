@@ -290,20 +290,6 @@ rgetchar(void)
 			refresh();
 #endif
 			break;
-#ifdef UNIX_BSD4_2
-		case '\032':
-			/* putstr(CL); */
-			fflush(stdout);
-			tstp();
-#ifdef NeXT   /* by Yasha (till "#endif") */
-                        getyx(stdscr, y, x);
-                        move(0, 0);
-                        refresh();
-                        move(y, x);
-                        refresh();
-#endif
-			break;
-#endif
 #ifndef ORIGINAL
 		/*
 		 * can't use X for save_screen purpose

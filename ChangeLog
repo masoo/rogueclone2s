@@ -1,6 +1,10 @@
 2005-12-04  FUNABARA Masao
 
-	* machdep.c : UNIX_386BSD を消去する
+	* machdep.c : UNIX_SYSV マクロ定義を消去する
+
+	* ALL_FILES :  UNIX_BSD4_2 マクロ定義を消去する
+
+	* machdep.c : UNIX_386BSD マクロ定義を消去する
 
 	* ALL_FILES : UNIX マクロ定義を消去する
 
