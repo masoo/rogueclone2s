@@ -50,19 +50,17 @@
  */
 
 #include <stdio.h>
-#ifdef UNIX
-#  include <sys/types.h>
-#  include <sys/file.h>
-#  include <sys/stat.h>
-#  ifdef UNIX_SYSV
-#    include <time.h>
-#    include <termio.h>
-#  endif /* UNIX_SYSV */
-#  ifdef UNIX_BSD4_2
-#    include <sys/time.h>
-#    include <sgtty.h>
-#  endif /* UNIX_BSD4_2 */
-#endif /* UNIX */
+#include <sys/types.h>
+#include <sys/file.h>
+#include <sys/stat.h>
+#ifdef UNIX_SYSV
+#  include <time.h>
+#  include <termio.h>
+#endif /* UNIX_SYSV */
+#ifdef UNIX_BSD4_2
+#  include <sys/time.h>
+#  include <sgtty.h>
+#endif /* UNIX_BSD4_2 */
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -90,27 +88,17 @@ putstr(char *s)
 char *
 md_getcwd(char *dir, int len)
 {
-#ifdef UNIX
 #ifdef UNIX_BSD4_2
 	char *getwd();
 
 	return (getwd(dir));
-#else
+#else /* UNIX_BSD4_2 */
 	char *getcwd();
 
 	return (getcwd(dir, len));
 #endif /* UNIX_BSD4_2 */
-#else /* UNIX */
-#ifdef LC4
-	return ((char *)getcwd(dir, len));
-#else
-	char *getcwd();
-
-	return (getcwd(dir, len));
-#endif /* LC4 */
-#endif /* UNIX_BSD_4_2 */
 }
-#endif /* UNIX */
+#endif /* ORIGINAL */
 
 #ifndef ORIGINAL
 /*
@@ -122,10 +110,7 @@ md_getcwd(char *dir, int len)
 int
 md_chdir(char *dir)
 {
-#if defined(UNIX)
-/*#ifdef UNIX*/
 	return (chdir(dir));
-#endif /* UNIX */
 }
 #endif /* ORIGINAL */
 
@@ -144,7 +129,6 @@ md_chdir(char *dir)
 void
 md_slurp(void)
 {
-#ifdef UNIX
 	long ln = 0;
 
 #ifdef UNIX_BSD4_2
@@ -166,7 +150,6 @@ md_slurp(void)
 	}
 #endif /* UNIX_SYSV */
 #endif /*386BSD*/
-#endif /* UNIX */
 }
 
 /* md_control_keyboard():
@@ -190,7 +173,6 @@ md_slurp(void)
 void
 md_control_keyboard(boolean mode)
 {
-#ifdef UNIX
 	static boolean called_before = 0;
 #ifdef UNIX_BSD4_2
 	static struct ltchars ltc_orig;
@@ -239,7 +221,6 @@ md_control_keyboard(boolean mode)
 #ifdef UNIX_SYSV
 	ioctl(0, TCSETA, &_tty);
 #endif /* UNIX_SYSV */
-#endif /* UNIX */
 }
 
 /* md_heed_signals():
@@ -261,12 +242,10 @@ md_control_keyboard(boolean mode)
 void
 md_heed_signals(void)
 {
-#ifdef UNIX
 void onintr(int);
 	signal(SIGINT, onintr);
 	signal(SIGQUIT, byebye);
 	signal(SIGHUP, error_save);
-#endif /* UNIX */
 }
 
 /* md_ignore_signals():
@@ -284,11 +263,9 @@ void onintr(int);
 void
 md_ignore_signals(void)
 {
-#ifdef UNIX
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGHUP, SIG_IGN);
-#endif /* UNIX */
 }
 
 /* md_get_file_id():
@@ -305,14 +282,12 @@ md_ignore_signals(void)
 int
 md_get_file_id(char *fname)
 {
-#ifdef UNIX
 	struct stat sbuf;
 
 	if (stat(fname, &sbuf)) {
 		return(-1);
 	}
 	return((int) sbuf.st_ino);
-#endif /* UNIX */
 }
 
 /* md_link_count():
@@ -326,12 +301,10 @@ md_get_file_id(char *fname)
 int
 md_link_count(char *fname)
 {
-#ifdef UNIX
 	struct stat sbuf;
 
 	stat(fname, &sbuf);
 	return((int) sbuf.st_nlink);
-#endif /* UNIX */
 }
 
 /* md_gct(): (Get Current Time)
@@ -462,7 +435,6 @@ md_df(char *fname)
 char *
 md_gln(void)
 {
-#ifdef UNIX
 	char *getlogin();
 	char *t;
 	char *md_getenv();	/* by Yasha */
@@ -472,7 +444,6 @@ md_gln(void)
 			t = md_getenv("USER");	/* by Yasha */
 /*	t = getlogin();*/	/* killed by Yasha */
 	return(t);
-#endif /* UNIX */
 }
 
 /* md_sleep:
@@ -570,9 +541,7 @@ md_malloc(int n)
 int
 md_gseed(void)
 {
-#ifdef UNIX
 	return(getpid());
-#endif /* UNIX */
 }
 
 /* md_exit():

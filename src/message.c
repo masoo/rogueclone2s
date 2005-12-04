@@ -482,9 +482,7 @@ save_screen(void)
 	char buf[DCOLS+2];
 	boolean found_non_blank;
 
-#ifdef UNIX
 	if ((fp = fopen("rogue.screen", "w")) != NULL) {
-#endif
 		for (i = 0; i < DROWS; i++) {
 			found_non_blank = 0;
 			for (j = (DCOLS - 1); j >= 0; j--) {
