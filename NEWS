@@ -1,5 +1,10 @@
 　NEWS
 
+* Release 2
+	Release 1 との差異
+	* 付属の curses ライブラリの使用をやめ、ncurses ライブラリの使用
+	* コンパイル時にカラー化の有無を選択できるようにする
+	* コンパイル時に最適化オプション(-O2)を使用する
 * Release 1
 	データ分離版ローグ　クローンIIとの差異
 	* autoconf / automake 化

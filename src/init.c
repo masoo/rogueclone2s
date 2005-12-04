@@ -538,6 +538,8 @@ void
 set_color_map(void)
 {
     int i, j;
+    char *ch;
+    char cha;
     int color_map_list[5];
     char color_type[] = "wrgybmcWRGYBMC";
 
@@ -545,7 +547,7 @@ set_color_map(void)
     use_color = 0;
 #endif
     if ( !has_colors() || use_color != 1 ) {
-	for ( int i = 0; i < 256; i++ ) {
+	for ( i = 0; i < 256; i++ ) {
 	    ch_attr[i] = 0;
 	}
 	return;
@@ -604,14 +606,14 @@ set_color_map(void)
     init_pair(MAGENTA_REVERSE, COLOR_BLACK, COLOR_MAGENTA);
     init_pair(CYAN_REVERSE, COLOR_BLACK, COLOR_CYAN);
     //カラーマップ毎の処理を記述
-    for ( char *ch = "-|#+"; *ch; ch++ ) {
+    for ( ch = "-|#+"; *ch; ch++ ) {
 	ch_attr[(signed)*ch] = color_map_list[0];
     }
     ch_attr['.'] = color_map_list[1];
-    for ( char ch = 'A'; ch <= 'Z'; ch++ ) {
-	ch_attr[(signed)ch] = color_map_list[2];
+    for ( cha = 'A'; cha <= 'Z'; cha++ ) {
+	ch_attr[(signed)cha] = color_map_list[2];
     }
-    for ( char *ch = "%!?/=)]^*:,"; *ch; ch++ ) {
+    for ( ch = "%!?/=)]^*:,"; *ch; ch++ ) {
 	ch_attr[(signed)*ch] = color_map_list[3];
     }
     ch_attr[rogue.fchar] = color_map_list[4];
