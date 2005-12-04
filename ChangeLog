@@ -1,5 +1,7 @@
 2005-12-05  FUNABARA Masao
 
+	* pack.c : コードのクリーンアップ
+
 	* object.c : コードのクリーンアップ
 
 	* move.c : コードのクリーンアップ
