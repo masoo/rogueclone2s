@@ -442,11 +442,9 @@ extern int ch_attr[];
 extern char org_dir[], *game_dir;
 #endif
 
-#ifdef UNIX
 #undef	getchar
 #undef	putchar
 #undef	putc
 #define	getchar()	fgetc(stdin)
 #define	putchar(c)	fputc(c, stdout)
 #define	putc(c, fp)	fputc(c, fp)
-#endif
