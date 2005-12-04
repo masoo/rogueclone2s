@@ -1,4 +1,6 @@
-2005-12-04  FUNABARA Masao
+2005-12-04  FUNABARA Masao  <l07steps@users.sourceforge.jp>
+
+	* init.c : MSDOS マクロ定義を消去する
 
 	* ALL_FILES : HUMAN マクロ定義を消去する
 

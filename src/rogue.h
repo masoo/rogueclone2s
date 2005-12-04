@@ -14,12 +14,6 @@
 # include "config.h"
 #endif
 
-#ifdef MSDOS
-#undef	getchar
-#undef	putchar
-#define	fflush(p)
-#endif
-
 #if 0
 #ifndef ORIGINAL
 typedef unsigned char	uchar;
@@ -446,10 +440,6 @@ extern int ch_attr[];
 
 #ifndef ORIGINAL
 extern char org_dir[], *game_dir;
-#endif
-#ifdef MSDOS
-extern char cursor_on[], cursor_off[];
-extern char *mac_type;
 #endif
 
 #ifdef UNIX

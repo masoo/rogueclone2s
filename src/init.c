@@ -33,9 +33,7 @@ char *rest_file = 0;
 boolean cant_int = 0, did_int = 0, score_only = 0, init_curses = 0;
 boolean save_is_interactive = 1;
 boolean show_skull = 1;
-#ifndef MSDOS
 boolean ask_quit = 1;
-#endif
 #ifndef ORIGINAL
 boolean pass_go = 1, do_restore = 0;
 char org_dir[64], *game_dir = "";
@@ -45,13 +43,6 @@ boolean use_color = 1;
 int ch_attr[256];
 #ifdef UNIX
 char *error_file = "rogue.esave";
-#endif
-#ifdef MSDOS
-char *error_file = "rogue.err";
-char *mac_type = "none", *cursor_str = "";
-char *init_string = "", *term_string = "";
-char init_str[30], term_str[30];
-char cursor_on[10], cursor_off[10];
 #endif
 
 extern char *fruit;
@@ -88,11 +79,9 @@ init(int argc, char *argv[])
     }
     set_color_map();
 
-#ifndef MSDOS
     if ((LINES < DROWS) || (COLS < DCOLS)) {
 	clean_up(mesg[14]);
     }
-#endif
 
     start_window();
     init_curses = 1;
@@ -183,9 +172,6 @@ clean_up(char *estr)
 #ifndef ORIGINAL
 			clrtoeol();
 #endif
-#ifdef MSDOS
-			move(DROWS-4, 0);
-#endif
 			refresh();
 			stop_window();
 		}
@@ -199,34 +185,21 @@ clean_up(char *estr)
 void
 start_window(void)
 {
-#ifdef MSDOS
-	if (*init_str)
-		putstr(init_str);
-	md_cbreak_no_echo_nonl(1);
-#else
 	crmode();
 	noecho();
 #ifndef BAD_NONL
 	nonl();
 #endif /*BAD_NONL*/
 	md_control_keyboard(0);
-#endif /*MSDOS*/
 }
 
 void
 stop_window(void)
 {
 	endwin();
-#ifndef MSDOS
 	md_control_keyboard(1);
-#endif
-#ifdef MSDOS
-	if (*term_str)
-		putstr(term_str);
-#endif
 }
 
-#ifndef MSDOS
 void
 byebye(int sig)
 {
@@ -238,11 +211,7 @@ byebye(int sig)
 	}
 	md_heed_signals();
 }
-#endif /*MSDOS*/
 
-#if defined(MSDOS) && (!defined(__TURBOC__) || __TURBOC__ >= 0x0200)
-void
-#endif
 void
 onintr(int sig)
 {
@@ -254,17 +223,7 @@ onintr(int sig)
 		message(mesg[15], 1);
 	}
 	md_heed_signals();
-#if defined(MSDOS) && defined(__TURBOC__) && __TURBOC__ < 0x0200
-	return 1;
-#endif
 }
-
-#if defined(MSDOS) && defined(__TURBOC__) && __TURBOC__ < 0x0200
-ignintr()
-{
-	return 1;
-}
-#endif
 
 void
 error_save(int sig)
@@ -300,9 +259,7 @@ do_args(int argc, char *argv[])
 }
 
 opt envopt[] = {
-#ifndef MSDOS
 	{ "askquit",	&ask_quit,	NULL,		0, 0 },
-#endif
 	{ "jump",	&jump,		NULL,		0, 0 },
 #ifndef ORIGINAL
 	{ "passgo",	&pass_go,	NULL,		0, 0 },
@@ -326,20 +283,12 @@ opt envopt[] = {
 #ifdef COLOR
 	{ "map",	NULL,		&color_str,	0, 0 },
 #endif
-#ifdef MSDOS
-	{ "type",	NULL,		&mac_type,	0, 0 },
-	{ "init",	NULL,		&init_string,	0, 0 },
-	{ "term",	NULL,		&term_string,	0, 0 },
-	{ "cursor",	NULL,		&cursor_str,	0, 0 },
-#endif
 	{ NULL,		NULL,		NULL,		0, 0 }
 };
 
 #ifdef JAPAN
 char *optdesc[] = {
-#ifndef MSDOS
 	"終了するかどうか確認をとる",
-#endif
 	"移動中の表示を行わない",
 #ifndef ORIGINAL
 	"通路の角で止まらずに進む",
@@ -359,19 +308,11 @@ char *optdesc[] = {
 #ifdef COLOR
 	"キャラクターの表示色マッピング",
 #endif
-#ifdef MSDOS
-	"使用機種",
-	"画面利用を開始するシーケンス",
-	"画面利用を終了するシーケンス",
-	"カーソルオン／オフのシーケンス",
-#endif
 	NULL
 };
 #else /*JAPAN*/
 char *optdesc[] = {
-#ifndef MSDOS
 	"Ask whether quit or not on quit signal",
-#endif
 	"Show position only at end of run",
 #ifndef ORIGINAL
 	"Follow turnings in passageways",
@@ -391,28 +332,9 @@ char *optdesc[] = {
 #ifdef COLOR
 	"Color mapping for characters",
 #endif
-#ifdef MSDOS
-	"Machine type",
-	"Initialize sequence in hex",
-	"Terminate sequence in hex",
-	"Cursor on/off sequence in hex/hex",
-#endif
 	NULL
 };
 #endif /*JAPAN*/
-
-#ifdef MSDOS
-typedef struct machine { char *type, *cursor, *init, *term;} mac;
-mac macs[] = {
-{"pc98",  "1b5b3e356c/1b5b3e3568", "1b29301b5b3e336c1b5b3e3168", "1b5b3e316c"},
-{"pc100", "1b5b3e3568/1b5b3e356c", "1b29301b5b3d33681b5b3e316c", "1b5b3e3168"},
-{"ax",    "1b5b3e356c/1b5b3e3568", "", ""},
-{"fmr",   "1b5b3076/1b5b3176", "", ""},
-{"b16",   "1b5b3e356c/1b5b3e3568", "", ""},
-{"if800", "1b31/1b30", "1b4e301b6e391b53202030", "1b53202031"},
-{NULL, NULL, NULL, NULL}
-};
-#endif /*MSDOS*/
 
 void
 do_opts(void)
@@ -439,10 +361,6 @@ set_opts(char *env)
 	short not;
 	char *ep, *p;
 	opt *op;
-#ifdef MSDOS
-	short i;
-	mac *mp;
-#endif
 	char optname[20];
 
 	if (*env == 0)
@@ -476,55 +394,6 @@ set_opts(char *env)
 		while (*ep && *ep != ',')
 			ep++;
 	}
-
-#ifdef MSDOS
-	for (p = mac_type; *p; p++)
-		if (*p >= 'A' && *p <= 'Z')
-			*p += 'a' - 'A';
-	for (mp = macs; mp->type; mp++) {
-		if (!strcmp(mac_type, mp->type)) {
-			cursor_str  = mp->cursor;
-			init_string = mp->init;
-			term_string = mp->term;
-			break;
-		}
-	}
-	if (init_string) {
-		p = init_string;
-		ep = init_str;
-		while ((i = get_hex_num(p, 2)) >= 0) {
-			*ep++ = i;
-			p += 2;
-		}
-		*ep = 0;
-	}
-	if (term_string) {
-		p = term_string;
-		ep = term_str;
-		while ((i = get_hex_num(p, 2)) >= 0) {
-			*ep++ = i;
-			p += 2;
-		}
-		*ep = 0;
-	}
-	if (cursor_str) {
-		p = cursor_str;
-		ep = cursor_on;
-		while ((i = get_hex_num(p, 2)) >= 0) {
-			*ep++ = i;
-			p += 2;
-		}
-		*ep = 0;
-		if (*p)
-			p++;
-		ep = cursor_off;
-		while ((i = get_hex_num(p, 2)) >= 0) {
-			*ep++ = i;
-			p += 2;
-		}
-		*ep = 0;
-	}
-#endif
 
 	set_color_map();
 
@@ -618,28 +487,6 @@ set_color_map(void)
     }
     ch_attr[rogue.fchar] = color_map_list[4];
 }
-#ifdef MSDOS
-get_hex_num(p, n)
-char *p;
-int n;
-{
-	int x;
-
-	x = 0;
-	while (n-- > 0) {
-		x <<= 4;
-		if (*p >= '0' && *p <= '9')
-			x += *p++ - '0';
-		else if (*p >= 'a' && *p <= 'z')
-			x += *p++ - 'a' + 10;
-		else if (*p >= 'A' && *p <= 'Z')
-			x += *p++ - 'A' + 10;
-		else
-			return -1;
-	}
-	return x;
-}
-#endif /* MSDOS */
 
 void
 env_get_value(char **s, char *e, boolean add_blank, boolean no_colon)
