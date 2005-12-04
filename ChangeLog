@@ -1,4 +1,6 @@
-2005-12-04  FUNABARA Masao
+2005-12-04  FUNABARA Masao  <l07steps@users.sourceforge.jp>
+
+	* MANIFEST : 削除したファイルの表示を修正し、ファイルの説明を追加
 
 	* play.c : ゲーム中に表示されるバージョン情報の修正
 

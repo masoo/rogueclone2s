@@ -24,7 +24,7 @@ doc/Makefile.am
 doc/Makefile.in
 doc/README.1st.org        --@最初に読むドキュメント
 doc/README.doc.org        --@オリジナルの日本語版の配布内容についての説明
-doc/README.org            --@
+doc/README.org            --@データ分離版ローグ・クローンIIについての説明
 doc/options.doc.org       --@起動時オプション、環境オプションの説明
 doc/rogue.doc.org         --@ローグの遊び方についてのドキュメント
 man/Makefile.am
@@ -36,8 +36,6 @@ msg/mesg                  --@オリジナルの日本語版ローグ・クローン２のメッセージ
 msg/mesg_E                --@オリジナルの英語版ローグ・クローン２のメッセージ
 src/Makefile.am
 src/Makefile.in
-src/curses.c              -- rogueclone2s のソースファイル
-src/curses.h              -- rogueclone2s のソースファイル
 src/hit.c                 -- rogueclone2s のソースファイル
 src/hit.h                 -- rogueclone2s のソースファイル
 src/init.c                -- rogueclone2s のソースファイル
