@@ -46,17 +46,17 @@ message(char *msg, boolean intrpt)
     cant_int = 1;
 
     if (!msg_cleared) {
-	mvaddstr(MIN_ROW-1, msg_col, mesg[11]);
+	mvaddstr(MIN_ROW - 1, msg_col, mesg[11]);
 	refresh();
 	wait_for_ack();
 	check_message();
     }
     (void) strcpy(msg_line, msg);
-    attrset( COLOR_PAIR(0) );
-    mvaddstr(MIN_ROW-1, 0, msg);
-    attrset( COLOR_PAIR( ch_attr[' '] ) );
+    attrset(COLOR_PAIR(0));
+    mvaddstr(MIN_ROW - 1, 0, msg);
+    attrset(COLOR_PAIR(ch_attr[' ']));
     addch(' ');
-    attrset( COLOR_PAIR(0) );
+    attrset(COLOR_PAIR(0));
     refresh();
     msg_cleared = 0;
     msg_col = strlen(msg);
@@ -64,60 +64,64 @@ message(char *msg, boolean intrpt)
     cant_int = 0;
     if (did_int) {
 	did_int = 0;
-	onintr(0); /* 「0」に意味はないが警告除去のために値を入れる。onintr関数を見直す必要がある。 */
+	onintr(0);		/* 「0」に意味はないが警告除去のために値を入れる。onintr関数を見直す必要がある。 */
     }
 }
 
 void
 remessage(void)
 {
-	if (msg_line[0]) {
-		message(msg_line, 0);
-	}
+    if (msg_line[0]) {
+	message(msg_line, 0);
+    }
 }
 
 void
 check_message(void)
 {
-	if (msg_cleared) {
-		return;
-	}
-	move(MIN_ROW-1, 0);
-	clrtoeol();
-	refresh();
-	msg_cleared = 1;
+    if (msg_cleared) {
+	return;
+    }
+    move(MIN_ROW - 1, 0);
+    clrtoeol();
+    refresh();
+    msg_cleared = 1;
 }
 
 int
 get_direction(void)
 {
-	int dir;
+    int dir;
 
-	message(mesg[55], 0);
-	while (!is_direction(dir = rgetchar()))
-		sound_bell();
-	check_message();
-	return dir;
+    message(mesg[55], 0);
+    while (!is_direction(dir = rgetchar())) {
+	sound_bell();
+    }
+    check_message();
+    return dir;
 }
 
 int
-get_input_line(char *prompt, char *insert, char *buf,  char *if_cancelled, boolean add_blank, boolean do_echo)
+get_input_line(char *prompt, char *insert, char *buf, char *if_cancelled,
+	       boolean add_blank, boolean do_echo)
 {
-	int n;
+    int n;
 
-	n = do_input_line(1, 0, 0, prompt, insert,
-			buf, if_cancelled, add_blank, do_echo, 0);
-	return ((n < 0)? 0: n);
+    n = do_input_line(1, 0, 0, prompt, insert,
+		      buf, if_cancelled, add_blank, do_echo, 0);
+    return ((n < 0) ? 0 : n);
 }
 
 int
 input_line(int row, int col, char *insert, char *buf, int ch)
 {
-	return (do_input_line(0, row, col, "", insert, buf, "", 0, 1, ch));
+    return do_input_line(0, row, col, "", insert, buf, "", 0, 1, ch);
 }
 
 int
-do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char *buf, char *if_cancelled, boolean add_blank, boolean do_echo, int first_ch)
+do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
+	      char *buf, char *if_cancelled, boolean add_blank,
+	      boolean do_echo, int first_ch)
 {
     short ch;
     short i = 0, n = 0;
@@ -130,13 +134,13 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 	message(prompt, 0);
 	n = strlen(prompt) + 1;
     } else {
-	attrset( COLOR_PAIR(0) );
+	attrset(COLOR_PAIR(0));
 	mvaddstr(row, col, prompt);
     }
 
     if (insert[0]) {
-	attrset( COLOR_PAIR(0) );
-	mvaddstr(row, col+n, insert);
+	attrset(COLOR_PAIR(0));
+	mvaddstr(row, col + n, insert);
 	(void) strcpy(buf, insert);
 	i = strlen(insert);
 #ifdef JAPAN
@@ -145,10 +149,10 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 	    ch = (unsigned char) insert[k];
 #ifdef EUC
 	    if (ch & 0x80) {	/* for EUC code by Yasha */
-#else	/* Shift JIS */
-	    if (ch>=0x81 && ch<=0x9f || ch>=0xe0 && ch<=0xfc) {
+#else /* Shift JIS */
+//	    if (ch >= 0x81 && ch <= 0x9f || ch >= 0xe0 && ch <= 0xfc) {
 #endif
-		kanji[k] = kanji[k+1] = 1;
+		kanji[k] = kanji[k + 1] = 1;
 		k += 2;
 	    } else {
 		kanji[k] = 0;
@@ -156,156 +160,160 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert, char
 	    }
 	}
 #endif /* JAPAN */
-		move(row, col+n+i);
-		refresh();
+	move(row, col + n + i);
+	refresh();
+    }
+#ifdef JAPAN
+    for (;;) {
+	if (first_ch) {
+	    ch = first_ch;
+	    first_ch = 0;
+	} else {
+	    ch = rgetchar();
+	}
+	if (ch == '\r' || ch == '\n' || ch == CANCEL) {
+	    break;
+	}
+	if ((ch == '\b') && (i > 0)) {
+	    i -= kanji[i - 1] ? 2 : 1;
+	    if (do_echo) {
+		attrset(COLOR_PAIR(0));
+		mvaddstr(row, col + n + i, "  ");
+		move(row, col + n + i);
+	    }
+#ifdef EUC
+	} else if ((ch >= ' ' && !(ch & 0x80))	/* by Yasha */
+#else /* Shift JIS */
+//	} else if ((ch >= ' ' && ch <= '~' || ch >= 0xa0 && ch <= 0xde)
+#endif
+		   && (i < MAX_TITLE_LENGTH - 2)) {
+	    if ((ch != ' ') || (i > 0)) {
+		buf[i] = ch;
+		kanji[i] = 0;
+		if (do_echo) {
+		    attrset(COLOR_PAIR(ch_attr[ch]));
+		    addch((unsigned char) ch);
+		    attrset(COLOR_PAIR(0));
+		}
+		i++;
+	    }
+#ifdef EUC
+	} else if ((ch & 0x80)	/* for EUC code by Yasha */
+#else /* Shift JIS */
+//	} else if ((ch >= 0x81 && ch <= 0x9f || ch >= 0xe0 && ch <= 0xfc)
+#endif
+		   && (i < MAX_TITLE_LENGTH - 3)) {
+	    buf[i] = ch;
+	    buf[i + 1] = rgetchar();
+	    kanji[i] = kanji[i + 1] = 1;
+	    if (do_echo) {
+		attrset(COLOR_PAIR(ch_attr[(unsigned char) buf[i]]));
+		addch((unsigned char) buf[i]);
+		attrset(COLOR_PAIR(0));
+		attrset(COLOR_PAIR(ch_attr[(unsigned char) buf[i + 1]]));
+		addch((unsigned char) buf[i + 1]);
+		attrset(COLOR_PAIR(0));
+	    }
+	    i += 2;
+	}
+	refresh();
+    }
+    if (is_msg) {
+	check_message();
+    }
+    while ((i > 0) && (buf[i - 1] == ' ') && (kanji[i - 1] == 0)) {
+	i--;
+    }
+    if (add_blank) {
+	buf[i++] = ' ';
     }
 
-#ifdef JAPAN
-	for (;;) {
-		if (first_ch) {
-			ch = first_ch;
-			first_ch = 0;
-		} else
-			ch = rgetchar();
-		if (ch == '\r' || ch == '\n' || ch == CANCEL)
-			break;
-		if ((ch == '\b') && (i > 0)) {
-			i -= kanji[i-1]? 2: 1;
-			if (do_echo) {
-			    attrset( COLOR_PAIR(0) );
-			    mvaddstr(row, col+n+i, "  ");
-			    move(row, col+n+i);
-			}
-#ifdef EUC
-		} else if ((ch >= ' ' && !(ch & 0x80))	/* by Yasha */
-#else	/* Shift JIS */
-		} else if ((ch>=' ' && ch<='~' || ch >= 0xa0 && ch <= 0xde)
-#endif
-						&& (i < MAX_TITLE_LENGTH-2)) {
-			if ((ch != ' ') || (i > 0)) {
-				buf[i] = ch;
-				kanji[i] = 0;
-				if (do_echo) {
-				    attrset( COLOR_PAIR( ch_attr[ch] ) );
-				    addch((unsigned char) ch);
-				    attrset( COLOR_PAIR(0) );
-				}
-				i++;
-			}
-#ifdef EUC
-		} else if ((ch & 0x80)		/* for EUC code by Yasha */
-#else	/* Shift JIS */
-		} else if ((ch>=0x81 && ch<=0x9f || ch>=0xe0 && ch<=0xfc)
-#endif
-						&& (i < MAX_TITLE_LENGTH-3)) {
-			buf[i] = ch;
-			buf[i+1] = rgetchar();
-			kanji[i] = kanji[i+1] = 1;
-			if (do_echo) {
-				attrset( COLOR_PAIR( ch_attr[(unsigned char)buf[i]] ) );
-				addch((unsigned char) buf[i]);
-				attrset( COLOR_PAIR(0) );
-				attrset( COLOR_PAIR( ch_attr[(unsigned char)buf[i+1]] ) );
-				addch((unsigned char) buf[i+1]);
-				attrset( COLOR_PAIR(0) );
-			}
-			i += 2;
-		}
-		refresh();
-	}
-	if (is_msg)
-		check_message();
-	while ((i > 0) && (buf[i-1] == ' ') && (kanji[i-1] == 0))
-		i--;
-	if (add_blank)
-		buf[i++] = ' ';
-
 #else /*JAPAN*/
-
-	while (((ch = rgetchar()) != '\r') && (ch != '\n') && (ch != CANCEL)) {
-		if ((ch >= ' ') && (ch <= '~') && (i < MAX_TITLE_LENGTH-2)) {
-			if ((ch != ' ') || (i > 0)) {
-				buf[i++] = ch;
-				if (do_echo) {
-				    attrset( COLOR_PAIR( ch_attr[(unsigned char) ch] ) );
-				    addch((unsigned char) ch);
-				    attrset( COLOR_PAIR(0) );
-				}
-			}
+    while (((ch = rgetchar()) != '\r') && (ch != '\n') && (ch != CANCEL)) {
+	if ((ch >= ' ') && (ch <= '~') && (i < MAX_TITLE_LENGTH - 2)) {
+	    if ((ch != ' ') || (i > 0)) {
+		buf[i++] = ch;
+		if (do_echo) {
+		    attrset(COLOR_PAIR(ch_attr[(unsigned char) ch]));
+		    addch((unsigned char) ch);
+		    attrset(COLOR_PAIR(0));
 		}
-		if ((ch == '\b') && (i > 0)) {
-			i--;
-			if (do_echo) {
-			    attrset( COLOR_PAIR( ch_attr[' '] ) );
-			    mvaddch(row, col+n+i, ' ');
-			    attrset( COLOR_PAIR(0) );
-			    move(row, col+n+i);
-			}
-		}
-		refresh();
+	    }
 	}
-	if (is_msg)
-		check_message();
-	if (add_blank) {
-		buf[i++] = ' ';
-	} else {
-		while ((i > 0) && (buf[i-1] == ' ')) {
-			i--;
-		}
+	if ((ch == '\b') && (i > 0)) {
+	    i--;
+	    if (do_echo) {
+		attrset(COLOR_PAIR(ch_attr[' ']));
+		mvaddch(row, col + n + i, ' ');
+		attrset(COLOR_PAIR(0));
+		move(row, col + n + i);
+	    }
 	}
+	refresh();
+    }
+    if (is_msg) { 
+	check_message();
+    }
+    if (add_blank) {
+	buf[i++] = ' ';
+    } else {
+	while ((i > 0) && (buf[i - 1] == ' ')) {
+	    i--;
+	}
+    }
 #endif /*JAPAN*/
-
 	buf[i] = 0;
 
-	if ((ch == CANCEL) || (i == 0) || ((i == 1) && add_blank)) {
-		if (is_msg && if_cancelled) {
-			message(if_cancelled, 0);
-		}
-		return ((ch == CANCEL)? -1: 0);
+    if ((ch == CANCEL) || (i == 0) || ((i == 1) && add_blank)) {
+	if (is_msg && if_cancelled) {
+	    message(if_cancelled, 0);
 	}
-	return (i);
+	return ((ch == CANCEL) ? -1 : 0);
+    }
+    return i;
 }
 
 int
 rgetchar(void)
 {
-	int ch;
-#ifdef NeXT	/* by Yasha (till "#endif") */
-	int y, x;
+    int ch;
+#ifdef NeXT			/* by Yasha (till "#endif") */
+    int y, x;
 #endif
 
-	for(;;) {
-		ch = getchar();
+    for (;;) {
+	ch = getchar();
 
-		switch(ch) {
-		case '\022':
-#ifdef NeXT	/* by Yasha (till "#endif") */
-			getyx(stdscr, y, x);
-			move(0, 0);
-			refresh();
+	switch (ch) {
+	case '\022':
+#ifdef NeXT			/* by Yasha (till "#endif") */
+	    getyx(stdscr, y, x);
+	    move(0, 0);
+	    refresh();
 #endif
-			wrefresh(curscr);
-#ifdef NeXT	/* by Yasha (till "#endif") */
-			move(y, x);
-			refresh();
+	    wrefresh(curscr);
+#ifdef NeXT			/* by Yasha (till "#endif") */
+	    move(y, x);
+	    refresh();
 #endif
-			break;
+	    break;
 #ifndef ORIGINAL
-		/*
-		 * can't use X for save_screen purpose
-		 * because 2nd byte of kanji might be an 'X'!
-		 */
-		case CTRL('D'):
+	    /*
+	     * can't use X for save_screen purpose
+	     * because 2nd byte of kanji might be an 'X'!
+	     */
+	case CTRL('D'):
 #else
-		case 'X':
+	case 'X':
 #endif
-			save_screen();
-			break;
-		default:
-			return(ch);
-}
+	    save_screen();
+	    break;
+	default:
+	    return ch;
 	}
+    }
 }
+
 /*
 Level: 99 Gold: 999999 Hp: 999(999) Str: 99(99) Arm: 99 Exp: 21/10000000 Hungry
 階: 99 金塊: 999999 体力: 999(999) 強さ: 99(99) 守備: 99 経験: 21/10000000 空腹
@@ -315,210 +323,210 @@ Level: 99 Gold: 999999 Hp: 999(999) Str: 99(99) Arm: 99 Exp: 21/10000000 Hungry
 void
 print_stats(int stat_mask)
 {
-	char buf[16];
-	boolean label;
-	int row = DROWS - 1;
+    char buf[16];
+    boolean label;
+    int row = DROWS - 1;
 
-	label = (stat_mask & STAT_LABEL) ? 1 : 0;
+    label = (stat_mask & STAT_LABEL) ? 1 : 0;
 
-	if (stat_mask & STAT_LEVEL) {
-		if (label) {
-		    attrset( COLOR_PAIR(0) );
-		    mvaddstr(row, 0, mesg[56]);
-		}
-		/* max level taken care of in make_level() */
-		sprintf(buf, "%d", cur_level);
-		attrset( COLOR_PAIR(0) );
-#ifdef JAPAN
-		mvaddstr(row, 4, buf);
-#else
-		mvaddstr(row, 7, buf);
-#endif
-		pad(buf, 2);
+    if (stat_mask & STAT_LEVEL) {
+	if (label) {
+	    attrset(COLOR_PAIR(0));
+	    mvaddstr(row, 0, mesg[56]);
 	}
-	if (stat_mask & STAT_GOLD) {
-		if (label) {
-		    if (rogue.gold > MAX_GOLD) {
-			rogue.gold = MAX_GOLD;
-		    }
-		    attrset( COLOR_PAIR(0) );
+	/* max level taken care of in make_level() */
+	sprintf(buf, "%d", cur_level);
+	attrset(COLOR_PAIR(0));
 #ifdef JAPAN
-		    mvaddstr(row, 7, mesg[57]);
+	mvaddstr(row, 4, buf);
 #else
-		    mvaddstr(row, 10, mesg[57]);
+	mvaddstr(row, 7, buf);
 #endif
-		}
-		sprintf(buf, "%ld", rogue.gold);
-		attrset( COLOR_PAIR(0) );
+	pad(buf, 2);
+    }
+    if (stat_mask & STAT_GOLD) {
+	if (label) {
+	    if (rogue.gold > MAX_GOLD) {
+		rogue.gold = MAX_GOLD;
+	    }
+	    attrset(COLOR_PAIR(0));
 #ifdef JAPAN
-		mvaddstr(row, 13, buf);
+	    mvaddstr(row, 7, mesg[57]);
 #else
-		mvaddstr(row, 16, buf);
-#endif
-		pad(buf, 6);
-	}
-	if (stat_mask & STAT_HP) {
-		if (label) {
-		    attrset( COLOR_PAIR(0) );
-#ifdef JAPAN
-		    mvaddstr(row, 20, mesg[58]);
-#else
-		    mvaddstr(row, 23, mesg[58]);
-#endif
-		    if (rogue.hp_max > MAX_HP) {
-			rogue.hp_current -= (rogue.hp_max - MAX_HP);
-			rogue.hp_max = MAX_HP;
-		    }
-		}
-		sprintf(buf, "%d(%d)", rogue.hp_current, rogue.hp_max);
-		attrset( COLOR_PAIR(0) );
-#ifdef JAPAN
-		mvaddstr(row, 26, buf);
-#else
-		mvaddstr(row, 27, buf);
-#endif
-		pad(buf, 8);
-	}
-	if (stat_mask & STAT_STRENGTH) {
-		if (label) {
-		    attrset( COLOR_PAIR(0) );
-#ifdef JAPAN
-		    mvaddstr(row, 35, mesg[59]);
-#else
-		    mvaddstr(row, 36, mesg[59]);
-#endif
-		}
-		if (rogue.str_max > MAX_STRENGTH) {
-			rogue.str_current -= (rogue.str_max - MAX_STRENGTH);
-			rogue.str_max = MAX_STRENGTH;
-		}
-		sprintf(buf, "%d(%d)", (rogue.str_current + add_strength),
-			rogue.str_max);
-		attrset( COLOR_PAIR(0) );
-		mvaddstr(row, 41, buf);
-		pad(buf, 6);
-	}
-	if (stat_mask & STAT_ARMOR) {
-		if (label) {
-		    attrset( COLOR_PAIR(0) );
-		    mvaddstr(row, 48, mesg[60]);
-		}
-		if (rogue.armor && (rogue.armor->d_enchant > MAX_ARMOR)) {
-			rogue.armor->d_enchant = MAX_ARMOR;
-		}
-		sprintf(buf, "%d", get_armor_class(rogue.armor));
-		attrset( COLOR_PAIR(0) );
-#ifdef JAPAN
-		mvaddstr(row, 54, buf);
-#else
-		mvaddstr(row, 53, buf);
-#endif
-		pad(buf, 2);
-	}
-	if (stat_mask & STAT_EXP) {
-		if (label) {
-		    attrset( COLOR_PAIR(0) );
-#ifdef JAPAN
-		    mvaddstr(row, 57, mesg[61]);
-#else
-		    mvaddstr(row, 56, mesg[61]);
-#endif
-		}
-		/*  Max exp taken care of in add_exp() */
-		sprintf(buf, "%d/%ld", rogue.exp, rogue.exp_points);
-		attrset( COLOR_PAIR(0) );
-#ifdef JAPAN
-		mvaddstr(row, 63, buf);
-#else
-		mvaddstr(row, 61, buf);
-#endif
-		pad(buf, 11);
-	}
-	if (stat_mask & STAT_HUNGER) {
-#ifdef JAPAN
-	        attrset( COLOR_PAIR(0) );
-		mvaddstr(row, 75, hunger_str);
-		clrtoeol();
-#else
-		attrset( COLOR_PAIR(0) );
-		mvaddstr(row, 73, hunger_str);
-		clrtoeol();
+	    mvaddstr(row, 10, mesg[57]);
 #endif
 	}
-	refresh();
+	sprintf(buf, "%ld", rogue.gold);
+	attrset(COLOR_PAIR(0));
+#ifdef JAPAN
+	mvaddstr(row, 13, buf);
+#else
+	mvaddstr(row, 16, buf);
+#endif
+	pad(buf, 6);
+    }
+    if (stat_mask & STAT_HP) {
+	if (label) {
+	    attrset(COLOR_PAIR(0));
+#ifdef JAPAN
+	    mvaddstr(row, 20, mesg[58]);
+#else
+	    mvaddstr(row, 23, mesg[58]);
+#endif
+	    if (rogue.hp_max > MAX_HP) {
+		rogue.hp_current -= (rogue.hp_max - MAX_HP);
+		rogue.hp_max = MAX_HP;
+	    }
+	}
+	sprintf(buf, "%d(%d)", rogue.hp_current, rogue.hp_max);
+	attrset(COLOR_PAIR(0));
+#ifdef JAPAN
+	mvaddstr(row, 26, buf);
+#else
+	mvaddstr(row, 27, buf);
+#endif
+	pad(buf, 8);
+    }
+    if (stat_mask & STAT_STRENGTH) {
+	if (label) {
+	    attrset(COLOR_PAIR(0));
+#ifdef JAPAN
+	    mvaddstr(row, 35, mesg[59]);
+#else
+	    mvaddstr(row, 36, mesg[59]);
+#endif
+	}
+	if (rogue.str_max > MAX_STRENGTH) {
+	    rogue.str_current -= (rogue.str_max - MAX_STRENGTH);
+	    rogue.str_max = MAX_STRENGTH;
+	}
+	sprintf(buf, "%d(%d)", (rogue.str_current + add_strength),
+		rogue.str_max);
+	attrset(COLOR_PAIR(0));
+	mvaddstr(row, 41, buf);
+	pad(buf, 6);
+    }
+    if (stat_mask & STAT_ARMOR) {
+	if (label) {
+	    attrset(COLOR_PAIR(0));
+	    mvaddstr(row, 48, mesg[60]);
+	}
+	if (rogue.armor && (rogue.armor->d_enchant > MAX_ARMOR)) {
+	    rogue.armor->d_enchant = MAX_ARMOR;
+	}
+	sprintf(buf, "%d", get_armor_class(rogue.armor));
+	attrset(COLOR_PAIR(0));
+#ifdef JAPAN
+	mvaddstr(row, 54, buf);
+#else
+	mvaddstr(row, 53, buf);
+#endif
+	pad(buf, 2);
+    }
+    if (stat_mask & STAT_EXP) {
+	if (label) {
+	    attrset(COLOR_PAIR(0));
+#ifdef JAPAN
+	    mvaddstr(row, 57, mesg[61]);
+#else
+	    mvaddstr(row, 56, mesg[61]);
+#endif
+	}
+	/*  Max exp taken care of in add_exp() */
+	sprintf(buf, "%d/%ld", rogue.exp, rogue.exp_points);
+	attrset(COLOR_PAIR(0));
+#ifdef JAPAN
+	mvaddstr(row, 63, buf);
+#else
+	mvaddstr(row, 61, buf);
+#endif
+	pad(buf, 11);
+    }
+    if (stat_mask & STAT_HUNGER) {
+#ifdef JAPAN
+	attrset(COLOR_PAIR(0));
+	mvaddstr(row, 75, hunger_str);
+	clrtoeol();
+#else
+	attrset(COLOR_PAIR(0));
+	mvaddstr(row, 73, hunger_str);
+	clrtoeol();
+#endif
+    }
+    refresh();
 }
 
 void
 pad(char *s, short n)
 {
-	short i;
+    short i;
 
-	for (i = strlen(s); i < n; i++) {
-	    attrset( COLOR_PAIR( ch_attr[' '] ) );
-	    addch(' ');
-	    attrset( COLOR_PAIR(0) );
-	}
+    for (i = strlen(s); i < n; i++) {
+	attrset(COLOR_PAIR(ch_attr[' ']));
+	addch(' ');
+	attrset(COLOR_PAIR(0));
+    }
 }
 
 void
 save_screen(void)
 {
-	FILE *fp;
-	short i, j;
-	char buf[DCOLS+2];
-	boolean found_non_blank;
+    FILE *fp;
+    short i, j;
+    char buf[DCOLS + 2];
+    boolean found_non_blank;
 
-	if ((fp = fopen("rogue.screen", "w")) != NULL) {
-		for (i = 0; i < DROWS; i++) {
-			found_non_blank = 0;
-			for (j = (DCOLS - 1); j >= 0; j--) {
-			    buf[j] = mvinch(i, j) & A_CHARTEXT;
-			    if (!found_non_blank) {
-				if ((buf[j] != ' ') || (j == 0)) {
-				    buf[j + ((j == 0) ? 0 : 1)] = 0;
-				    found_non_blank = 1;
-				}
-			    }
-			}
-			fputs(buf, fp);
-			putc('\n', fp);
+    if ((fp = fopen("rogue.screen", "w")) != NULL) {
+	for (i = 0; i < DROWS; i++) {
+	    found_non_blank = 0;
+	    for (j = (DCOLS - 1); j >= 0; j--) {
+		buf[j] = mvinch(i, j) & A_CHARTEXT;
+		if (!found_non_blank) {
+		    if ((buf[j] != ' ') || (j == 0)) {
+			buf[j + ((j == 0) ? 0 : 1)] = 0;
+			found_non_blank = 1;
+		    }
 		}
-		fclose(fp);
-	} else {
-		sound_bell();
+	    }
+	    fputs(buf, fp);
+	    putc('\n', fp);
 	}
+	fclose(fp);
+    } else {
+	sound_bell();
+    }
 }
 
 void
 sound_bell(void)
 {
-	putchar(7);
-	fflush(stdout);
+    putchar(7);
+    fflush(stdout);
 }
 
 boolean
 is_digit(short ch)
 {
-	return(boolean)((ch >= '0') && (ch <= '9'));
+    return (boolean) ((ch >= '0') && (ch <= '9'));
 }
 
 int
 r_index(char *str, int ch, boolean last)
 {
-	int i;
+    int i;
 
-	if (last) {
-		for (i = strlen(str) - 1; i >= 0; i--) {
-			if (str[i] == ch) {
-				return(i);
-			}
-		}
-	} else {
-		for (i = 0; str[i]; i++) {
-			if (str[i] == ch) {
-				return(i);
-			}
-		}
+    if (last) {
+	for (i = strlen(str) - 1; i >= 0; i--) {
+	    if (str[i] == ch) {
+		return i;
+	    }
 	}
-	return(-1);
+    } else {
+	for (i = 0; str[i]; i++) {
+	    if (str[i] == ch) {
+		return i;
+	    }
+	}
+    }
+    return -1;
 }

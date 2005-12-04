@@ -1,5 +1,7 @@
 2005-12-05  FUNABARA Masao
 
+	* message.c : コードのクリーンアップ
+
 	* main.c : コードのクリーンアップ
 
 	* machdep.c : コードのクリーンアップ
