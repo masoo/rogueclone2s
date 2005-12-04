@@ -1,5 +1,7 @@
 2005-12-04  FUNABARA Masao
 
+	* Release 2 公開
+
 	* src/Makefile.am : 最適化オプション(-O2)の付与
 
 	* init.c : C89 でコンパイルするとエラーになっていた部分を修正
