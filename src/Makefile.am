@@ -27,7 +27,6 @@ rogue_SOURCES = \
 
 rogue_CFLAGS = \
 	-O2 \
-	-DUNIX \
 	-DUNIX_SYSV \
 	-DJAPAN \
 	-DEUC \

@@ -138,9 +138,6 @@ md_slurp(void)
 	ioctl(0, TCFLSH, &ln);
 	ln = 0;
 #endif /* UNIX_SYSV */
-#ifdef UNIX_386BSD
-	fpurge(stdin);
-#else
 #ifdef UNIX_SYSV
 	fflush(stdin);
 #else
@@ -149,7 +146,6 @@ md_slurp(void)
 		(void) getchar();
 	}
 #endif /* UNIX_SYSV */
-#endif /*386BSD*/
 }
 
 /* md_control_keyboard():
