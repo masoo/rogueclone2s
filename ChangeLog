@@ -1,5 +1,7 @@
 2005-12-05  FUNABARA Masao
 
+	* play.c : コードのクリーンアップ
+
 	* pack.c : コードのクリーンアップ
 
 	* object.c : コードのクリーンアップ
