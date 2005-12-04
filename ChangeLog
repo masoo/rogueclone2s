@@ -1,5 +1,7 @@
 2005-12-05  FUNABARA Masao
 
+	* monster.c : コードのクリーンアップ
+
 	* message.c : コードのクリーンアップ
 
 	* main.c : コードのクリーンアップ
