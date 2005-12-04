@@ -1,5 +1,7 @@
 2005-12-04  FUNABARA Masao
 
+	* ALL_FILES : UNIX マクロ定義を消去する 
+
 	* zap.c : MSDOS マクロ定義を消去する
 
 	* save.c : MSDOS マクロ定義を消去するp
