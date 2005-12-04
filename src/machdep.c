@@ -63,14 +63,6 @@
 #    include <sgtty.h>
 #  endif /* UNIX_BSD4_2 */
 #endif /* UNIX */
-#ifdef HUMAN
-#include <doslib.h>	/* by Yasha */
-#include <conio.h>	/* by Yasha */
-#include <time.h>	/* by Yasha */
-#include <direct.h>	/* by Yasha */
-#include <signal.h>	/* by Yasha */
-#include <stat.h>	/* by Yasha */
-#else
 #ifdef MSDOS
 #  ifdef LC4
 #    include <fcntl.h>
@@ -83,7 +75,6 @@
 #  include <time.h>
 #  include <dos.h>
 #endif /* MSDOS */
-#endif /* HUMAN */
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -92,13 +83,7 @@
 #include "machdep.h"
 #include "init.h"
 
-#ifdef HUMAN
-getchar()		/* by Yasha */
-{			/* by Yasha */
-	return INKEY();	/* by Yasha */
-}			/* by Yasha */
-#endif
-#if defined(MSDOS) && !defined(HUMAN)	/* by Yasha */
+#if defined(MSDOS)	/* by Yasha */
 /*#ifdef MSDOS*/
 getchar()
 {
@@ -153,14 +138,14 @@ putstr(s)
 #endif
 }
 
-#else
+#else /* MSDOS */
 void
 putstr(char *s)
 {
 	while (*s)
 		putchar(*s++);
 }
-#endif
+#endif /* MSDOS */
 
 #ifndef ORIGINAL
 /*
@@ -207,12 +192,12 @@ md_getcwd(char *dir, int len)
 int
 md_chdir(char *dir)
 {
-#if defined(UNIX) || defined(HUMAN)
+#if defined(UNIX)
 /*#ifdef UNIX*/
 	return (chdir(dir));
 #endif /* UNIX */
 
-#if defined(MSDOS) && !defined(HUMAN)
+#if defined(MSDOS)
 /*#ifdef MSDOS*/
 	chdrive(dir);
 	return (chdir(dir));
@@ -220,7 +205,7 @@ md_chdir(char *dir)
 }
 #endif /* ORIGINAL */
 
-#if defined(MSDOS) && !defined(HUMAN)
+#if defined(MSDOS)
 /*#ifdef MSDOS*/
 /*
  * chdrive:
@@ -293,10 +278,6 @@ md_slurp(void)
 #endif /*386BSD*/
 #endif /* UNIX */
 
-#ifdef HUMAN
-	while (kbhit())		/* by Yasha */
-		INKEY();	/* by Yasha */
-#else
 #ifdef MSDOS
 #ifdef __TURBOC__
 	while (_AH = 0x0b, geninterrupt(0x21), _AL) {
@@ -307,8 +288,7 @@ md_slurp(void)
 	while (kbhit())
 		bdos(7, 0, 0);
 #endif
-#endif
-#endif	/* HUMAN */
+#endif /* MSDOS */
 }
 
 #ifndef MSDOS
@@ -412,17 +392,13 @@ void onintr(int);
 	signal(SIGHUP, error_save);
 #endif /* UNIX */
 
-#ifdef HUMAN
-	signal(SIGINT, onintr);
-#else
 #ifdef MSDOS
 #if defined(__TURBOC__) && __TURBOC__ < 0x0200
 	ctrlbrk(onintr);
 #else
 	signal(SIGINT, onintr);
 #endif /* __TURBOC__ */
-#endif
-#endif	/* HUMAN */
+#endif /* MSDOS */
 }
 
 /* md_ignore_signals():
@@ -446,17 +422,13 @@ md_ignore_signals(void)
 	signal(SIGHUP, SIG_IGN);
 #endif /* UNIX */
 
-#ifdef HUMAN
-	signal(SIGINT, SIG_IGN);	/* by Yasha */
-#else
 #ifdef MSDOS
 #if defined(__TURBOC__) && __TURBOC__ < 0x0200
 	ctrlbrk(ignintr);
 #else
 	signal(SIGINT, SIG_IGN);
 #endif /* __TURBOC__ */
-#endif
-#endif	/* HUMAN */
+#endif /* MSDOS */
 }
 
 /* md_get_file_id():
@@ -677,18 +649,6 @@ md_sleep(int nsecs)
 {
 	(void) sleep(nsecs);
 }
-#ifdef HUMAN	/* by Yasha (till "#else") */
-sleep(nsecs)
-int nsecs;
-{
-	time_t t;
-	if (nsecs < 1)
-		nsecs = 1;
-	t = time((time_t *) NULL) + (time_t) nsecs;
-	while (time((time_t *) NULL) < t)
-		;
-}
-#else
 #ifdef MSDOS
 #ifndef __TURBOC__
 sleep(nsecs)
@@ -704,7 +664,6 @@ int nsecs;
 }
 #endif /* __TURBOC__ */
 #endif /* MSDOS */
-#endif /* HUMAN */
 
 /* md_getenv()
  *

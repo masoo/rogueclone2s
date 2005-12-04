@@ -545,7 +545,7 @@ doshell(void)
 {
 	char *cmd, *md_getenv();
 
-#if defined(MSDOS) && !defined(HUMAN)		/* by Yasha */
+#if defined(MSDOS)		/* by Yasha */
 /*#ifdef MSDOS*/
 	if ((cmd = md_getenv("COMSPEC")) == NULL) {
 #ifdef JAPAN
@@ -569,10 +569,7 @@ doshell(void)
 	putstr("\r\n\r\n");
 	putstr(mesg[156]);
 	putstr("\r\n");
-#ifdef HUMAN			/* by Yasha */
-	system("");		/* by Yasha */
-/*#ifdef LC4*/
-#elif defined(LC4)		/* by Yasha */
+#ifdef LC4
 	forkl(cmd, cmd, NULL);
 #else
 	spawnl(P_WAIT, cmd, cmd, NULL);

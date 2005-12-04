@@ -1,5 +1,7 @@
 2005-12-04  FUNABARA Masao
 
+	* A__FILES : HUMAN マクロ定義を消去する
+
 	* Release 2 公開
 
 	* src/Makefile.am : 最適化オプション(-O2)の付与

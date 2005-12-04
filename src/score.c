@@ -371,11 +371,7 @@ mvaddbanner(int row, int col, int *ban)
 {
 	int i;
 #ifdef COLOR
-#ifdef HUMAN
-	int rev = ' ' | (12 << 8);	/* by Yasha (reverse cyan) */
-#else
 	int rev = ' ' | (RGREEN << 8);
-#endif
 #endif
 
 	move(row, col);
