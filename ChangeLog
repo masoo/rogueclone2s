@@ -1,5 +1,7 @@
 2005-12-05  FUNABARA Masao
 
+	* level.c : コードのクリーンアップ
+
 	* invent.c : コードのクリーンアップ
 
 2005-12-04  FUNABARA Masao

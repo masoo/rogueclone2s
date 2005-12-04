@@ -605,17 +605,17 @@ get_id_table(object *obj)
 {
     switch (obj->what_is) {
     case SCROL:
-	return (id_scrolls);
+	return id_scrolls;
     case POTION:
-	return (id_potions);
+	return id_potions;
     case WAND:
-	return (id_wands);
+	return id_wands;
     case RING:
-	return (id_rings);
+	return id_rings;
     case WEAPON:
-	return (id_weapons);
+	return id_weapons;
     case ARMOR:
-	return (id_armors);
+	return id_armors;
     }
     return ((struct id *) 0);
 }
@@ -655,12 +655,11 @@ struct dobj
     char *name;
     struct id *id;
 } dobj[] = {
-    {
-    SCROL, '?', SCROLS, mesg[3], id_scrolls}, {
-    POTION, '!', POTIONS, mesg[4], id_potions}, {
-    WAND, '/', WANDS, mesg[5], id_wands}, {
-    RING, '=', RINGS, mesg[8], id_rings}, {
-    0}
+    {SCROL, '?', SCROLS, mesg[3], id_scrolls},
+    {POTION, '!', POTIONS, mesg[4], id_potions},
+    {WAND, '/', WANDS, mesg[5], id_wands},
+    {RING, '=', RINGS, mesg[8], id_rings},
+    {0}
 };
 
 void

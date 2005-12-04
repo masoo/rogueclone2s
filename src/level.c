@@ -26,12 +26,12 @@
 
 #define swap(x,y) {t = x; x = y; y = t;}
 
-short   cur_level = 0, max_level = 1, cur_room;
-char   *new_level_message = 0;
-short   party_room = NO_ROOM;
-short   r_de;
+short cur_level = 0, max_level = 1, cur_room;
+char *new_level_message = 0;
+short party_room = NO_ROOM;
+short r_de;
 
-long    level_points[MAX_EXP_LEVEL] = {
+long level_points[MAX_EXP_LEVEL] = {
     10L,
     20L,
     40L,
@@ -55,7 +55,7 @@ long    level_points[MAX_EXP_LEVEL] = {
     99900000L
 };
 
-short   random_rooms[MAXROOMS] = { 3, 7, 5, 2, 0, 6, 1, 4, 8 };
+short random_rooms[MAXROOMS] = { 3, 7, 5, 2, 0, 6, 1, 4, 8 };
 
 extern boolean being_held, wizard, detect_monster;
 extern boolean see_invisible;
@@ -66,7 +66,7 @@ void
 make_level(void)
 {
     short i, j;
-    short   must_exist1, must_exist2, must_exist3;
+    short must_exist1, must_exist2, must_exist3;
     boolean big_room;
     boolean vertical;
 
@@ -135,11 +135,11 @@ make_level(void)
 void
 make_room(short rn, short r1, short r2, short r3)
 {
-    short   left_col, right_col, top_row, bottom_row;
-    short   width, height;
-    short   row_offset, col_offset;
+    short left_col, right_col, top_row, bottom_row;
+    short width, height;
+    short row_offset, col_offset;
     short i, j;
-    short   ch;
+    short ch;
 
     if (rn == BIG_ROOM) {
 	top_row = get_rand(MIN_ROW, MIN_ROW + 5);
@@ -202,7 +202,7 @@ make_room(short rn, short r1, short r2, short r3)
     if ((rn != r1) && (rn != r2) && (rn != r3) && rand_percent(40)) {
 	goto END;
     }
-  B:
+B:
     rooms[rn].is_room = R_ROOM;
 
     for (i = top_row; i <= bottom_row; i++) {
@@ -217,7 +217,7 @@ make_room(short rn, short r1, short r2, short r3)
 	    dungeon[i][j] = ch;
 	}
     }
-  END:
+END:
     rooms[rn].top_row = top_row;
     rooms[rn].bottom_row = bottom_row;
     rooms[rn].left_col = left_col;
@@ -227,12 +227,12 @@ make_room(short rn, short r1, short r2, short r3)
 int
 connect_rooms(short room1, short room2)
 {
-    short   row1, col1, row2, col2, dir, rev;
-    door   *dp;
+    short row1, col1, row2, col2, dir, rev;
+    door *dp;
 
     if ((!(rooms[room1].is_room & (R_ROOM | R_MAZE))) ||
 	(!(rooms[room2].is_room & (R_ROOM | R_MAZE)))) {
-	return (0);
+	return 0;
     }
     if (same_row(room1, room2)) {
 	if (rooms[room1].left_col > rooms[room2].right_col) {
@@ -253,7 +253,7 @@ connect_rooms(short room1, short room2)
 	    rev = UPWARD;
 	}
     } else {
-	return (0);
+	return 0;
     }
     put_door(&rooms[room1], dir, &row1, &col1);
     put_door(&rooms[room2], rev, &row2, &col2);
@@ -271,7 +271,7 @@ connect_rooms(short room1, short room2)
     dp->oth_room = room1;
     dp->oth_row = row1;
     dp->oth_col = col1;
-    return (1);
+    return 1;
 }
 
 void
@@ -302,9 +302,9 @@ clear_level(void)
 }
 
 void
-put_door(room * rm, short dir, short *row, short *col)
+put_door(room *rm, short dir, short *row, short *col)
 {
-    short   wall_width;
+    short wall_width;
 
     wall_width = (rm->is_room & R_MAZE) ? 0 : 1;
 
@@ -340,7 +340,7 @@ void
 draw_simple_passage(short row1, short col1, short row2, short col2, short dir)
 {
     short i;
-    short   middle, t;
+    short middle, t;
 
     if ((dir == LEFT) || (dir == RIGHT)) {
 	if (col1 > col2) {
@@ -394,8 +394,8 @@ void
 add_mazes(void)
 {
     short i, j;
-    short   start;
-    short   maze_percent;
+    short start;
+    short maze_percent;
 
     if (cur_level > 1) {
 	start = get_rand(0, (MAXROOMS - 1));
@@ -449,9 +449,9 @@ void
 fill_it(int rn, boolean do_rec_de)
 {
     short i;
-    short   tunnel_dir, door_dir, drow, dcol;
-    short   target_room, rooms_found = 0;
-    short   srow, scol, t;
+    short tunnel_dir, door_dir, drow, dcol;
+    short target_room, rooms_found = 0;
+    short srow, scol, t;
     static short offsets[4] = { -1, 1, 3, -3 };
     boolean did_this = 0;
 
@@ -510,7 +510,7 @@ void
 recursive_deadend(short rn, short *offsets, short srow, short scol)
 {
     short i, de;
-    short   drow, dcol, tunnel_dir;
+    short drow, dcol, tunnel_dir;
 
     rooms[rn].is_room = R_DEADEND;
     dungeon[srow][scol] = TUNNEL;
@@ -549,18 +549,18 @@ mask_room(short rn, short *row, short *col, unsigned short mask)
 	    if (dungeon[i][j] & mask) {
 		*row = i;
 		*col = j;
-		return (1);
+		return 1;
 	    }
 	}
     }
-    return (0);
+    return 0;
 }
 
 void
 make_maze(short r, short c, short tr, short br, short lc, short rc)
 {
-    char    dirs[4];
-    short   i, t;
+    char dirs[4];
+    short i, t;
 
     dirs[0] = UPWARD;
     dirs[1] = DOWN;
@@ -571,7 +571,7 @@ make_maze(short r, short c, short tr, short br, short lc, short rc)
 
     if (rand_percent(33)) {
 	for (i = 0; i < 10; i++) {
-	    short   t1, t2;
+	    short t1, t2;
 
 	    t1 = get_rand(0, 3);
 	    t2 = get_rand(0, 3);
@@ -625,8 +625,8 @@ void
 hide_boxed_passage(short row1, short col1, short row2, short col2, short n)
 {
     short i, j, t;
-    short   row, col, row_cut, col_cut;
-    short   h, w;
+    short row, col, row_cut, col_cut;
+    short h, w;
 
     if (cur_level > 2) {
 	if (row1 > row2) {
@@ -660,7 +660,7 @@ void
 put_player(short nr)
 {				/* try not to put in this room */
     short rn = nr, misses;
-    short   row, col;
+    short row, col;
 
     for (misses = 0; ((misses < 2) && (rn == nr)); misses++) {
 	gr_row_col(&row, &col, (FLOOR | TUNNEL | OBJECT | STAIRS));
@@ -684,26 +684,26 @@ put_player(short nr)
 	message(new_level_message, 0);
 	new_level_message = 0;
     }
-    attrset( COLOR_PAIR( ch_attr[rogue.fchar] ) );
+    attrset(COLOR_PAIR(ch_attr[rogue.fchar]));
     mvaddch(rogue.row, rogue.col, rogue.fchar);
-    attrset( COLOR_PAIR(0) );
+    attrset(COLOR_PAIR(0));
 }
 
 int
 drop_check(void)
 {
     if (wizard) {
-	return (1);
+	return 1;
     }
     if (dungeon[rogue.row][rogue.col] & STAIRS) {
 	if (levitate) {
 	    message(mesg[48], 0);
-	    return (0);
+	    return 0;
 	}
-	return (1);
+	return 1;
     }
     message(mesg[49], 0);
-    return (0);
+    return 0;
 }
 
 int
@@ -712,11 +712,11 @@ check_up(void)
     if (!wizard) {
 	if (!(dungeon[rogue.row][rogue.col] & STAIRS)) {
 	    message(mesg[50], 0);
-	    return (0);
+	    return 0;
 	}
 	if (!has_amulet()) {
 	    message(mesg[51], 0);
-	    return (0);
+	    return 0;
 	}
     }
     new_level_message = mesg[52];
@@ -724,19 +724,19 @@ check_up(void)
 	win();
     } else {
 	cur_level -= 2;
-	return (1);
+	return 1;
     }
-    return (0);
+    return 0;
 }
 
 void
 add_exp(int e, boolean promotion)
 {
-    char    mbuf[40];
-    short   new_exp;
+    char mbuf[40];
+    short new_exp;
     short i, hp;
 #ifdef JAPAN
-    char    bf[8];
+    char bf[8];
 #endif
 
     rogue.exp_points += e;
@@ -787,15 +787,15 @@ hp_raise(void)
     int hp;
 
     hp = (wizard ? 10 : get_rand(3, 10));
-    return (hp);
+    return hp;
 }
 
 void
 show_average_hp(void)
 {
-    char    mbuf[80];
-    long    real_average;
-    long    effective_average;
+    char mbuf[80];
+    long real_average;
+    long effective_average;
 
     if (rogue.exp == 1) {
 	real_average = effective_average = 0L;
@@ -816,7 +816,7 @@ void
 mix_random_rooms(void)
 {
     short i, t;
-    short   j;
+    short j;
 
     for (i = 0; i < MAXROOMS; i++) {
 	j = get_rand(i, MAXROOMS - 1);
