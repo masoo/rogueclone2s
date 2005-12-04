@@ -1,6 +1,8 @@
 2005-12-05  FUNABARA Masao
 
-	* machdep.c : コメントアウトのコードを最修正
+	* random.c : コードのクリーンアップ
+
+	* message.c : コメントアウトのコードを最修正
 
 	* play.c : コードのクリーンアップ
 
