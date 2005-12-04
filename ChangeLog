@@ -1,4 +1,6 @@
-2005-12-04  FUNABARA Masao  <l07steps@users.sourceforge.jp>
+2005-12-04  FUNABARA Masao
+
+	* src/Makefile.am : 最適化オプション(-O2)の付与
 
 	* init.c : C89 でコンパイルするとエラーになっていた部分を修正
 
