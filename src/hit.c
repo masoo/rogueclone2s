@@ -29,7 +29,7 @@
 
 extern char *nick_name;
 object *fight_monster = 0;
-char    hit_message[80] = "";
+char hit_message[80] = "";
 
 extern short halluc, blind, cur_level;
 extern short add_strength, ring_exp, r_rings;
@@ -38,9 +38,9 @@ extern boolean being_held, interrupted, wizard;
 void
 mon_hit(object *monster, char *other, boolean flame)
 {
-    short   damage, hit_chance;
-    char   *mn;
-    long    minus;
+    short damage, hit_chance;
+    char *mn;
+    long minus;
 
     if (fight_monster && (monster != fight_monster)) {
 	fight_monster = 0;
@@ -112,7 +112,7 @@ mon_hit(object *monster, char *other, boolean flame)
 void
 rogue_hit(object *monster, boolean force_hit)
 {
-    short   damage, hit_chance;
+    short damage, hit_chance;
 
     if (monster) {
 	if (check_imitator(monster)) {
@@ -138,7 +138,8 @@ rogue_hit(object *monster, boolean force_hit)
 		sprintf(hit_message, mesg[23], nick_name);
 	    }
 	}
-      RET:check_gold_seeker(monster);
+    RET:
+	check_gold_seeker(monster);
 	wake_up(monster);
     }
 }
@@ -162,10 +163,11 @@ get_damage(char *ds, boolean r)
 
     while (ds[i]) {
 	n = get_number(ds + i);
-	while (ds[i++] != 'd');
+	while (ds[i++] != 'd') continue;
 	d = get_number(ds + i);
-	while ((ds[i] != '/') && ds[i])
+	while ((ds[i] != '/') && ds[i]) {
 	    i++;
+	}
 
 	for (j = 0; j < n; j++) {
 	    if (r) {
@@ -178,21 +180,21 @@ get_damage(char *ds, boolean r)
 	    i++;
 	}
     }
-    return (total);
+    return total;
 }
 
 int
 get_w_damage(object *obj)
 {
-    char    new_damage[12];
+    char new_damage[12];
     int to_hit, damage;
     int i = 0;
 
     if ((!obj) || (obj->what_is != WEAPON)) {
-	return (-1);
+	return -1;
     }
     to_hit = get_number(obj->damage) + obj->hit_enchant;
-    while (obj->damage[i++] != 'd');
+    while (obj->damage[i++] != 'd') continue;
     damage = get_number(obj->damage + i) + obj->d_enchant;
 
     sprintf(new_damage, "%dd%d", to_hit, damage);
@@ -203,30 +205,30 @@ get_w_damage(object *obj)
 int
 get_number(char *s)
 {
-    int total = 0;
+    int     total = 0;
 
     while (*s >= '0' && *s <= '9') {
 	total = (10 * total) + (*s++ - '0');
     }
-    return (total);
+    return total;
 }
 
 long
 lget_number(char *s)
 {
-    long total = 0;
+    long    total = 0;
 
     while (*s >= '0' && *s <= '9') {
 	total = (10 * total) + (*s++ - '0');
     }
-    return (total);
+    return total;
 }
 
 int
 to_hit(object *obj)
 {
     if (!obj) {
-	return (1);
+	return 1;
     }
     return (get_number(obj->damage) + obj->hit_enchant);
 }
@@ -234,8 +236,8 @@ to_hit(object *obj)
 int
 damage_for_strength(void)
 {
-    short   strength;
-    int     i;
+    short strength;
+    int i;
     static short sa[] = { 14, 17, 18, 20, 21, 30, 9999 };
     static short ra[] = { 1, 3, 4, 5, 6, 7, 8 };
 
@@ -245,8 +247,9 @@ damage_for_strength(void)
     }
     i = 0;
     for (;;) {
-	if (strength <= sa[i])
+	if (strength <= sa[i]) {
 	    return (int) ra[i];
+	}
 	i++;
     }
 }
@@ -263,9 +266,9 @@ mon_damage(object *monster, int damage)
 	row = monster->row;
 	col = monster->col;
 	dungeon[row][col] &= ~MONSTER;
-	attrset( COLOR_PAIR( ch_attr[get_dungeon_char(row, col)] ) ); 
+	attrset(COLOR_PAIR(ch_attr[get_dungeon_char(row, col)]));
 	mvaddch(row, col, get_dungeon_char(row, col));
-	attrset( COLOR_PAIR(0));
+	attrset(COLOR_PAIR(0));
 
 	fight_monster = 0;
 	cough_up(monster);
@@ -280,9 +283,9 @@ mon_damage(object *monster, int damage)
 	    being_held = 0;
 	}
 	free_object(monster);
-	return (0);
+	return 0;
     }
-    return (1);
+    return 1;
 }
 
 void
@@ -383,19 +386,19 @@ get_dir_rc(short dir, short *row, short *col, short allow_off_screen)
 int
 get_hit_chance(object *weapon)
 {
-    short   hit_chance;
+    short hit_chance;
 
     hit_chance = 40 + 3 * to_hit(weapon);
     hit_chance += (((2 * rogue.exp) + (2 * ring_exp)) - r_rings);
-    return (hit_chance);
+    return hit_chance;
 }
 
 int
 get_weapon_damage(object *weapon)
 {
-    short   damage;
+    short damage;
 
     damage = get_w_damage(weapon) + damage_for_strength();
     damage += ((((rogue.exp + ring_exp) - r_rings) + 1) / 2);
-    return (damage);
+    return damage;
 }
