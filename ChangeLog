@@ -1,5 +1,7 @@
 2005-12-06  FUNABARA Masao
 
+	* score.c : コードのクリーンアップ
+
 	* save.c : コードのクリーンアップ
 
 	* room.c : コードのクリーンアップ
