@@ -107,7 +107,7 @@ get_zapped_monster(short dir, short *row, short *col)
 		if (((*row == orow) && (*col == ocol)) ||
 		   (dungeon[*row][*col] & (HORWALL | VERTWALL)) ||
 		   (dungeon[*row][*col] == NOTHING)) {
-			return(0);
+			return 0;
 		}
 		if (dungeon[*row][*col] & MONSTER) {
 			if (!imitating(*row, *col)) {
@@ -131,7 +131,7 @@ get_missiled_monster(short dir, short *row, short *col)
 		   (dungeon[*row][*col] == NOTHING)) {
 		   	*row = orow;
 			*col = ocol;
-			return(0);
+			return 0;
 		}
 		if (!first && rogue_can_see(orow, ocol)) {
 		    attrset( COLOR_PAIR( ch_attr[get_dungeon_char(orow, ocol)] ) );
