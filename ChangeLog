@@ -1,5 +1,9 @@
 2005-12-06  FUNABARA Masao
 
+	* throw.c : コードのクリーンアップ
+
+	* spechit.c : コードのクリーンアップ
+
 	* score.c : コードのクリーンアップ
 
 	* save.c : コードのクリーンアップ
