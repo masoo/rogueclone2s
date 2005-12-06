@@ -296,22 +296,6 @@ md_gct(struct rogue_time *rt_buf)
 void
 md_gfmt(char *fname, struct rogue_time *rt_buf)
 {
-#ifdef LC4
-    int fd;
-    long ft;
-    char s[6];
-
-    fd = open(fname, O_RDONLY | O_RAW);
-    ft = getft(fd);
-    close(fd);
-    ftunpk(ft, s);
-    rt_buf->year = s[0] + 80;
-    rt_buf->month = s[1];
-    rt_buf->day = s[2];
-    rt_buf->hour = s[3];
-    rt_buf->minute = s[4];
-    rt_buf->second = s[5];
-#else
     struct stat sbuf;
     long seconds;
     struct tm *t;
@@ -320,26 +304,12 @@ md_gfmt(char *fname, struct rogue_time *rt_buf)
     seconds = (long) sbuf.st_mtime;
     t = localtime(&seconds);
 
-#if defined(__TURBOC__) && __TURBOC__ < 0x0200
-    /*
-     * Time routines of Turbo C 1.5J (both from MSA, SPL)
-     * has not been modified for Japanese use.
-     * So we must check the daylight saving time flag,
-     * and then re-correct the time.
-     */
-    if (t->tm_isdst) {
-	seconds -= 3600;
-	t = localtime(&seconds);
-    }
-#endif
-
     rt_buf->year = t->tm_year;
     rt_buf->month = t->tm_mon + 1;
     rt_buf->day = t->tm_mday;
     rt_buf->hour = t->tm_hour;
     rt_buf->minute = t->tm_min;
     rt_buf->second = t->tm_sec;
-#endif /* !LC4 */
 }
 
 /* md_df: (Delete File)

@@ -277,25 +277,13 @@ int
 rgetchar(void)
 {
     int ch;
-#ifdef NeXT			/* by Yasha (till "#endif") */
-    int y, x;
-#endif
 
     for (;;) {
 	ch = getchar();
 
 	switch (ch) {
 	case '\022':
-#ifdef NeXT			/* by Yasha (till "#endif") */
-	    getyx(stdscr, y, x);
-	    move(0, 0);
-	    refresh();
-#endif
 	    wrefresh(curscr);
-#ifdef NeXT			/* by Yasha (till "#endif") */
-	    move(y, x);
-	    refresh();
-#endif
 	    break;
 #ifndef ORIGINAL
 	    /*

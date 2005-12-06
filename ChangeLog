@@ -1,3 +1,9 @@
+2005-12-07  FUNABARA Masao
+
+	* message.c : NeXT マクロ定義を削除
+
+	* machdep.c : その他使用されていないマクロ定義を削除
+
 2005-12-06  FUNABARA Masao
 
 	* zap : コードのクリーンアップ
