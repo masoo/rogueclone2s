@@ -550,8 +550,8 @@ doshell(void)
 	md_chdir(org_dir);
     }
     md_ignore_signals();
-    putstr(mesg[157]);
-    putstr("\r\n");
+    printf(mesg[157]);
+    printf("\r\n");
     system(cmd);
     md_heed_signals();
     if (game_dir && *game_dir) {

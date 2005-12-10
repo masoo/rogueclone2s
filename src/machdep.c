@@ -63,14 +63,6 @@
 #include "machdep.h"
 #include "init.h"
 
-void
-putstr(char *s)
-{
-    while (*s) {
-	putchar(*s++);
-    }
-}
-
 #ifndef ORIGINAL
 /*
  * md_getcwd:

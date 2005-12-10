@@ -1,5 +1,7 @@
 2005-12-10  FUNABARA Masao
 
+	* machdep.c : putstr 関数を printf 関数に置換
+
 	* init.c : clean_up 関数に curses の終了処理を追加する
 
 	* display.c : 表示系の命令を集約し、 COLOR マクロ定義を中に閉じ込める
