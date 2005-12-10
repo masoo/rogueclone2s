@@ -16,6 +16,7 @@
 
 #include "rogue.h"
 #include "init.h"
+#include "display.h"
 #include "invent.h"
 #include "machdep.h"
 #include "message.h"
@@ -37,9 +38,7 @@ boolean ask_quit = 1;
 boolean pass_go = 1, do_restore = 0;
 char org_dir[64], *game_dir = "";
 #endif
-char *color_str = "cbmyg";
 boolean use_color = 1;
-int ch_attr[256];
 char *error_file = "rogue.esave";
 
 extern char *fruit;
@@ -74,7 +73,7 @@ init(int argc, char *argv[])
     if (main_window == NULL) {
 	return 1;
     }
-    set_color_map();
+    init_color_attr();
 
     if ((LINES < DROWS) || (COLS < DCOLS)) {
 	clean_up(mesg[14]);
@@ -296,7 +295,7 @@ opt envopt[] = {
 };
 
 #ifdef JAPAN
-char   *optdesc[] = {
+char *optdesc[] = {
     "終了するかどうか確認をとる",
     "移動中の表示を行わない",
 #ifndef ORIGINAL
@@ -320,7 +319,7 @@ char   *optdesc[] = {
     NULL
 };
 #else /*JAPAN*/
-char   *optdesc[] = {
+char *optdesc[] = {
     "Ask whether quit or not on quit signal",
     "Show position only at end of run",
 #ifndef ORIGINAL
@@ -344,8 +343,7 @@ char   *optdesc[] = {
     NULL
 };
 #endif /*JAPAN*/
-
-void
+    void
 do_opts(void)
 {
     char *ep, *p;
@@ -412,113 +410,13 @@ set_opts(char *env)
 	}
     }
 
-    set_color_map();
+    init_color_attr();
 
 #ifndef ORIGINAL
     if (game_dir && *game_dir) {
 	md_chdir(game_dir);
     }
 #endif
-}
-
-void
-set_color_map(void)
-{
-    int i, j;
-    char *ch;
-    char cha;
-    int color_map_list[5];
-    char color_type[] = "wrgybmcWRGYBMC";
-
-#ifndef COLOR
-    use_color = 0;
-#endif
-    if (!has_colors() || use_color != 1) {
-	for (i = 0; i < 256; i++) {
-	    ch_attr[i] = 0;
-	}
-	return;
-    }
-
-    for (i = 0; i < 5 && color_str[i]; i++) {
-	j = r_index(color_type, color_str[i], 0);
-	if (j >= 0) {
-	    switch (color_type[j]) {
-	    default:
-		color_map_list[i] = 0;
-		break;
-	    case 'w':
-		color_map_list[i] = WHITE;
-		break;
-	    case 'r':
-		color_map_list[i] = RED;
-		break;
-	    case 'g':
-		color_map_list[i] = GREEN;
-		break;
-	    case 'y':
-		color_map_list[i] = YELLOW;
-		break;
-	    case 'b':
-		color_map_list[i] = BLUE;
-		break;
-	    case 'm':
-		color_map_list[i] = MAGENTA;
-		break;
-	    case 'c':
-		color_map_list[i] = CYAN;
-		break;
-	    case 'W':
-		color_map_list[i] = WHITE_REVERSE;
-		break;
-	    case 'R':
-		color_map_list[i] = RED_REVERSE;
-		break;
-	    case 'G':
-		color_map_list[i] = GREEN_REVERSE;
-		break;
-	    case 'Y':
-		color_map_list[i] = YELLOW_REVERSE;
-		break;
-	    case 'B':
-		color_map_list[i] = BLUE_REVERSE;
-		break;
-	    case 'M':
-		color_map_list[i] = MAGENTA_REVERSE;
-		break;
-	    case 'C':
-		color_map_list[i] = CYAN_REVERSE;
-		break;
-	    }
-	}
-    }
-    start_color();
-    init_pair(WHITE, COLOR_WHITE, COLOR_BLACK);
-    init_pair(RED, COLOR_RED, COLOR_BLACK);
-    init_pair(GREEN, COLOR_GREEN, COLOR_BLACK);
-    init_pair(YELLOW, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(BLUE, COLOR_BLUE, COLOR_BLACK);
-    init_pair(MAGENTA, COLOR_MAGENTA, COLOR_BLACK);
-    init_pair(CYAN, COLOR_CYAN, COLOR_BLACK);
-    init_pair(WHITE_REVERSE, COLOR_BLACK, COLOR_WHITE);
-    init_pair(RED_REVERSE, COLOR_BLACK, COLOR_RED);
-    init_pair(GREEN_REVERSE, COLOR_BLACK, COLOR_GREEN);
-    init_pair(YELLOW_REVERSE, COLOR_BLACK, COLOR_YELLOW);
-    init_pair(BLUE_REVERSE, COLOR_BLACK, COLOR_BLUE);
-    init_pair(MAGENTA_REVERSE, COLOR_BLACK, COLOR_MAGENTA);
-    init_pair(CYAN_REVERSE, COLOR_BLACK, COLOR_CYAN);
-    //カラーマップ毎の処理を記述
-    for (ch = "-|#+"; *ch; ch++) {
-	ch_attr[(signed) *ch] = color_map_list[0];
-    }
-    ch_attr['.'] = color_map_list[1];
-    for (cha = 'A'; cha <= 'Z'; cha++) {
-	ch_attr[(signed) cha] = color_map_list[2];
-    }
-    for (ch = "%!?/=)]^*:,"; *ch; ch++) {
-	ch_attr[(signed) *ch] = color_map_list[3];
-    }
-    ch_attr[rogue.fchar] = color_map_list[4];
 }
 
 void

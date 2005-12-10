@@ -16,6 +16,7 @@
 
 #include "rogue.h"
 #include "object.h"
+#include "display.h"
 #include "invent.h"
 #include "machdep.h"
 #include "message.h"
@@ -628,12 +629,10 @@ show_objects(void)
 		monster->trail_char = rc;
 	    }
 	}
-	mc = mvinch(row, col) & A_CHARTEXT;
+	mc = mvinch_rogue(row, col);
 	if (((mc < 'A') || (mc > 'Z')) &&
 	    ((row != rogue.row) || (col != rogue.col))) {
-	    attrset(COLOR_PAIR(ch_attr[rc]));
-	    mvaddch(row, col, rc);
-	    attrset(COLOR_PAIR(0));
+	    mvaddch_rogue(row, col, rc);
 	}
 	obj = obj->next_object;
     }
@@ -642,9 +641,7 @@ show_objects(void)
 
     while (monster) {
 	if (monster->m_flags & IMITATES) {
-	    attrset(COLOR_PAIR(ch_attr[monster->disguise]));
-	    mvaddch(monster->row, monster->col, monster->disguise);
-	    attrset(COLOR_PAIR(0));
+	    mvaddch_rogue(monster->row, monster->col, monster->disguise);
 	}
 	monster = monster->next_monster;
     }
@@ -865,12 +862,11 @@ list_object(object *obj, short max)
     for (row = 0; row < i; row++) {
 	if (row > 0) {
 	    for (j = col; j < DCOLS; j++) {
-		descs[row - 1][j - col] = mvinch(row, j) & A_CHARTEXT;
+		descs[row - 1][j - col] = mvinch_rogue(row, j);
 	    }
 	    descs[row - 1][j - col] = 0;
 	}
-	attrset(COLOR_PAIR(0));
-	mvaddstr(row, col, descs[row]);
+	mvaddstr_rogue(row, col, descs[row]);
 	clrtoeol();
     }
     refresh();
@@ -882,21 +878,17 @@ list_object(object *obj, short max)
     for (j = 1; j < i; j++) {
 	move(j, col);
 	for (p = descs[j - 1]; *p; p++) {
-	    attrset(COLOR_PAIR(ch_attr[(signed) *p]));
-	    addch(*p);
-	    attrset(COLOR_PAIR(0));
+	    addch_rogue(*p);
 	}
     }
 #else
     for (j = 1; j < i; j++) {
-	attrset(COLOR_PAIR(0));
-	mvaddstr(j, col, descs[j - 1]);
+	mvaddstr_rogue(j, col, descs[j - 1]);
     }
 #endif
 }
 #endif /*ORIGINAL*/
-
-int
+    int
 next_party(void)
 {
     int n;

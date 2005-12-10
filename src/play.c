@@ -17,6 +17,7 @@
 
 #include "rogue.h"
 #include "play.h"
+#include "display.h"
 #include "hit.h"
 #include "init.h"
 #include "invent.h"
@@ -341,13 +342,12 @@ help(void)
 
     for (row = 0; row < DROWS; row++) {
 	for (col = 0; col < DCOLS; col++) {
-	    descs[row][col] = mvinch(row, col) & A_CHARTEXT;
+	    descs[row][col] = mvinch_rogue(row, col);
 	}
     }
     clear();
     for (n = 0; help_message[n]; n++) {
-	attrset(COLOR_PAIR(0));
-	mvaddstr(n, 0, help_message[n]);
+	mvaddstr_rogue(n, 0, help_message[n]);
 	clrtoeol();
     }
     refresh();
@@ -360,12 +360,9 @@ help(void)
 		continue;
 	    }
 	    if (row < MIN_ROW || row >= DROWS - 1) {
-		attrset(COLOR_PAIR(0));
-		addch((unsigned char) descs[row][col]);
+		addch_rogue((unsigned char) descs[row][col]);
 	    } else {
-		attrset(COLOR_PAIR(ch_attr[(unsigned char) descs[row][col]]));
-		addch(descs[row][col]);
-		attrset(COLOR_PAIR(0));
+		addch_rogue(descs[row][col]);
 	    }
 	}
     }
@@ -387,7 +384,7 @@ identify(void)
 
     message(mesg[155], 0);
 
-  again:
+again:
     ch = rgetchar();
     if (ch == '\033') {
 	check_message();
@@ -421,26 +418,25 @@ options(void)
 
     for (row = 0; row < DROWS; row++) {
 	for (col = 0; col < DCOLS; col++) {
-	    descs[row][col] = mvinch(row, col) & A_CHARTEXT;
+	    descs[row][col] = mvinch_rogue(row, col);
 	}
     }
     clear();
     for (n = 0; envopt[n].name; n++) {
-	attrset(COLOR_PAIR(0));
-	mvaddstr(n, 0, optdesc[n]);
-	addstr(" (\"");
-	addstr(envopt[n].name);
-	addstr("\"): ");
+	mvaddstr_rogue(n, 0, optdesc[n]);
+	addstr_rogue(" (\"");
+	addstr_rogue(envopt[n].name);
+	addstr_rogue("\"): ");
 	if (envopt[n].bp) {
 	    bbuf[n] = *(envopt[n].bp);
-	    addstr(bbuf[n] ? "Yes" : "No");
+	    addstr_rogue(bbuf[n] ? "Yes" : "No");
 	} else {
 	    strcpy(cbuf[n], *(envopt[n].cp));
 	    if (envopt[n].ab) {
 		i = strlen(cbuf[n]);
 		cbuf[n][i - 1] = 0;
 	    }
-	    addstr(cbuf[n]);
+	    addstr_rogue(cbuf[n]);
 	}
 	pos[n] = strlen(optdesc[n]) + strlen(envopt[n].name) + 7;
     }
@@ -458,7 +454,7 @@ options(void)
 	    break;
 	if (r_index("-\r\n", ch, 0) > -1) {
 	    if (envopt[i].bp) {
-		addstr(bbuf[i] ? "Yes" : "No");
+		addstr_rogue(bbuf[i] ? "Yes" : "No");
 		clrtoeol();
 	    }
 	    if (ch == '-') {
@@ -473,11 +469,10 @@ options(void)
 		ch += 'a' - 'Z';
 	    }
 	    if (ch != 'y' && ch != 'n') {
-		attrset(COLOR_PAIR(0));
-		mvaddstr(i, pos[i], "(Yes or No)");
+		mvaddstr_rogue(i, pos[i], "(Yes or No)");
 		continue;
 	    }
-	    addstr((ch == 'y') ? "Yes" : "No");
+	    addstr_rogue((ch == 'y') ? "Yes" : "No");
 	    clrtoeol();
 	    bbuf[i] = (ch == 'y');
 	    i++;
@@ -494,9 +489,9 @@ options(void)
     if (changed) {
 	move(n + 1, 0);
 #ifdef JAPAN
-	addstr("＝スペースを押してください＝");
+	addstr_rogue("＝スペースを押してください＝");
 #else
-	addstr("--Press space to continue--");
+	addstr_rogue("--Press space to continue--");
 #endif
 	refresh();
 	wait_for_ack();
@@ -512,13 +507,9 @@ options(void)
 		continue;
 	    }
 	    if (row < MIN_ROW || row >= DROWS - 1) {
-		attrset(COLOR_PAIR(ch_attr[(unsigned char) descs[row][col]]));
-		addch((unsigned char) descs[row][col]);
-		attrset(COLOR_PAIR(0));
+		addch_rogue((unsigned char) descs[row][col]);
 	    } else {
-		attrset(COLOR_PAIR(ch_attr[(unsigned char) descs[row][col]]));
-		addch(descs[row][col]);
-		attrset(COLOR_PAIR(0));
+		addch_rogue(descs[row][col]);
 	    }
 	}
     }

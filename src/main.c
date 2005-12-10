@@ -90,7 +90,8 @@ read_mesg(int ac, char **av)
 
     while (fgets(buf, 256, mesg_file) != NULL) {
 	if ((n = atoi(buf)) > 0 && n < 500) {
-	    for (i = 0; buf[i] && buf[i] != '\"'; ++i) continue;
+	    for (i = 0; buf[i] && buf[i] != '\"'; ++i)
+		continue;
 	    if (buf[i]) {
 		s = i + 1;
 	    } else {
@@ -98,7 +99,8 @@ read_mesg(int ac, char **av)
 		fprintf(stderr, "Illegal format '%s'\n", av[1]);
 		return 1;
 	    }
-	    for (i = s; buf[i] && buf[i] != '\"'; ++i) continue;
+	    for (i = s; buf[i] && buf[i] != '\"'; ++i)
+		continue;
 	    if (buf[i]) {
 		e = i - 1;
 	    } else {

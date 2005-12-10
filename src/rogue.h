@@ -417,37 +417,6 @@ extern opt envopt[];
 extern char *optdesc[];
 #endif
 
-/*
- * Ncurses Colors
- */
-enum rogue_colors
-{
-    WHITE = 1,
-    RED = 2,
-    GREEN = 3,
-    YELLOW = 4,
-    BLUE = 5,
-    MAGENTA = 6,
-    CYAN = 7,
-    WHITE_REVERSE = 8,
-    RED_REVERSE = 9,
-    GREEN_REVERSE = 10,
-    YELLOW_REVERSE = 11,
-    BLUE_REVERSE = 12,
-    MAGENTA_REVERSE = 13,
-    CYAN_REVERSE = 14
-};
-#ifdef COLOR
-#define RWHITE	 8
-#define RRED	 9
-#define RGREEN	 10
-#define RYELLOW	 11
-#define RBLUE	 12
-#define RMAGENTA 13
-#define RCYAN	 14
-#endif
-extern int ch_attr[];
-
 #ifndef ORIGINAL
 extern char org_dir[], *game_dir;
 #endif
@@ -458,3 +427,12 @@ extern char org_dir[], *game_dir;
 #define	getchar() fgetc(stdin)
 #define	putchar(c) fputc(c, stdout)
 #define	putc(c, fp) fputc(c, fp)
+
+
+#define RWHITE	 8
+#define RRED	 9
+#define RGREEN	 10
+#define RYELLOW	 11
+#define RBLUE	 12
+#define RMAGENTA 13
+#define RCYAN	 14

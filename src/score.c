@@ -16,6 +16,7 @@
 
 #include "rogue.h"
 #include "score.h"
+#include "display.h"
 #include "hit.h"
 #include "init.h"
 #include "invent.h"
@@ -45,8 +46,10 @@ killed_by(object *monster, short other)
     char buf2[20];
     struct rogue_time rt;
     static char xpos[] = {
-	DCOLS / 2 - 5, DCOLS / 2 - 6, DCOLS / 2 - 7, DCOLS / 2 - 8, DCOLS / 2 - 9,
-	DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 10,
+	DCOLS / 2 - 5, DCOLS / 2 - 6, DCOLS / 2 - 7, DCOLS / 2 - 8,
+	    DCOLS / 2 - 9,
+	DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 10,
+	    DCOLS / 2 - 10,
 	DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 11, DCOLS / 2 - 19
     };				/* by Yasha */
 /*	static char xpos[] = {35,34,33,32,31,30,30,30,30,30,30,30,29,21};*/
@@ -93,16 +96,14 @@ killed_by(object *monster, short other)
 	md_gct(&rt);
 	clear();
 	for (i = 0; i < 14; i++) {
-	    mvaddstr(i + 3, xpos[i], str[i]);
+	    mvaddstr_rogue(i + 3, xpos[i], str[i]);
 	}
 #ifdef COLOR
-	attrset(COLOR_PAIR(ch_attr['*']));
-	mvaddch(15, DCOLS / 2 - 11, '*');	/* by Yasha */
-	mvaddch(15, DCOLS / 2 - 4, '*');	/* by Yasha */
-	mvaddch(15, DCOLS / 2 - 1, '*');	/* by Yasha */
-	mvaddch(15, DCOLS / 2 + 2, '*');	/* by Yasha */
-	mvaddch(15, DCOLS / 2 + 11, '*');	/* by Yasha */
-	attrset(COLOR_PAIR(0));
+	mvaddch_rogue(15, DCOLS / 2 - 11, '*');	/* by Yasha */
+	mvaddch_rogue(15, DCOLS / 2 - 4, '*');	/* by Yasha */
+	mvaddch_rogue(15, DCOLS / 2 - 1, '*');	/* by Yasha */
+	mvaddch_rogue(15, DCOLS / 2 + 2, '*');	/* by Yasha */
+	mvaddch_rogue(15, DCOLS / 2 + 11, '*');	/* by Yasha */
 /*		mvaddch(15, 29, '*');
 		mvaddch(15, 36, '*');
 		mvaddch(15, 39, '*');
@@ -146,7 +147,8 @@ short other;
     char buf2[20];
     struct rogue_time rt;
     static char xpos[] = {
-	DCOLS / 2 - 5, DCOLS / 2 - 6, DCOLS / 2 - 7, DCOLS / 2 - 8, DCOLS / 2 - 9,
+	DCOLS / 2 - 5, DCOLS / 2 - 6, DCOLS / 2 - 7, DCOLS / 2 - 8,
+	    DCOLS / 2 - 9,
 	DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 10,
 	DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 11, DCOLS / 2 - 19
     };				/* by Yasha */
@@ -189,7 +191,7 @@ short other;
 	md_gct(&rt);
 	clear();
 	for (i = 0; i < 13; i++)
-	    mvaddstr(i + 4, xpos[i], str[i]);
+	    mvaddstr_rogue(i + 4, xpos[i], str[i]);
 	center(6, mesg[177]);
 	center(7, mesg[178]);
 	center(8, mesg[179]);
@@ -260,22 +262,22 @@ short other;
     sprintf(buf + strlen(buf), "%ld gold", rogue.gold);
     if ((!other) && show_skull) {
 	clear();
-	mvaddstr(4, 32, "__---------__");
-	mvaddstr(5, 30, "_~             ~_");
-	mvaddstr(6, 29, "/                 \\");
-	mvaddstr(7, 28, "~                   ~");
-	mvaddstr(8, 27, "/                     \\");
-	mvaddstr(9, 27, "|    XXXX     XXXX    |");
-	mvaddstr(10, 27, "|    XXXX     XXXX    |");
-	mvaddstr(11, 27, "|    XXX       XXX    |");
-	mvaddstr(12, 28, "\\         @         /");
-	mvaddstr(13, 29, "--\\     @@@     /--");
-	mvaddstr(14, 30, "| |    @@@    | |");
-	mvaddstr(15, 30, "| |           | |");
-	mvaddstr(16, 30, "| vvVvvvvvvvVvv |");
-	mvaddstr(17, 30, "|  ^^^^^^^^^^^  |");
-	mvaddstr(18, 31, "\\_           _/");
-	mvaddstr(19, 33, "~---------~");
+	mvaddstr_rogue(4, 32, "__---------__");
+	mvaddstr_rogue(5, 30, "_~             ~_");
+	mvaddstr_rogue(6, 29, "/                 \\");
+	mvaddstr_rogue(7, 28, "~                   ~");
+	mvaddstr_rogue(8, 27, "/                     \\");
+	mvaddstr_rogue(9, 27, "|    XXXX     XXXX    |");
+	mvaddstr_rogue(10, 27, "|    XXXX     XXXX    |");
+	mvaddstr_rogue(11, 27, "|    XXX       XXX    |");
+	mvaddstr_rogue(12, 28, "\\         @         /");
+	mvaddstr_rogue(13, 29, "--\\     @@@     /--");
+	mvaddstr_rogue(14, 30, "| |    @@@    | |");
+	mvaddstr_rogue(15, 30, "| |           | |");
+	mvaddstr_rogue(16, 30, "| vvVvvvvvvvVvv |");
+	mvaddstr_rogue(17, 30, "|  ^^^^^^^^^^^  |");
+	mvaddstr_rogue(18, 31, "\\_           _/");
+	mvaddstr_rogue(19, 33, "~---------~");
 	center(21, nick_name);
 	center(22, buf);
     } else {
@@ -317,13 +319,20 @@ win(void)
 #define OO__O___  0xc8
 #define OOO_____  0xe0
     static int ban[7][8] = {
-	{O___O___, ________, ____O___, O_______, ____O___, _______O, OO__O___, __O_____},
-	{O___O___, ________, ____OO_O, O_______, ____O___, ________, O___O___, __O_____},
-	{O___O__O, OO__O___, O___O_O_, O__OOO__, _OOOO__O, OO______, O__OOO__, __O_____},
-	{_OOOO_O_, __O_O___, O___O___, O_____O_, O___O_O_, __O_____, O___O___, __O_____},
-	{____O_O_, __O_O___, O___O___, O__OOOO_, O___O_OO, OOO_____, O___O___, __O_____},
-	{O___O_O_, __O_O__O, O___O___, O_O___O_, O___O_O_, ________, O___O__O, ________},
-	{_OOO___O, OO___OO_, O___O___, O__OOOO_, _OOOO__O, OO_____O, OO___OO_, __O_____}
+	{O___O___, ________, ____O___, O_______, ____O___, _______O, OO__O___,
+	 __O_____},
+	{O___O___, ________, ____OO_O, O_______, ____O___, ________, O___O___,
+	 __O_____},
+	{O___O__O, OO__O___, O___O_O_, O__OOO__, _OOOO__O, OO______, O__OOO__,
+	 __O_____},
+	{_OOOO_O_, __O_O___, O___O___, O_____O_, O___O_O_, __O_____, O___O___,
+	 __O_____},
+	{____O_O_, __O_O___, O___O___, O__OOOO_, O___O_OO, OOO_____, O___O___,
+	 __O_____},
+	{O___O_O_, __O_O__O, O___O___, O_O___O_, O___O_O_, ________, O___O__O,
+	 ________},
+	{_OOO___O, OO___OO_, O___O___, O__OOOO_, _OOOO__O, OO_____O, OO___OO_,
+	 __O_____}
     };
 #endif
 
@@ -346,14 +355,21 @@ win(void)
     standend();
 #endif
 #else
-    mvaddstr(10, 11, "@   @  @@@   @   @      @  @  @   @@@   @   @   @");
-    mvaddstr(11, 11, " @ @  @   @  @   @      @  @  @  @   @  @@  @   @");
-    mvaddstr(12, 11, "  @   @   @  @   @      @  @  @  @   @  @ @ @   @");
-    mvaddstr(13, 11, "  @   @   @  @   @      @  @  @  @   @  @  @@");
-    mvaddstr(14, 11, "  @    @@@    @@@        @@ @@    @@@   @   @   @");
-    mvaddstr(17, 11, "Congratulations,  you have  been admitted  to  the");
-    mvaddstr(18, 11, "Fighters' Guild.   You return home,  sell all your");
-    mvaddstr(19, 11, "treasures at great profit and retire into comfort.");
+    mvaddstr_rogue(10, 11,
+		   "@   @  @@@   @   @      @  @  @   @@@   @   @   @");
+    mvaddstr_rogue(11, 11,
+		   " @ @  @   @  @   @      @  @  @  @   @  @@  @   @");
+    mvaddstr_rogue(12, 11,
+		   "  @   @   @  @   @      @  @  @  @   @  @ @ @   @");
+    mvaddstr_rogue(13, 11, "  @   @   @  @   @      @  @  @  @   @  @  @@");
+    mvaddstr_rogue(14, 11,
+		   "  @    @@@    @@@        @@ @@    @@@   @   @   @");
+    mvaddstr_rogue(17, 11,
+		   "Congratulations,  you have  been admitted  to  the");
+    mvaddstr_rogue(18, 11,
+		   "Fighters' Guild.   You return home,  sell all your");
+    mvaddstr_rogue(19, 11,
+		   "treasures at great profit and retire into comfort.");
 #endif
     message("", 0);
     message("", 0);
@@ -375,19 +391,12 @@ mvaddbanner(int row, int col, int *ban)
     for (i = 0; i < 59; i++) {
 	if (ban[i >> 3] & (0x80 >> (i & 7))) {
 #ifdef COLOR
-
-	    attrset(COLOR_PAIR(ch_attr[rev]));
-	    addch(rev);
-	    attrset(COLOR_PAIR(0));
+	    addch_rogue(rev);
 #else
-	    attrset(COLOR_PAIR(ch_attr['@']));
-	    addch('@');
-	    attrset(COLOR_PAIR(0));
+	    addch_rogue('@');
 #endif
 	} else {
-	    attrset(COLOR_PAIR(ch_attr[' ']));
-	    addch(' ');
-	    attrset(COLOR_PAIR(0));
+	    addch_rogue(' ');
 	}
     }
 }
@@ -409,7 +418,7 @@ quit(boolean from_intrpt)
 	mc = msg_cleared;
 
 	for (i = 0; i < DCOLS; i++) {
-	    buf[i] = mvinch(0, i) & A_CHARTEXT;
+	    buf[i] = mvinch_rogue(0, i);
 	}
     }
     check_message();
@@ -423,9 +432,7 @@ quit(boolean from_intrpt)
 	check_message();
 	if (from_intrpt) {
 	    for (i = 0; i < DCOLS; i++) {
-		attrset(COLOR_PAIR(ch_attr[(unsigned char) buf[i]]));
-		mvaddch(0, i, (unsigned char) buf[i]);
-		attrset(COLOR_PAIR(0));
+		mvaddch_rogue(0, i, (unsigned char) buf[i]);
 	    }
 	    msg_cleared = mc;
 	    move(orow, ocol);
@@ -499,7 +506,8 @@ put_scores(object *monster, short other)
 	if (name_cmp(scores[i] + 15, login_name)) {
 	    continue;
 	}
-	for (p = scores[i] + 5; *p == ' '; p++) continue;
+	for (p = scores[i] + 5; *p == ' '; p++)
+	    continue;
 	if (rogue.gold > lget_number(p)) {
 	    found_pos = i;
 	} else {
@@ -517,7 +525,8 @@ put_scores(object *monster, short other)
     rank = 10;
     if (!score_only) {
 	for (i = 0; i < ne; i++) {
-	    for (p = scores[i] + 5; *p == ' '; p++) continue;
+	    for (p = scores[i] + 5; *p == ' '; p++)
+		continue;
 	    if (rogue.gold <= lget_number(p)) {
 		continue;
 	    }
@@ -540,21 +549,11 @@ put_scores(object *monster, short other)
     md_ignore_signals();
     clear();
 #ifdef JAPAN
-    attrset(COLOR_PAIR(YELLOW));
-    if (use_color == 0) {
-	attrset(COLOR_PAIR(0));
-    }
-    mvaddstr(3, 20, mesg[187]);
-    attrset(COLOR_PAIR(0));
+    mvaddstr_rogue(3, 20, mesg[187]);
 #else
-    mvaddstr(3, 25, mesg[187]);
+    mvaddstr_rogue(3, 25, mesg[187]);
 #endif
-    attrset(COLOR_PAIR(GREEN));
-    if (use_color == 0) {
-	attrset(COLOR_PAIR(0));
-    }
-    mvaddstr(6, 0, mesg[188]);
-    attrset(COLOR_PAIR(0));
+    mvaddstr_rogue(6, 0, mesg[188]);
 #ifdef COLOR
     standend();
 #endif
@@ -563,16 +562,11 @@ put_scores(object *monster, short other)
 	scores[i][2] = (i == 9) ? '0' : '1' + i;
 	nickize(buf, scores[i], n_names[i]);
 	if (i == rank) {
-	    attrset(COLOR_PAIR(CYAN));
-	    if (use_color == 0) {
-		attrset(COLOR_PAIR(0));
-	    }
 	    attron(A_REVERSE);
-	    mvaddstr(i + 8, 0, buf);
+	    mvaddstr_rogue(i + 8, 0, buf);
 	    attroff(A_REVERSE);
-	    attrset(COLOR_PAIR(0));
 	} else {
-	    mvaddstr(i + 8, 0, buf);
+	    mvaddstr_rogue(i + 8, 0, buf);
 	}
     }
     refresh();
@@ -681,8 +675,8 @@ short other;
     }
 
     clear();
-    mvaddstr(3, 30, "Top  Ten  Rogueists");
-    mvaddstr(8, 0, "Rank   Score   Name");
+    mvaddstr_rogue(3, 30, "Top  Ten  Rogueists");
+    mvaddstr_rogue(8, 0, "Rank   Score   Name");
 
     md_ignore_signals();
 
@@ -700,7 +694,7 @@ short other;
 	    scores[i][1] = i + '1';
 	}
 	nickize(buf, scores[i], n_names[i]);
-	mvaddstr(i + 10, 0, buf);
+	mvaddstr_rogue(i + 10, 0, buf);
 	if (rank < 10) {
 	    xxxx(scores[i], 80);
 	    fwrite(scores[i], sizeof(char), 80, fp);
@@ -865,7 +859,7 @@ sell_pack(void)
     obj = rogue.pack.next_object;
 
     clear();
-    mvaddstr(1, 0, mesg[198]);
+    mvaddstr_rogue(1, 0, mesg[198]);
 
     while (obj) {
 	if (obj->what_is != FOOD) {
@@ -876,7 +870,7 @@ sell_pack(void)
 	    if (row < DROWS) {
 		sprintf(buf, "%5d      ", val);
 		get_desc(obj, buf + 11, 1);
-		mvaddstr(row++, 0, buf);
+		mvaddstr_rogue(row++, 0, buf);
 	    }
 	}
 	obj = obj->next_object;
@@ -999,8 +993,7 @@ char *s1, *s2;
 }
 #endif /*ORIGINAL*/
 #endif /*TOPSCO*/
-
-void
+    void
 xxxx(char *buf, short n)
 {
     short i;
@@ -1071,7 +1064,7 @@ center(short row, char *buf)
     short margin;
 
     margin = ((DCOLS - strlen(buf)) / 2);
-    mvaddstr(row, margin, buf);
+    mvaddstr_rogue(row, margin, buf);
 }
 
 void

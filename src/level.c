@@ -15,6 +15,7 @@
 
 #include "rogue.h"
 #include "level.h"
+#include "display.h"
 #include "invent.h"
 #include "message.h"
 #include "monster.h"
@@ -684,9 +685,7 @@ put_player(short nr)
 	message(new_level_message, 0);
 	new_level_message = 0;
     }
-    attrset(COLOR_PAIR(ch_attr[rogue.fchar]));
-    mvaddch(rogue.row, rogue.col, rogue.fchar);
-    attrset(COLOR_PAIR(0));
+    mvaddch_rogue(rogue.row, rogue.col, rogue.fchar);
 }
 
 int

@@ -16,6 +16,7 @@
 
 #include "rogue.h"
 #include "spechit.h"
+#include "display.h"
 #include "hit.h"
 #include "invent.h"
 #include "level.h"
@@ -228,9 +229,7 @@ disappear(object *monster)
 
     dungeon[row][col] &= ~MONSTER;
     if (rogue_can_see(row, col)) {
-	attrset(COLOR_PAIR(ch_attr[get_dungeon_char(row, col)]));
-	mvaddch(row, col, get_dungeon_char(row, col));
-	attrset(COLOR_PAIR(0));
+	mvaddch_rogue(row, col, get_dungeon_char(row, col));
     }
     take_from_pack(monster, &level_monsters);
     free_object(monster);
@@ -293,9 +292,7 @@ try_to_cough(short row, short col, object *obj)
 	place_at(obj, row, col);
 	if (((row != rogue.row) || (col != rogue.col)) &&
 	    (!(dungeon[row][col] & MONSTER))) {
-	    attrset(COLOR_PAIR(get_dungeon_char(row, col)));
-	    mvaddch(row, col, get_dungeon_char(row, col));
-	    attrset(COLOR_PAIR(0));
+	    mvaddch_rogue(row, col, get_dungeon_char(row, col));
 	}
 	return 1;
     }
@@ -362,11 +359,8 @@ check_imitator(object *monster)
     if (monster->m_flags & IMITATES) {
 	wake_up(monster);
 	if (!blind) {
-	    attrset(COLOR_PAIR
-		    (ch_attr[get_dungeon_char(monster->row, monster->col)]));
-	    mvaddch(monster->row, monster->col,
-		    get_dungeon_char(monster->row, monster->col));
-	    attrset(COLOR_PAIR(0));
+	    mvaddch_rogue(monster->row, monster->col,
+			  get_dungeon_char(monster->row, monster->col));
 	    check_message();
 	    sprintf(msg, mesg[206], mon_name(monster));
 	    message(msg, 1);
@@ -509,9 +503,7 @@ flame_broil(object *monster)
 	get_closer(&row, &col, rogue.row, rogue.col);
 	standout();
 	do {
-	    attrset(COLOR_PAIR(ch_attr['~']));
-	    mvaddch(row, col, '~');
-	    attrset(COLOR_PAIR(0));
+	    mvaddch_rogue(row, col, '~');
 	    refresh();
 	    get_closer(&row, &col, rogue.row, rogue.col);
 	} while ((row != rogue.row) || (col != rogue.col));
@@ -520,9 +512,7 @@ flame_broil(object *monster)
 	col = monster->col;
 	get_closer(&row, &col, rogue.row, rogue.col);
 	do {
-	    attrset(COLOR_PAIR(get_dungeon_char(row, col)));
-	    mvaddch(row, col, get_dungeon_char(row, col));
-	    attrset(COLOR_PAIR(0));
+	    mvaddch_rogue(row, col, get_dungeon_char(row, col));
 	    refresh();
 	    get_closer(&row, &col, rogue.row, rogue.col);
 	} while ((row != rogue.row) || (col != rogue.col));

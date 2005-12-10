@@ -15,6 +15,7 @@
 
 #include "rogue.h"
 #include "use.h"
+#include "display.h"
 #include "invent.h"
 #include "level.h"
 #include "machdep.h"
@@ -667,9 +668,8 @@ hold_monster(void)
 void
 tele(void)
 {
-    attrset(COLOR_PAIR(ch_attr[get_dungeon_char(rogue.row, rogue.col)]));
-    mvaddch(rogue.row, rogue.col, get_dungeon_char(rogue.row, rogue.col));
-    attrset(COLOR_PAIR(0));
+    mvaddch_rogue(rogue.row, rogue.col,
+		  get_dungeon_char(rogue.row, rogue.col));
 
     if (cur_room >= 0) {
 	darken_room(cur_room);
@@ -692,24 +692,20 @@ hallucinate(void)
     obj = level_objects.next_object;
 
     while (obj) {
-	ch = mvinch(obj->row, obj->col) & A_CHARTEXT;
+	ch = mvinch_rogue(obj->row, obj->col);
 	if (((ch < 'A') || (ch > 'Z')) &&
 	    ((obj->row != rogue.row) || (obj->col != rogue.col)))
 	    if ((ch != ' ') && (ch != '.') && (ch != '#') && (ch != '+')) {
-		attrset(COLOR_PAIR(ch_attr[gr_obj_char()]));
-		addch(gr_obj_char());
-		attrset(COLOR_PAIR(0));
+		addch_rogue(gr_obj_char());
 	    }
 	obj = obj->next_object;
     }
     monster = level_monsters.next_monster;
 
     while (monster) {
-	ch = mvinch(monster->row, monster->col) & A_CHARTEXT;
+	ch = mvinch_rogue(monster->row, monster->col);
 	if ((ch >= 'A') && (ch <= 'Z')) {
-	    attrset(COLOR_PAIR(ch_attr['A']));
-	    addch(get_rand('A', 'Z'));
-	    attrset(COLOR_PAIR(0));
+	    addch_rogue(get_rand('A', 'Z'));
 	}
 	monster = monster->next_monster;
     }
@@ -745,9 +741,7 @@ relight(void)
     } else {
 	light_up_room(cur_room);
     }
-    attrset(COLOR_PAIR(ch_attr[rogue.fchar]));
-    mvaddch(rogue.row, rogue.col, rogue.fchar);
-    attrset(COLOR_PAIR(0));
+    mvaddch_rogue(rogue.row, rogue.col, rogue.fchar);
 }
 
 void
@@ -781,9 +775,7 @@ go_blind(void)
 	monster = level_monsters.next_monster;
 
 	while (monster) {
-	    attrset(COLOR_PAIR(ch_attr[monster->trail_char]));
-	    mvaddch(monster->row, monster->col, monster->trail_char);
-	    attrset(COLOR_PAIR(0));
+	    mvaddch_rogue(monster->row, monster->col, monster->trail_char);
 	    monster = monster->next_monster;
 	}
     }
@@ -792,15 +784,11 @@ go_blind(void)
 	     i < rooms[cur_room].bottom_row; i++) {
 	    for (j = rooms[cur_room].left_col + 1;
 		 j < rooms[cur_room].right_col; j++) {
-		attrset(COLOR_PAIR(ch_attr[' ']));
-		mvaddch(i, j, ' ');
-		attrset(COLOR_PAIR(0));
+		mvaddch_rogue(i, j, ' ');
 	    }
 	}
     }
-    attrset(COLOR_PAIR(ch_attr[rogue.fchar]));
-    mvaddch(rogue.row, rogue.col, rogue.fchar);
-    attrset(COLOR_PAIR(0));
+    mvaddch_rogue(rogue.row, rogue.col, rogue.fchar);
 }
 
 char *

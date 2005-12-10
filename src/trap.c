@@ -15,6 +15,7 @@
 
 #include "rogue.h"
 #include "trap.h"
+#include "display.h"
 #include "hit.h"
 #include "message.h"
 #include "move.h"
@@ -78,9 +79,7 @@ trap_player(short row, short col)
 	bear_trap = get_rand(4, 7);
 	break;
     case TELE_TRAP:
-	attrset(COLOR_PAIR(ch_attr['^']));
-	mvaddch(rogue.row, rogue.col, '^');
-	attrset(COLOR_PAIR(0));
+	mvaddch_rogue(rogue.row, rogue.col, '^');
 	tele();
 	break;
     case DART_TRAP:
@@ -185,9 +184,7 @@ show_traps(void)
     for (i = 0; i < DROWS; i++) {
 	for (j = 0; j < DCOLS; j++) {
 	    if (dungeon[i][j] & TRAP) {
-		attrset(COLOR_PAIR(ch_attr['^']));
-		mvaddch(i, j, '^');
-		attrset(COLOR_PAIR(0));
+		mvaddch_rogue(i, j, '^');
 	    }
 	}
     }
@@ -227,10 +224,8 @@ search(short n, boolean is_auto)
 			dungeon[row][col] &= (~HIDDEN);
 			if ((!blind) && ((row != rogue.row) ||
 					 (col != rogue.col))) {
-			    attrset(COLOR_PAIR
-				    (ch_attr[get_dungeon_char(row, col)]));
-			    mvaddch(row, col, get_dungeon_char(row, col));
-			    attrset(COLOR_PAIR(0));
+			    mvaddch_rogue(row, col,
+					  get_dungeon_char(row, col));
 			}
 			shown++;
 			if (dungeon[row][col] & TRAP) {

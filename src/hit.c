@@ -16,6 +16,7 @@
 
 #include "rogue.h"
 #include "hit.h"
+#include "display.h"
 #include "level.h"
 #include "message.h"
 #include "monster.h"
@@ -163,7 +164,8 @@ get_damage(char *ds, boolean r)
 
     while (ds[i]) {
 	n = get_number(ds + i);
-	while (ds[i++] != 'd') continue;
+	while (ds[i++] != 'd')
+	    continue;
 	d = get_number(ds + i);
 	while ((ds[i] != '/') && ds[i]) {
 	    i++;
@@ -194,7 +196,8 @@ get_w_damage(object *obj)
 	return -1;
     }
     to_hit = get_number(obj->damage) + obj->hit_enchant;
-    while (obj->damage[i++] != 'd') continue;
+    while (obj->damage[i++] != 'd')
+	continue;
     damage = get_number(obj->damage + i) + obj->d_enchant;
 
     sprintf(new_damage, "%dd%d", to_hit, damage);
@@ -205,7 +208,7 @@ get_w_damage(object *obj)
 int
 get_number(char *s)
 {
-    int     total = 0;
+    int total = 0;
 
     while (*s >= '0' && *s <= '9') {
 	total = (10 * total) + (*s++ - '0');
@@ -216,7 +219,7 @@ get_number(char *s)
 long
 lget_number(char *s)
 {
-    long    total = 0;
+    long total = 0;
 
     while (*s >= '0' && *s <= '9') {
 	total = (10 * total) + (*s++ - '0');
@@ -257,8 +260,8 @@ damage_for_strength(void)
 int
 mon_damage(object *monster, int damage)
 {
-    char   *mn;
-    short   row, col;
+    char *mn;
+    short row, col;
 
     monster->hp_to_kill -= damage;
 
@@ -266,9 +269,7 @@ mon_damage(object *monster, int damage)
 	row = monster->row;
 	col = monster->col;
 	dungeon[row][col] &= ~MONSTER;
-	attrset(COLOR_PAIR(ch_attr[get_dungeon_char(row, col)]));
-	mvaddch(row, col, get_dungeon_char(row, col));
-	attrset(COLOR_PAIR(0));
+	mvaddch_rogue(row, col, get_dungeon_char(row, col));
 
 	fight_monster = 0;
 	cough_up(monster);
@@ -291,9 +292,9 @@ mon_damage(object *monster, int damage)
 void
 fight(boolean to_the_death)
 {
-    short   ch, c;
-    short   row, col;
-    short   possible_damage;
+    short ch, c;
+    short row, col;
+    short possible_damage;
     object *monster;
 
     ch = get_direction();
@@ -304,7 +305,7 @@ fight(boolean to_the_death)
     col = rogue.col;
     get_dir_rc(ch, &row, &col, 0);
 
-    c = mvinch(row, col) & A_CHARTEXT;
+    c = mvinch_rogue(row, col);
     if (((c < 'A') || (c > 'Z')) ||
 	(!can_move(rogue.row, rogue.col, row, col))) {
 	message(mesg[25], 0);

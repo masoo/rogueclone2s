@@ -351,7 +351,7 @@ md_gln(void)
     if ((t = md_getenv("FIGHTER")) == NULL)	/* by Yasha */
 	if ((t = getlogin()) == NULL)	/* by Yasha */
 	    t = md_getenv("USER");	/* by Yasha */
-    /*	t = getlogin();*//* killed by Yasha */
+    /*  t = getlogin(); *//* killed by Yasha */
     return t;
 }
 

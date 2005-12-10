@@ -1,3 +1,7 @@
+2005-12-10  FUNABARA Masao
+
+	* display.c : 表示系の命令を集約し、 COLOR マクロ定義を中に閉じ込める
+
 2005-12-07  FUNABARA Masao
 
 	* message.c : NeXT マクロ定義を削除

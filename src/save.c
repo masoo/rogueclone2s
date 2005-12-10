@@ -16,6 +16,7 @@
 
 #include "rogue.h"
 #include "save.h"
+#include "display.h"
 #include "init.h"
 #include "machdep.h"
 #include "message.h"
@@ -328,7 +329,7 @@ rw_dungeon(FILE *fp, boolean rw)
 	if (rw) {
 	    r_write(fp, (char *) dungeon[i], (DCOLS * sizeof(dungeon[0][0])));
 	    for (j = 0; j < DCOLS; j++) {
-		buf[j] = mvinch(i, j) & A_CHARTEXT;
+		buf[j] = mvinch_rogue(i, j);
 	    }
 	    r_write(fp, buf, DCOLS);
 	} else {
@@ -338,18 +339,12 @@ rw_dungeon(FILE *fp, boolean rw)
 	    for (j = 0; j < DCOLS; j++) {
 #ifdef COLOR
 		if (i < MIN_ROW || i >= DROWS - 1) {
-		    attrset(COLOR_PAIR(ch_attr[(unsigned char) buf[j]]));
-		    mvaddch(i, j, (unsigned char) buf[j]);
-		    attrset(COLOR_PAIR(0));
+		    mvaddch_rogue(i, j, (unsigned char) buf[j]);
 		} else {
-		    attrset(COLOR_PAIR(ch_attr[(unsigned char) buf[j]]));
-		    mvaddch(i, j, buf[j]);
-		    attrset(COLOR_PAIR(0));
+		    mvaddch_rogue(i, j, buf[j]);
 		}
 #else
-		attrset(COLOR_PAIR(ch_attr[buf[j]]));
-		mvaddch(i, j, (unsigned char) buf[j]);
-		attrset(COLOR_PAIR(0));
+		mvaddch_rogue(i, j, (unsigned char) buf[j]);
 #endif
 	    }
 	}

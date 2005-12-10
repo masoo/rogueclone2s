@@ -16,6 +16,7 @@
 
 #include "rogue.h"
 #include "move.h"
+#include "display.h"
 #include "hit.h"
 #include "invent.h"
 #include "message.h"
@@ -117,12 +118,9 @@ one_move_rogue(short dirch, short pickup)
     } else if (dungeon[row][col] & TUNNEL) {
 	light_passage(row, col);
     }
-    attrset(COLOR_PAIR(ch_attr[get_dungeon_char(rogue.row, rogue.col)]));
-    mvaddch(rogue.row, rogue.col, get_dungeon_char(rogue.row, rogue.col));
-    attrset(COLOR_PAIR(0));
-    attrset(COLOR_PAIR(ch_attr[rogue.fchar]));
-    mvaddch(row, col, rogue.fchar);
-    attrset(COLOR_PAIR(0));
+    mvaddch_rogue(rogue.row, rogue.col,
+		  get_dungeon_char(rogue.row, rogue.col));
+    mvaddch_rogue(row, col, rogue.fchar);
 
     if (!jump) {
 	refresh();
@@ -181,7 +179,7 @@ one_move_rogue(short dirch, short pickup)
 	return (STOPPED_ON_SOMETHING);
     }
 MVED:
-    if (reg_move()) {	/* fainted from hunger */
+    if (reg_move()) {		/* fainted from hunger */
 	return (STOPPED_ON_SOMETHING);
     }
     return ((confused ? STOPPED_ON_SOMETHING : MOVED));
@@ -259,7 +257,7 @@ multiple_move_rogue(int dirch)
 #ifndef ORIGINAL
 	dirch += 32;
 	for (;;) {
-	  retry2:
+	retry2:
 	    m = one_move_rogue(dirch, 1);
 	    if (interrupted) {
 		break;

@@ -15,6 +15,7 @@
 
 #include "rogue.h"
 #include "room.h"
+#include "display.h"
 #include "monster.h"
 #include "move.h"
 #include "object.h"
@@ -45,14 +46,10 @@ light_up_room(int rn)
 			dungeon[monster->row][monster->col] |= MONSTER;
 		    }
 		}
-		attrset(COLOR_PAIR(ch_attr[get_dungeon_char(i, j)]));
-		mvaddch(i, j, get_dungeon_char(i, j));
-		attrset(COLOR_PAIR(0));
+		mvaddch_rogue(i, j, get_dungeon_char(i, j));
 	    }
 	}
-	attrset(COLOR_PAIR(ch_attr[rogue.fchar]));
-	mvaddch(rogue.row, rogue.col, rogue.fchar);
-	attrset(COLOR_PAIR(0));
+	mvaddch_rogue(rogue.row, rogue.col, rogue.fchar);
     }
 }
 
@@ -70,10 +67,8 @@ light_passage(int row, int col)
     for (i = ((row > MIN_ROW) ? -1 : 0); i <= i_end; i++) {
 	for (j = ((col > 0) ? -1 : 0); j <= j_end; j++) {
 	    if (can_move(row, col, row + i, col + j)) {
-		attrset(COLOR_PAIR
-			(ch_attr[get_dungeon_char(row + i, col + j)]));
-		mvaddch(row + i, col + j, get_dungeon_char(row + i, col + j));
-		attrset(COLOR_PAIR(0));
+		mvaddch_rogue(row + i, col + j,
+			      get_dungeon_char(row + i, col + j));
 	    }
 	}
     }
@@ -87,21 +82,15 @@ darken_room(short rn)
     for (i = rooms[rn].top_row + 1; i < rooms[rn].bottom_row; i++) {
 	for (j = rooms[rn].left_col + 1; j < rooms[rn].right_col; j++) {
 	    if (blind) {
-		attrset(COLOR_PAIR(ch_attr[' ']));
-		mvaddch(i, j, ' ');
-		attrset(COLOR_PAIR(0));
+		mvaddch_rogue(i, j, ' ');
 	    } else {
 		if (!(dungeon[i][j] & (OBJECT | STAIRS)) &&
 		    !(detect_monster && (dungeon[i][j] & MONSTER))) {
 		    if (!imitating(i, j)) {
-			attrset(COLOR_PAIR(ch_attr[' ']));
-			mvaddch(i, j, ' ');
-			attrset(COLOR_PAIR(0));
+			mvaddch_rogue(i, j, ' ');
 		    }
 		    if ((dungeon[i][j] & TRAP) && (!(dungeon[i][j] & HIDDEN))) {
-			attrset(COLOR_PAIR(ch_attr['^']));
-			mvaddch(i, j, '^');
-			attrset(COLOR_PAIR(0));
+			mvaddch_rogue(i, j, '^');
 		    }
 		}
 	    }
@@ -312,7 +301,7 @@ draw_magic_map(void)
 	for (j = 0; j < DCOLS; j++) {
 	    s = dungeon[i][j];
 	    if (s & mask) {
-		ch = mvinch(i, j) & A_CHARTEXT;
+		ch = mvinch_rogue(i, j);
 		if ((ch == ' ') ||
 		    ((ch >= 'A') && (ch <= 'Z')) || (s & (TRAP | HIDDEN))) {
 		    och = ch;
@@ -333,9 +322,7 @@ draw_magic_map(void)
 			continue;
 		    }
 		    if ((!(s & MONSTER)) || (och == ' ')) {
-			attrset(COLOR_PAIR(ch_attr[ch]));
-			addch(ch);
-			attrset(COLOR_PAIR(0));
+			addch_rogue(ch);
 		    }
 		    if (s & MONSTER) {
 			object *monster;

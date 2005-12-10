@@ -16,6 +16,7 @@
 
 #include "rogue.h"
 #include "message.h"
+#include "display.h"
 #include "init.h"
 #include "machdep.h"
 #include "move.h"
@@ -46,17 +47,14 @@ message(char *msg, boolean intrpt)
     cant_int = 1;
 
     if (!msg_cleared) {
-	mvaddstr(MIN_ROW - 1, msg_col, mesg[11]);
+	mvaddstr_rogue(MIN_ROW - 1, msg_col, mesg[11]);
 	refresh();
 	wait_for_ack();
 	check_message();
     }
     (void) strcpy(msg_line, msg);
-    attrset(COLOR_PAIR(0));
-    mvaddstr(MIN_ROW - 1, 0, msg);
-    attrset(COLOR_PAIR(ch_attr[' ']));
-    addch(' ');
-    attrset(COLOR_PAIR(0));
+    mvaddstr_rogue(MIN_ROW - 1, 0, msg);
+    addch_rogue(' ');
     refresh();
     msg_cleared = 0;
     msg_col = strlen(msg);
@@ -134,13 +132,11 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 	message(prompt, 0);
 	n = strlen(prompt) + 1;
     } else {
-	attrset(COLOR_PAIR(0));
-	mvaddstr(row, col, prompt);
+	mvaddstr_rogue(row, col, prompt);
     }
 
     if (insert[0]) {
-	attrset(COLOR_PAIR(0));
-	mvaddstr(row, col + n, insert);
+	mvaddstr_rogue(row, col + n, insert);
 	(void) strcpy(buf, insert);
 	i = strlen(insert);
 #ifdef JAPAN
@@ -177,8 +173,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 	if ((ch == '\b') && (i > 0)) {
 	    i -= kanji[i - 1] ? 2 : 1;
 	    if (do_echo) {
-		attrset(COLOR_PAIR(0));
-		mvaddstr(row, col + n + i, "  ");
+		mvaddstr_rogue(row, col + n + i, "  ");
 		move(row, col + n + i);
 	    }
 #ifdef EUC
@@ -191,9 +186,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 		buf[i] = ch;
 		kanji[i] = 0;
 		if (do_echo) {
-		    attrset(COLOR_PAIR(ch_attr[ch]));
-		    addch((unsigned char) ch);
-		    attrset(COLOR_PAIR(0));
+		    addch_rogue((unsigned char) ch);
 		}
 		i++;
 	    }
@@ -207,12 +200,8 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 	    buf[i + 1] = rgetchar();
 	    kanji[i] = kanji[i + 1] = 1;
 	    if (do_echo) {
-		attrset(COLOR_PAIR(ch_attr[(unsigned char) buf[i]]));
-		addch((unsigned char) buf[i]);
-		attrset(COLOR_PAIR(0));
-		attrset(COLOR_PAIR(ch_attr[(unsigned char) buf[i + 1]]));
-		addch((unsigned char) buf[i + 1]);
-		attrset(COLOR_PAIR(0));
+		addch_rogue((unsigned char) buf[i]);
+		addch_rogue((unsigned char) buf[i + 1]);
 	    }
 	    i += 2;
 	}
@@ -227,31 +216,26 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
     if (add_blank) {
 	buf[i++] = ' ';
     }
-
 #else /*JAPAN*/
-    while (((ch = rgetchar()) != '\r') && (ch != '\n') && (ch != CANCEL)) {
+	while (((ch = rgetchar()) != '\r') && (ch != '\n') && (ch != CANCEL)) {
 	if ((ch >= ' ') && (ch <= '~') && (i < MAX_TITLE_LENGTH - 2)) {
 	    if ((ch != ' ') || (i > 0)) {
 		buf[i++] = ch;
 		if (do_echo) {
-		    attrset(COLOR_PAIR(ch_attr[(unsigned char) ch]));
-		    addch((unsigned char) ch);
-		    attrset(COLOR_PAIR(0));
+		    addch_rogue((unsigned char) ch);
 		}
 	    }
 	}
 	if ((ch == '\b') && (i > 0)) {
 	    i--;
 	    if (do_echo) {
-		attrset(COLOR_PAIR(ch_attr[' ']));
-		mvaddch(row, col + n + i, ' ');
-		attrset(COLOR_PAIR(0));
+		mvaddch_rogue(row, col + n + i, ' ');
 		move(row, col + n + i);
 	    }
 	}
 	refresh();
     }
-    if (is_msg) { 
+    if (is_msg) {
 	check_message();
     }
     if (add_blank) {
@@ -319,16 +303,14 @@ print_stats(int stat_mask)
 
     if (stat_mask & STAT_LEVEL) {
 	if (label) {
-	    attrset(COLOR_PAIR(0));
-	    mvaddstr(row, 0, mesg[56]);
+	    mvaddstr_rogue(row, 0, mesg[56]);
 	}
 	/* max level taken care of in make_level() */
 	sprintf(buf, "%d", cur_level);
-	attrset(COLOR_PAIR(0));
 #ifdef JAPAN
-	mvaddstr(row, 4, buf);
+	mvaddstr_rogue(row, 4, buf);
 #else
-	mvaddstr(row, 7, buf);
+	mvaddstr_rogue(row, 7, buf);
 #endif
 	pad(buf, 2);
     }
@@ -337,29 +319,26 @@ print_stats(int stat_mask)
 	    if (rogue.gold > MAX_GOLD) {
 		rogue.gold = MAX_GOLD;
 	    }
-	    attrset(COLOR_PAIR(0));
 #ifdef JAPAN
-	    mvaddstr(row, 7, mesg[57]);
+	    mvaddstr_rogue(row, 7, mesg[57]);
 #else
-	    mvaddstr(row, 10, mesg[57]);
+	    mvaddstr_rogue(row, 10, mesg[57]);
 #endif
 	}
 	sprintf(buf, "%ld", rogue.gold);
-	attrset(COLOR_PAIR(0));
 #ifdef JAPAN
-	mvaddstr(row, 13, buf);
+	mvaddstr_rogue(row, 13, buf);
 #else
-	mvaddstr(row, 16, buf);
+	mvaddstr_rogue(row, 16, buf);
 #endif
 	pad(buf, 6);
     }
     if (stat_mask & STAT_HP) {
 	if (label) {
-	    attrset(COLOR_PAIR(0));
 #ifdef JAPAN
-	    mvaddstr(row, 20, mesg[58]);
+	    mvaddstr_rogue(row, 20, mesg[58]);
 #else
-	    mvaddstr(row, 23, mesg[58]);
+	    mvaddstr_rogue(row, 23, mesg[58]);
 #endif
 	    if (rogue.hp_max > MAX_HP) {
 		rogue.hp_current -= (rogue.hp_max - MAX_HP);
@@ -367,21 +346,19 @@ print_stats(int stat_mask)
 	    }
 	}
 	sprintf(buf, "%d(%d)", rogue.hp_current, rogue.hp_max);
-	attrset(COLOR_PAIR(0));
 #ifdef JAPAN
-	mvaddstr(row, 26, buf);
+	mvaddstr_rogue(row, 26, buf);
 #else
-	mvaddstr(row, 27, buf);
+	mvaddstr_rogue(row, 27, buf);
 #endif
 	pad(buf, 8);
     }
     if (stat_mask & STAT_STRENGTH) {
 	if (label) {
-	    attrset(COLOR_PAIR(0));
 #ifdef JAPAN
-	    mvaddstr(row, 35, mesg[59]);
+	    mvaddstr_rogue(row, 35, mesg[59]);
 #else
-	    mvaddstr(row, 36, mesg[59]);
+	    mvaddstr_rogue(row, 36, mesg[59]);
 #endif
 	}
 	if (rogue.str_max > MAX_STRENGTH) {
@@ -390,54 +367,47 @@ print_stats(int stat_mask)
 	}
 	sprintf(buf, "%d(%d)", (rogue.str_current + add_strength),
 		rogue.str_max);
-	attrset(COLOR_PAIR(0));
-	mvaddstr(row, 41, buf);
+	mvaddstr_rogue(row, 41, buf);
 	pad(buf, 6);
     }
     if (stat_mask & STAT_ARMOR) {
 	if (label) {
-	    attrset(COLOR_PAIR(0));
-	    mvaddstr(row, 48, mesg[60]);
+	    mvaddstr_rogue(row, 48, mesg[60]);
 	}
 	if (rogue.armor && (rogue.armor->d_enchant > MAX_ARMOR)) {
 	    rogue.armor->d_enchant = MAX_ARMOR;
 	}
 	sprintf(buf, "%d", get_armor_class(rogue.armor));
-	attrset(COLOR_PAIR(0));
 #ifdef JAPAN
-	mvaddstr(row, 54, buf);
+	mvaddstr_rogue(row, 54, buf);
 #else
-	mvaddstr(row, 53, buf);
+	mvaddstr_rogue(row, 53, buf);
 #endif
 	pad(buf, 2);
     }
     if (stat_mask & STAT_EXP) {
 	if (label) {
-	    attrset(COLOR_PAIR(0));
 #ifdef JAPAN
-	    mvaddstr(row, 57, mesg[61]);
+	    mvaddstr_rogue(row, 57, mesg[61]);
 #else
-	    mvaddstr(row, 56, mesg[61]);
+	    mvaddstr_rogue(row, 56, mesg[61]);
 #endif
 	}
 	/*  Max exp taken care of in add_exp() */
 	sprintf(buf, "%d/%ld", rogue.exp, rogue.exp_points);
-	attrset(COLOR_PAIR(0));
 #ifdef JAPAN
-	mvaddstr(row, 63, buf);
+	mvaddstr_rogue(row, 63, buf);
 #else
-	mvaddstr(row, 61, buf);
+	mvaddstr_rogue(row, 61, buf);
 #endif
 	pad(buf, 11);
     }
     if (stat_mask & STAT_HUNGER) {
 #ifdef JAPAN
-	attrset(COLOR_PAIR(0));
-	mvaddstr(row, 75, hunger_str);
+	mvaddstr_rogue(row, 75, hunger_str);
 	clrtoeol();
 #else
-	attrset(COLOR_PAIR(0));
-	mvaddstr(row, 73, hunger_str);
+	mvaddstr_rogue(row, 73, hunger_str);
 	clrtoeol();
 #endif
     }
@@ -450,9 +420,7 @@ pad(char *s, short n)
     short i;
 
     for (i = strlen(s); i < n; i++) {
-	attrset(COLOR_PAIR(ch_attr[' ']));
-	addch(' ');
-	attrset(COLOR_PAIR(0));
+	addch_rogue(' ');
     }
 }
 
@@ -468,7 +436,7 @@ save_screen(void)
 	for (i = 0; i < DROWS; i++) {
 	    found_non_blank = 0;
 	    for (j = (DCOLS - 1); j >= 0; j--) {
-		buf[j] = mvinch(i, j) & A_CHARTEXT;
+		buf[j] = mvinch_rogue(i, j);
 		if (!found_non_blank) {
 		    if ((buf[j] != ' ') || (j == 0)) {
 			buf[j + ((j == 0) ? 0 : 1)] = 0;

@@ -16,6 +16,7 @@
 
 #include "rogue.h"
 #include "throw.h"
+#include "display.h"
 #include "hit.h"
 #include "message.h"
 #include "monster.h"
@@ -70,15 +71,11 @@ throw(void)
 	un_put_on(weapon);
     }
     monster = get_thrown_at_monster(weapon, dir, &row, &col);
-    attrset(COLOR_PAIR(ch_attr[rogue.fchar]));
-    mvaddch(rogue.row, rogue.col, rogue.fchar);
-    attrset(COLOR_PAIR(0));
+    mvaddch_rogue(rogue.row, rogue.col, rogue.fchar);
     refresh();
 
     if (rogue_can_see(row, col) && ((row != rogue.row) || (col != rogue.col))) {
-	attrset(COLOR_PAIR(ch_attr[get_dungeon_char(row, col)]));
-	mvaddch(row, col, get_dungeon_char(row, col));
-	attrset(COLOR_PAIR(0));
+	mvaddch_rogue(row, col, get_dungeon_char(row, col));
     }
     if (monster) {
 	wake_up(monster);
@@ -156,15 +153,11 @@ get_thrown_at_monster(object *obj, short dir, short *row, short *col)
 	    return 0;
 	}
 	if ((i != 0) && rogue_can_see(orow, ocol)) {
-	    attrset(COLOR_PAIR(ch_attr[get_dungeon_char(orow, ocol)]));
-	    mvaddch(orow, ocol, get_dungeon_char(orow, ocol));
-	    attrset(COLOR_PAIR(0));
+	    mvaddch_rogue(orow, ocol, get_dungeon_char(orow, ocol));
 	}
 	if (rogue_can_see(*row, *col)) {
 	    if (!(dungeon[*row][*col] & MONSTER)) {
-		attrset(COLOR_PAIR(ch_attr[ch]));
-		mvaddch(*row, *col, ch);
-		attrset(COLOR_PAIR(0));
+		mvaddch_rogue(*row, *col, ch);
 	    }
 	    refresh();
 	}
@@ -216,19 +209,15 @@ flop_weapon(object *weapon, short row, short col)
 	    dungeon[row][col] &= (~MONSTER);
 	    dch = get_dungeon_char(row, col);
 	    if (mon) {
-		mch = mvinch(row, col) & A_CHARTEXT;
+		mch = mvinch_rogue(row, col);
 		if ((monster = object_at(&level_monsters, row, col))) {
 		    monster->trail_char = dch;
 		}
 		if ((mch < 'A') || (mch > 'Z')) {
-		    attrset(COLOR_PAIR(ch_attr[dch]));
-		    mvaddch(row, col, dch);
-		    attrset(COLOR_PAIR(0));
+		    mvaddch_rogue(row, col, dch);
 		}
 	    } else {
-		attrset(COLOR_PAIR(ch_attr[dch]));
-		mvaddch(row, col, dch);
-		attrset(COLOR_PAIR(0));
+		mvaddch_rogue(row, col, dch);
 	    }
 	    dungeon[row][col] |= mon;
 	}

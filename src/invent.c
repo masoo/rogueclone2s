@@ -16,6 +16,7 @@
 
 #include "rogue.h"
 #include "invent.h"
+#include "display.h"
 #include "message.h"
 #include "object.h"
 #include "pack.h"
@@ -101,12 +102,11 @@ nextpage:
     for (row = 0; row < i; row++) {
 	if (row > 0) {
 	    for (j = col; j < DCOLS; j++) {
-		descs[row - 1][j - col] = mvinch(row, j) & A_CHARTEXT;
+		descs[row - 1][j - col] = mvinch_rogue(row, j);
 	    }
 	    descs[row - 1][j - col] = 0;
 	}
-	attrset(COLOR_PAIR(0));
-	mvaddstr(row, col, descs[row]);
+	mvaddstr_rogue(row, col, descs[row]);
 	clrtoeol();
     }
     refresh();
@@ -118,22 +118,19 @@ nextpage:
     for (j = 1; j < i; j++) {
 	move(j, col);
 	for (p = descs[j - 1]; *p; p++) {
-	    attrset(COLOR_PAIR(ch_attr[(signed) *p]));
-	    addch(*p);
-	    attrset(COLOR_PAIR(0));
+	    addch_rogue(*p);
 	}
     }
 #else
 #ifndef JAPAN			/* if.. by Yasha */
     for (j = 1; j < i; j++) {
-	attrset(COLOR_PAIR(0));
-	mvaddstr(j, col, descs[j - 1]);
+	mvaddstr_rogue(j, col, descs[j - 1]);
     }
 #else
     for (j = 1; j < i; j++) {	/* by Yasha */
 	move(j, col);		/* by Yasha */
 	clrtoeol();		/* by Yasha */
-	addstr(descs[j - 1]);	/* by Yasha */
+	addstr_rogue(descs[j - 1]);	/* by Yasha */
     }				/* by Yasha */
     move(DROWS - 1, 0);		/* by Yasha */
     clrtoeol();			/* by Yasha */
@@ -288,10 +285,10 @@ get_desc(object *obj, char *desc, boolean capitalized)
 #ifdef EUC
 	    if (*desc && *p >= ' ' && !(0x80 & *p))	/* by Yasha */
 #else /* Shift JIS */
-            if (*desc && (*p >= ' ' && *p <= '~' ||
-                          *p >= '\240' && *p < '\340'))
+	    if (*desc && (*p >= ' ' && *p <= '~' ||
+			  *p >= '\240' && *p < '\340'))
 #endif
-	    (void) strcat(desc, " ");
+		(void) strcat(desc, " ");
 	    (void) strcat(desc, p);
 	    (void) strcat(desc, mesg[34]);
 	    (void) strcat(desc, item_name);
@@ -655,11 +652,12 @@ struct dobj
     char *name;
     struct id *id;
 } dobj[] = {
-    {SCROL, '?', SCROLS, mesg[3], id_scrolls},
-    {POTION, '!', POTIONS, mesg[4], id_potions},
-    {WAND, '/', WANDS, mesg[5], id_wands},
-    {RING, '=', RINGS, mesg[8], id_rings},
-    {0}
+    {
+    SCROL, '?', SCROLS, mesg[3], id_scrolls}, {
+    POTION, '!', POTIONS, mesg[4], id_potions}, {
+    WAND, '/', WANDS, mesg[5], id_wands}, {
+    RING, '=', RINGS, mesg[8], id_rings}, {
+    0}
 };
 
 void
@@ -782,12 +780,11 @@ nextpage:
     for (row = 0; row < i; row++) {
 	if (row > 0) {
 	    for (j = col; j < DCOLS; j++) {
-		descs[row - 1][j - col] = mvinch(row, j) & A_CHARTEXT;
+		descs[row - 1][j - col] = mvinch_rogue(row, j);
 	    }
 	    descs[row - 1][j - col] = 0;
 	}
-	attrset(COLOR_PAIR(0));
-	mvaddstr(row, col, descs[row]);
+	mvaddstr_rogue(row, col, descs[row]);
 	clrtoeol();
     }
     refresh();
@@ -799,22 +796,19 @@ nextpage:
     for (j = 1; j < i; j++) {
 	move(j, col);
 	for (p = descs[j - 1]; *p; p++) {
-	    attrset(COLOR_PAIR(ch_attr[(signed) *p]));
-	    addch(*p);
-	    attrset(COLOR_PAIR(0));
+	    addch_rogue(*p);
 	}
     }
 #else
 #ifndef JAPAN			/* if.. by Yasha */
     for (j = 1; j < i; j++) {
-	attrset(COLOR_PAIR(0));
-	mvaddstr(j, col, descs[j - 1]);
+	mvaddstr_rogue(j, col, descs[j - 1]);
     }
 #else
     for (j = 1; j < i; j++) {	/* by Yasha */
 	move(j, col);		/* by Yasha */
 	clrtoeol();		/* by Yasha */
-	addstr(descs[j - 1]);	/* by Yasha */
+	addstr_rogue(descs[j - 1]);	/* by Yasha */
     }				/* by Yasha */
     move(DROWS - 1, 0);		/* by Yasha */
     clrtoeol();			/* by Yasha */
