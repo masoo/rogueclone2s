@@ -171,9 +171,10 @@ clean_up(char *estr)
 	    refresh();
 	    stop_window();
 	}
-	putstr("\r\n");
-	putstr(estr);
-	putstr("\r\n");
+	endwin();
+	printf("\r\n");
+	printf(estr);
+	printf("\r\n");
     }
     md_exit(0);
 }
