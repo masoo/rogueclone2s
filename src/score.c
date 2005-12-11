@@ -46,11 +46,11 @@ killed_by(object *monster, short other)
     char buf2[20];
     struct rogue_time rt;
     static char xpos[] = {
-	DCOLS / 2 - 5, DCOLS / 2 - 6, DCOLS / 2 - 7, DCOLS / 2 - 8,
-	    DCOLS / 2 - 9,
-	DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 10,
-	    DCOLS / 2 - 10,
-	DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 11, DCOLS / 2 - 19
+	ROGUE_COLUMNS / 2 - 5, ROGUE_COLUMNS / 2 - 6, ROGUE_COLUMNS / 2 - 7, ROGUE_COLUMNS / 2 - 8,
+	    ROGUE_COLUMNS / 2 - 9,
+	ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10,
+	    ROGUE_COLUMNS / 2 - 10,
+	ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 11, ROGUE_COLUMNS / 2 - 19
     };				/* by Yasha */
 /*	static char xpos[] = {35,34,33,32,31,30,30,30,30,30,30,30,29,21};*/
     static char *str[] = {
@@ -99,11 +99,11 @@ killed_by(object *monster, short other)
 	    mvaddstr_rogue(i + 3, xpos[i], str[i]);
 	}
 #ifdef COLOR
-	mvaddch_rogue(15, DCOLS / 2 - 11, '*');	/* by Yasha */
-	mvaddch_rogue(15, DCOLS / 2 - 4, '*');	/* by Yasha */
-	mvaddch_rogue(15, DCOLS / 2 - 1, '*');	/* by Yasha */
-	mvaddch_rogue(15, DCOLS / 2 + 2, '*');	/* by Yasha */
-	mvaddch_rogue(15, DCOLS / 2 + 11, '*');	/* by Yasha */
+	mvaddch_rogue(15, ROGUE_COLUMNS / 2 - 11, '*');	/* by Yasha */
+	mvaddch_rogue(15, ROGUE_COLUMNS / 2 - 4, '*');	/* by Yasha */
+	mvaddch_rogue(15, ROGUE_COLUMNS / 2 - 1, '*');	/* by Yasha */
+	mvaddch_rogue(15, ROGUE_COLUMNS / 2 + 2, '*');	/* by Yasha */
+	mvaddch_rogue(15, ROGUE_COLUMNS / 2 + 11, '*');	/* by Yasha */
 /*		mvaddch(15, 29, '*');
 		mvaddch(15, 36, '*');
 		mvaddch(15, 39, '*');
@@ -147,10 +147,10 @@ short other;
     char buf2[20];
     struct rogue_time rt;
     static char xpos[] = {
-	DCOLS / 2 - 5, DCOLS / 2 - 6, DCOLS / 2 - 7, DCOLS / 2 - 8,
-	    DCOLS / 2 - 9,
-	DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 10,
-	DCOLS / 2 - 10, DCOLS / 2 - 10, DCOLS / 2 - 11, DCOLS / 2 - 19
+	ROGUE_COLUMNS / 2 - 5, ROGUE_COLUMNS / 2 - 6, ROGUE_COLUMNS / 2 - 7, ROGUE_COLUMNS / 2 - 8,
+	    ROGUE_COLUMNS / 2 - 9,
+	ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10,
+	ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 11, ROGUE_COLUMNS / 2 - 19
     };				/* by Yasha */
 /*	static char xpos[] = {35,34,33,32,31,30,30,30,30,30,30,29,21};*/
     static char *str[] = {
@@ -344,7 +344,7 @@ win(void)
     clear();
 #ifndef ORIGINAL
     for (i = 0; i < 7; i++) {
-	mvaddbanner(i + 6, DCOLS / 2 - 30, ban[i]);
+	mvaddbanner(i + 6, ROGUE_COLUMNS / 2 - 30, ban[i]);
     }
 /*		mvaddbanner(i+6, 10, ban[i]);*/
     center(15, mesg[182]);
@@ -417,7 +417,7 @@ quit(boolean from_intrpt)
 	ocol = rogue.col;
 	mc = msg_cleared;
 
-	for (i = 0; i < DCOLS; i++) {
+	for (i = 0; i < ROGUE_COLUMNS; i++) {
 	    buf[i] = mvinch_rogue(0, i);
 	}
     }
@@ -431,7 +431,7 @@ quit(boolean from_intrpt)
 	md_heed_signals();
 	check_message();
 	if (from_intrpt) {
-	    for (i = 0; i < DCOLS; i++) {
+	    for (i = 0; i < ROGUE_COLUMNS; i++) {
 		mvaddch_rogue(0, i, (unsigned char) buf[i]);
 	    }
 	    msg_cleared = mc;
@@ -867,7 +867,7 @@ sell_pack(void)
 	    val = get_value(obj);
 	    rogue.gold += val;
 
-	    if (row < DROWS) {
+	    if (row < ROGUE_LINES) {
 		sprintf(buf, "%5d      ", val);
 		get_desc(obj, buf + 11, 1);
 		mvaddstr_rogue(row++, 0, buf);
@@ -1063,7 +1063,7 @@ center(short row, char *buf)
 {
     short margin;
 
-    margin = ((DCOLS - strlen(buf)) / 2);
+    margin = ((ROGUE_COLUMNS - strlen(buf)) / 2);
     mvaddstr_rogue(row, margin, buf);
 }
 

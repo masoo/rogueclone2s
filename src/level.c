@@ -144,12 +144,12 @@ make_room(short rn, short r1, short r2, short r3)
 
     if (rn == BIG_ROOM) {
 	top_row = get_rand(MIN_ROW, MIN_ROW + 5);
-	bottom_row = get_rand(DROWS - 7, DROWS - 2);
+	bottom_row = get_rand(ROGUE_LINES - 7, ROGUE_LINES - 2);
 	left_col = get_rand(0, 10);
 #ifndef ORIGINAL
-	right_col = get_rand(DCOLS - 11, DCOLS - 2);
+	right_col = get_rand(ROGUE_COLUMNS - 11, ROGUE_COLUMNS - 2);
 #else
-	right_col = get_rand(DCOLS - 11, DCOLS - 1);
+	right_col = get_rand(ROGUE_COLUMNS - 11, ROGUE_COLUMNS - 1);
 #endif
 	rn = 0;
 	goto B;
@@ -167,9 +167,9 @@ make_room(short rn, short r1, short r2, short r3)
     case 2:
 	left_col = COL2 + 1;
 #ifndef ORIGINAL
-	right_col = DCOLS - 2;
+	right_col = ROGUE_COLUMNS - 2;
 #else
-	right_col = DCOLS - 1;
+	right_col = ROGUE_COLUMNS - 1;
 #endif
 	break;
     }
@@ -185,7 +185,7 @@ make_room(short rn, short r1, short r2, short r3)
     default:
     case 2:
 	top_row = ROW2 + 1;
-	bottom_row = DROWS - 2;
+	bottom_row = ROGUE_LINES - 2;
 	break;
     }
     height = get_rand(4, (bottom_row - top_row + 1));
@@ -290,8 +290,8 @@ clear_level(void)
     for (i = 0; i < MAX_TRAPS; i++) {
 	traps[i].trap_type = NO_TRAP;
     }
-    for (i = 0; i < DROWS; i++) {
-	for (j = 0; j < DCOLS; j++) {
+    for (i = 0; i < ROGUE_LINES; i++) {
+	for (j = 0; j < ROGUE_COLUMNS; j++) {
 	    dungeon[i][j] = NOTHING;
 	}
     }

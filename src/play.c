@@ -340,8 +340,8 @@ help(void)
     int row, col;
     int n;
 
-    for (row = 0; row < DROWS; row++) {
-	for (col = 0; col < DCOLS; col++) {
+    for (row = 0; row < ROGUE_LINES; row++) {
+	for (col = 0; col < ROGUE_COLUMNS; col++) {
 	    descs[row][col] = mvinch_rogue(row, col);
 	}
     }
@@ -353,17 +353,17 @@ help(void)
     refresh();
     wait_for_ack();
 
-    for (row = 0; row < DROWS; row++) {
+    for (row = 0; row < ROGUE_LINES; row++) {
 	move(row, 0);
-	for (col = 0; col < DCOLS; col++) {
-	    if (row == DROWS - 1 && col == DCOLS - 1) {
+	for (col = 0; col < ROGUE_COLUMNS; col++) {
+	    if (row == ROGUE_LINES - 1 && col == ROGUE_COLUMNS - 1) {
 		continue;
 	    }
-	    if ( row >= MIN_ROW && row < DROWS -1 ) {
+	    if ( row >= MIN_ROW && row < ROGUE_LINES -1 ) {
 		addch_rogue(descs[row][col]);
 	    }
 	}
-	if (row < MIN_ROW || row >= DROWS - 1) {
+	if (row < MIN_ROW || row >= ROGUE_LINES - 1) {
 	    addstr_rogue(descs[row]);
 	}
     }
@@ -412,13 +412,13 @@ options(void)
     int row, col;
     int n, i, j, changed;
     short ch;
-    short pos[DROWS];
-    boolean bbuf[DROWS];
-    char cbuf[DROWS][MAX_TITLE_LENGTH];
+    short pos[ROGUE_LINES];
+    boolean bbuf[ROGUE_LINES];
+    char cbuf[ROGUE_LINES][MAX_TITLE_LENGTH];
     char optbuf[BUFSIZ];
 
-    for (row = 0; row < DROWS; row++) {
-	for (col = 0; col < DCOLS; col++) {
+    for (row = 0; row < ROGUE_LINES; row++) {
+	for (col = 0; col < ROGUE_COLUMNS; col++) {
 	    descs[row][col] = mvinch_rogue(row, col);
 	}
     }
@@ -498,16 +498,16 @@ options(void)
 	wait_for_ack();
     }
 #ifndef JAPAN			/* #if.. by Yasha */
-    for (row = 0; row < DROWS; row++) {
+    for (row = 0; row < ROGUE_LINES; row++) {
 #else
-    for (row = 0; row < DROWS - 1; row++) {	/* by Yasha */
+    for (row = 0; row < ROGUE_LINES - 1; row++) {	/* by Yasha */
 #endif /* JAPAN */
 	move(row, 0);
-	for (col = 0; col < DCOLS; col++) {
-	    if (row == DROWS - 1 && col == DCOLS - 1) {
+	for (col = 0; col < ROGUE_COLUMNS; col++) {
+	    if (row == ROGUE_LINES - 1 && col == ROGUE_COLUMNS - 1) {
 		continue;
 	    }
-	    if (row < MIN_ROW || row >= DROWS - 1) {
+	    if (row < MIN_ROW || row >= ROGUE_LINES - 1) {
 		addch_rogue((unsigned char) descs[row][col]);
 	    } else {
 		addch_rogue(descs[row][col]);
@@ -544,7 +544,7 @@ doshell(void)
     if ((cmd = md_getenv("SHELL")) == NULL) {
 	cmd = "/bin/sh";
     }
-    move(DROWS - 1, 0);
+    move(ROGUE_LINES - 1, 0);
     refresh();
     stop_window();
     if (*org_dir) {

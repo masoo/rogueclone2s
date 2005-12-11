@@ -25,7 +25,7 @@
 
 #define	CTRL(c)	((c) & 037)
 
-char msg_line[DCOLS] = "";
+char msg_line[ROGUE_COLUMNS] = "";
 short msg_col = 0;
 boolean msg_cleared = 1;
 char hunger_str[8] = "";
@@ -297,7 +297,7 @@ print_stats(int stat_mask)
 {
     char buf[16];
     boolean label;
-    int row = DROWS - 1;
+    int row = ROGUE_LINES - 1;
 
     label = (stat_mask & STAT_LABEL) ? 1 : 0;
 
@@ -429,13 +429,13 @@ save_screen(void)
 {
     FILE *fp;
     short i, j;
-    char buf[DCOLS + 2];
+    char buf[ROGUE_COLUMNS + 2];
     boolean found_non_blank;
 
     if ((fp = fopen("rogue.screen", "w")) != NULL) {
-	for (i = 0; i < DROWS; i++) {
+	for (i = 0; i < ROGUE_LINES; i++) {
 	    found_non_blank = 0;
-	    for (j = (DCOLS - 1); j >= 0; j--) {
+	    for (j = (ROGUE_COLUMNS - 1); j >= 0; j--) {
 		buf[j] = mvinch_rogue(i, j);
 		if (!found_non_blank) {
 		    if ((buf[j] != ' ') || (j == 0)) {

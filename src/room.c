@@ -61,8 +61,8 @@ light_passage(int row, int col)
     if (blind) {
 	return;
     }
-    i_end = (row < (DROWS - 2)) ? 1 : 0;
-    j_end = (col < (DCOLS - 1)) ? 1 : 0;
+    i_end = (row < (ROGUE_LINES - 2)) ? 1 : 0;
+    j_end = (col < (ROGUE_COLUMNS - 1)) ? 1 : 0;
 
     for (i = ((row > MIN_ROW) ? -1 : 0); i <= i_end; i++) {
 	for (j = ((col > 0) ? -1 : 0); j <= j_end; j++) {
@@ -133,7 +133,7 @@ get_dungeon_char(int row, int col)
 	if (mask & DOOR) {
 	    if (mask & HIDDEN) {
 		if (((col > 0) && (dungeon[row][col - 1] & HORWALL)) ||
-		    ((col < (DCOLS - 1))
+		    ((col < (ROGUE_COLUMNS - 1))
 		     && (dungeon[row][col + 1] & HORWALL))) {
 		    return '-';
 		} else {
@@ -181,8 +181,8 @@ gr_row_col(short *row, short *col, unsigned short mask)
     short r, c;
 
     do {
-	r = get_rand(MIN_ROW, DROWS - 2);
-	c = get_rand(0, DCOLS - 1);
+	r = get_rand(MIN_ROW, ROGUE_LINES - 2);
+	c = get_rand(0, ROGUE_COLUMNS - 1);
 	rn = get_room_number(r, c);
     } while ((rn == NO_ROOM) ||
 	     (!(dungeon[r][c] & mask)) ||
@@ -297,8 +297,8 @@ draw_magic_map(void)
 			   MONSTER);
     unsigned short s;
 
-    for (i = 0; i < DROWS; i++) {
-	for (j = 0; j < DCOLS; j++) {
+    for (i = 0; i < ROGUE_LINES; i++) {
+	for (j = 0; j < ROGUE_COLUMNS; j++) {
 	    s = dungeon[i][j];
 	    if (s & mask) {
 		ch = mvinch_rogue(i, j);

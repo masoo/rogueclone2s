@@ -52,7 +52,7 @@ char *syllables[MAXSYLLABLES] = {
 
 extern boolean wizard;
 
-char descs[DROWS][DCOLS];	/* multi-purpose screen saver */
+char descs[ROGUE_LINES][ROGUE_COLUMNS];	/* multi-purpose screen saver */
 
 void
 inventory(object *pack, unsigned short mask)
@@ -77,7 +77,7 @@ inventory(object *pack, unsigned short mask)
 nextpage:
     i = 0;
     maxlen = len;
-    while (obj && i < DROWS - 2) {
+    while (obj && i < ROGUE_LINES - 2) {
 	if (obj->what_is & mask) {
 	    p = descs[i];
 	    *p++ = ' ';
@@ -98,10 +98,10 @@ nextpage:
 	return;
     }
 
-    col = DCOLS - (maxlen + 2);
+    col = ROGUE_COLUMNS - (maxlen + 2);
     for (row = 0; row < i; row++) {
 	if (row > 0) {
-	    for (j = col; j < DCOLS; j++) {
+	    for (j = col; j < ROGUE_COLUMNS; j++) {
 		descs[row - 1][j - col] = mvinch_rogue(row, j);
 	    }
 	    descs[row - 1][j - col] = 0;
@@ -132,7 +132,7 @@ nextpage:
 	clrtoeol();		/* by Yasha */
 	addstr_rogue(descs[j - 1]);	/* by Yasha */
     }				/* by Yasha */
-    move(DROWS - 1, 0);		/* by Yasha */
+    move(ROGUE_LINES - 1, 0);		/* by Yasha */
     clrtoeol();			/* by Yasha */
     print_stats(STAT_ALL);	/* by Yasha */
 #endif /* JAPAN */
@@ -578,7 +578,7 @@ single_inv(short ichar)
     short ch;
     char *p;
     object *obj;
-    char desc[DCOLS];
+    char desc[ROGUE_COLUMNS];
 
     ch = ichar ? ichar : pack_letter(mesg[41], ALL_OBJECTS);
 
@@ -739,7 +739,7 @@ discovered(void)
 nextpage:
     i = 0;
     maxlen = len;
-    while (dp < enddp && i < DROWS - 2) {
+    while (dp < enddp && i < ROGUE_LINES - 2) {
 	p = descs[i];
 	if (dp->type == 0) {
 	    (void) strcpy(p, "");
@@ -776,10 +776,10 @@ nextpage:
     }
 
     strcpy(descs[i++], msg);
-    col = DCOLS - (maxlen + 2);
+    col = ROGUE_COLUMNS - (maxlen + 2);
     for (row = 0; row < i; row++) {
 	if (row > 0) {
-	    for (j = col; j < DCOLS; j++) {
+	    for (j = col; j < ROGUE_COLUMNS; j++) {
 		descs[row - 1][j - col] = mvinch_rogue(row, j);
 	    }
 	    descs[row - 1][j - col] = 0;
@@ -810,7 +810,7 @@ nextpage:
 	clrtoeol();		/* by Yasha */
 	addstr_rogue(descs[j - 1]);	/* by Yasha */
     }				/* by Yasha */
-    move(DROWS - 1, 0);		/* by Yasha */
+    move(ROGUE_LINES - 1, 0);		/* by Yasha */
     clrtoeol();			/* by Yasha */
     print_stats(STAT_ALL);	/* by Yasha */
 #endif /* JAPAN */

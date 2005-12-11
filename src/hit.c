@@ -343,7 +343,7 @@ get_dir_rc(short dir, short *row, short *col, short allow_off_screen)
 	}
 	break;
     case 'j':
-	if (allow_off_screen || (*row < (DROWS - 2))) {
+	if (allow_off_screen || (*row < (ROGUE_LINES - 2))) {
 	    (*row)++;
 	}
 	break;
@@ -353,7 +353,7 @@ get_dir_rc(short dir, short *row, short *col, short allow_off_screen)
 	}
 	break;
     case 'l':
-	if (allow_off_screen || (*col < (DCOLS - 1))) {
+	if (allow_off_screen || (*col < (ROGUE_COLUMNS - 1))) {
 	    (*col)++;
 	}
 	break;
@@ -364,19 +364,19 @@ get_dir_rc(short dir, short *row, short *col, short allow_off_screen)
 	}
 	break;
     case 'u':
-	if (allow_off_screen || ((*row > MIN_ROW) && (*col < (DCOLS - 1)))) {
+	if (allow_off_screen || ((*row > MIN_ROW) && (*col < (ROGUE_COLUMNS - 1)))) {
 	    (*row)--;
 	    (*col)++;
 	}
 	break;
     case 'n':
-	if (allow_off_screen || ((*row < (DROWS - 2)) && (*col < (DCOLS - 1)))) {
+	if (allow_off_screen || ((*row < (ROGUE_LINES - 2)) && (*col < (ROGUE_COLUMNS - 1)))) {
 	    (*row)++;
 	    (*col)++;
 	}
 	break;
     case 'b':
-	if (allow_off_screen || ((*row < (DROWS - 2)) && (*col > 0))) {
+	if (allow_off_screen || ((*row < (ROGUE_LINES - 2)) && (*col > 0))) {
 	    (*row)++;
 	    (*col)--;
 	}

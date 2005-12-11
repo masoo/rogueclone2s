@@ -187,8 +187,8 @@ flop_weapon(object *weapon, short row, short col)
 
     while ((i < 9) && dungeon[row][col] & ~(FLOOR | TUNNEL | DOOR | MONSTER)) {
 	rand_around(i++, &row, &col);
-	if ((row > (DROWS - 2)) || (row < MIN_ROW) ||
-	    (col > (DCOLS - 1)) || (col < 0) || (!dungeon[row][col]) ||
+	if ((row > (ROGUE_LINES - 2)) || (row < MIN_ROW) ||
+	    (col > (ROGUE_COLUMNS - 1)) || (col < 0) || (!dungeon[row][col]) ||
 	    (dungeon[row][col] & ~(FLOOR | TUNNEL | DOOR | MONSTER))) {
 	    continue;
 	}

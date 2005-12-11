@@ -28,7 +28,7 @@
 #include "save.h"
 
 object level_objects;
-unsigned short dungeon[DROWS][DCOLS];
+unsigned short dungeon[ROGUE_LINES][ROGUE_COLUMNS];
 short foods = 0;
 short party_counter;
 object *free_list = (object *) 0;
@@ -792,7 +792,7 @@ void
 list_object(object *obj, short max)
 {
     short i, j, maxlen, n;
-    char descs[DROWS][DCOLS];
+    char descs[ROGUE_LINES][ROGUE_COLUMNS];
     short row, col;
     struct id *id;
     int weapon_or_armor;	/* by Yasha */
@@ -858,10 +858,10 @@ list_object(object *obj, short max)
     }
     (void) strcpy(descs[i++], msg);
 
-    col = DCOLS - (maxlen + 2);
+    col = ROGUE_COLUMNS - (maxlen + 2);
     for (row = 0; row < i; row++) {
 	if (row > 0) {
-	    for (j = col; j < DCOLS; j++) {
+	    for (j = col; j < ROGUE_COLUMNS; j++) {
 		descs[row - 1][j - col] = mvinch_rogue(row, j);
 	    }
 	    descs[row - 1][j - col] = 0;

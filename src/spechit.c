@@ -283,8 +283,8 @@ cough_up(object *monster)
 int
 try_to_cough(short row, short col, object *obj)
 {
-    if ((row < MIN_ROW) || (row > (DROWS - 2)) || (col < 0)
-	|| (col > (DCOLS - 1))) {
+    if ((row < MIN_ROW) || (row > (ROGUE_LINES - 2)) || (col < 0)
+	|| (col > (ROGUE_COLUMNS - 1))) {
 	return 0;
     }
     if ((!(dungeon[row][col] & (OBJECT | STAIRS | TRAP))) &&

@@ -149,8 +149,10 @@ typedef unsigned char uchar;
 #define IDENTIFIED   ((unsigned short) 01)
 #define CALLED       ((unsigned short) 02)
 
-#define DROWS 24
-#define DCOLS 80
+enum rogue_necessity_size {
+    ROGUE_LINES = 24,
+    ROGUE_COLUMNS = 80
+};
 #define MAX_TITLE_LENGTH 30
 #define MAXSYLLABLES 40
 #define MAX_METAL 14
@@ -304,9 +306,9 @@ typedef struct tr trap;
 extern fighter rogue;
 extern room rooms[];
 extern trap traps[];
-extern unsigned short dungeon[DROWS][DCOLS];
+extern unsigned short dungeon[ROGUE_LINES][ROGUE_COLUMNS];
 extern object level_objects;
-extern char descs[DROWS][DCOLS];
+extern char descs[ROGUE_LINES][ROGUE_COLUMNS];
 
 extern struct id id_scrolls[];
 extern struct id id_potions[];

@@ -323,22 +323,22 @@ void
 rw_dungeon(FILE *fp, boolean rw)
 {
     short i, j;
-    char buf[DCOLS];
+    char buf[ROGUE_COLUMNS];
 
-    for (i = 0; i < DROWS; i++) {
+    for (i = 0; i < ROGUE_LINES; i++) {
 	if (rw) {
-	    r_write(fp, (char *) dungeon[i], (DCOLS * sizeof(dungeon[0][0])));
-	    for (j = 0; j < DCOLS; j++) {
+	    r_write(fp, (char *) dungeon[i], (ROGUE_COLUMNS * sizeof(dungeon[0][0])));
+	    for (j = 0; j < ROGUE_COLUMNS; j++) {
 		buf[j] = mvinch_rogue(i, j);
 	    }
-	    r_write(fp, buf, DCOLS);
+	    r_write(fp, buf, ROGUE_COLUMNS);
 	} else {
-	    r_read(fp, (char *) dungeon[i], (DCOLS * sizeof(dungeon[0][0])));
-	    r_read(fp, buf, DCOLS);
+	    r_read(fp, (char *) dungeon[i], (ROGUE_COLUMNS * sizeof(dungeon[0][0])));
+	    r_read(fp, buf, ROGUE_COLUMNS);
 
-	    for (j = 0; j < DCOLS; j++) {
+	    for (j = 0; j < ROGUE_COLUMNS; j++) {
 #ifdef COLOR
-		if (i < MIN_ROW || i >= DROWS - 1) {
+		if (i < MIN_ROW || i >= ROGUE_LINES - 1) {
 		    mvaddch_rogue(i, j, (unsigned char) buf[j]);
 		} else {
 		    mvaddch_rogue(i, j, buf[j]);

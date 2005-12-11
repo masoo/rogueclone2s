@@ -117,7 +117,7 @@ drop(void)
 {
     object *obj, *new;
     short ch;
-    char desc[DCOLS];
+    char desc[ROGUE_COLUMNS];
 
     if (dungeon[rogue.row][rogue.col] & (OBJECT | STAIRS | TRAP)) {
 	message(mesg[88], 0);
@@ -280,7 +280,7 @@ pack_letter(char *prompt, unsigned short mask)
 void
 take_off(void)
 {
-    char desc[DCOLS];
+    char desc[ROGUE_COLUMNS];
     object *obj;
 
     if (rogue.armor) {
@@ -311,7 +311,7 @@ wear(void)
 {
     short ch;
     object *obj;
-    char desc[DCOLS];
+    char desc[ROGUE_COLUMNS];
 
     if (rogue.armor) {
 	message(mesg[96], 0);
@@ -366,7 +366,7 @@ wield(void)
 {
     short ch;
     object *obj;
-    char desc[DCOLS];
+    char desc[ROGUE_COLUMNS];
 
     if (rogue.weapon && rogue.weapon->is_cursed) {
 	message(curse_message, 0);
@@ -553,7 +553,7 @@ kick_into_pack(void)
 {
     object *obj;
     char *p;
-    char desc[DCOLS];
+    char desc[ROGUE_COLUMNS];
     short stat;
     extern short levitate;
 

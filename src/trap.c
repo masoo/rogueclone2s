@@ -181,8 +181,8 @@ show_traps(void)
 {
     short i, j;
 
-    for (i = 0; i < DROWS; i++) {
-	for (j = 0; j < DCOLS; j++) {
+    for (i = 0; i < ROGUE_LINES; i++) {
+	for (j = 0; j < ROGUE_COLUMNS; j++) {
 	    if (dungeon[i][j] & TRAP) {
 		mvaddch_rogue(i, j, '^');
 	    }
@@ -201,8 +201,8 @@ search(short n, boolean is_auto)
 	for (j = -1; j <= 1; j++) {
 	    row = rogue.row + i;
 	    col = rogue.col + j;
-	    if ((row < MIN_ROW) || (row >= (DROWS - 1)) ||
-		(col < 0) || (col >= DCOLS)) {
+	    if ((row < MIN_ROW) || (row >= (ROGUE_LINES - 1)) ||
+		(col < 0) || (col >= ROGUE_COLUMNS)) {
 		continue;
 	    }
 	    if (dungeon[row][col] & HIDDEN) {
@@ -215,8 +215,8 @@ search(short n, boolean is_auto)
 	    for (j = -1; j <= 1; j++) {
 		row = rogue.row + i;
 		col = rogue.col + j;
-		if ((row < MIN_ROW) || (row >= (DROWS - 1)) ||
-		    (col < 0) || (col >= DCOLS)) {
+		if ((row < MIN_ROW) || (row >= (ROGUE_LINES - 1)) ||
+		    (col < 0) || (col >= ROGUE_COLUMNS)) {
 		    continue;
 		}
 		if (dungeon[row][col] & HIDDEN) {

@@ -55,7 +55,7 @@ one_move_rogue(short dirch, short pickup)
     short r, c;
     char *p;
     object *obj;
-    char desc[DCOLS];
+    char desc[ROGUE_COLUMNS];
     short status;
 
     r = rogue.row;
@@ -293,8 +293,8 @@ multiple_move_rogue(int dirch)
 int
 is_passable(int row, int col)
 {
-    if ((row < MIN_ROW) || (row > (DROWS - 2)) || (col < 0) ||
-	(col > (DCOLS - 1))) {
+    if ((row < MIN_ROW) || (row > (ROGUE_LINES - 2)) || (col < 0) ||
+	(col > (ROGUE_COLUMNS - 1))) {
 	return 0;
     }
     if (dungeon[row][col] & HIDDEN) {
@@ -316,8 +316,8 @@ next_to_something(int drow, int dcol)
     if (blind) {
 	return 0;
     }
-    i_end = (rogue.row < (DROWS - 2)) ? 1 : 0;
-    j_end = (rogue.col < (DCOLS - 1)) ? 1 : 0;
+    i_end = (rogue.row < (ROGUE_LINES - 2)) ? 1 : 0;
+    j_end = (rogue.col < (ROGUE_COLUMNS - 1)) ? 1 : 0;
 
     for (i = ((rogue.row > MIN_ROW) ? -1 : 0); i <= i_end; i++) {
 	for (j = ((rogue.col > 0) ? -1 : 0); j <= j_end; j++) {

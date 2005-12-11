@@ -359,8 +359,8 @@ O:
 	if (++(monster->o) > 4) {
 	    if ((monster->trow == NO_ROOM) &&
 		(!mon_sees(monster, rogue.row, rogue.col))) {
-		monster->trow = get_rand(1, (DROWS - 2));
-		monster->tcol = get_rand(0, (DCOLS - 1));
+		monster->trow = get_rand(1, (ROGUE_LINES - 2));
+		monster->tcol = get_rand(0, (ROGUE_COLUMNS - 1));
 	    } else {
 		monster->trow = NO_ROOM;
 		monster->o = 0;
@@ -608,8 +608,8 @@ create_monster(void)
 	row = r;
 	col = c;
 	if (((row == rogue.row) && (col == rogue.col)) ||
-	    (row < MIN_ROW) || (row > (DROWS - 2)) ||
-	    (col < 0) || (col > (DCOLS - 1))) {
+	    (row < MIN_ROW) || (row > (ROGUE_LINES - 2)) ||
+	    (col < 0) || (col > (ROGUE_COLUMNS - 1))) {
 	    continue;
 	}
 	if ((!(dungeon[row][col] & MONSTER)) &&

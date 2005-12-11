@@ -78,7 +78,7 @@ init(int argc, char *argv[])
     }
     init_color_attr();
 
-    if ((LINES < DROWS) || (COLS < DCOLS)) {
+    if ((LINES < ROGUE_LINES) || (COLS < ROGUE_COLUMNS)) {
 	clean_up(mesg[14]);
     }
 
@@ -167,7 +167,7 @@ clean_up(char *estr)
 {
     if (save_is_interactive) {
 	if (init_curses) {
-	    move(DROWS - 1, 0);
+	    move(ROGUE_LINES - 1, 0);
 #ifndef ORIGINAL
 	    clrtoeol();
 #endif

@@ -288,7 +288,7 @@ read_scroll(void)
 {
     short ch;
     object *obj;
-    char msg[DCOLS];
+    char msg[ROGUE_COLUMNS];
 
     ch = pack_letter(mesg[245], SCROL);
 
@@ -390,7 +390,7 @@ read_scroll()
 {
     short ch;
     object *obj;
-    char msg[DCOLS];
+    char msg[ROGUE_COLUMNS];
 
     ch = pack_letter(mesg[245], SCROL);
 
@@ -565,7 +565,7 @@ idntfy(void)
     short ch;
     object *obj;
     struct id *id_table;
-    char desc[DCOLS];
+    char desc[ROGUE_COLUMNS];
 AGAIN:
     ch = pack_letter(mesg[260], ALL_OBJECTS);
     if (ch == CANCEL) {
@@ -644,8 +644,8 @@ hold_monster(void)
 	for (j = -2; j <= 2; j++) {
 	    row = rogue.row + i;
 	    col = rogue.col + j;
-	    if ((row < MIN_ROW) || (row > (DROWS - 2)) || (col < 0) ||
-		(col > (DCOLS - 1))) {
+	    if ((row < MIN_ROW) || (row > (ROGUE_LINES - 2)) || (col < 0) ||
+		(col > (ROGUE_COLUMNS - 1))) {
 		continue;
 	    }
 	    if (dungeon[row][col] & MONSTER) {

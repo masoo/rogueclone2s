@@ -1,5 +1,9 @@
 2005-12-11  FUNABARA Masao
 
+	* rogue.h: rogue の必要最小画面の定義をマクロ定義から列挙型に変更
+	さらに、定義名も分かりやすいように ROGUE_LINES, ROGUE_COLUMNS
+	に変更する。
+
 	* init.c : オプションの解析に getopt 関数を使用
 
 2005-12-10  FUNABARA Masao
