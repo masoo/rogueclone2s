@@ -27,6 +27,7 @@
 extern short party_room;
 #ifndef ORIGINAL
 extern char *nick_name;
+static char *progname;
 char mesg[507][80];		/* for separation */
 #endif
 
@@ -38,11 +39,9 @@ main(int argc, char *argv[])
     char buf[80];
 #endif
 
-    if (read_mesg(argc, argv)) {
-	exit(1);
-    }
+    progname = argv[0];
 
-    if (init(argc - 1, argv + 1)) {	/* restored game */
+    if (init(argc, argv)) {	/* restored game */
 	goto PL;
     }
 
@@ -72,31 +71,25 @@ main(int argc, char *argv[])
 }
 
 int
-read_mesg(int ac, char **av)
+read_mesg(char *argv_msgfile)
 {
     FILE *mesg_file;
     char buf[256];
     int i, n, s, e;
 
-    if (ac < 2) {
-	fprintf(stderr, "%s: message_file [options...]\n", av[0]);
-	return 1;
-    }
-
-    if ((mesg_file = fopen(av[1], "r")) == NULL) {
-	fprintf(stderr, "Cannot open message file '%s'\n", av[1]);
+    if ((mesg_file = fopen(argv_msgfile, "r")) == NULL) {
+	fprintf(stderr, "Cannot open message file '%s'\n", argv_msgfile);
 	return 1;
     }
 
     while (fgets(buf, 256, mesg_file) != NULL) {
 	if ((n = atoi(buf)) > 0 && n < 500) {
-	    for (i = 0; buf[i] && buf[i] != '\"'; ++i)
-		continue;
+	    for (i = 0; buf[i] && buf[i] != '\"'; ++i) continue;
 	    if (buf[i]) {
 		s = i + 1;
 	    } else {
 	    FMTERR:
-		fprintf(stderr, "Illegal format '%s'\n", av[1]);
+		fprintf(stderr, "Illegal format '%s'\n", argv_msgfile);
 		return 1;
 	    }
 	    for (i = s; buf[i] && buf[i] != '\"'; ++i)
@@ -114,4 +107,11 @@ read_mesg(int ac, char **av)
 	}
     }
     return 0;
+}
+
+void
+usage()
+{
+    fprintf(stderr, "usage: %s message_file [options...] [save_file]\n", progname);
+    exit(1);
 }

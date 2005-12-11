@@ -11,14 +11,17 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <curses.h>
+#include <unistd.h>
 
 #include "rogue.h"
 #include "init.h"
 #include "display.h"
 #include "invent.h"
 #include "machdep.h"
+#include "main.h"
 #include "message.h"
 #include "object.h"
 #include "pack.h"
@@ -233,26 +236,50 @@ error_save(int sig)
 void
 do_args(int argc, char *argv[])
 {
-    short i, j;
+    int ch;
+    char *option_strings;
+    extern int optind;
 
-    for (i = 1; i < argc; i++) {
-	if (argv[i][0] == '-') {
-	    for (j = 1; argv[i][j]; j++) {
-		switch (argv[i][j]) {
-		case 's':
-		    score_only = 1;
-		    break;
 #ifndef ORIGINAL
-		case 'r':
-		    do_restore = 1;
-		    break;
+    option_strings = "sr";
+#else
+    option_strings = "s";
 #endif
-		}
-	    }
-	} else {
-	    rest_file = argv[i];
-	}
+
+    while ((ch = getopt(argc, argv, option_strings)) != EOF) {
+	switch (ch) {
+	case 's':
+            score_only = 1;
+            break;
+#ifndef ORIGINAL
+        case 'r':
+            do_restore = 1;
+            break;
+#endif
+        case '?':
+        default:
+            usage();
+            break;
+        }
     }
+
+    argc -= optind;
+    argv += optind;
+    if (argc >= 3 || argc == 0 ) {
+        usage();
+        return;
+    }
+
+    if (read_mesg(argv[0])) {
+        exit(1);
+    }
+
+#ifndef ORIGINAL
+    if (argc == 2) {
+        rest_file = argv[1];
+    }
+#endif
+
 }
 
 opt envopt[] = {

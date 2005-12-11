@@ -359,11 +359,12 @@ help(void)
 	    if (row == DROWS - 1 && col == DCOLS - 1) {
 		continue;
 	    }
-	    if (row < MIN_ROW || row >= DROWS - 1) {
-		addch_rogue((unsigned char) descs[row][col]);
-	    } else {
+	    if ( row >= MIN_ROW && row < DROWS -1 ) {
 		addch_rogue(descs[row][col]);
 	    }
+	}
+	if (row < MIN_ROW || row >= DROWS - 1) {
+	    addstr_rogue(descs[row]);
 	}
     }
     refresh();

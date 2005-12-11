@@ -1,3 +1,7 @@
+2005-12-11  FUNABARA Masao
+
+	* init.c : オプションの解析に getopt 関数を使用
+
 2005-12-10  FUNABARA Masao
 
 	* machdep.c : putstr 関数を printf 関数に置換
