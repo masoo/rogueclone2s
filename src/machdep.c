@@ -54,7 +54,6 @@
 #include <sys/file.h>
 #include <sys/stat.h>
 #include <time.h>
-#include <termio.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -94,65 +93,6 @@ md_chdir(char *dir)
     return chdir(dir);
 }
 #endif /* ORIGINAL */
-
-/* md_slurp:
- *
- * This routine throws away all keyboard input that has not
- * yet been read.  It is used to get rid of input that the user may have
- * typed-ahead.
- *
- * This function is not necessary, so it may be stubbed.  The might cause
- * message-line output to flash by because the game has continued to read
- * input without waiting for the user to read the message.  Not such a
- * big deal.
- */
-
-void
-md_slurp(void)
-{
-    long ln = 0;
-
-    ioctl(0, TCFLSH, &ln);
-    ln = 0;
-    fflush(stdin);
-}
-
-/* md_control_keyboard():
- *
- * This routine is much like md_cbreak_no_echo_nonl() below.  It sets up the
- * keyboard for appropriate input.  Specifically, it prevents the tty driver
- * from stealing characters.  For example, ^Y is needed as a command
- * character, but the tty driver intercepts it for another purpose.  Any
- * such behavior should be stopped.  This routine could be avoided if
- * we used RAW mode instead of CBREAK.  But RAW mode does not allow the
- * generation of keyboard signals, which the program uses.
- *
- * The parameter 'mode' when true, indicates that the keyboard should
- * be set up to play rogue.  When false, it should be restored if
- * necessary.
- *
- * This routine is not strictly necessary and may be stubbed.  This may
- * cause certain command characters to be unavailable.
- */
-
-void
-md_control_keyboard(boolean mode)
-{
-    static boolean called_before = 0;
-    static struct termio _oldtty;
-    struct termio _tty;
-
-    if (!called_before) {
-	called_before = 1;
-	ioctl(0, TCGETA, &_oldtty);
-    }
-    _tty = _oldtty;
-
-    if (!mode) {
-	/* _tty.c_cc[VSWTCH] = CNSWTCH; */
-    }
-    ioctl(0, TCSETA, &_tty);
-}
 
 /* md_heed_signals():
  *

@@ -190,14 +190,12 @@ start_window(void)
 #ifndef BAD_NONL
     nonl();
 #endif /*BAD_NONL */
-    md_control_keyboard(0);
 }
 
 void
 stop_window(void)
 {
     endwin();
-    md_control_keyboard(1);
 }
 
 void

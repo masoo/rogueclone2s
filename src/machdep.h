@@ -6,8 +6,6 @@ extern void putstr(char *s);
 extern char *md_getcwd(char *dir, int len);
 #endif
 extern int md_chdir(char *dir);
-extern void md_slurp(void);
-extern void md_control_keyboard(boolean mode);
 extern void md_heed_signals(void);
 extern void md_ignore_signals(void);
 extern int md_get_file_id(char *fname);

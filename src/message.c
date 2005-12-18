@@ -42,7 +42,6 @@ message(char *msg, boolean intrpt)
     }
     if (intrpt) {
 	interrupted = 1;
-	md_slurp();
     }
     cant_int = 1;
 

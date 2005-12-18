@@ -1,3 +1,8 @@
+2005-12-19  FUNABARA Masao
+
+	* machdep.c : FreeBSD でのコンパイルエラー修正のため、必須でない関数を削除
+	削除したのは md_slurp, md_control_keyboard。
+
 2005-12-18  FUNABARA Masao
 
 	* configure.ac: Release 3 作成に向けてパッケージバージョンを 3.0 とする
