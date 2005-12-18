@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(rogueclone2s, 2.0, [http://homepage2.nifty.com/107steps/])
+AC_INIT(rogueclone2s, 3.0, [http://homepage2.nifty.com/107steps/])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])

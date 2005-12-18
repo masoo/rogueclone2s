@@ -1,3 +1,7 @@
+2005-12-18  FUNABARA Masao
+
+	* configure.ac: Release 3 作成に向けてパッケージバージョンを 3.0 とする
+
 2005-12-11  FUNABARA Masao
 
 	* rogue.h: rogue の必要最小画面の定義をマクロ定義から列挙型に変更
