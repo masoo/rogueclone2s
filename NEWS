@@ -1,5 +1,12 @@
 　NEWS
 
+* Release 3
+	Release 2 との差異
+	* FreeBSD への対応
+	* getopt 関数の使用
+	* 表示系の関数を集約し、 COLOR マクロを閉じ込める
+	* 機種依存のマクロ定義の除去
+
 * Release 2
 	Release 1 との差異
 	* 付属の curses ライブラリの使用をやめ、ncurses ライブラリの使用

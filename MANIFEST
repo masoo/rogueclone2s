@@ -36,6 +36,8 @@ msg/mesg                  --@オリジナルの日本語版ローグ・クローン２のメッセージ
 msg/mesg_E                --@オリジナルの英語版ローグ・クローン２のメッセージ
 src/Makefile.am
 src/Makefile.in
+src/display.c             -- rogueclone2s のソースファイル
+src/display.h             -- rogueclone2s のソースファイル
 src/hit.c                 -- rogueclone2s のソースファイル
 src/hit.h                 -- rogueclone2s のソースファイル
 src/init.c                -- rogueclone2s のソースファイル

@@ -319,20 +319,13 @@ win(void)
 #define OO__O___  0xc8
 #define OOO_____  0xe0
     static int ban[7][8] = {
-	{O___O___, ________, ____O___, O_______, ____O___, _______O, OO__O___,
-	 __O_____},
-	{O___O___, ________, ____OO_O, O_______, ____O___, ________, O___O___,
-	 __O_____},
-	{O___O__O, OO__O___, O___O_O_, O__OOO__, _OOOO__O, OO______, O__OOO__,
-	 __O_____},
-	{_OOOO_O_, __O_O___, O___O___, O_____O_, O___O_O_, __O_____, O___O___,
-	 __O_____},
-	{____O_O_, __O_O___, O___O___, O__OOOO_, O___O_OO, OOO_____, O___O___,
-	 __O_____},
-	{O___O_O_, __O_O__O, O___O___, O_O___O_, O___O_O_, ________, O___O__O,
-	 ________},
-	{_OOO___O, OO___OO_, O___O___, O__OOOO_, _OOOO__O, OO_____O, OO___OO_,
-	 __O_____}
+	{O___O___, ________, ____O___, O_______, ____O___, _______O, OO__O___, __O_____},
+	{O___O___, ________, ____OO_O, O_______, ____O___, ________, O___O___, __O_____},
+	{O___O__O, OO__O___, O___O_O_, O__OOO__, _OOOO__O, OO______, O__OOO__, __O_____},
+	{_OOOO_O_, __O_O___, O___O___, O_____O_, O___O_O_, __O_____, O___O___, __O_____},
+	{____O_O_, __O_O___, O___O___, O__OOOO_, O___O_OO, OOO_____, O___O___, __O_____},
+	{O___O_O_, __O_O__O, O___O___, O_O___O_, O___O_O_, ________, O___O__O, ________},
+	{_OOO___O, OO___OO_, O___O___, O__OOOO_, _OOOO__O, OO_____O, OO___OO_, __O_____}
     };
 #endif
 
@@ -355,21 +348,14 @@ win(void)
     standend();
 #endif
 #else
-    mvaddstr_rogue(10, 11,
-		   "@   @  @@@   @   @      @  @  @   @@@   @   @   @");
-    mvaddstr_rogue(11, 11,
-		   " @ @  @   @  @   @      @  @  @  @   @  @@  @   @");
-    mvaddstr_rogue(12, 11,
-		   "  @   @   @  @   @      @  @  @  @   @  @ @ @   @");
+    mvaddstr_rogue(10, 11, "@   @  @@@   @   @      @  @  @   @@@   @   @   @");
+    mvaddstr_rogue(11, 11, " @ @  @   @  @   @      @  @  @  @   @  @@  @   @");
+    mvaddstr_rogue(12, 11, "  @   @   @  @   @      @  @  @  @   @  @ @ @   @");
     mvaddstr_rogue(13, 11, "  @   @   @  @   @      @  @  @  @   @  @  @@");
-    mvaddstr_rogue(14, 11,
-		   "  @    @@@    @@@        @@ @@    @@@   @   @   @");
-    mvaddstr_rogue(17, 11,
-		   "Congratulations,  you have  been admitted  to  the");
-    mvaddstr_rogue(18, 11,
-		   "Fighters' Guild.   You return home,  sell all your");
-    mvaddstr_rogue(19, 11,
-		   "treasures at great profit and retire into comfort.");
+    mvaddstr_rogue(14, 11, "  @    @@@    @@@        @@ @@    @@@   @   @   @");
+    mvaddstr_rogue(17, 11, "Congratulations,  you have  been admitted  to  the");
+    mvaddstr_rogue(18, 11, "Fighters' Guild.   You return home,  sell all your");
+    mvaddstr_rogue(19, 11, "treasures at great profit and retire into comfort.");
 #endif
     message("", 0);
     message("", 0);

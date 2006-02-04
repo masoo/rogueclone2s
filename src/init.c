@@ -286,36 +286,26 @@ opt envopt[] = {
     {"jump", &jump, NULL, 0, 0}
     ,
 #ifndef ORIGINAL
-    {"passgo", &pass_go, NULL, 0, 0}
-    ,
-    {"tombstone", &show_skull, NULL, 0, 0}
-    ,
+    {"passgo", &pass_go, NULL, 0, 0} ,
+    {"tombstone", &show_skull, NULL, 0, 0} ,
 #else
-    {"skull", &show_skull, NULL, 0, 0}
-    ,
+    {"skull", &show_skull, NULL, 0, 0} ,
 #endif
 #ifdef COLOR
-    {"color", &use_color, NULL, 0, 0}
-    ,
+    {"color", &use_color, NULL, 0, 0} ,
 #endif
 #ifdef JAPAN
-    {"fruit", NULL, &fruit, 0, 0}
-    ,
+    {"fruit", NULL, &fruit, 0, 0} ,
 #else
-    {"fruit", NULL, &fruit, 1, 0}
-    ,
+    {"fruit", NULL, &fruit, 1, 0} ,
 #endif
-    {"file", NULL, &save_file, 0, 0}
-    ,
-    {"name", NULL, &nick_name, 0, 1}
-    ,
+    {"file", NULL, &save_file, 0, 0} ,
+    {"name", NULL, &nick_name, 0, 1} ,
 #ifndef ORIGINAL
-    {"directory", NULL, &game_dir, 0, 0}
-    ,
+    {"directory", NULL, &game_dir, 0, 0} ,
 #endif
 #ifdef COLOR
-    {"map", NULL, &color_str, 0, 0}
-    ,
+    {"map", NULL, &color_str, 0, 0} ,
 #endif
     {NULL, NULL, NULL, 0, 0}
 };
