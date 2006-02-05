@@ -1,2 +1,2 @@
 EXTRA_DIST = rogue.man
-man1_MANS = rogue.man
+man6_MANS = rogue.man

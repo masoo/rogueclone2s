@@ -1,11 +1,16 @@
+2006-02-05  FUNABARA Masao
+
+	* rogue.man : man ページ自体の修正とカテゴリを 1 から 6 へ修正
+
 2006-02-04  FUNABARA Masao
 
 	* Release 3 公開
 
 2005-12-19  FUNABARA Masao
 
-	* machdep.c : FreeBSD でのコンパイルエラー修正のため、必須でない関数を削除
-	削除したのは md_slurp, md_control_keyboard。
+	* machdep.c : FreeBSD でのコンパイルエラー修正のため、
+	必須でない関数を削除
+	削除したのは md_slurp, md_control_keyboard
 
 2005-12-18  FUNABARA Masao
 
@@ -15,7 +20,7 @@
 
 	* rogue.h: rogue の必要最小画面の定義をマクロ定義から列挙型に変更
 	さらに、定義名も分かりやすいように ROGUE_LINES, ROGUE_COLUMNS
-	に変更する。
+	に変更する
 
 	* init.c : オプションの解析に getopt 関数を使用
 
@@ -97,7 +102,7 @@
 
 	* zap.c : MSDOS マクロ定義を消去する
 
-	* save.c : MSDOS マクロ定義を消去するp
+	* save.c : MSDOS マクロ定義を消去する
 
 	* play.c : MSDOS マクロ定義を消去する
 
@@ -131,8 +136,8 @@
 
 	* TODO : 修正予定の追加
 
-	* object.c : colored 関数を使用しなくてもカラー化しているので関数を削除する
-	また、 colored 関数を使用している部分の修正
+	* object.c : colored 関数を使用しなくてもカラー化しているので関数を
+	削除する. また、 colored 関数を使用している部分の修正
 
 	* init.c : ゲーム中にカラーマップを変更する機能を有効にする
 
@@ -147,11 +152,12 @@
 2005-11-27  FUNABARA Masao
 
 	* curses.c : 付属の curses.c を削除し、 Ncurses を使用するように変更
-	それに伴い現状は画面がカラーにならず、白黒のみとなる。
+	それに伴い現状は画面がカラーにならず、白黒のみとなる
 
 2005-11-26  FUNABARA Masao
 
-	* configure.ac : Release 2 作成に向けてパッケージバージョンを 2.0 とする
+	* configure.ac : Release 2 作成に向けてパッケージバージョンを 2.0 と
+	する
 
 2005-11-24  FUNABARA Masao
 
@@ -159,10 +165,12 @@
 
 	* doc : Makefile.am の commit を行う
 
-	* doc : doc ディレクトリ以下のファイルが配布パッケージに含まれない問題に対する修正
+	* doc : doc ディレクトリ以下のファイルが配布パッケージに含まれない問
+	題に対する修正
 
 	* INSTALL : インストール時のディレクトリ構成を変更
-	メッセージファイルの標準インストール先を $(datadir)/share/rogue にする
+	メッセージファイルの標準インストール先を $(datadir)/share/rogue にす
+	る
 
 2005-11-23  FUNABARA Masao
 
@@ -286,10 +294,12 @@
 	* main.c : Warning メッセージを出ないように修正
 
 	* machdep.c : コンパイルエラーを修正
-	発生していたコンパイルエラーを修正し、コンパイルを完了できるように修正する
+	発生していたコンパイルエラーを修正し、コンパイルを完了できるように修正
+	する
 
 	* automake/autoconf 化
-	AUTHORS, COPYING, ChangeLog, INSTALL, NEWS, README, TODO のメッセージ作成する
+	AUTHORS, COPYING, ChangeLog, INSTALL, NEWS, README, TODO  のメッセージ
+	作成する.
 	Makefile.am, configure.ac のファイルを追加する
 
 	* rogueclone2s のプログラム作成開始
