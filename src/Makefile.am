@@ -27,7 +27,6 @@ rogue_SOURCES = \
 	zap.c zap.h
 
 rogue_CFLAGS = \
-	-O2 \
 	-DJAPAN \
 	-DEUC \
 	-DTOPSCO

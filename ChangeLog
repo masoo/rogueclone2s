@@ -1,5 +1,8 @@
 2006-02-05  FUNABARA Masao
 
+	* src/Makefile.am : オプション -O2 をここで指定しなくても最適化される
+	ので削除
+
 	* rogue.man : man ページ自体の修正とカテゴリを 1 から 6 へ修正
 
 2006-02-04  FUNABARA Masao
