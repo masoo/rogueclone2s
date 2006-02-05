@@ -319,35 +319,39 @@ read_pack(object *pack, FILE *fp, boolean is_rogue)
     }
 }
 
+/*
+ * rw_dungeon
+ * セーブデータからのダンジョン情報の保存と復元
+ */
 void
 rw_dungeon(FILE *fp, boolean rw)
 {
     short i, j;
     char buf[ROGUE_COLUMNS];
 
-    for (i = 0; i < ROGUE_LINES; i++) {
-	if (rw) {
+    if (rw) {    // 書き込み時実行
+	for (i = 0; i < ROGUE_LINES; i++) {
 	    r_write(fp, (char *) dungeon[i], (ROGUE_COLUMNS * sizeof(dungeon[0][0])));
 	    for (j = 0; j < ROGUE_COLUMNS; j++) {
 		buf[j] = mvinch_rogue(i, j);
 	    }
 	    r_write(fp, buf, ROGUE_COLUMNS);
-	} else {
+	}
+	return;
+    } else {    // 読み込み時実行
+	for (i = 0; i < ROGUE_LINES; i++) {
 	    r_read(fp, (char *) dungeon[i], (ROGUE_COLUMNS * sizeof(dungeon[0][0])));
 	    r_read(fp, buf, ROGUE_COLUMNS);
 
-	    for (j = 0; j < ROGUE_COLUMNS; j++) {
-#ifdef COLOR
-		if (i < MIN_ROW || i >= ROGUE_LINES - 1) {
+	    if ( i < ROGUE_LINES - 1 ) {
+		for (j = 0; j < ROGUE_COLUMNS; j++) {
 		    mvaddch_rogue(i, j, (unsigned char) buf[j]);
-		} else {
-		    mvaddch_rogue(i, j, buf[j]);
 		}
-#else
-		mvaddch_rogue(i, j, (unsigned char) buf[j]);
-#endif
+	    } else {
+		print_stats(STAT_ALL);
 	    }
 	}
+	return;
     }
 }
 
