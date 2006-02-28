@@ -326,17 +326,25 @@ char *help_message[] = {
     (char *) 0
 };
 
+/*
+ * help
+ * ヘルプメッセージを表示する
+ */
 void
 help(void)
 {
-    int row, col;
+    int lines, columns;
     int n;
+    char disp_message[ROGUE_COLUMNS+1];
 
-    for (row = 0; row < ROGUE_LINES; row++) {
-	for (col = 0; col < ROGUE_COLUMNS; col++) {
-	    descs[row][col] = mvinch_rogue(row, col);
+    /* 現在の画面を保存する */
+    for (lines = 0; lines < ROGUE_LINES; lines++) {
+	for (columns = 0; columns < ROGUE_COLUMNS; columns++) {
+	    descs[lines][columns] = mvinch_rogue(lines, columns);
 	}
     }
+
+    /* ヘルプメッセージを表示する */
     clear();
     for (n = 0; help_message[n]; n++) {
 	mvaddstr_rogue(n, 0, help_message[n]);
@@ -345,18 +353,19 @@ help(void)
     refresh();
     wait_for_ack();
 
-    for (row = 0; row < ROGUE_LINES; row++) {
-	move(row, 0);
-	for (col = 0; col < ROGUE_COLUMNS; col++) {
-	    if (row == ROGUE_LINES - 1 && col == ROGUE_COLUMNS - 1) {
-		continue;
+    /* 保持した画面を復帰させる */
+    for (lines = 0; lines < ROGUE_LINES; lines++) {
+	move(lines, 0);
+	if (lines > 0 && lines < ROGUE_LINES - 1) {
+	    for (columns = 0; columns < ROGUE_COLUMNS; columns++) {
+		addch_rogue(descs[lines][columns]);
 	    }
-	    if ( row >= MIN_ROW && row < ROGUE_LINES -1 ) {
-		addch_rogue(descs[row][col]);
-	    }
-	}
-	if (row < MIN_ROW || row >= ROGUE_LINES - 1) {
-	    addstr_rogue(descs[row]);
+	} else {
+	    /* メッセージデータの最後に末端記号を付加する */
+	    strncpy(disp_message, descs[lines], ROGUE_COLUMNS);
+	    disp_message[ROGUE_COLUMNS] = '\0';
+
+	    addstr_rogue(disp_message);
 	}
     }
     refresh();
