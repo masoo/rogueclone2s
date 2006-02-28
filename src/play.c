@@ -184,20 +184,12 @@ play_level(void)
 	    throw();
 	    break;
 	case 'v':
-#ifndef ORIGINAL
 	    message(PACKAGE_STRING " (by FUNABARA Masao) ", 0);
 	    message("base by ...", 0);
-#endif
-	    message
-		("Rogue-clone: Version II. (Tim Stoehr was here), tektronix!zeus!tims ",
-		 0);
-#ifndef ORIGINAL
-	    message
-		("Japanese edition: Ver.1.3a (enhanced by ohta@src.ricoh.co.jp)",
-		 0);
-	    message("Ver.1.3aS program bug fix/separate (by brx@kmc.kyoto-u.ac.jp)", 0);	/* by Yasha */
-	    message(mesg[1], 0);	/* for message version */
-#endif
+	    message("Rogue-clone: Version II. (Tim Stoehr was here), tektronix!zeus!tims ", 0);
+	    message("Japanese edition: Ver.1.3a (enhanced by ohta@src.ricoh.co.jp)", 0);
+	    message("Ver.1.3aS program bug fix/separate (by brx@kmc.kyoto-u.ac.jp)", 0);
+	    message(mesg[1], 0);     /* for message version */
 	    break;
 	case 'Q':
 	    quit(0);
