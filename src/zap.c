@@ -137,12 +137,7 @@ get_missiled_monster(short dir, short *row, short *col)
 	}
 	if (rogue_can_see(*row, *col)) {
 	    if (!(dungeon[*row][*col] & MONSTER)) {
-#ifdef COLOR
-		//mvaddch(*row, *col, '*' | (RED << 8));
 		mvaddch_rogue(*row, *col, '*');
-#else
-		mvaddch_rogue(*row, *col, '*');
-#endif
 	    }
 	    refresh();
 	}
@@ -250,11 +245,7 @@ tele_away(object *monster)
     dungeon[row][col] |= MONSTER;
     monster->trail_char = mvinch_rogue(row, col);
     if (detect_monster || rogue_can_see(row, col)) {
-#ifdef COLOR
 	mvaddch_rogue(row, col, gmc(monster));
-#else
-	mvaddch_rogue(row, col, gmc(monster));
-#endif
     }
 }
 
