@@ -104,11 +104,6 @@ killed_by(object *monster, short other)
 	mvaddch_rogue(15, ROGUE_COLUMNS / 2 - 1, '*');	/* by Yasha */
 	mvaddch_rogue(15, ROGUE_COLUMNS / 2 + 2, '*');	/* by Yasha */
 	mvaddch_rogue(15, ROGUE_COLUMNS / 2 + 11, '*');	/* by Yasha */
-/*		mvaddch(15, 29, '*');
-		mvaddch(15, 36, '*');
-		mvaddch(15, 39, '*');
-		mvaddch(15, 42, '*');
-		mvaddch(15, 51, '*');*/
 #endif
 	center(6, mesg[177]);
 	center(7, mesg[178]);
