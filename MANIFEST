@@ -29,7 +29,7 @@ doc/options.doc.org       --@起動時オプション、環境オプションの説明
 doc/rogue.doc.org         --@ローグの遊び方についてのドキュメント
 man/Makefile.am
 man/Makefile.in
-man/rogue.man             --@オリジナルのオンラインマニュアルの和訳
+man/rogue.man             --man ファイル
 msg/Makefile.am
 msg/Makefile.in
 msg/mesg                  --@オリジナルの日本語版ローグ・クローン２のメッセージ

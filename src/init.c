@@ -447,14 +447,18 @@ env_get_value(char **s, char *e, boolean add_blank, boolean no_colon)
 #ifndef ORIGINAL
 #ifdef EUC
 	if (*e & 0x80) {	/* by Yasha */
-#else
-	if (*e > '\200' && *e < '\240' || *e >= '\340' && *e < '\360') {
-#endif
 	    e += 2;
 	    i += 2;
 	    continue;
 	}
-#endif
+#else /* not EUC */
+	if (*e > '\200' && *e < '\240' || *e >= '\340' && *e < '\360') {
+	    e += 2;
+	    i += 2;
+	    continue;
+	}
+#endif /* not EUC */
+#endif /* not ORIGINAL */
 	if (*e == ':' && no_colon) {
 	    *e = ';';		/* ':' reserved for score file purposes */
 	}

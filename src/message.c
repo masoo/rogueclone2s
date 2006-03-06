@@ -144,15 +144,21 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 	    ch = (unsigned char) insert[k];
 #ifdef EUC
 	    if (ch & 0x80) {	/* for EUC code by Yasha */
-#else /* Shift JIS */
-	    if (ch >= 0x81 && ch <= 0x9f || ch >= 0xe0 && ch <= 0xfc) {
-#endif
 		kanji[k] = kanji[k + 1] = 1;
 		k += 2;
 	    } else {
 		kanji[k] = 0;
 		k++;
 	    }
+#else /* not EUC */
+	    if (ch >= 0x81 && ch <= 0x9f || ch >= 0xe0 && ch <= 0xfc) {
+		kanji[k] = kanji[k + 1] = 1;
+		k += 2;
+	    } else {
+		kanji[k] = 0;
+		k++;
+	    }
+#endif /* not EUC */
 	}
 #endif /* JAPAN */
 	move(row, col + n + i);
@@ -175,12 +181,13 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 		mvaddstr_rogue(row, col + n + i, "  ");
 		move(row, col + n + i);
 	    }
+	} else if (
 #ifdef EUC
-	} else if ((ch >= ' ' && !(ch & 0x80))	/* by Yasha */
+	    (ch >= ' ' && !(ch & 0x80)) && (i < MAX_TITLE_LENGTH - 2)
 #else /* Shift JIS */
-	} else if ((ch >= ' ' && ch <= '~' || ch >= 0xa0 && ch <= 0xde)
+	    (ch >= ' ' && ch <= '~' || ch >= 0xa0 && ch <= 0xde) && (i < MAX_TITLE_LENGTH - 2)
 #endif
-		   && (i < MAX_TITLE_LENGTH - 2)) {
+	    ) {
 	    if ((ch != ' ') || (i > 0)) {
 		buf[i] = ch;
 		kanji[i] = 0;
@@ -189,12 +196,13 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 		}
 		i++;
 	    }
+	} else if (
 #ifdef EUC
-	} else if ((ch & 0x80)	/* for EUC code by Yasha */
+	    (ch & 0x80) && (i < MAX_TITLE_LENGTH - 3)
 #else /* Shift JIS */
-	} else if ((ch >= 0x81 && ch <= 0x9f || ch >= 0xe0 && ch <= 0xfc)
+	    (ch >= 0x81 && ch <= 0x9f || ch >= 0xe0 && ch <= 0xfc) && (i < MAX_TITLE_LENGTH - 3)
 #endif
-		   && (i < MAX_TITLE_LENGTH - 3)) {
+	    ) {
 	    buf[i] = ch;
 	    buf[i + 1] = rgetchar();
 	    kanji[i] = kanji[i + 1] = 1;
@@ -215,7 +223,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
     if (add_blank) {
 	buf[i++] = ' ';
     }
-#else /*JAPAN*/
+#else /* not JAPAN */
 	while (((ch = rgetchar()) != '\r') && (ch != '\n') && (ch != CANCEL)) {
 	if ((ch >= ' ') && (ch <= '~') && (i < MAX_TITLE_LENGTH - 2)) {
 	    if ((ch != ' ') || (i > 0)) {
@@ -244,7 +252,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 	    i--;
 	}
     }
-#endif /*JAPAN*/
+#endif /* not JAPAN */
 	buf[i] = 0;
 
     if ((ch == CANCEL) || (i == 0) || ((i == 1) && add_blank)) {

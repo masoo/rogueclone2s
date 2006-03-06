@@ -449,22 +449,25 @@ call_it(void)
 	ch = *buf;
 #ifdef EUC
 	if (ch >= ' ' && !(ch & 0x80)) {	/* by Yasha */
-#else /* Shift JIS */
-	if (ch >= ' ' && ch <= '~' || ch >= 0xa0 && ch <= 0xde) {
-#endif
 	    /* alphabet or kana character; append 1 blank */
 	    (void) strcat(buf, " ");
 	}
+#else /* not EUC */
+	if (ch >= ' ' && ch <= '~' || ch >= 0xa0 && ch <= 0xde) {
+	    /* alphabet or kana character; append 1 blank */
+	    (void) strcat(buf, " ");
+	}
+#endif /* not EUC */
 	id_table[obj->which_kind].id_status = CALLED;
 	(void) strcpy(id_table[obj->which_kind].title, buf);
     }
-#else /* JAPAN */
+#else /* not JAPAN */
     if (get_input_line(mesg[111],
 		       "", buf, id_table[obj->which_kind].title, 1, 1)) {
 	id_table[obj->which_kind].id_status = CALLED;
 	(void) strcpy(id_table[obj->which_kind].title, buf);
     }
-#endif /* JAPAN */
+#endif /* not JAPAN */
 }
 
 int

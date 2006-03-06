@@ -948,7 +948,7 @@ char *s1, *s2;
 	if (r > 0x80 && r < 0xa0 || r >= 0xe0 && r < 0xf0)
 #endif
 	    i++;
-#endif
+#endif /* not ORIGINAL */
 	i++;
     }
     s1[i] = 0;
@@ -956,7 +956,7 @@ char *s1, *s2;
     s1[i] = ':';
     return r;
 }
-#else
+#else /* not TOPSCO */
 #ifdef ORIGINAL
 name_cmp(s1, s2)
 char *s1, *s2;
@@ -972,8 +972,8 @@ char *s1, *s2;
     s1[i] = ':';
     return r;
 }
-#endif /*ORIGINAL*/
-#endif /*TOPSCO*/
+#endif /* ORIGINAL */
+#endif /* not TOPSCO */
     void
 xxxx(char *buf, short n)
 {
