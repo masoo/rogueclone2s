@@ -357,6 +357,10 @@ char *optdesc[] = {
 };
 #endif /*JAPAN*/
 
+/*
+ * do_opts
+ * 対象となる環境変数を取得し解析にまわす
+ */
 void
 do_opts(void)
 {
@@ -376,6 +380,10 @@ do_opts(void)
     set_opts(envbuf);
 }
 
+/*
+ * set_opts
+ * 対象となる環境変数の字句解析・値の格納を行う
+ */
 void
 set_opts(char *env)
 {
@@ -438,13 +446,12 @@ set_opts(char *env)
 void
 env_get_value(char **s, char *e, boolean add_blank, boolean no_colon)
 {
-    short i = 0;
+    int i = 0;
     char *t;
 
     t = e;
 
     while ((*e) && (*e != ',')) {
-#ifndef ORIGINAL
 #ifdef EUC
 	/* EUC のマルチバイト文字は読み飛ばす */
 	if (*e & 0x80) {
@@ -479,7 +486,6 @@ env_get_value(char **s, char *e, boolean add_blank, boolean no_colon)
 	    continue;
 	}
 #endif /* not EUC */
-#endif /* not ORIGINAL */
 	if (*e == ':' && no_colon) {
 	    *e = ';';		/* ':' reserved for score file purposes */
 	}
