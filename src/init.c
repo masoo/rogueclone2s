@@ -247,44 +247,41 @@ do_args(int argc, char *argv[])
     while ((ch = getopt(argc, argv, option_strings)) != EOF) {
 	switch (ch) {
 	case 's':
-            score_only = 1;
-            break;
+	    score_only = 1;
+	    break;
 #ifndef ORIGINAL
-        case 'r':
-            do_restore = 1;
-            break;
+	case 'r':
+	    do_restore = 1;
+	    break;
 #endif
-        case '?':
-        default:
-            usage();
-            break;
-        }
+	case '?':
+	default:
+	    usage();
+	    break;
+	}
     }
 
     argc -= optind;
     argv += optind;
-    if (argc >= 3 || argc == 0 ) {
-        usage();
-        return;
+    if (argc >= 3 || argc == 0) {
+	usage();
+	return;
     }
 
     if (read_mesg(argv[0])) {
-        exit(1);
+	exit(1);
     }
-
 #ifndef ORIGINAL
     if (argc == 2) {
-        rest_file = argv[1];
+	rest_file = argv[1];
     }
 #endif
 
 }
 
 opt envopt[] = {
-    {"askquit", &ask_quit, NULL, 0, 0}
-    ,
-    {"jump", &jump, NULL, 0, 0}
-    ,
+    {"askquit", &ask_quit, NULL, 0, 0} ,
+    {"jump", &jump, NULL, 0, 0} ,
 #ifndef ORIGINAL
     {"passgo", &pass_go, NULL, 0, 0} ,
     {"tombstone", &show_skull, NULL, 0, 0} ,
@@ -359,7 +356,8 @@ char *optdesc[] = {
     NULL
 };
 #endif /*JAPAN*/
-    void
+
+void
 do_opts(void)
 {
     char *ep, *p;
@@ -426,8 +424,6 @@ set_opts(char *env)
 	}
     }
 
-    init_color_attr();
-
 #ifndef ORIGINAL
     if (game_dir && *game_dir) {
 	md_chdir(game_dir);
@@ -435,6 +431,10 @@ set_opts(char *env)
 #endif
 }
 
+/*
+ * env_get_value
+ * 取得した環境変数の値を変数に格納する
+ */
 void
 env_get_value(char **s, char *e, boolean add_blank, boolean no_colon)
 {
@@ -446,12 +446,33 @@ env_get_value(char **s, char *e, boolean add_blank, boolean no_colon)
     while ((*e) && (*e != ',')) {
 #ifndef ORIGINAL
 #ifdef EUC
-	if (*e & 0x80) {	/* by Yasha */
-	    e += 2;
-	    i += 2;
+	/* EUC のマルチバイト文字は読み飛ばす */
+	if (*e & 0x80) {
+	    if ((*e >= '\xA1' && *e <= '\xFE')
+		&& (*(e + 1) >= '\xA1' && *(e + 1) <= '\xFE')) {
+		/* 漢字 */
+		e += 2;
+		i += 2;
+	    } else if ((*e == '\x8E')
+		       && ((*(e + 1) >= '\xA0') && (*(e + 1) <= '\xDF'))) {
+		/* 半角カナ */
+		e += 2;
+		i += 2;
+	    } else if ((*e == '\x8F')
+		       && ((*(e + 1) >= '\xA1') && (*(e + 1) <= '\xFE'))
+		       && ((*(e + 2) >= '\xA1') && (*(e + 2) <= '\xFE'))) {
+		/* 補助漢字 */
+		e += 3;
+		i += 3;
+	    } else {
+		/* その他の領域 */
+		e += 1;
+		i += 1;
+	    }
 	    continue;
 	}
 #else /* not EUC */
+	/* Shift JIS のマルチバイト文字は読み飛ばす */
 	if (*e > '\200' && *e < '\240' || *e >= '\340' && *e < '\360') {
 	    e += 2;
 	    i += 2;
@@ -467,6 +488,8 @@ env_get_value(char **s, char *e, boolean add_blank, boolean no_colon)
 	    break;
 	}
     }
+
+    /* 値入力 */
     if (!(*s = md_malloc(i + (add_blank ? 2 : 1)))) {
 	clean_up(mesg[17]);
     }

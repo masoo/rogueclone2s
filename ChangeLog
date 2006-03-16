@@ -1,3 +1,7 @@
+2006-03-16  FUNABARA Masao
+
+	* init.c : EUC-JP の処理を真面目にするように修正
+
 2006-03-07  FUNABARA Masao
 
 	* MANIFEST : man ファイルの説明内容を修正
