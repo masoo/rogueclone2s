@@ -1,3 +1,7 @@
+2006-03-19  FUNABARA Masao  <l07steps@users.sourceforge.jp>
+
+	* invent.c : マクロ定義 EUC を分かりやすくするようにソース修正
+
 2006-03-16  FUNABARA Masao
 
 	* init.c : 文字コード処理をオリジナルにしても問題があるだけなので

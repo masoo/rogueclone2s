@@ -283,12 +283,14 @@ get_desc(object *obj, char *desc, boolean capitalized)
 	case RING:
 	    p = id_table[obj->which_kind].title;
 #ifdef EUC
-	    if (*desc && *p >= ' ' && !(0x80 & *p))	/* by Yasha */
-#else /* Shift JIS */
-	    if (*desc && (*p >= ' ' && *p <= '~' ||
-			  *p >= '\240' && *p < '\340'))
-#endif
+	    if (*desc && *p >= ' ' && !(0x80 & *p)) {
 		(void) strcat(desc, " ");
+	    }
+#else /* not EUC(Shift JIS) */
+	    if (*desc && (*p >= ' ' && *p <= '~' || *p >= '\240' && *p < '\340')) {
+		(void) strcat(desc, " ");
+	    }
+#endif /* not EUC */
 	    (void) strcat(desc, p);
 	    (void) strcat(desc, mesg[34]);
 	    (void) strcat(desc, item_name);
