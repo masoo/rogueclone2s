@@ -39,6 +39,7 @@ enum rogue_colors
 #define RCYAN	 14
 static int ch_attr[256];
 char *color_str = "cbmyg";
+extern boolean use_color;
 
 /*
  * init_color_attr
@@ -48,7 +49,7 @@ void
 init_color_attr(void)
 {
     char *chx, chy, *chz;
-    int i, j;
+    int i, j, k;
     char color_type[] = "wrgybmcWRGYBMC";
     int colormap_list[5];
 
@@ -143,6 +144,12 @@ init_color_attr(void)
 	get_colorpair_number((signed) *chz, colormap_list[3]);
     }
     get_colorpair_number(rogue.fchar, colormap_list[4]);
+
+    if (!use_color) {
+	for(k=0; k<128; k++) {
+	    get_colorpair_number(k,0);
+	}
+    }
 
 }
 
