@@ -1,5 +1,7 @@
 2006-03-20  FUNABARA Masao
 
+	* score.c : マクロ定義 EUC を分かりやすくするようにソース修正
+
 	* message.c : 型変換 (unsigned char) を削除し、日本語処理を正しく
 	処理できるようにする。
 

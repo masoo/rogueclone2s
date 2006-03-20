@@ -943,11 +943,14 @@ char *s1, *s2;
 #ifndef ORIGINAL
 	r = (unsigned char) s1[i];
 #ifdef EUC
-	if (r & 0x80)		/* by Yasha */
-#else /* Shift JIS */
-	if (r > 0x80 && r < 0xa0 || r >= 0xe0 && r < 0xf0)
-#endif
+	if (r & 0x80) {
 	    i++;
+	}
+#else /* Shift JIS */
+	if (r > 0x80 && r < 0xa0 || r >= 0xe0 && r < 0xf0) {
+	    i++;
+	}
+#endif
 #endif /* not ORIGINAL */
 	i++;
     }
