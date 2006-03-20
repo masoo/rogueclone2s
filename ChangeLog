@@ -1,5 +1,8 @@
 2006-03-21  FUNABARA Masao
 
+	* options.doc : 起動時オプション、環境オプションの説明ドキュメントを改
+	訂する
+
 	* configure.ac: Release 4 作成に向けてパッケージバージョンを 4.0 とする
 
 	* display.c : オプション時のカラー表示のオン・オフが反映されない
