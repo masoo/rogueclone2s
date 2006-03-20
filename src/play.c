@@ -498,23 +498,6 @@ options(void)
 	refresh();
 	wait_for_ack();
     }
-#ifndef JAPAN			/* #if.. by Yasha */
-    for (row = 0; row < ROGUE_LINES; row++) {
-#else
-    for (row = 0; row < ROGUE_LINES - 1; row++) {	/* by Yasha */
-#endif /* JAPAN */
-	move(row, 0);
-	for (col = 0; col < ROGUE_COLUMNS; col++) {
-	    if (row == ROGUE_LINES - 1 && col == ROGUE_COLUMNS - 1) {
-		continue;
-	    }
-	    if (row < MIN_ROW || row >= ROGUE_LINES - 1) {
-		addch_rogue((unsigned char) descs[row][col]);
-	    } else {
-		addch_rogue(descs[row][col]);
-	    }
-	}
-    }
 
     if (changed) {
 	optbuf[0] = 0;
@@ -534,6 +517,27 @@ options(void)
 	set_opts(optbuf);
     }
     print_stats(STAT_ALL);
+
+    init_color_attr();
+
+#ifndef JAPAN			/* #if.. by Yasha */
+    for (row = 0; row < ROGUE_LINES; row++) {
+#else
+    for (row = 0; row < ROGUE_LINES - 1; row++) {	/* by Yasha */
+#endif /* JAPAN */
+	move(row, 0);
+	for (col = 0; col < ROGUE_COLUMNS; col++) {
+	    if (row == ROGUE_LINES - 1 && col == ROGUE_COLUMNS - 1) {
+		continue;
+	    }
+	    if (row < MIN_ROW || row >= ROGUE_LINES - 1) {
+		addch_rogue((unsigned char) descs[row][col]);
+	    } else {
+		addch_rogue(descs[row][col]);
+	    }
+	}
+    }
+
     refresh();
 }
 

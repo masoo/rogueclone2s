@@ -1,3 +1,10 @@
+2006-03-21  FUNABARA Masao
+
+	* play.c : オプション時のカラーマッピングが反映されない問題を修正
+
+	* display.c : init_color_attr 関数を何回でも呼ぶために
+	最初の一回だけ実行する処理を作成
+
 2006-03-20  FUNABARA Masao
 
 	* play.c : 終了時の処理を quit から byebye へ変更し、
