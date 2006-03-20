@@ -1,5 +1,7 @@
 2006-03-21  FUNABARA Masao
 
+	* configure.ac: Release 4 作成に向けてパッケージバージョンを 4.0 とする
+
 	* display.c : オプション時のカラー表示のオン・オフが反映されない
 	問題を修正
 
