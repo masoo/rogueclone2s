@@ -1,4 +1,9 @@
-2006-03-19  FUNABARA Masao  <l07steps@users.sourceforge.jp>
+2006-03-20  FUNABARA Masao
+
+	* message.c : 型変換 (unsigned char) を削除し、日本語処理を正しく
+	処理できるようにする。
+
+2006-03-19  FUNABARA Masao
 
 	* invent.c : マクロ定義 EUC を分かりやすくするようにソース修正
 

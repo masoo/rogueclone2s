@@ -141,7 +141,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 #ifdef JAPAN
 	k = 0;
 	while (k < i) {
-	    ch = (unsigned char) insert[k];
+	    ch = insert[k];
 #ifdef EUC
 	    if (ch & 0x80) {	/* for EUC code by Yasha */
 		kanji[k] = kanji[k + 1] = 1;
@@ -192,7 +192,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 		buf[i] = ch;
 		kanji[i] = 0;
 		if (do_echo) {
-		    addch_rogue((unsigned char) ch);
+		    addch_rogue(ch);
 		}
 		i++;
 	    }
@@ -207,8 +207,8 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 	    buf[i + 1] = rgetchar();
 	    kanji[i] = kanji[i + 1] = 1;
 	    if (do_echo) {
-		addch_rogue((unsigned char) buf[i]);
-		addch_rogue((unsigned char) buf[i + 1]);
+		addch_rogue(buf[i]);
+		addch_rogue(buf[i + 1]);
 	    }
 	    i += 2;
 	}
@@ -229,7 +229,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 	    if ((ch != ' ') || (i > 0)) {
 		buf[i++] = ch;
 		if (do_echo) {
-		    addch_rogue((unsigned char) ch);
+		    addch_rogue(ch);
 		}
 	    }
 	}
