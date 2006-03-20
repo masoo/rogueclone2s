@@ -1,5 +1,8 @@
 2006-03-20  FUNABARA Masao
 
+	* play.c : 終了時の処理を quit から byebye へ変更し、
+	オプション askquit が有効になるように修正。
+
 	* score.c : マクロ定義 EUC を分かりやすくするようにソース修正
 
 	* message.c : 型変換 (unsigned char) を削除し、日本語処理を正しく

@@ -192,7 +192,7 @@ play_level(void)
 	    message(mesg[1], 0);     /* for message version */
 	    break;
 	case 'Q':
-	    quit(0);
+	    byebye(0);
 	case '0':
 	case '1':
 	case '2':
