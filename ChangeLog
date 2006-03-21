@@ -1,5 +1,7 @@
 2006-03-21  FUNABARA Masao
 
+	* doc/Makefile.am : 整理した doc 内のファイルを指定しなおす。
+
 	* README : README.1st.org, README.doc.org, README.org をマージする。
 
 	* COPYING : ライセンスの書き方を README.doc.org と同じになるように修正
