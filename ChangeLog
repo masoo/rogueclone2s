@@ -1,3 +1,7 @@
+2006-03-26  FUNABARA Masao
+
+	* Release 4 公開
+
 2006-03-21  FUNABARA Masao
 
 	* doc/Makefile.am : 整理した doc 内のファイルを指定しなおす。

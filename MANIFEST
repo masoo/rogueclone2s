@@ -22,9 +22,6 @@ install-sh
 missing
 doc/Makefile.am
 doc/Makefile.in
-doc/README.1st.org        --@最初に読むドキュメント
-doc/README.doc.org        --@オリジナルの日本語版の配布内容についての説明
-doc/README.org            --@データ分離版ローグ・クローンIIについての説明
 doc/options.doc           --起動時オプション、環境オプションの説明
 doc/rogue.doc             --ローグの遊び方についてのドキュメント
 man/Makefile.am
