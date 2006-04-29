@@ -1,4 +1,4 @@
-2006-04-29  FUNABARA Masao  <l07steps@users.sourceforge.jp>
+2006-04-29  FUNABARA Masao
 
 	* display.c : 仮想端末によってデフォルトの背景色が違うようなので、
 	統一させる。
