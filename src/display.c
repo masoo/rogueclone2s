@@ -60,6 +60,9 @@ init_color_attr(void)
     if (first_init) {
 	start_color();
 
+	/* 背景色の定義 */
+	assume_default_colors(COLOR_WHITE, COLOR_BLACK);
+
 	/* 表示色の定義 */
 	init_pair(WHITE, COLOR_WHITE, COLOR_BLACK);
 	init_pair(RED, COLOR_RED, COLOR_BLACK);
