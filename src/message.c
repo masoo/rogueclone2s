@@ -192,7 +192,7 @@ do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
 		buf[i] = ch;
 		kanji[i] = 0;
 		if (do_echo) {
-		    addch_rogue(ch);
+		    addch(ch);
 		}
 		i++;
 	    }
