@@ -407,10 +407,14 @@ again:
     message(buf, 0);
 }
 
+/*
+ * options
+ * オプション画面の表示と設定を行う
+ */
 void
 options(void)
 {
-    int row, col;
+    int lines, columns;
     int n, i, j, changed;
     short ch;
     short pos[ROGUE_LINES];
@@ -418,14 +422,17 @@ options(void)
     char cbuf[ROGUE_LINES][MAX_TITLE_LENGTH];
     char optbuf[BUFSIZ];
 
-    for (row = 0; row < ROGUE_LINES; row++) {
-	for (col = 0; col < ROGUE_COLUMNS; col++) {
-	    descs[row][col] = mvinch_rogue(row, col);
+    /* 現在の画面を保存する */
+    for (lines = 0; lines < ROGUE_LINES; lines++) {
+	for (columns = 0; columns < ROGUE_COLUMNS; columns++) {
+	    descs[lines][columns] = mvinch_rogue(lines, columns);
 	}
     }
+
+    /* オプション画面を表示する */
     clear();
     for (n = 0; envopt[n].name; n++) {
-	mvaddstr_rogue(n, 0, optdesc[n]);
+	mvaddstr_rogue(n, 2, optdesc[n]);
 	addstr_rogue(" (\"");
 	addstr_rogue(envopt[n].name);
 	addstr_rogue("\"): ");
@@ -443,18 +450,23 @@ options(void)
 	pos[n] = strlen(optdesc[n]) + strlen(envopt[n].name) + 7;
     }
 
+    /* オプションの設定 */
     i = 0;
     while (i >= 0 && i < n) {
+	mvaddch(i, 1, '>');
 	if (envopt[i].bp) {
-	    move(i, pos[i]);
+	    move(i, pos[i] + 2);
 	} else {
-	    move(i, pos[i] + strlen(cbuf[i]));
+	    move(i, pos[i] + strlen(cbuf[i]) + 2);
 	}
 	refresh();
 	ch = rgetchar();
 	if (ch == CANCEL)
 	    break;
 	if (r_index("-\r\n", ch, 0) > -1) {
+	    getyx(stdscr, lines, columns);
+	    mvaddch(i, 1, ' ');
+	    move(lines, columns);
 	    if (envopt[i].bp) {
 		addstr_rogue(bbuf[i] ? "Yes" : "No");
 		clrtoeol();
@@ -471,15 +483,18 @@ options(void)
 		ch += 'a' - 'Z';
 	    }
 	    if (ch != 'y' && ch != 'n') {
-		mvaddstr_rogue(i, pos[i], "(Yes or No)");
+		mvaddstr_rogue(i, pos[i] + 2, "(Yes or No)");
 		continue;
 	    }
+	    mvaddch(i, 1, ' ');
+	    move(i, pos[i] + 2);
 	    addstr_rogue((ch == 'y') ? "Yes" : "No");
 	    clrtoeol();
 	    bbuf[i] = (ch == 'y');
 	    i++;
 	} else {
-	    j = input_line(i, pos[i], cbuf[i], optbuf, ch);
+	    j = input_line(i, pos[i] + 2, cbuf[i], optbuf, ch);
+	    mvaddch(i, 1, ' ');
 	    if (j < 0) {
 		break;
 	    }
@@ -521,19 +536,19 @@ options(void)
     init_color_attr();
 
 #ifndef JAPAN			/* #if.. by Yasha */
-    for (row = 0; row < ROGUE_LINES; row++) {
+    for (lines = 0; lines < ROGUE_LINES; lines++) {
 #else
-    for (row = 0; row < ROGUE_LINES - 1; row++) {	/* by Yasha */
+    for (lines = 0; lines < ROGUE_LINES - 1; lines++) {	/* by Yasha */
 #endif /* JAPAN */
-	move(row, 0);
-	for (col = 0; col < ROGUE_COLUMNS; col++) {
-	    if (row == ROGUE_LINES - 1 && col == ROGUE_COLUMNS - 1) {
+	move(lines, 0);
+	for (columns = 0; columns < ROGUE_COLUMNS; columns++) {
+	    if (lines == ROGUE_LINES - 1 && columns == ROGUE_COLUMNS - 1) {
 		continue;
 	    }
-	    if (row < MIN_ROW || row >= ROGUE_LINES - 1) {
-		addch_rogue((unsigned char) descs[row][col]);
+	    if (lines < MIN_ROW || lines >= ROGUE_LINES - 1) {
+		addch_rogue((unsigned char) descs[lines][columns]);
 	    } else {
-		addch_rogue(descs[row][col]);
+		addch_rogue(descs[lines][columns]);
 	    }
 	}
     }
