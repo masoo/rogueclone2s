@@ -1,5 +1,7 @@
 2006-05-13  FUNABARA Masao
 
+	* Release 5 公開
+
 	* configure.ac: Release 5 作成に向けてパッケージバージョンを 5.0 とする
 
 	* init.c : FreeBSD にて Ctrl-Y を入力した際に rogue が
