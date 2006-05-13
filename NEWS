@@ -1,5 +1,10 @@
 　NEWS
 
+* Release 5
+	Release 4 との差異
+	* オプション画面のユーザビリティの向上
+	* FreeBSD にて Ctrl-Y での操作ができない問題を修正
+
 * Release 4
 	Release 3 との差異
 	* マニュアル類の整備
