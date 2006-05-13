@@ -1,5 +1,7 @@
 2006-05-13  FUNABARA Masao
 
+	* configure.ac: Release 5 作成に向けてパッケージバージョンを 5.0 とする
+
 	* init.c : FreeBSD にて Ctrl-Y を入力した際に rogue が
 	バックグラウンド動作に移項する問題を修正する。
 
