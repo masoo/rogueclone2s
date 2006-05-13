@@ -1,5 +1,8 @@
 2006-05-13  FUNABARA Masao
 
+	* init.c : FreeBSD にて Ctrl-Y を入力した際に rogue が
+	バックグラウンド動作に移項する問題を修正する。
+
 	* rogue.doc : ドキュメントの誤りを修正する。
 
 	* message.c : 入力文字にキャラクターの表示マッピングの色が入る問題を

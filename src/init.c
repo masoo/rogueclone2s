@@ -185,6 +185,7 @@ clean_up(char *estr)
 void
 start_window(void)
 {
+    raw();
     crmode();
     noecho();
 #ifndef BAD_NONL
