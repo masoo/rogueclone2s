@@ -318,11 +318,11 @@ char *help_message[] = {
     mesg[128], mesg[129], mesg[130], mesg[131], mesg[132], mesg[133],
     mesg[134], mesg[135], mesg[136], mesg[137],
     "",
-#ifdef JAPAN
+#if defined( JAPAN )
     "＝スペースを押してください＝",
-#else
+#else /* not JAPAN */
     "--Press space to continue--",
-#endif
+#endif /* not JAPAN */
     (char *) 0
 };
 
@@ -505,11 +505,11 @@ options(void)
     changed = (i < 0 || i >= n);
     if (changed) {
 	move(n + 1, 0);
-#ifdef JAPAN
+#if defined( JAPAN )
 	addstr_rogue("＝スペースを押してください＝");
-#else
+#else /* JAPAN */
 	addstr_rogue("--Press space to continue--");
-#endif
+#endif /* JAPAN */
 	refresh();
 	wait_for_ack();
     }

@@ -1,6 +1,8 @@
 2006-05-20  FUNABARA Masao
 
-	* *h, *c : #ifndef のマクロを #if !defined() に変更する
+	* *.h, *.c : #indef のマクロ定義を #if defined() に変更する
+
+	* *.h, *.c : #ifndef のマクロ定義を #if !defined() に変更する
 
 2006-05-13  FUNABARA Masao
 

@@ -169,13 +169,13 @@ drop(void)
 	take_from_pack(obj, &rogue.pack);
     }
     place_at(obj, rogue.row, rogue.col);
-#ifdef JAPAN
+#if defined( JAPAN )
     get_desc(obj, desc, 0);
     (void) strcat(desc, mesg[92]);
-#else
+#else /* not JAPAN */
     (void) strcpy(desc, mesg[92]);
     get_desc(obj, desc + strlen(mesg[92]), 0);
-#endif
+#endif /* not JAPAN */
     message(desc, 0);
     (void) reg_move();
 }
@@ -290,13 +290,13 @@ take_off(void)
 	    mv_aquatars();
 	    obj = rogue.armor;
 	    unwear(rogue.armor);
-#ifdef JAPAN
+#if defined( JAPAN )
 	    get_desc(obj, desc, 0);
 	    (void) strcat(desc, mesg[94]);
-#else
+#else /* not JAPAN */
 	    (void) strcpy(desc, mesg[94]);
 	    get_desc(obj, desc + strlen(mesg[94]), 0);
-#endif
+#endif /* not JAPAN */
 	    message(desc, 0);
 	    print_stats(STAT_ARMOR);
 	    (void) reg_move();
@@ -331,13 +331,13 @@ wear(void)
 	return;
     }
     obj->identified = 1;
-#ifdef JAPAN
+#if defined( JAPAN )
     get_desc(obj, desc, 0);
     (void) strcat(desc, mesg[100]);
-#else
+#else /* not JAPAN */
     (void) strcpy(desc, mesg[100]);
     get_desc(obj, desc + strlen(mesg[100]), 0);
-#endif
+#endif /* not JAPAN */
     message(desc, 0);
     do_wear(obj);
     print_stats(STAT_ARMOR);
@@ -391,13 +391,13 @@ wield(void)
 	message(mesg[106], 0);
     } else {
 	unwield(rogue.weapon);
-#ifdef JAPAN
+#if defined( JAPAN )
 	get_desc(obj, desc, 0);
 	(void) strcat(desc, mesg[107]);
-#else
+#else /* not JAPAN */
 	(void) strcpy(desc, mesg[107]);
 	get_desc(obj, desc + strlen(mesg[107]), 0);
-#endif
+#endif /* not JAPAN */
 	message(desc, 0);
 	do_wield(obj);
 	(void) reg_move();
@@ -443,11 +443,11 @@ call_it(void)
     }
     id_table = get_id_table(obj);
 
-#ifdef JAPAN
+#if defined( JAPAN )
     if (get_input_line(mesg[111],
 		       "", buf, id_table[obj->which_kind].title, 0, 1)) {
 	ch = *buf;
-#ifdef EUC
+#if defined( EUC )
 	if (ch >= ' ' && !(ch & 0x80)) {	/* by Yasha */
 	    /* alphabet or kana character; append 1 blank */
 	    (void) strcat(buf, " ");
@@ -571,9 +571,9 @@ kick_into_pack(void)
 #endif /* ORIGINAL */
 	if ((obj = pick_up(rogue.row, rogue.col, &stat))) {
 	    get_desc(obj, desc, 1);
-#ifdef JAPAN
+#if defined( JAPAN )
 	    (void) strcat(desc, mesg[114]);
-#endif
+#endif /* JAPAN */
 	    if (obj->what_is == GOLD) {
 		message(desc, 0);
 		free_object(obj);

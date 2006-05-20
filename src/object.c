@@ -141,10 +141,10 @@ extern short party_room;
 extern char *error_file;
 extern boolean is_wood[];
 
-#ifdef COLOR
+#if defined( COLOR )
 extern boolean use_color;
 
-#endif
+#endif /* COLOR */
 
 void
 put_objects(void)
@@ -281,9 +281,9 @@ name_of(object *obj)
 	return is_wood[obj->which_kind] ? mesg[6] : mesg[5];
 #endif /* not JAPAN */
     if (obj->what_is == WEAPON) {
-#ifdef JAPAN
+#if defined( JAPAN )
 	return id_weapons[obj->which_kind].title;
-#else
+#else /* not JAPAN */
 	strcpy(bf, id_weapons[obj->which_kind].title);
 	switch (obj->which_kind) {
 	case DART:
@@ -298,19 +298,19 @@ name_of(object *obj)
 	    break;
 	}
 	return bf;
-#endif
+#endif /* not JAPAN */
     }
     if (obj->what_is == FOOD) {
 	return (obj->which_kind == RATION) ? mesg[2] : fruit;
     }
     for (i = 0; i < 6; i++) {
 	if (obj->what_is == wa[i]) {
-#ifdef JAPAN
+#if defined( JAPAN )
 	    return na[i];
-#else
+#else /* not JAPAN */
 	    sprintf(bf, na[i], obj->quantity > 1 ? "s" : "");
 	    return bf;
-#endif
+#endif /* not JAPAN */
 	}
     }
     return mesg[80];
@@ -573,11 +573,11 @@ alloc_object(void)
 	obj = free_list;
 	free_list = free_list->next_object;
     } else if (!(obj = (object *) md_malloc(sizeof(object)))) {
-#ifdef JAPAN
+#if defined( JAPAN )
 	message("メモリーが足りません。 ゲームをセーブします。", 0);
-#else
+#else /* not JAPAN */
 	message("Cannot allocate object, saving game", 0);
-#endif
+#endif /* not JAPAN */
 	save_into_file(error_file);
     }
     obj->quantity = 1;
@@ -671,9 +671,9 @@ void
 new_object_for_wizard(void)
 {
     short ch, max = 0;		/* 未初期化変数の使用の Warning の対策で 0 を不可 */
-#ifdef ORIGINAL
+#if defined( ORIGINAL )
     short wk;
-#endif
+#endif /* ORIGINAL */
     object *obj;
     char buf[80];
 
@@ -796,16 +796,16 @@ list_object(object *obj, short max)
     short row, col;
     struct id *id;
     int weapon_or_armor;	/* by Yasha */
-#ifdef COLOR
+#if defined( COLOR )
     char *p;
-#endif
-#ifdef JAPAN
+#endif /* COLOR */
+#if defined( JAPAN )
     char *msg = "  ＝スペースを押してください＝";
     short len = 30;
-#else
+#else /* not JAPAN */
     char *msg = " --Press space to continue--";
     short len = 28;
-#endif
+#endif /* not JAPAN */
 
     weapon_or_armor = 0;
     switch (obj->what_is) {
@@ -836,21 +836,21 @@ list_object(object *obj, short max)
     maxlen = len;
     for (i = 0; i <= max; i++) {
 #if 1				/* by Yasha */
-#ifdef JAPAN
+#if defined( JAPAN )
 	sprintf(descs[i], " %c) %s%s", i + 'a',
 		weapon_or_armor ? id[i].title : id[i].real,
 		weapon_or_armor ? "" : name_of(obj));
-#else
+#else /* not JAPAN */
 	sprintf(descs[i], " %c) %s%s", i + 'a',
 		weapon_or_armor ? "" : name_of(obj),
 		weapon_or_armor ? id[i].title : id[i].real);
-#endif
+#endif /* not JAPAN */
 #else
-#ifdef JAPAN
+#if defined( JAPAN )
 	sprintf(descs[i], " %c) %s%s", i + 'a', id[i].real, name_of(obj));
-#else
+#else /* not JAPAN */
 	sprintf(descs[i], " %c) %s%s", i + 'a', name_of(obj), id[i].real);
-#endif
+#endif /* not JAPAN */
 #endif
 	if ((n = strlen(descs[i])) > maxlen) {
 	    maxlen = n;
@@ -874,18 +874,18 @@ list_object(object *obj, short max)
 
     move(0, 0);
     clrtoeol();
-#ifdef COLOR
+#if defined( COLOR )
     for (j = 1; j < i; j++) {
 	move(j, col);
 	for (p = descs[j - 1]; *p; p++) {
 	    addch_rogue(*p);
 	}
     }
-#else
+#else /* not COLOR */
     for (j = 1; j < i; j++) {
 	mvaddstr_rogue(j, col, descs[j - 1]);
     }
-#endif
+#endif /* not COLOR */
 }
 #endif /* not ORIGINAL */
 

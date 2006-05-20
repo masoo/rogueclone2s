@@ -13,9 +13,9 @@
 #if !defined( __ROGUE_H__ )
 #define __ROGUE_H__
 
-#ifdef HAVE_CONFIG_H
+#if defined( HAVE_CONFIG_H )
 # include "config.h"
-#endif
+#endif /* HAVE_CONFIG_H */
 
 #if 0
 #if !defined( ORIGINAL )

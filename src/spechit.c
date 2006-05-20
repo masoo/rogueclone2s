@@ -204,12 +204,12 @@ adornment:
 	t = obj->quantity;
 	obj->quantity = 1;
     }
-#ifdef JAPAN
+#if defined( JAPAN )
     get_desc(obj, desc, 0);
     (void) strcat(desc, mesg[205]);
-#else
+#else /* not JAPAN */
     get_desc(obj, desc + 10, 0);
-#endif
+#endif /* not JAPAN */
     message(desc, 0);
 
     obj->quantity = ((obj->what_is != WEAPON) ? t : 1);

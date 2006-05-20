@@ -61,13 +61,13 @@ inventory(object *pack, unsigned short mask)
     short i, j, maxlen, n;
     short row, col;
     char *p;
-#ifdef JAPAN
+#if defined( JAPAN )
     char *msg = "  ＝スペースを押してください＝";
     short len = 30;
-#else
+#else /* not JAPAN */
     char *msg = " --Press space to continue--";
     short len = 28;
-#endif
+#endif /* not JAPAN */
 
     if (!(obj = pack->next_object)) {
 	message(mesg[26], 0);
@@ -114,14 +114,14 @@ nextpage:
 
     move(0, 0);
     clrtoeol();
-#ifdef COLOR
+#if defined( COLOR )
     for (j = 1; j < i; j++) {
 	move(j, col);
 	for (p = descs[j - 1]; *p; p++) {
 	    addch_rogue(*p);
 	}
     }
-#else
+#else /* not COLOR */
 #if !defined( JAPAN )			/* if.. by Yasha */
     for (j = 1; j < i; j++) {
 	mvaddstr_rogue(j, col, descs[j - 1]);
@@ -136,7 +136,7 @@ nextpage:
     clrtoeol();			/* by Yasha */
     print_stats(STAT_ALL);	/* by Yasha */
 #endif /* JAPAN */
-#endif /* COLOR */
+#endif /* not COLOR */
 
     if (obj) {
 	goto nextpage;
@@ -168,7 +168,7 @@ make_scroll_titles(void)
 
     for (i = 0; i < SCROLS; i++) {
 	sylls = get_rand(2, 5);
-#ifdef JAPAN
+#if defined( JAPAN )
 	(void) strcpy(id_scrolls[i].title, "「");
 	len = 2;
 	for (j = 0; j < sylls; j++) {
@@ -181,7 +181,7 @@ make_scroll_titles(void)
 	    len += n;
 	}
 	(void) strcpy(id_scrolls[i].title + (len - 1), "」");
-#else
+#else /* not JAPAN */
 	(void) strcpy(id_scrolls[i].title, "'");
 	for (j = 0; j < sylls; j++) {
 	    s = get_rand(1, (MAXSYLLABLES - 1));
@@ -189,7 +189,7 @@ make_scroll_titles(void)
 	}
 	n = strlen(id_scrolls[i].title);
 	(void) strcpy(id_scrolls[i].title + (n - 1), "' ");
-#endif
+#endif /* not JAPAN */
     }
 }
 
@@ -197,7 +197,7 @@ void
 get_desc(object *obj, char *desc, boolean capitalized)
 {
 
-#ifdef JAPAN			/* for whole function */
+#if defined( JAPAN )			/* for whole function */
     char *item_name, *p;
     struct id *id_table;
     char more_info[32];
@@ -282,7 +282,7 @@ get_desc(object *obj, char *desc, boolean capitalized)
 	case WAND:
 	case RING:
 	    p = id_table[obj->which_kind].title;
-#ifdef EUC
+#if defined( EUC )
 	    if (*desc && *p >= ' ' && !(0x80 & *p)) {
 		(void) strcat(desc, " ");
 	    }
@@ -364,7 +364,7 @@ ANA:
     }
     (void) strcat(desc, p);
 
-#else /*JAPAN for whole function get_desc */
+#else /* not JAPAN for whole function get_desc */
     char *p;
     char *item_name;
     struct id *id_table;
@@ -533,7 +533,7 @@ ANA:
 	p = "";
     }
     (void) strcat(desc, p);
-#endif /*JAPAN for whole function get_desc() */
+#endif /* not JAPAN for whole function get_desc() */
 }
 
 void
@@ -553,9 +553,9 @@ get_wand_and_ring_materials(void)
 	used[j] = 1;
 	p = id_wands[i].title;
 	(void) strcpy(p, wand_materials[j]);
-#ifdef JAPAN
+#if defined( JAPAN )
 	(void) strcat(p, mesg[39]);
-#endif
+#endif /* JAPAN */
 	is_wood[i] = (j > MAX_METAL);
     }
     for (i = 0; i < GEMS; i++) {
@@ -568,9 +568,9 @@ get_wand_and_ring_materials(void)
 	used[j] = 1;
 	p = id_rings[i].title;
 	(void) strcpy(p, gems[j]);
-#ifdef JAPAN
+#if defined( JAPAN )
 	(void) strcat(p, mesg[40]);
-#endif
+#endif /* JAPAN */
     }
 }
 
@@ -642,9 +642,9 @@ struct dlist
 {
     short type, no;
     char *name, *real;
-#ifdef JAPAN
+#if defined( JAPAN )
     char *sub;
-#endif
+#endif /* JAPAN */
 } dlist[SCROLS + POTIONS + WANDS + RINGS + 4];
 
 struct dobj
@@ -671,13 +671,13 @@ discovered(void)
     struct dlist *dp, *enddp;
     struct dobj *op;
     char *p;
-#ifdef JAPAN
+#if defined( JAPAN )
     char *msg = "  ＝スペースを押してください＝";
     short len = 30;
-#else
+#else /* not JAPAN */
     char *msg = " --Press space to continue--";
     short len = 28;
-#endif
+#endif /* not JAPAN */
 
     message(mesg[45], 0);
     while (r_index("?!/=*\033", (ch = rgetchar()), 0) == -1) {
@@ -702,14 +702,14 @@ discovered(void)
 		dp->name = op->name;
 		if (wizard || j == IDENTIFIED) {
 		    dp->real = op->id[i].real;
-#ifdef JAPAN
+#if defined( JAPAN )
 		    dp->sub = "";
-#endif
+#endif /* JAPAN */
 		} else {
 		    dp->real = op->id[i].title;
-#ifdef JAPAN
+#if defined( JAPAN )
 		    dp->sub = mesg[34];
-#endif
+#endif /* JAPAN */
 		}
 #if !defined( JAPAN )
 		if (op->type == WAND && is_wood[i]) {
@@ -751,17 +751,17 @@ nextpage:
 	    descs[i][strlen(p) - 1] = 's';
 #endif /* not JAPAN */
 	} else {
-#ifdef JAPAN
+#if defined( JAPAN )
 	    (void) strcpy(p, "  ");
 	    (void) strcat(p, dp->real);
 	    (void) strcat(p, dp->sub);
 	    (void) strcat(p, dp->name);
-#else
+#else /* not JAPAN */
 	    p[0] = ' ';
 	    (void) strcpy(p + 1, dp->name);
 	    (void) strcat(p, dp->real);
 	    p[1] -= 'a' - 'A';
-#endif
+#endif /* not JAPAN */
 	}
 	if ((n = strlen(p)) > maxlen) {
 	    maxlen = n;
@@ -794,14 +794,14 @@ nextpage:
 
     move(0, 0);
     clrtoeol();
-#ifdef COLOR
+#if defined( COLOR )
     for (j = 1; j < i; j++) {
 	move(j, col);
 	for (p = descs[j - 1]; *p; p++) {
 	    addch_rogue(*p);
 	}
     }
-#else
+#else /* not COLOR */
 #if !defined( JAPAN )			/* if.. by Yasha */
     for (j = 1; j < i; j++) {
 	mvaddstr_rogue(j, col, descs[j - 1]);
@@ -816,14 +816,14 @@ nextpage:
     clrtoeol();			/* by Yasha */
     print_stats(STAT_ALL);	/* by Yasha */
 #endif /* JAPAN */
-#endif /* COLOR */
+#endif /* not COLOR */
 
     if (dp < enddp) {
 	goto nextpage;
     }
 }
 #endif /* not ORIGINAL */
-#ifdef JAPAN
+#if defined( JAPAN )
 static char *_num[10] =
     { "０", "１", "２", "３", "４", "５", "６", "７", "８", "９" };
 
@@ -864,4 +864,4 @@ lznum(char *buf, long n, int plus)
 	buf += 2;
     }
 }
-#endif
+#endif /* JAPAN */

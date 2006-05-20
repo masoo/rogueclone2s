@@ -53,7 +53,7 @@ init_color_attr(void)
     char color_type[] = "wrgybmcWRGYBMC";
     int colormap_list[5];
 
-#ifdef COLOR
+#if defined( COLOR )
     static boolean first_init = 1;
 
     /* 最初の一回のみ実行する命令 */
@@ -184,9 +184,9 @@ get_colorpair_number(char ch, int num)
 int
 addch_rogue(const chtype ch)
 {
-#ifdef COLOR
+#if defined( COLOR )
     attrset(COLOR_PAIR(put_colorpair_number(ch)));
-#endif
+#endif /* COLOR */
     return addch(ch);
 }
 
@@ -198,9 +198,9 @@ addch_rogue(const chtype ch)
 int
 mvaddch_rogue(int y, int x, const chtype ch)
 {
-#ifdef COLOR
+#if defined( COLOR )
     attrset(COLOR_PAIR(put_colorpair_number(ch)));
-#endif
+#endif /* COLOR */
     return mvaddch(y, x, ch);
 }
 
@@ -212,9 +212,9 @@ mvaddch_rogue(int y, int x, const chtype ch)
 int
 addstr_rogue(const char *str)
 {
-#ifdef COLOR
+#if defined( COLOR )
     attrset(COLOR_PAIR(0));
-#endif
+#endif /* COLOR */
     return addstr(str);
 }
 
@@ -226,7 +226,7 @@ addstr_rogue(const char *str)
 int
 mvaddstr_rogue(int y, int x, const char *str)
 {
-#ifdef COLOR
+#if defined( COLOR )
     attr_t attr_stats;
     int color_stats;
 
@@ -253,9 +253,9 @@ mvaddstr_rogue(int y, int x, const char *str)
 chtype
 mvinch_rogue(int y, int x)
 {
-#ifdef COLOR
+#if defined( COLOR )
     return mvinch(y, x) & A_CHARTEXT;
-#else
+#else /* not COLOR */
     return mvinch(y, x);
-#endif /* COLOR */
+#endif /* not COLOR */
 }

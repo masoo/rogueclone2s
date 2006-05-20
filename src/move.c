@@ -136,9 +136,9 @@ one_move_rogue(short dirch, short pickup)
 		get_desc(obj, desc, 1);
 		if (obj->what_is == GOLD) {
 		    free_object(obj);
-#ifdef JAPAN
+#if defined( JAPAN )
 		    strcat(desc, mesg[69]);
-#endif
+#endif /* JAPAN */
 		    goto NOT_IN_PACK;
 		}
 	    } else if (!status) {
@@ -149,18 +149,18 @@ one_move_rogue(short dirch, short pickup)
 	} else {
 	MOVE_ON:
 	    obj = object_at(&level_objects, row, col);
-#ifdef JAPAN
+#if defined( JAPAN )
 	    get_desc(obj, desc, 0);
 	    (void) strcat(desc, mesg[70]);
-#else
+#else /* not JAPAN */
 	    (void) strcpy(desc, mesg[70]);
 	    get_desc(obj, desc + strlen(mesg[70]), 0);
-#endif
+#endif /* not JAPAN */
 	    goto NOT_IN_PACK;
 	}
-#ifdef JAPAN
+#if defined( JAPAN )
 	strcat(desc, mesg[69]);
-#endif
+#endif /* JAPAN */
 	p = desc + strlen(desc);
 	*p++ = '(';
 	*p++ = obj->ichar;

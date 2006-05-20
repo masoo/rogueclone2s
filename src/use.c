@@ -47,7 +47,7 @@ extern boolean being_held;
 extern char *fruit, *you_can_move_again;
 extern boolean sustain_strength;
 
-#ifdef JAPAN
+#if defined( JAPAN )
 void
 quaff(void)
 {
@@ -163,7 +163,7 @@ quaff(void)
     vanish(obj, 1, &rogue.pack);
 }
 
-#else /*JAPAN*/
+#else /* not JAPAN */
 quaff()
 {
     short ch;
@@ -281,8 +281,8 @@ quaff()
 #endif /* ORIGINAL */
     vanish(obj, 1, &rogue.pack);
 }
-#endif /*JAPAN*/
-#ifdef JAPAN
+#endif /* not JAPAN */
+#if defined( JAPAN )
     void
 read_scroll(void)
 {
@@ -385,7 +385,7 @@ read_scroll(void)
     vanish(obj, (obj->which_kind != SLEEP), &rogue.pack);
 }
 
-#else /*JAPAN*/
+#else /* not JAPAN */
 read_scroll()
 {
     short ch;
@@ -488,7 +488,7 @@ read_scroll()
 #endif /* ORIGINAL */
     vanish(obj, (obj->which_kind != SLEEP), &rogue.pack);
 }
-#endif /*JAPAN*/
+#endif /* not JAPAN */
 /* vanish() does NOT handle a quiver of weapons with more than one
    arrow (or whatever) in the quiver.  It will only decrement the count.
 */

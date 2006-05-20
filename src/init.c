@@ -289,26 +289,26 @@ opt envopt[] = {
 #else /* Not ORIGINAL */
     {"skull", &show_skull, NULL, 0, 0} ,
 #endif /* ORIGINAL */
-#ifdef COLOR
+#if defined( COLOR )
     {"color", &use_color, NULL, 0, 0} ,
-#endif
-#ifdef JAPAN
+#endif /* COLOR */
+#if defined( JAPAN )
     {"fruit", NULL, &fruit, 0, 0} ,
-#else
+#else /* not JAPAN */
     {"fruit", NULL, &fruit, 1, 0} ,
-#endif
+#endif /* not JAPAN */
     {"file", NULL, &save_file, 0, 0} ,
     {"name", NULL, &nick_name, 0, 1} ,
 #if !defined( ORIGINAL )
     {"directory", NULL, &game_dir, 0, 0} ,
 #endif /* Not ORIGINAL */
-#ifdef COLOR
+#if defined( COLOR )
     {"map", NULL, &color_str, 0, 0} ,
-#endif
+#endif /* COLOR */
     {NULL, NULL, NULL, 0, 0}
 };
 
-#ifdef JAPAN
+#if defined( JAPAN )
 char *optdesc[] = {
     "終了するかどうか確認をとる",
     "移動中の表示を行わない",
@@ -318,21 +318,21 @@ char *optdesc[] = {
 #else /* Not ORIGINAL */
     "ゲーム終了時に骸骨を表示する",
 #endif /* ORIGINAL */
-#ifdef COLOR
+#if defined( COLOR )
     "キャラクターをカラーで表示する",
-#endif
+#endif /* COLOR */
     mesg[16],
     "セーブファイル名",
     "ニックネーム",
 #if !defined( ORIGINAL )
     "ゲームディレクトリー名",
 #endif /* Not ORIGINAL */
-#ifdef COLOR
+#if defined( COLOR )
     "キャラクターの表示色マッピング",
-#endif
+#endif /* COLOR */
     NULL
 };
-#else /*JAPAN*/
+#else /* not JAPAN */
 char *optdesc[] = {
     "Ask whether quit or not on quit signal",
     "Show position only at end of run",
@@ -342,18 +342,18 @@ char *optdesc[] = {
 #else /* Not ORIGINAL */
     "Print out skull and score when killed",
 #endif /* ORIGINAL */
-#ifdef COLOR
+#if defined( COLOR )
     "Show characters in map with color",
-#endif
+#endif /* COLOR */
     mesg[16],
     "Save filename",
     "Your nickname",
 #if !defined( ORIGINAL )
     "Game directory name",
 #endif /* Not ORIGINAL */
-#ifdef COLOR
+#if defined( COLOR )
     "Color mapping for characters",
-#endif
+#endif /* COLOR */
     NULL
 };
 #endif /*JAPAN*/
@@ -453,7 +453,7 @@ env_get_value(char **s, char *e, boolean add_blank, boolean no_colon)
     t = e;
 
     while ((*e) && (*e != ',')) {
-#ifdef EUC
+#if defined( EUC )
 	/* EUC のマルチバイト文字は読み飛ばす */
 	if (*e & 0x80) {
 	    if ((*e >= '\xA1' && *e <= '\xFE')

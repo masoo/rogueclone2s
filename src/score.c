@@ -36,7 +36,7 @@ extern char *byebye_string, *nick_name;
 extern boolean use_color;
 
 #if !defined( ORIGINAL )
-#ifdef JAPAN
+#if defined( JAPAN )
 void
 killed_by(object *monster, short other)
 {
@@ -98,18 +98,18 @@ killed_by(object *monster, short other)
 	for (i = 0; i < 14; i++) {
 	    mvaddstr_rogue(i + 3, xpos[i], str[i]);
 	}
-#ifdef COLOR
+#if defined( COLOR )
 	mvaddch_rogue(15, ROGUE_COLUMNS / 2 - 11, '*');	/* by Yasha */
 	mvaddch_rogue(15, ROGUE_COLUMNS / 2 - 4, '*');	/* by Yasha */
 	mvaddch_rogue(15, ROGUE_COLUMNS / 2 - 1, '*');	/* by Yasha */
 	mvaddch_rogue(15, ROGUE_COLUMNS / 2 + 2, '*');	/* by Yasha */
 	mvaddch_rogue(15, ROGUE_COLUMNS / 2 + 11, '*');	/* by Yasha */
-#endif
+#endif /* COLOR */
 	center(6, mesg[177]);
 	center(7, mesg[178]);
-#ifdef COLOR
+#if defined( COLOR )
 	standend();
-#endif
+#endif /* COLOR */
 	center(9, nick_name);
 	center(12, buf);
 	center(13, buf2);
@@ -131,7 +131,7 @@ killed_by(object *monster, short other)
     message("", 0);
     put_scores(monster, other);
 }
-#else /*JAPAN*/
+#else /* not JAPAN */
 killed_by(monster, other)
 object *monster;
 short other;
@@ -190,9 +190,9 @@ short other;
 	center(6, mesg[177]);
 	center(7, mesg[178]);
 	center(8, mesg[179]);
-#ifdef COLOR
+#if defined( COLOR )
 	standend();
-#endif
+#endif /* COLOR */
 	center(10, nick_name);
 	center(12, buf);
 	center(13, buf2);
@@ -213,7 +213,7 @@ short other;
     message("", 0);
     put_scores(monster, other);
 }
-#endif /*JAPAN*/
+#endif /* not JAPAN */
 #else /* ORIGINAL */
 killed_by(monster, other)
 object *monster;
@@ -339,9 +339,9 @@ win(void)
     center(16, mesg[183]);
     center(17, mesg[184]);
     center(18, mesg[185]);
-#ifdef COLOR
+#if defined( COLOR )
     standend();
-#endif
+#endif /* COLOR */
 #else /* ORIGINAL */
     mvaddstr_rogue(10, 11, "@   @  @@@   @   @      @  @  @   @@@   @   @   @");
     mvaddstr_rogue(11, 11, " @ @  @   @  @   @      @  @  @  @   @  @@  @   @");
@@ -364,18 +364,18 @@ void
 mvaddbanner(int row, int col, int *ban)
 {
     int i;
-#ifdef COLOR
+#if defined( COLOR )
     int rev = ' ' | (RGREEN << 8);
-#endif
+#endif /* COLOR */
 
     move(row, col);
     for (i = 0; i < 59; i++) {
 	if (ban[i >> 3] & (0x80 >> (i & 7))) {
-#ifdef COLOR
+#if defined( COLOR )
 	    addch_rogue(rev);
-#else
+#else /* not COLOR */
 	    addch_rogue('@');
-#endif
+#endif /* not COLOR */
 	} else {
 	    addch_rogue(' ');
 	}
@@ -403,11 +403,11 @@ quit(boolean from_intrpt)
 	}
     }
     check_message();
-#ifdef JAPAN
+#if defined( JAPAN )
     message("ゲームを終了してよいのですか？", 1);
-#else
+#else /* not JAPAN */
     message("Really quit?", 1);
-#endif
+#endif /* not JAPAN */
     if (rgetchar() != 'y') {
 	md_heed_signals();
 	check_message();
@@ -529,15 +529,15 @@ put_scores(object *monster, short other)
 
     md_ignore_signals();
     clear();
-#ifdef JAPAN
+#if defined( JAPAN )
     mvaddstr_rogue(3, 20, mesg[187]);
-#else
+#else /* not JAPAN */
     mvaddstr_rogue(3, 25, mesg[187]);
-#endif
+#endif /* not JAPAN */
     mvaddstr_rogue(6, 0, mesg[188]);
-#ifdef COLOR
+#if defined( COLOR )
     standend();
-#endif
+#endif /* COLOR */
     for (i = 0; i < ne; i++) {
 	scores[i][1] = (i == 9) ? '1' : ' ';
 	scores[i][2] = (i == 9) ? '0' : '1' + i;
@@ -693,7 +693,7 @@ short other;
 }
 #endif /* ORIGINAL */
 
-#ifdef JAPAN
+#if defined( JAPAN )
 void
 insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
 	     short n, object *monster, int other)
@@ -756,7 +756,7 @@ insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
     (void) strcpy(n_names[rank], n_name);
 }
 
-#else /*JAPAN*/
+#else /* not JAPAN */
 insert_score(scores, n_names, n_name, rank, n, monster, other)
 char scores[][82];
 char n_names[][30];
@@ -822,7 +822,7 @@ object *monster;
     (void) strcpy(scores[rank], buf);
     (void) strcpy(n_names[rank], n_name);
 }
-#endif /*JAPAN*/
+#endif /* not JAPAN */
     int
 is_vowel(short ch)
 {
@@ -942,7 +942,7 @@ char *s1, *s2;
     while (s1[i] != ':') {
 #if !defined( ORIGINAL )
 	r = (unsigned char) s1[i];
-#ifdef EUC
+#if defined( EUC )
 	if (r & 0x80) {
 	    i++;
 	}
@@ -950,7 +950,7 @@ char *s1, *s2;
 	if (r > 0x80 && r < 0xa0 || r >= 0xe0 && r < 0xf0) {
 	    i++;
 	}
-#endif
+#endif /* not EUC */
 #endif /* not ORIGINAL */
 	i++;
     }
@@ -960,7 +960,7 @@ char *s1, *s2;
     return r;
 }
 #else /* TOPSCO */
-#ifdef ORIGINAL
+#if defined( ORIGINAL )
 name_cmp(s1, s2)
 char *s1, *s2;
 {

@@ -57,13 +57,13 @@ save_game(void)
 {
     char fname[64];
 
-#ifdef JAPAN
+#if defined( JAPAN )
     if (!get_input_line("セーブするファイル名は？", save_file, fname,
 			"ゲームのセーブを中止しました。", 0, 1)) {
-#else
+#else /* not JAPAN */
     if (!get_input_line("File name?", save_file, fname,
 			"Game not saved", 0, 1)) {
-#endif
+#endif /* not JAPAN */
 	return;
     }
     check_message();
@@ -94,11 +94,11 @@ save_into_file(char *sfile)
     }
     if (((fp = fopen(sfile, "w")) == NULL) ||
 	((file_id = md_get_file_id(sfile)) == -1)) {
-#ifdef JAPAN
+#if defined( JAPAN )
 	message("セーブファイルにアクセスできません。", 0);
-#else
+#else /* not JAPAN */
 	message("Problem accessing the save file", 0);
-#endif
+#endif /* not JAPAN */
 	goto err_return;
     }
     md_ignore_signals();
@@ -175,18 +175,18 @@ restore(char *fname)
 
     if (((new_file_id = md_get_file_id(fname)) == -1) ||
 	((fp = fopen(fname, "r")) == NULL)) {
-#ifdef JAPAN
+#if defined( JAPAN )
 	clean_up("ファイルがオープンできませんでした。");
-#else
+#else /* not JAPAN */
 	clean_up("Cannot open file");
-#endif
+#endif /* not JAPAN */
     }
     if (md_link_count(fname) > 1) {
-#ifdef JAPAN
+#if defined( JAPAN )
 	clean_up("ファイルはリンクされています。");
-#else
+#else /* not JAPAN */
 	clean_up("File has link");
-#endif
+#endif /* not JAPAN */
     }
     (void) xxx(1);
     r_read(fp, (char *) &detect_monster, sizeof(detect_monster));
@@ -197,11 +197,11 @@ restore(char *fname)
     (void) strcpy(tbuf, login_name);
     read_string(login_name, fp);
     if (strcmp(tbuf, login_name)) {
-#ifdef JAPAN
+#if defined( JAPAN )
 	clean_up("セーブファイルの持ち主が違います。");
-#else
+#else /* not JAPAN */
 	clean_up("You're not the original player");
-#endif
+#endif /* not JAPAN */
     }
 
     r_read(fp, (char *) &party_room, sizeof(party_room));
@@ -210,11 +210,11 @@ restore(char *fname)
     read_pack(&level_objects, fp, 0);
     r_read(fp, (char *) &saved_file_id, sizeof(saved_file_id));
     if (new_file_id != saved_file_id) {
-#ifdef JAPAN
+#if defined( JAPAN )
 	clean_up("これは元のセーブファイルではありません。");
-#else
+#else /* not JAPAN */
 	clean_up("Sorry, saved game is not in the same file");
-#endif
+#endif /* not JAPAN */
     }
     rw_dungeon(fp, 0);
     r_read(fp, (char *) &foods, sizeof(foods));
@@ -244,29 +244,29 @@ restore(char *fname)
 
     if (fread(buf, sizeof(char), 1, fp) > 0) {
 	clear();
-#ifdef JAPAN
+#if defined( JAPAN )
 	clean_up("ファイル中によけいな文字があります。");
-#else
+#else /* JAPAN */
 	clean_up("Extra characters in file");
-#endif
+#endif /* JAPAN */
     }
 
     md_gfmt(fname, &mod_time);	/* get file modification time */
 
     if (has_been_touched(&saved_time, &mod_time)) {
 	clear();
-#ifdef JAPAN
+#if defined( JAPAN )
 	clean_up("ファイルが変更されています。");
-#else
+#else /* not JAPAN */
 	clean_up("Sorry, file has been touched");
-#endif
+#endif /* not JAPAN */
     }
     if ((!wizard) && !md_df(fname)) {
-#ifdef JAPAN
+#if defined( JAPAN )
 	clean_up("ファイルを消すことができません。");
-#else
+#else /* not JAPAN */
 	clean_up("Cannot delete file");
-#endif
+#endif /* not JAPAN */
     }
     msg_cleared = 0;
     ring_stats(0);
@@ -411,11 +411,11 @@ void
 r_read(FILE *fp, char *buf, int n)
 {
     if (fread(buf, sizeof(char), n, fp) != n) {
-#ifdef JAPAN
+#if defined( JAPAN )
 	clean_up("ファイルが読めません。");
-#else
+#else /* not JAPAN */
 	clean_up("Read() failed, don't know why");
-#endif
+#endif /* not JAPAN */
     }
 }
 
@@ -424,11 +424,11 @@ r_write(FILE *fp, char *buf, int n)
 {
     if (!write_failed) {
 	if (fwrite(buf, sizeof(char), n, fp) != n) {
-#ifdef JAPAN
+#if defined( JAPAN )
 	    message("ファイルに書けません。", 0);
-#else
+#else /* not JAPAN */
 	    message("Write() failed, don't know why", 0);
-#endif
+#endif /* not JAPAN */
 	    sound_bell();
 	    write_failed = 1;
 	}

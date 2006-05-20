@@ -256,17 +256,17 @@ wizardize(void)
 
     if (wizard) {
 	wizard = 0;
-#ifdef JAPAN
+#if defined( JAPAN )
 	message("もはや、魔法使いではない。", 0);
-#else
+#else /* not JAPAN */
 	message("Not wizard anymore", 0);
 #endif
     } else {
-#ifdef JAPAN
+#if defined( JAPAN )
 	if (get_input_line("魔法使いの合言葉は？",
-#else
+#else /* not JAPAN */
 	if (get_input_line("Wizard's password:",
-#endif
+#endif /* not JAPAN */
 			   "", buf, "", 0, 0)) {
 	    (void) xxx(1);
 	    xxxx(buf, strlen(buf));
@@ -277,17 +277,17 @@ wizardize(void)
 #endif /* ORIGINAL */
 		wizard = 1;
 		score_only = 1;
-#ifdef JAPAN
+#if defined( JAPAN )
 		message("ようこそ、魔法使いよ！", 0);
-#else
+#else /* not JAPAN */
 		message("Welcome, mighty wizard!", 0);
-#endif
+#endif /* not JAPAN */
 	    } else {
-#ifdef JAPAN
+#if defined( JAPAN )
 		message("そんな合言葉、知らないね。", 0);
-#else
+#else /* not JAPAN */
 		message("Sorry", 0);
-#endif
+#endif /* not JAPAN */
 	    }
 	}
     }
