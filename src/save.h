@@ -1,4 +1,4 @@
-#ifndef __SAVE_H__
+#if !defined( __SAVE_H__ )
 #define __SAVE_H__
 
 extern void save_game(void);
@@ -16,4 +16,4 @@ extern void r_write(FILE *fp, char *buf, int n);
 extern boolean has_been_touched(struct rogue_time *saved_time,
 				struct rogue_time *mod_time);
 
-#endif /* __SAVE_H__ */
+#endif /* not __SAVE_H__ */

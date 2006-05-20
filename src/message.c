@@ -276,15 +276,15 @@ rgetchar(void)
 	case '\022':
 	    wrefresh(curscr);
 	    break;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	    /*
 	     * can't use X for save_screen purpose
 	     * because 2nd byte of kanji might be an 'X'!
 	     */
 	case CTRL('D'):
-#else
+#else /* ORIGINAL */
 	case 'X':
-#endif
+#endif /* ORIGINAL */
 	    save_screen();
 	    break;
 	default:

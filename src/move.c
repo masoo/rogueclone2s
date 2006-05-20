@@ -30,12 +30,12 @@
 #include "use.h"
 
 short m_moves = 0;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 boolean jump = 0;
 boolean bent_passage;
-#else
+#else /* ORIGINAL */
 boolean jump = 1;
-#endif
+#endif /* ORIGINAL */
 char *you_can_move_again = mesg[66];
 
 extern short cur_room, halluc, blind, levitate;
@@ -44,9 +44,9 @@ extern short bear_trap, haste_self, confused;
 extern short e_rings, regeneration, auto_search;
 extern char hunger_str[];
 extern boolean being_held, interrupted, r_teleport;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 extern boolean pass_go;
-#endif
+#endif /* not ORIGINAL */
 
 int
 one_move_rogue(short dirch, short pickup)
@@ -60,9 +60,9 @@ one_move_rogue(short dirch, short pickup)
 
     r = rogue.row;
     c = rogue.col;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     bent_passage = 0;
-#endif
+#endif /* not ORIGINAL */
 
     if (confused) {
 	dirch = gr_dir();
@@ -72,11 +72,11 @@ one_move_rogue(short dirch, short pickup)
     col = c;
 
     if (!can_move(rogue.row, rogue.col, row, col)) {
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	if (cur_room == PASSAGE && !blind && !confused
 	    && !strchr("yubn", dirch))
 	    bent_passage = 1;
-#endif
+#endif /* not ORIGINAL */
 	return (MOVE_FAILED);
     }
     if (being_held || bear_trap) {
@@ -190,10 +190,10 @@ multiple_move_rogue(int dirch)
 {
     short row, col;
     short m;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     short n, i, ch = 0;		/* 未初期化変数の警告除去のため 0 で初期化 */
     char *dir;
-#endif
+#endif /* not ORIGINAL */
 
     switch (dirch) {
     case '\010':
@@ -204,7 +204,7 @@ multiple_move_rogue(int dirch)
     case '\025':
     case '\016':
     case '\002':
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	dirch += 96;
 	do {
 	retry:
@@ -235,7 +235,7 @@ multiple_move_rogue(int dirch)
 	    break;
 	} while (!next_to_something(row, col));
 	break;
-#else
+#else /* ORIGINAL */
 	do {
 	    row = rogue.row;
 	    col = rogue.col;
@@ -245,7 +245,7 @@ multiple_move_rogue(int dirch)
 	    }
 	} while (!next_to_something(row, col));
 	break;
-#endif
+#endif /* ORIGINAL */
     case 'H':
     case 'J':
     case 'K':
@@ -254,7 +254,7 @@ multiple_move_rogue(int dirch)
     case 'Y':
     case 'U':
     case 'N':
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	dirch += 32;
 	for (;;) {
 	retry2:
@@ -283,10 +283,10 @@ multiple_move_rogue(int dirch)
 	    break;
 	}
 	break;
-#else
+#else /* ORIGINAL */
 	while ((!interrupted) && (one_move_rogue((dirch + 32), 1) == MOVED));
 	break;
-#endif
+#endif /* ORIGINAL */
     }
 }
 

@@ -62,7 +62,7 @@
 #include "machdep.h"
 #include "init.h"
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 /*
  * md_getcwd:
  *
@@ -78,9 +78,9 @@ md_getcwd(char *dir, int len)
 
     return getcwd(dir, len);
 }
-#endif /* ORIGINAL */
+#endif /* not ORIGINAL */
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 /*
  * md_chdir:
  *
@@ -92,7 +92,7 @@ md_chdir(char *dir)
 {
     return chdir(dir);
 }
-#endif /* ORIGINAL */
+#endif /* not ORIGINAL */
 
 /* md_heed_signals():
  *
@@ -395,9 +395,9 @@ md_gseed(void)
 void
 md_exit(int status)
 {
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     if (org_dir && *org_dir)
 	md_chdir(org_dir);
-#endif
+#endif /* not ORIGINAL */
     exit(status);
 }

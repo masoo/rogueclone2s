@@ -1,4 +1,4 @@
-#ifndef __PACK_H__
+#if !defined( __PACK_H__ )
 #define __PACK_H__
 
 extern object *add_to_pack(object *obj, object *pack, int condense);
@@ -23,4 +23,4 @@ extern int is_pack_letter(short *c, unsigned short *mask);
 extern int has_amulet(void);
 extern void kick_into_pack(void);
 
-#endif /* __PACK_H__ */
+#endif /* not __PACK_H__ */

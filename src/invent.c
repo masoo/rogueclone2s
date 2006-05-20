@@ -122,11 +122,11 @@ nextpage:
 	}
     }
 #else
-#ifndef JAPAN			/* if.. by Yasha */
+#if !defined( JAPAN )			/* if.. by Yasha */
     for (j = 1; j < i; j++) {
 	mvaddstr_rogue(j, col, descs[j - 1]);
     }
-#else
+#else /* JAPAN */
     for (j = 1; j < i; j++) {	/* by Yasha */
 	move(j, col);		/* by Yasha */
 	clrtoeol();		/* by Yasha */
@@ -637,7 +637,7 @@ inv_armor_weapon(boolean is_weapon)
     }
 }
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 struct dlist
 {
     short type, no;
@@ -711,11 +711,11 @@ discovered(void)
 		    dp->sub = mesg[34];
 #endif
 		}
-#ifndef JAPAN
+#if !defined( JAPAN )
 		if (op->type == WAND && is_wood[i]) {
 		    dp->name = "staff ";
 		}
-#endif
+#endif /* not JAPAN */
 		found |= op->type;
 		dp++;
 	    }
@@ -747,9 +747,9 @@ nextpage:
 	    (void) strcpy(p, "");
 	} else if (dp->no < 0) {
 	    (void) sprintf(p, mesg[47], dp->name);
-#ifndef JAPAN
+#if !defined( JAPAN )
 	    descs[i][strlen(p) - 1] = 's';
-#endif
+#endif /* not JAPAN */
 	} else {
 #ifdef JAPAN
 	    (void) strcpy(p, "  ");
@@ -802,11 +802,11 @@ nextpage:
 	}
     }
 #else
-#ifndef JAPAN			/* if.. by Yasha */
+#if !defined( JAPAN )			/* if.. by Yasha */
     for (j = 1; j < i; j++) {
 	mvaddstr_rogue(j, col, descs[j - 1]);
     }
-#else
+#else /* JAPAN */
     for (j = 1; j < i; j++) {	/* by Yasha */
 	move(j, col);		/* by Yasha */
 	clrtoeol();		/* by Yasha */
@@ -822,7 +822,7 @@ nextpage:
 	goto nextpage;
     }
 }
-#endif /*ORIGINAL*/
+#endif /* not ORIGINAL */
 #ifdef JAPAN
 static char *_num[10] =
     { "£°", "£±", "£²", "£³", "£´", "£µ", "£¶", "£·", "£¸", "£¹" };

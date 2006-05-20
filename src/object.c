@@ -265,21 +265,21 @@ free_stuff(object *objlist)
 char *
 name_of(object *obj)
 {
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     int i;
-#ifndef JAPAN
+#if !defined( JAPAN )
     static char bf[81];		/* by Yasha */
-#endif
+#endif /* not JAPAN */
     static unsigned short wa[] = {
 	SCROL, POTION, WAND, ARMOR, RING, AMULET
     };
     static char *na[] = {
 	mesg[3], mesg[4], mesg[5], mesg[7], mesg[8], mesg[9]
     };
-#ifndef JAPAN
+#if !defined( JAPAN )
     if (obj->what_is == WAND)
 	return is_wood[obj->which_kind] ? mesg[6] : mesg[5];
-#endif
+#endif /* not JAPAN */
     if (obj->what_is == WEAPON) {
 #ifdef JAPAN
 	return id_weapons[obj->which_kind].title;
@@ -314,7 +314,7 @@ name_of(object *obj)
 	}
     }
     return mesg[80];
-#else
+#else /* ORIGINAL */
     char *retstring;
 
     switch (obj->what_is) {
@@ -728,7 +728,7 @@ new_object_for_wizard(void)
 	break;
     }
     if ((ch != ',') && (ch != ':')) {
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 /*		sprintf(buf, mesg[83], name_of(obj));*/
 	sprintf(buf, mesg[83], (obj->what_is == WEAPON)	/* by Yasha */
 		? mesg[84] : name_of(obj));	/* by Yasha */
@@ -764,7 +764,7 @@ new_object_for_wizard(void)
 	} else if (obj->what_is == WEAPON) {	/* by Yasha */
 	    gr_weapon(obj, 0);	/* by Yasha */
 	}
-#else	 /*ORIGINAL*/
+#else /* ORIGINAL */
 	    if (get_input_line("Which kind?", "", buf, "", 0, 1)) {
 	    wk = get_number(buf);
 	    if ((wk >= 0) && (wk <= max)) {
@@ -780,14 +780,14 @@ new_object_for_wizard(void)
 	    free_object(obj);
 	    return;
 	}
-#endif	 /*ORIGINAL*/
+#endif /* ORIGINAL */
     }
     get_desc(obj, buf, 1);
     message(buf, 0);
     (void) add_to_pack(obj, &rogue.pack, 1);
 }
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 void
 list_object(object *obj, short max)
 {
@@ -887,8 +887,9 @@ list_object(object *obj, short max)
     }
 #endif
 }
-#endif /*ORIGINAL*/
-    int
+#endif /* not ORIGINAL */
+
+int
 next_party(void)
 {
     int n;

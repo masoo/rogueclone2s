@@ -146,11 +146,11 @@ make_room(short rn, short r1, short r2, short r3)
 	top_row = get_rand(MIN_ROW, MIN_ROW + 5);
 	bottom_row = get_rand(ROGUE_LINES - 7, ROGUE_LINES - 2);
 	left_col = get_rand(0, 10);
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	right_col = get_rand(ROGUE_COLUMNS - 11, ROGUE_COLUMNS - 2);
-#else
+#else /* ORIGINAL */
 	right_col = get_rand(ROGUE_COLUMNS - 11, ROGUE_COLUMNS - 1);
-#endif
+#endif /* ORIGINAL */
 	rn = 0;
 	goto B;
     }
@@ -166,11 +166,11 @@ make_room(short rn, short r1, short r2, short r3)
     default:
     case 2:
 	left_col = COL2 + 1;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	right_col = ROGUE_COLUMNS - 2;
-#else
+#else /* ORIGINAL */
 	right_col = ROGUE_COLUMNS - 1;
-#endif
+#endif /* ORIGINAL */
 	break;
     }
     switch (rn / 3) {

@@ -153,13 +153,13 @@ quaff(void)
 	break;
     }
     print_stats((STAT_STRENGTH | STAT_HP));
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     id_potions[obj->which_kind].id_status = IDENTIFIED;
-#else
+#else /* ORIGINAL */
     if (id_potions[obj->which_kind].id_status != CALLED) {
 	id_potions[obj->which_kind].id_status = IDENTIFIED;
     }
-#endif
+#endif /* ORIGINAL */
     vanish(obj, 1, &rogue.pack);
 }
 
@@ -242,11 +242,11 @@ quaff()
 	break;
     case CONFUSION:
 	message((halluc ? mesg[240] :
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 		 mesg[241]), 0);
-#else
+#else /* ORIGINAL */
 		 "You feel confused"), 0);
-#endif
+#endif /* ORIGINAL */
 	confuse();
 	break;
     case LEVITATION:
@@ -272,13 +272,13 @@ quaff()
 	break;
     }
     print_stats((STAT_STRENGTH | STAT_HP));
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     id_potions[obj->which_kind].id_status = IDENTIFIED;
-#else
+#else /* ORIGINAL */
     if (id_potions[obj->which_kind].id_status != CALLED) {
 	id_potions[obj->which_kind].id_status = IDENTIFIED;
     }
-#endif
+#endif /* ORIGINAL */
     vanish(obj, 1, &rogue.pack);
 }
 #endif /*JAPAN*/
@@ -375,13 +375,13 @@ read_scroll(void)
 	draw_magic_map();
 	break;
     }
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     id_scrolls[obj->which_kind].id_status = IDENTIFIED;
-#else
+#else /* ORIGINAL */
     if (id_scrolls[obj->which_kind].id_status != CALLED) {
 	id_scrolls[obj->which_kind].id_status = IDENTIFIED;
     }
-#endif
+#endif /* ORIGINAL */
     vanish(obj, (obj->which_kind != SLEEP), &rogue.pack);
 }
 
@@ -479,13 +479,13 @@ read_scroll()
 	draw_magic_map();
 	break;
     }
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     id_scrolls[obj->which_kind].id_status = IDENTIFIED;
-#else
+#else /* ORIGINAL */
     if (id_scrolls[obj->which_kind].id_status != CALLED) {
 	id_scrolls[obj->which_kind].id_status = IDENTIFIED;
     }
-#endif
+#endif /* ORIGINAL */
     vanish(obj, (obj->which_kind != SLEEP), &rogue.pack);
 }
 #endif /*JAPAN*/
@@ -609,11 +609,11 @@ eat(void)
     if ((obj->which_kind == FRUIT) || rand_percent(60)) {
 	moves = get_rand(900, 1100);
 	if (obj->which_kind == RATION) {
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	    if (get_rand(1, 10) == 1) {
 		message(mesg[265], 0);
 	    } else
-#endif
+#endif /* not ORIGINAL */
 		message(mesg[266], 0);
 	} else {
 	    sprintf(buf, mesg[267], fruit);

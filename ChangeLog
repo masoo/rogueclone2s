@@ -1,3 +1,7 @@
+2006-05-20  FUNABARA Masao
+
+	* *h, *c : #ifndef のマクロを #if !defined() に変更する
+
 2006-05-13  FUNABARA Masao
 
 	* Release 5 公開

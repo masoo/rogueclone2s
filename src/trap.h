@@ -1,4 +1,4 @@
-#ifndef __TRAP_H__
+#if !defined( __TRAP_H__ )
 #define __TRAP_H__
 
 extern int trap_at(int row, int col);
@@ -8,4 +8,4 @@ extern void id_trap(void);
 extern void show_traps(void);
 extern void search(short n, boolean is_auto);
 
-#endif /* __TRAP_H__ */
+#endif /* not __TRAP_H__ */

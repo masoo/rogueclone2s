@@ -1,4 +1,4 @@
-#ifndef __INIT_H__
+#if !defined( __INIT_H__ )
 #define __INIT_H__
 
 extern int init(int argc, char *argv[]);
@@ -15,4 +15,4 @@ extern void set_opts(char *env);
 extern void env_get_value(char **s, char *e, boolean add_blank,
 			  boolean no_colon);
 
-#endif /* __INIT_H__ */
+#endif /* not __INIT_H__ */

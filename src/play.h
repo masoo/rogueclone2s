@@ -1,4 +1,4 @@
-#ifndef __PLAY_H__
+#if !defined( __PLAY_H__ )
 #define __PLAY_H__
 
 extern void play_level(void);
@@ -7,4 +7,4 @@ extern void identify(void);
 extern void options(void);
 extern void doshell(void);
 
-#endif /* __PLAY_H__ */
+#endif /* not __PLAY_H__ */

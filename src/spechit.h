@@ -1,4 +1,4 @@
-#ifndef __SPECHIT_H__
+#if !defined( __SPECHIT_H__ )
 #define __SPECHIT_H__
 
 extern void special_hit(object *monster);
@@ -21,4 +21,4 @@ extern int m_confuse(object *monster);
 extern int flame_broil(object *monster);
 extern void get_closer(short *row, short *col, short trow, short tcol);
 
-#endif /* __SPECHIT_H__ */
+#endif /* not __SPECHIT_H__ */

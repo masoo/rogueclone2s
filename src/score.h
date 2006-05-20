@@ -1,4 +1,4 @@
-#ifndef __SCORE_H__
+#if !defined( __SCORE_H__ )
 #define __SCORE_H__
 
 extern void killed_by(object *monster, short other);
@@ -18,4 +18,4 @@ extern void nickize(char *buf, char *score, char *n_name);
 extern void center(short row, char *buf);
 extern void sf_error(void);
 
-#endif /* __SCORE_H__ */
+#endif /* not __SCORE_H__ */

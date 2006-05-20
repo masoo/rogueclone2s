@@ -1,4 +1,4 @@
-#ifndef __INVENT_H__
+#if !defined( __INVENT_H__ )
 #define __INVENT_H__
 
 extern void inventory(object *pack, unsigned short maskd);
@@ -13,4 +13,4 @@ extern void discovered(void);
 extern void znum(char *buf, int n, int plus);
 extern void lznum(char *buf, long n, int plus);
 
-#endif /* __INVENT_H__ */
+#endif /* not __INVENT_H__ */

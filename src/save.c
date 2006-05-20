@@ -80,11 +80,11 @@ save_into_file(char *sfile)
     char *hptr;
     struct rogue_time rt_buf;
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     if (org_dir && *org_dir) {
 	md_chdir(org_dir);
     }
-#endif
+#endif /* not ORIGINAL */
     if (sfile[0] == '~') {
 	if ((hptr = md_getenv("HOME"))) {
 	    (void) strcpy(name_buffer, hptr);
@@ -151,11 +151,11 @@ save_into_file(char *sfile)
 
 err_return:
     ;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     if (game_dir && *game_dir) {
 	md_chdir(game_dir);
     }
-#endif
+#endif /* not ORIGINAL */
 }
 
 void
@@ -167,11 +167,11 @@ restore(char *fname)
     char tbuf[40];
     int new_file_id, saved_file_id;
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     if (org_dir && *org_dir) {
 	md_chdir(org_dir);
     }
-#endif
+#endif /* ORIGINAL */
 
     if (((new_file_id = md_get_file_id(fname)) == -1) ||
 	((fp = fopen(fname, "r")) == NULL)) {
@@ -272,11 +272,11 @@ restore(char *fname)
     ring_stats(0);
     fclose(fp);
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     if (game_dir && *game_dir) {
 	md_chdir(game_dir);
     }
-#endif
+#endif /* not ORIGINAL */
 }
 
 void
@@ -438,7 +438,7 @@ r_write(FILE *fp, char *buf, int n)
 boolean
 has_been_touched(struct rogue_time *saved_time, struct rogue_time *mod_time)
 {
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     short *sav, *mod;
     int i;
 
@@ -451,7 +451,7 @@ has_been_touched(struct rogue_time *saved_time, struct rogue_time *mod_time)
 	    return 0;
     }
     return 0;
-#else
+#else /* ORIGINAL */
     if (saved_time->year < mod_time->year) {
 	return 1;
     } else if (saved_time->year > mod_time->year) {
@@ -481,5 +481,5 @@ has_been_touched(struct rogue_time *saved_time, struct rogue_time *mod_time)
 	return 1;
     }
     return 0;
-#endif
+#endif /* ORIGINAL */
 }

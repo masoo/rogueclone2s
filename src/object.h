@@ -1,4 +1,4 @@
-#ifndef __OBJECT_H__
+#if !defined( __OBJECT_H__ )
 #define __OBJECT_H__
 
 extern void put_objects(void);
@@ -29,4 +29,4 @@ extern void new_object_for_wizard(void);
 extern void list_object(object *obj, short max);
 extern int next_party(void);
 
-#endif /* __OBJECT_H__ */
+#endif /* not __OBJECT_H__ */

@@ -159,7 +159,7 @@ steal_item(object *monster)
     if (!obj) {
 	goto DSPR;
     }
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     while (obj) {
 	if ((obj->what_is == RING) &&
 	    (obj->which_kind == ADORNMENT) &&
@@ -170,7 +170,7 @@ steal_item(object *monster)
 	obj = obj->next_object;
     }
     obj = rogue.pack.next_object;
-#endif
+#endif /* ORIGINAL */
     while (obj) {
 	if (!(obj->in_use_flags & BEING_USED)) {
 	    has_something = 1;
@@ -194,12 +194,12 @@ steal_item(object *monster)
 	    }
 	}
     }
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 adornment:
-#endif
-#ifndef JAPAN
+#endif /* not ORIGINAL */
+#if !defined( JAPAN )
     (void) strcpy(desc, mesg[205]);
-#endif
+#endif /* JAPAN */
     if (obj->what_is != WEAPON) {
 	t = obj->quantity;
 	obj->quantity = 1;

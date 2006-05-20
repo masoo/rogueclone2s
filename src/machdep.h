@@ -1,10 +1,10 @@
-#ifndef __MACHDEP_H__
+#if !defined( __MACHDEP_H__ )
 #define __MACHDEP_H__
 
 extern void putstr(char *s);
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 extern char *md_getcwd(char *dir, int len);
-#endif
+#endif /* not ORIGINAL */
 extern int md_chdir(char *dir);
 extern void md_heed_signals(void);
 extern void md_ignore_signals(void);
@@ -20,4 +20,4 @@ extern char *md_malloc(int n);
 extern int md_gseed(void);
 extern void md_exit(int status);
 
-#endif /* __MACHDEP_H__ */
+#endif /* not __MACHDEP_H__ */

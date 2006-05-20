@@ -1,4 +1,4 @@
-#ifndef __LEVEL_H__
+#if !defined( __LEVEL_H__ )
 #define __LEVEL_H__
 
 extern void make_level(void);
@@ -30,4 +30,4 @@ extern int hp_raise(void);
 extern void show_average_hp(void);
 extern void mix_random_rooms(void);
 
-#endif /* __LEVEL_H__ */
+#endif /* not __LEVEL_H__ */

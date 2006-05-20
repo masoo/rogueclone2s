@@ -38,7 +38,7 @@ add_to_pack(object *obj, object *pack, int condense)
 	    obj->ichar = next_avail_ichar();
 	}
     }
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     for (op = pack; op->next_object; op = op->next_object) {
 	if (op->next_object->what_is > obj->what_is) {
 	    p = op->next_object;
@@ -50,7 +50,7 @@ add_to_pack(object *obj, object *pack, int condense)
     op->next_object = obj;
     obj->next_object = 0;
     return obj;
-#else
+#else /* ORIGINAL */
     if (pack->next_object == 0) {
 	pack->next_object = obj;
     } else {
@@ -63,7 +63,7 @@ add_to_pack(object *obj, object *pack, int condense)
     }
     obj->next_object = 0;
     return obj;
-#endif
+#endif /* ORIGINAL */
 }
 
 void
@@ -563,12 +563,12 @@ kick_into_pack(void)
     if (!(dungeon[rogue.row][rogue.col] & OBJECT)) {
 	message(mesg[112], 0);
     } else {
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	if (levitate) {
 	    message(mesg[113], 0);
 	    return;
 	}
-#endif
+#endif /* ORIGINAL */
 	if ((obj = pick_up(rogue.row, rogue.col, &stat))) {
 	    get_desc(obj, desc, 1);
 #ifdef JAPAN

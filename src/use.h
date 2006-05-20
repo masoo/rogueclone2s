@@ -1,4 +1,4 @@
-#ifndef __USE_H__
+#if !defined( __USE_H__ )
 #define __USE_H__
 
 extern void quaff(void);
@@ -20,4 +20,4 @@ extern void confuse(void);
 extern void unconfuse(void);
 extern void uncurse_all(void);
 
-#endif /* __USE_H__ */
+#endif /* not __USE_H__ */

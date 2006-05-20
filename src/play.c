@@ -248,9 +248,9 @@ play_level(void)
 	case CTRL('A'):
 	    show_average_hp();
 	    break;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	case CTRL('G'):
-#endif
+#endif /* not ORIGINAL */
 	case CTRL('C'):
 	    if (wizard) {
 		new_object_for_wizard();
@@ -271,7 +271,7 @@ play_level(void)
 	case ',':
 	    kick_into_pack();
 	    break;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	case CTRL('X'):
 	    if (!wizard) {
 		message(unknown_command, 0);
@@ -303,7 +303,7 @@ play_level(void)
 	case 'a':
 	    ch = cmd = oldcmd;
 	    goto CH;
-#endif /* ORIGINAL */
+#endif /* not ORIGINAL */
 	default:
 	    message(unknown_command, 0);
 	    break;
@@ -311,7 +311,7 @@ play_level(void)
     }
 }
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 char *help_message[] = {
     mesg[116], mesg[117], mesg[118], mesg[119], mesg[120], mesg[121],
     mesg[122], mesg[123], mesg[124], mesg[125], mesg[126], mesg[127],
@@ -535,9 +535,9 @@ options(void)
 
     init_color_attr();
 
-#ifndef JAPAN			/* #if.. by Yasha */
+#if !defined( JAPAN )			/* #if.. by Yasha */
     for (lines = 0; lines < ROGUE_LINES; lines++) {
-#else
+#else /* not JAPAN */
     for (lines = 0; lines < ROGUE_LINES - 1; lines++) {	/* by Yasha */
 #endif /* JAPAN */
 	move(lines, 0);
@@ -582,4 +582,4 @@ doshell(void)
     wrefresh(curscr);
 }
 
-#endif /* ORIGINAL */
+#endif /* not ORIGINAL */

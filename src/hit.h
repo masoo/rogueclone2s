@@ -1,4 +1,4 @@
-#ifndef __HIT_H__
+#if !defined( __HIT_H__ )
 #define __HIT_H__
 
 extern void mon_hit(object *monster, char *other, boolean flame);
@@ -17,4 +17,4 @@ extern void get_dir_rc(short dir, short *row, short *col,
 extern int get_hit_chance(object *weapon);
 extern int get_weapon_damage(object *weapon);
 
-#endif /* __HIT_H__ */
+#endif /* not __HIT_H__ */

@@ -1,4 +1,4 @@
-#ifndef __ZAP_H__
+#if !defined( __ZAP_H__ )
 #define __ZAP_H__
 
 extern void zapp(void);
@@ -8,4 +8,4 @@ extern void zap_monster(object *monster, unsigned short kind);
 extern void tele_away(object *monster);
 extern void wizardize(void);
 
-#endif /* __ZAP_H__ */
+#endif /* not __ZAP_H__ */

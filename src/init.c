@@ -37,10 +37,10 @@ boolean cant_int = 0, did_int = 0, score_only = 0, init_curses = 0;
 boolean save_is_interactive = 1;
 boolean show_skull = 1;
 boolean ask_quit = 1;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 boolean pass_go = 1, do_restore = 0;
 char org_dir[64], *game_dir = "";
-#endif
+#endif /* Not ORIGINAL */
 boolean use_color = 1;
 char *error_file = "rogue.esave";
 
@@ -56,9 +56,9 @@ init(int argc, char *argv[])
     int seed;
     WINDOW *main_window;
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     md_getcwd(org_dir, 64);
-#endif
+#endif /* Not ORIGINAL */
     do_args(argc, argv);
     do_opts();
 
@@ -92,11 +92,11 @@ init(int argc, char *argv[])
     }
     seed = md_gseed();
     (void) srrandom(seed);
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     if (do_restore && save_file && *save_file) {
 	rest_file = save_file;
     }
-#endif
+#endif /* Not ORIGINAL */
     if (rest_file) {
 	restore(rest_file);
 	return (1);
@@ -168,9 +168,9 @@ clean_up(char *estr)
     if (save_is_interactive) {
 	if (init_curses) {
 	    move(ROGUE_LINES - 1, 0);
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	    clrtoeol();
-#endif
+#endif /* Not ORIGINAL */
 	    refresh();
 	    stop_window();
 	}
@@ -188,9 +188,9 @@ start_window(void)
     raw();
     crmode();
     noecho();
-#ifndef BAD_NONL
+#if !defined( BAD_NONL )
     nonl();
-#endif /*BAD_NONL */
+#endif /* Not BAD_NONL */
 }
 
 void
@@ -239,22 +239,22 @@ do_args(int argc, char *argv[])
     char *option_strings;
     extern int optind;
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     option_strings = "sr";
-#else
+#else /* Not ORIGINAL */
     option_strings = "s";
-#endif
+#endif /* ORIGINAL */
 
     while ((ch = getopt(argc, argv, option_strings)) != EOF) {
 	switch (ch) {
 	case 's':
 	    score_only = 1;
 	    break;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	case 'r':
 	    do_restore = 1;
 	    break;
-#endif
+#endif /* Not ORIGINAL */
 	case '?':
 	default:
 	    usage();
@@ -272,23 +272,23 @@ do_args(int argc, char *argv[])
     if (read_mesg(argv[0])) {
 	exit(1);
     }
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     if (argc == 2) {
 	rest_file = argv[1];
     }
-#endif
+#endif /* Not ORIGINAL */
 
 }
 
 opt envopt[] = {
     {"askquit", &ask_quit, NULL, 0, 0} ,
     {"jump", &jump, NULL, 0, 0} ,
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     {"passgo", &pass_go, NULL, 0, 0} ,
     {"tombstone", &show_skull, NULL, 0, 0} ,
-#else
+#else /* Not ORIGINAL */
     {"skull", &show_skull, NULL, 0, 0} ,
-#endif
+#endif /* ORIGINAL */
 #ifdef COLOR
     {"color", &use_color, NULL, 0, 0} ,
 #endif
@@ -299,9 +299,9 @@ opt envopt[] = {
 #endif
     {"file", NULL, &save_file, 0, 0} ,
     {"name", NULL, &nick_name, 0, 1} ,
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     {"directory", NULL, &game_dir, 0, 0} ,
-#endif
+#endif /* Not ORIGINAL */
 #ifdef COLOR
     {"map", NULL, &color_str, 0, 0} ,
 #endif
@@ -312,21 +312,21 @@ opt envopt[] = {
 char *optdesc[] = {
     "終了するかどうか確認をとる",
     "移動中の表示を行わない",
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     "通路の角で止まらずに進む",
     "ゲーム終了時に墓標を表示する",
-#else
+#else /* Not ORIGINAL */
     "ゲーム終了時に骸骨を表示する",
-#endif
+#endif /* ORIGINAL */
 #ifdef COLOR
     "キャラクターをカラーで表示する",
 #endif
     mesg[16],
     "セーブファイル名",
     "ニックネーム",
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     "ゲームディレクトリー名",
-#endif
+#endif /* Not ORIGINAL */
 #ifdef COLOR
     "キャラクターの表示色マッピング",
 #endif
@@ -336,21 +336,21 @@ char *optdesc[] = {
 char *optdesc[] = {
     "Ask whether quit or not on quit signal",
     "Show position only at end of run",
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     "Follow turnings in passageways",
     "Print out tombstone and score when killed",
-#else
+#else /* Not ORIGINAL */
     "Print out skull and score when killed",
-#endif
+#endif /* ORIGINAL */
 #ifdef COLOR
     "Show characters in map with color",
 #endif
     mesg[16],
     "Save filename",
     "Your nickname",
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     "Game directory name",
-#endif
+#endif /* Not ORIGINAL */
 #ifdef COLOR
     "Color mapping for characters",
 #endif
@@ -433,11 +433,11 @@ set_opts(char *env)
 	}
     }
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     if (game_dir && *game_dir) {
 	md_chdir(game_dir);
     }
-#endif
+#endif /* Not ORIGINAL */
 }
 
 /*

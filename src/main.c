@@ -25,19 +25,19 @@
 #include "trap.h"
 
 extern short party_room;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 extern char *nick_name;
 static char *progname;
 char mesg[507][80];		/* for separation */
-#endif
+#endif /* not ORIGINAL */
 
 int
 main(int argc, char *argv[])
 {
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     int first = 1;
     char buf[80];
-#endif
+#endif /* ORIGINAL */
 
     progname = argv[0];
 
@@ -54,16 +54,16 @@ main(int argc, char *argv[])
 	put_mons();
 	put_player(party_room);
 	print_stats(STAT_ALL);
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	if (first) {
 	    sprintf(buf, mesg[10], nick_name);
 	    message(buf, 0);
 	}
     PL:
 	first = 0;
-#else
+#else /* ORIGINAL */
     PL:
-#endif
+#endif /* ORIGINAL */
 	play_level();
 	free_stuff(&level_objects);
 	free_stuff(&level_monsters);

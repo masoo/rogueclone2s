@@ -122,10 +122,10 @@ throw_at_monster(object *monster, object *weapon)
     (void) strcat(hit_message, mesg[214]);
     if ((weapon->what_is == WAND) && rand_percent(75)) {
 	zap_monster(monster, weapon->which_kind);
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     } else if (weapon->what_is == POTION) {
 	potion_monster(monster, weapon->which_kind);
-#endif
+#endif /* ORIGINAL */
     } else {
 	(void) mon_damage(monster, damage);
     }
@@ -263,7 +263,7 @@ rand_around(short i, short *r, short *c)
     *c = col + ca[j];
 }
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 void
 potion_monster(object *monster, unsigned short kind)
 {
@@ -305,4 +305,4 @@ potion_monster(object *monster, unsigned short kind)
 	break;
     }
 }
-#endif
+#endif /* not ORIGINAL */

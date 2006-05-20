@@ -10,15 +10,18 @@
  *
  */
 
+#if !defined( __ROGUE_H__ )
+#define __ROGUE_H__
+
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif
 
 #if 0
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 typedef unsigned char uchar;
 #define char uchar
-#endif
+#endif /* not ORIGINAL */
 #endif
 
 #define boolean char
@@ -406,7 +409,7 @@ struct rogue_time
     short second;	/* 0 - 59 */
 };
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 typedef struct sopt
 {
     char *name;		/* option name */
@@ -417,11 +420,11 @@ typedef struct sopt
 } opt;
 extern opt envopt[];
 extern char *optdesc[];
-#endif
+#endif /* not ORIGINAL */
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 extern char org_dir[], *game_dir;
-#endif
+#endif /* not ORIGINAL */
 
 #undef getchar
 #undef putchar
@@ -438,3 +441,5 @@ extern char org_dir[], *game_dir;
 #define RBLUE	 12
 #define RMAGENTA 13
 #define RCYAN	 14
+
+#endif /* not __ROGUE_H__ */

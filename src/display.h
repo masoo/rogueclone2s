@@ -1,4 +1,4 @@
-#ifndef __DISPLAY_H__
+#if !defined( __DISPLAY_H__ )
 #define __DISPLAY_H__
 
 extern void init_color_attr(void);
@@ -12,4 +12,4 @@ extern chtype mvinch_rogue(int y, int x);
 
 extern char *color_str;
 
-#endif /* __DISPLAY_H__ */
+#endif /* not __DISPLAY_H__ */

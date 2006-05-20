@@ -35,7 +35,7 @@ extern boolean score_only, show_skull, msg_cleared;
 extern char *byebye_string, *nick_name;
 extern boolean use_color;
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 #ifdef JAPAN
 void
 killed_by(object *monster, short other)
@@ -214,7 +214,7 @@ short other;
     put_scores(monster, other);
 }
 #endif /*JAPAN*/
-#else /*if ORIGINAL */
+#else /* ORIGINAL */
 killed_by(monster, other)
 object *monster;
 short other;
@@ -281,12 +281,12 @@ short other;
     message("", 0);
     put_scores(monster, other);
 }
-#endif /*if ORIGINAL */
+#endif /* ORIGINAL */
 
 void
 win(void)
 {
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     int i;
 #define ________  0x00
 #define _______O  0x01
@@ -322,7 +322,7 @@ win(void)
 	{O___O_O_, __O_O__O, O___O___, O_O___O_, O___O_O_, ________, O___O__O, ________},
 	{_OOO___O, OO___OO_, O___O___, O__OOOO_, _OOOO__O, OO_____O, OO___OO_, __O_____}
     };
-#endif
+#endif /* not ORIGINAL */
 
     unwield(rogue.weapon);	/* disarm and relax */
     unwear(rogue.armor);
@@ -330,7 +330,7 @@ win(void)
     un_put_on(rogue.right_ring);
 
     clear();
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     for (i = 0; i < 7; i++) {
 	mvaddbanner(i + 6, ROGUE_COLUMNS / 2 - 30, ban[i]);
     }
@@ -342,7 +342,7 @@ win(void)
 #ifdef COLOR
     standend();
 #endif
-#else
+#else /* ORIGINAL */
     mvaddstr_rogue(10, 11, "@   @  @@@   @   @      @  @  @   @@@   @   @   @");
     mvaddstr_rogue(11, 11, " @ @  @   @  @   @      @  @  @  @   @  @@  @   @");
     mvaddstr_rogue(12, 11, "  @   @   @  @   @      @  @  @  @   @  @ @ @   @");
@@ -351,7 +351,7 @@ win(void)
     mvaddstr_rogue(17, 11, "Congratulations,  you have  been admitted  to  the");
     mvaddstr_rogue(18, 11, "Fighters' Guild.   You return home,  sell all your");
     mvaddstr_rogue(19, 11, "treasures at great profit and retire into comfort.");
-#endif
+#endif /* ORIGINAL */
     message("", 0);
     message("", 0);
     id_all();
@@ -359,7 +359,7 @@ win(void)
     put_scores((object *) 0, WIN);
 }
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 void
 mvaddbanner(int row, int col, int *ban)
 {
@@ -381,7 +381,7 @@ mvaddbanner(int row, int col, int *ban)
 	}
     }
 }
-#endif
+#endif /* not ORIGINAL */
 
 void
 quit(boolean from_intrpt)
@@ -428,14 +428,14 @@ quit(boolean from_intrpt)
     killed_by((object *) 0, QUIT);
 }
 
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 void
 put_scores(object *monster, short other)
 {
     short i, n, ne, rank;
-#ifndef TOPSCO
+#if !defined( TOPSCO )
     short found_pos;
-#endif
+#endif /* not TOPSCO */
     char scores[10][82], n_names[10][30];
     char *p, buf[100], file[100];
     FILE *fp;
@@ -481,7 +481,7 @@ put_scores(object *monster, short other)
     fclose(fp);
     ne = i;
 
-#ifndef TOPSCO
+#if !defined( TOPSCO )
     found_pos = -1;
     for (i = 0; i < ne && !score_only; i++) {
 	if (name_cmp(scores[i] + 15, login_name)) {
@@ -502,7 +502,7 @@ put_scores(object *monster, short other)
 	    (void) strcpy(n_names[i], n_names[i + 1]);
 	}
     }
-#endif
+#endif /* not TOPSCO */
     rank = 10;
     if (!score_only) {
 	for (i = 0; i < ne; i++) {
@@ -568,7 +568,7 @@ put_scores(object *monster, short other)
     message("", 0);
     clean_up("");
 }
-#else /* if ORIGINAL */
+#else /* ORIGINAL */
 put_scores(monster, other)
 object *monster;
 short other;
@@ -691,7 +691,7 @@ short other;
     message("", 0);
     clean_up("");
 }
-#endif /* if ORIGINAL */
+#endif /* ORIGINAL */
 
 #ifdef JAPAN
 void
@@ -717,11 +717,11 @@ insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
 	    (void) strcat(buf, mesg[189]);
 	}
 	strcat(buf, mesg[190]);
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	znum(buf, cur_level, 0);
-#else
+#else /* ORIGINAL */
 	znum(buf, max_level, 0);
-#endif
+#endif /* ORIGINAL */
 	strcat(buf, mesg[191]);
     }
     if (other) {
@@ -807,11 +807,11 @@ object *monster;
 	(void) strcat(buf, p);
 	(void) strcat(buf, m_names[monster->m_char - 'A']);
     }
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     sprintf(buf + strlen(buf), " on level %d ", cur_level);
-#else
+#else /* ORIGINAL */
     sprintf(buf + strlen(buf), " on level %d ", max_level);
-#endif
+#endif /* ORIGINAL */
     if ((other != WIN) && has_amulet()) {
 	(void) strcat(buf, mesg[189]);
     }
@@ -932,7 +932,7 @@ id_all(void)
     }
 }
 
-#ifndef TOPSCO
+#if !defined( TOPSCO )
 name_cmp(s1, s2)
 char *s1, *s2;
 {
@@ -940,7 +940,7 @@ char *s1, *s2;
     int r;
 
     while (s1[i] != ':') {
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	r = (unsigned char) s1[i];
 #ifdef EUC
 	if (r & 0x80) {
@@ -959,7 +959,7 @@ char *s1, *s2;
     s1[i] = ':';
     return r;
 }
-#else /* not TOPSCO */
+#else /* TOPSCO */
 #ifdef ORIGINAL
 name_cmp(s1, s2)
 char *s1, *s2;
@@ -976,25 +976,25 @@ char *s1, *s2;
     return r;
 }
 #endif /* ORIGINAL */
-#endif /* not TOPSCO */
+#endif /* TOPSCO */
     void
 xxxx(char *buf, short n)
 {
     short i;
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
     char c;			/* char is already defined to be unsigned */
-#else
+#else /* ORIGINAL */
     unsigned char c;
-#endif
+#endif /* ORIGINAL */
 
     for (i = 0; i < n; i++) {
 
 	/* It does not matter if accuracy is lost during this assignment */
-#ifndef ORIGINAL
+#if !defined( ORIGINAL )
 	c = (char) xxx(0);
-#else
+#else /* ORIGINAL */
 	c = (unsigned char) xxx(0);
-#endif
+#endif /* ORIGINAL */
 
 	buf[i] ^= c;
     }

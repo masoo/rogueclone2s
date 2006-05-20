@@ -1,4 +1,4 @@
-#ifndef __MOVE_H__
+#if !defined( __MOVE_H__ )
 #define __MOVE_H__
 
 extern int one_move_rogue(short dirch, short pickup);
@@ -14,4 +14,4 @@ extern void rest(int count);
 extern int gr_dir(void);
 extern void heal(void);
 
-#endif /* __MOVE_H__ */
+#endif /* not __MOVE_H__ */
