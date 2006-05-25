@@ -11,8 +11,10 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <curses.h>
+#include <unistd.h>
 
 #include "rogue.h"
 #include "save.h"
@@ -86,7 +88,7 @@ save_into_file(char *sfile)
     }
 #endif /* not ORIGINAL */
     if (sfile[0] == '~') {
-	if ((hptr = md_getenv("HOME"))) {
+	if ((hptr = getenv("HOME"))) {
 	    (void) strcpy(name_buffer, hptr);
 	    (void) strcat(name_buffer, sfile + 1);
 	    sfile = name_buffer;

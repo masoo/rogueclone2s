@@ -14,6 +14,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <curses.h>
+#include <unistd.h>
 
 #include "rogue.h"
 #include "play.h"
@@ -559,9 +560,9 @@ options(void)
 void
 doshell(void)
 {
-    char *cmd, *md_getenv();
+    char *cmd;
 
-    if ((cmd = md_getenv("SHELL")) == NULL) {
+    if ((cmd = getenv("SHELL")) == NULL) {
 	cmd = "/bin/sh";
     }
     move(ROGUE_LINES - 1, 0);

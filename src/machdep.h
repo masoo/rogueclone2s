@@ -40,7 +40,6 @@ extern void md_gct(struct rogue_time *rt_buf);
 extern void md_gfmt(char *fname, struct rogue_time *rt_buf);
 extern boolean md_df(char *fname);
 extern char *md_gln(void);
-extern char *md_getenv(char *name);
 extern char *md_malloc(int n);
 extern int md_gseed(void);
 extern void md_exit(int status);

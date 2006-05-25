@@ -15,6 +15,7 @@
 #include <string.h>
 #include <curses.h>
 #include <unistd.h>
+#include <getopt.h>
 
 #include "rogue.h"
 #include "init.h"
@@ -373,7 +374,7 @@ do_opts(void)
     envbuf[0] = 0;
     for (p = "S123456789"; *p; p++) {
 	envname[8] = *p;
-	if ((ep = md_getenv(envname))) {
+	if ((ep = getenv(envname))) {
 	    strcat(envbuf, ",");
 	    strcat(envbuf, ep);
 	}

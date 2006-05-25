@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <curses.h>
 
@@ -441,7 +442,7 @@ put_scores(object *monster, short other)
     FILE *fp;
 
     fp = NULL;
-    if ((!game_dir || !*game_dir) && (p = md_getenv("HOME")) != NULL) {
+    if ((!game_dir || !*game_dir) && (p = getenv("HOME")) != NULL) {
 	p = strcpy(file, p);
 	while (*p) {
 	    p++;
