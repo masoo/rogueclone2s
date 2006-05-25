@@ -77,24 +77,6 @@ getlogin(void)
 
 #if !defined( ORIGINAL )
 /*
- * md_getcwd:
- *
- * get full pathname of current directory and place it into dir.
- * maximum length of pathname is given as len.
- * return dir on success, or NULL on failure.
- */
-
-char *
-md_getcwd(char *dir, int len)
-{
-    char *getcwd();
-
-    return getcwd(dir, len);
-}
-#endif /* not ORIGINAL */
-
-#if !defined( ORIGINAL )
-/*
  * md_chdir:
  *
  * change directory to dir.  also change drive in MSDOS environment.

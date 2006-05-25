@@ -57,7 +57,7 @@ init(int argc, char *argv[])
     WINDOW *main_window;
 
 #if !defined( ORIGINAL )
-    md_getcwd(org_dir, 64);
+    getcwd(org_dir, 64);
 #endif /* Not ORIGINAL */
     do_args(argc, argv);
     do_opts();

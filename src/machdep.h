@@ -28,9 +28,6 @@ extern char *getlogin(void);
 #endif /* not HAVE_GETLOGIN */
 
 extern void putstr(char *s);
-#if !defined( ORIGINAL )
-extern char *md_getcwd(char *dir, int len);
-#endif /* not ORIGINAL */
 extern int md_chdir(char *dir);
 extern void md_heed_signals(void);
 extern void md_ignore_signals(void);
