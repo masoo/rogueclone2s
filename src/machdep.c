@@ -20,14 +20,17 @@
 #include <unistd.h>
 
 #if defined( HAVE_WINDOWS_H )
-#include <windows.h>
-#include <stdlib.>
+# include <windows.h>
+# include <stdlib.>
 #endif /* HAVE_WINDOWS_H */
 
 #include "rogue.h"
 #include "machdep.h"
 #include "init.h"
 
+/*
+ * getlogin 関数が存在しない時のでっちあげ関数
+ */
 #if !defined( HAVE_GETLOGIN )
 char *
 getlogin(void)

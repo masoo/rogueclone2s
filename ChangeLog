@@ -1,5 +1,7 @@
 2006-05-26  FUNABARA Masao
 
+	* machdep.c : コメントの付与。ソースの整形
+
 	* *.h *.c : 警告の除去。 #include の追加
 
 	* machdep.c : md_sleep ラッパー関数を廃止し sleep を使うようにする
