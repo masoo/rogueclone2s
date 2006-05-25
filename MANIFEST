@@ -5,6 +5,7 @@
 AUTHORS                   -- 著作者一覧（AUTHORS）
 COPYING                   -- 使用許諾書（LICENSE）
 ChangeLog                 -- 変更履歴
+ChangeLog-0               -- rogueclone2 作成以前の変更履歴のまとめ
 INSTALL                   -- インストール方法
 MANIFEST                  -- 配布ファイル一覧（このファイル）
 Makefile.am
