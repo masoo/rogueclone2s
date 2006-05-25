@@ -7,25 +7,29 @@
  */
 #if !defined( SIGQUIT )
 # define SIGQUIT SIGTERM
-#endif /* not SIGQUIT */
+#endif
 
 #if !defined( SIGHUP )
 # define SIGHUP SIGABRT
-#endif /* not SIGHUP */
+#endif
 
 #if !defined( HAVE_ASSUME_DEFAULT_COLORS )
-# define assume_default_colors(to, from) init_pair(0, to, from)
-#endif /* not HAVE_ASSUME_DEFAULT_COLORS */
+# define assume_default_colors(to, from) init_pair(0, (to), (from))
+#endif
 
 /* 使用の関数を使わないことで回避 */
 //あとで考えなおす
 #if !defined( HAVE_ATTR_GET )
 # define attr_get
-#endif /* not HAVE_ATTR_GET */
+#endif
 
 #if !defined( HAVE_GETLOGIN )
 extern char *getlogin(void);
-#endif /* not HAVE_GETLOGIN */
+#endif
+
+#if !defined( HAVE_SLEEP ) && defined( HAVE_WINDOWS_H )
+# define sleep(nsecs) _sleep((nsecs)*1000)
+#endif
 
 extern void putstr(char *s);
 extern void md_heed_signals(void);
@@ -36,7 +40,6 @@ extern void md_gct(struct rogue_time *rt_buf);
 extern void md_gfmt(char *fname, struct rogue_time *rt_buf);
 extern boolean md_df(char *fname);
 extern char *md_gln(void);
-extern void md_sleep(int nsecs);
 extern char *md_getenv(char *name);
 extern char *md_malloc(int n);
 extern int md_gseed(void);

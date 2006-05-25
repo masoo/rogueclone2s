@@ -1,5 +1,7 @@
 2006-05-26  FUNABARA Masao
 
+	* machdep.c : md_sleep ラッパー関数を廃止し sleep を使うようにする
+
 	* machdep.c : md_chdir ラッパー関数を廃止し chdir を使うようにする
 
 	* machdep.c : md_getcwd ラッパー関数を廃止し getcwd を使うようにする

@@ -10,45 +10,6 @@
  *
  */
 
-/* Included in this file are all system dependent routines.  Extensive use
- * of #ifdef's will be used to compile the appropriate code on each system:
- *
- *    UNIX:        all UNIX systems.
- *    UNIX_BSD4_2: UNIX BSD 4.2 and later, UTEK, (4.1 BSD too?)
- *    UNIX_SYSV:   UNIX system V
- *    UNIX_V7:     UNIX version 7
- *
- * All UNIX code should be included between the single "#ifdef UNIX" at the
- * top of this file, and the "#endif UNIX" at the bottom.
- * 
- * To change a routine to include a new UNIX system, simply #ifdef the
- * existing routine, as in the following example:
- *
- *   To make a routine compatible with UNIX system V, change the first
- *   function to the second:
- *
- *      md_function()
- *      {
- *         code;
- *      }
- *
- *      md_function()
- *      {
- *      #ifdef UNIX_SYSV
- *         sysVcode;
- *      #else
- *         code;
- *      #endif / * UNIX_SYSV * /
- *      }
- *
- * Appropriate variations of this are of course acceptible.
- * The use of "#elseif" is discouraged because of non-portability.
- * If the correct #define doesn't exist, "UNIX_SYSV" in this case, make it up
- * and insert it in the list at the top of the file.  Alter the CFLAGS
- * in you Makefile appropriately.
- *
- */
-
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/file.h>
@@ -266,27 +227,6 @@ md_gln(void)
 	    t = md_getenv("USER");	/* by Yasha */
     /*  t = getlogin(); *//* killed by Yasha */
     return t;
-}
-
-/* md_sleep:
- *
- * This routine causes the game to pause for the specified number of
- * seconds.
- *
- * This routine is not necessary at all, and can be stubbed with no ill
- * effects.
- */
-
-void
-md_sleep(int nsecs)
-{
-#if defined( HAVE_SLEEP )
-    (void) sleep(nsecs);
-#else /* not HAVE_SLEEP */
-#if defined( HAVE_WINDOWS_H )
-    (void) _sleep(nsecs*1000);
-#endif /* HAVE_WINDOWS_H */
-#endif /* not HAVE_SLEEP */
 }
 
 /* md_getenv()
