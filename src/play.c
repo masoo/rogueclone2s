@@ -568,7 +568,7 @@ doshell(void)
     refresh();
     stop_window();
     if (*org_dir) {
-	md_chdir(org_dir);
+	chdir(org_dir);
     }
     md_ignore_signals();
     printf(mesg[157]);
@@ -576,7 +576,7 @@ doshell(void)
     system(cmd);
     md_heed_signals();
     if (game_dir && *game_dir) {
-	md_chdir(game_dir);
+	chdir(game_dir);
     }
     start_window();
     wrefresh(curscr);

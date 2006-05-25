@@ -82,7 +82,7 @@ save_into_file(char *sfile)
 
 #if !defined( ORIGINAL )
     if (org_dir && *org_dir) {
-	md_chdir(org_dir);
+	chdir(org_dir);
     }
 #endif /* not ORIGINAL */
     if (sfile[0] == '~') {
@@ -153,7 +153,7 @@ err_return:
     ;
 #if !defined( ORIGINAL )
     if (game_dir && *game_dir) {
-	md_chdir(game_dir);
+	chdir(game_dir);
     }
 #endif /* not ORIGINAL */
 }
@@ -169,7 +169,7 @@ restore(char *fname)
 
 #if !defined( ORIGINAL )
     if (org_dir && *org_dir) {
-	md_chdir(org_dir);
+	chdir(org_dir);
     }
 #endif /* ORIGINAL */
 
@@ -274,7 +274,7 @@ restore(char *fname)
 
 #if !defined( ORIGINAL )
     if (game_dir && *game_dir) {
-	md_chdir(game_dir);
+	chdir(game_dir);
     }
 #endif /* not ORIGINAL */
 }

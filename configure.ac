@@ -29,7 +29,7 @@ AC_FUNC_STAT
 AC_CHECK_HEADERS([windows.h])
 AC_CHECK_LIB([ncurses], [initscr])
 AC_CHECK_LIB([kernel32], [_sleep])
-AC_CHECK_FUNCS([getcwd getlogin memset putenv setenv strchr sleep])
+AC_CHECK_FUNCS([chdir getcwd getlogin memset putenv setenv strchr sleep])
 AC_CHECK_FUNCS([assume_default_colors attr_get])
 
 

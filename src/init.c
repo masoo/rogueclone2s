@@ -435,7 +435,7 @@ set_opts(char *env)
 
 #if !defined( ORIGINAL )
     if (game_dir && *game_dir) {
-	md_chdir(game_dir);
+	chdir(game_dir);
     }
 #endif /* Not ORIGINAL */
 }

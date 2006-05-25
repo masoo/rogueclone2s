@@ -75,20 +75,6 @@ getlogin(void)
 }
 #endif /* HAVE_GETLOGIN */
 
-#if !defined( ORIGINAL )
-/*
- * md_chdir:
- *
- * change directory to dir.  also change drive in MSDOS environment.
- * return 0 on success, or -1 on failure.
- */
-int
-md_chdir(char *dir)
-{
-    return chdir(dir);
-}
-#endif /* not ORIGINAL */
-
 /* md_heed_signals():
  *
  * This routine tells the program to call particular routines when
@@ -398,7 +384,7 @@ md_exit(int status)
 {
 #if !defined( ORIGINAL )
     if (org_dir && *org_dir)
-	md_chdir(org_dir);
+	chdir(org_dir);
 #endif /* not ORIGINAL */
     exit(status);
 }

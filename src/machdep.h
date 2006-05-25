@@ -28,7 +28,6 @@ extern char *getlogin(void);
 #endif /* not HAVE_GETLOGIN */
 
 extern void putstr(char *s);
-extern int md_chdir(char *dir);
 extern void md_heed_signals(void);
 extern void md_ignore_signals(void);
 extern int md_get_file_id(char *fname);

@@ -1,7 +1,8 @@
 2006-05-26  FUNABARA Masao
 
-	* machdep.c : md_getcwd ラッパー関数を getcwd を使うように書き換える
-	ライブラリがない場合は autotools を使用する
+	* machdep.c : md_chdir ラッパー関数を廃止し chdir を使うようにする
+
+	* machdep.c : md_getcwd ラッパー関数を廃止し getcwd を使うようにする
 
 2006-05-25  FUNABARA Masao
 
