@@ -12,7 +12,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <strings.h>
 #include <curses.h>
 
 #include "rogue.h"
@@ -271,7 +270,7 @@ wizardize(void)
 	    (void) xxx(1);
 	    xxxx(buf, strlen(buf));
 #if !defined( ORIGINAL )
-	    if (!bcmp(buf, wiz_passwd, 11)) {
+	    if (!memcmp(buf, wiz_passwd, 11)) {
 #else /* ORIGINAL */
 	    if (!strncmp(buf, "\247\104\126\272\115\243\027", 7)) {
 #endif /* ORIGINAL */

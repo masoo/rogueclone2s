@@ -8,6 +8,7 @@
 
 #include "rogue.h"
 #include "display.h"
+#include "machdep.h"
 #include "message.h"
 
 /*

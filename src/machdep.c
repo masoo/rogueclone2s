@@ -58,9 +58,22 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#if defined( HAVE_WINDOWS_H )
+#include <windows.h>
+#include <stdlib.>
+#endif /* HAVE_WINDOWS_H */
+
 #include "rogue.h"
 #include "machdep.h"
 #include "init.h"
+
+#if !defined( HAVE_GETLOGIN )
+char *
+getlogin(void)
+{
+    return NULL;
+}
+#endif /* HAVE_GETLOGIN */
 
 #if !defined( ORIGINAL )
 /*
@@ -299,7 +312,13 @@ md_gln(void)
 void
 md_sleep(int nsecs)
 {
+#if defined( HAVE_SLEEP )
     (void) sleep(nsecs);
+#else /* not HAVE_SLEEP */
+#if defined( HAVE_WINDOWS_H )
+    (void) _sleep(nsecs*1000);
+#endif /* HAVE_WINDOWS_H */
+#endif /* not HAVE_SLEEP */
 }
 
 /* md_getenv()

@@ -1,6 +1,32 @@
 #if !defined( __MACHDEP_H__ )
 #define __MACHDEP_H__
 
+/* POSIX システムのシグナル名 SIGQUIT, SIGHUP について
+ * そのマクロ名が処理系に存在しない場合は C99 で認めているシグナル名
+ * に強制変換するという後ろ向きな解決方法
+ */
+#if !defined( SIGQUIT )
+# define SIGQUIT SIGTERM
+#endif /* not SIGQUIT */
+
+#if !defined( SIGHUP )
+# define SIGHUP SIGABRT
+#endif /* not SIGHUP */
+
+#if !defined( HAVE_ASSUME_DEFAULT_COLORS )
+# define assume_default_colors(to, from) init_pair(0, to, from)
+#endif /* not HAVE_ASSUME_DEFAULT_COLORS */
+
+/* 使用の関数を使わないことで回避 */
+//あとで考えなおす
+#if !defined( HAVE_ATTR_GET )
+# define attr_get
+#endif /* not HAVE_ATTR_GET */
+
+#if !defined( HAVE_GETLOGIN )
+extern char *getlogin(void);
+#endif /* not HAVE_GETLOGIN */
+
 extern void putstr(char *s);
 #if !defined( ORIGINAL )
 extern char *md_getcwd(char *dir, int len);
