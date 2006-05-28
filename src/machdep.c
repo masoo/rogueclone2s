@@ -140,8 +140,8 @@ md_link_count(char *fname)
 void
 md_gct(struct rogue_time *rt_buf)
 {
-    struct tm *t, *localtime();
-    long seconds;
+    struct tm *t;
+    time_t seconds;
 
     time(&seconds);
     t = localtime(&seconds);
@@ -174,7 +174,7 @@ void
 md_gfmt(char *fname, struct rogue_time *rt_buf)
 {
     struct stat sbuf;
-    long seconds;
+    time_t seconds;
     struct tm *t;
 
     stat(fname, &sbuf);

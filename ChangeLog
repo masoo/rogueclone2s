@@ -1,3 +1,7 @@
+2006-05-28  FUNABARA Masao
+
+	* machdep.c : FreeBSD で発生していたコンパイル時のエラーを除去する。
+
 2006-05-26  FUNABARA Masao
 
 	* machdep.c : コメントの付与。ソースの整形
