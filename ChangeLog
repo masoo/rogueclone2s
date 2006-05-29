@@ -1,3 +1,8 @@
+2006-05-30  FUNABARA Masao
+
+	* message.c : Windows でオプションの設定のコントロールがおかしかった
+	問題を修正。
+
 2006-05-28  FUNABARA Masao
 
 	* machdep.c : FreeBSD で発生していたコンパイル時のエラーを除去する。

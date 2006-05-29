@@ -270,7 +270,7 @@ rgetchar(void)
     int ch;
 
     for (;;) {
-	ch = getchar();
+	ch = getch();
 
 	switch (ch) {
 	case '\022':
