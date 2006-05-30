@@ -1,5 +1,8 @@
 2006-05-30  FUNABARA Masao
 
+	* machdep.c : 環境変数 FIGHTER, USER が設定されていない時、
+	異常終了する問題を修正	
+
 	* message.c : Windows でオプションの設定のコントロールがおかしかった
 	問題を修正。
 

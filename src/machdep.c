@@ -221,13 +221,28 @@ md_df(char *fname)
 char *
 md_gln(void)
 {
-    char *t;
+    char *name;
 
-    if ((t = getenv("FIGHTER")) == NULL)	/* by Yasha */
-	if ((t = getlogin()) == NULL)	/* by Yasha */
-	    t = getenv("USER");	/* by Yasha */
-    /*  t = getlogin(); *//* killed by Yasha */
-    return t;
+    /* 環境変数 FIGHTER が設定されているなら最優先で取得する */
+    name = getenv("FIGHTER");
+    if (name != NULL) {
+        return name;
+    }
+
+    /* 上記が存在しないなら getlogin 関数ログイン名を取得する */
+    name = getlogin();
+    if (name != NULL) {
+        return name;
+    }
+
+    /* 上記が存在しないなら環境変数 USER を取得する */
+    name = getenv("USER");
+    if (name != NULL) {
+        return name;
+    }
+
+    /* 上記全てが取得できないならば A FIGHTER とする */
+    return "A FIGHTER";
 }
 
 /* md_malloc()
