@@ -1,3 +1,9 @@
+2006-05-31  FUNABARA Masao
+
+	* machdep.c : 環境変数 HOME が設定されていない時、
+	デフォルト動作でカレントディレクトリに
+	スコアファイルを保存するように修正
+
 2006-05-30  FUNABARA Masao
 
 	* machdep.c : 環境変数 FIGHTER, USER が設定されていない時、

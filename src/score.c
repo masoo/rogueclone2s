@@ -442,7 +442,7 @@ put_scores(object *monster, short other)
     FILE *fp;
 
     fp = NULL;
-    if ((!game_dir || !*game_dir) && (p = getenv("HOME")) != NULL) {
+    if ((!game_dir || !*game_dir) && (p = md_ghome()) != NULL) {
 	p = strcpy(file, p);
 	while (*p) {
 	    p++;

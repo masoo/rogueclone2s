@@ -164,6 +164,10 @@ enum rogue_necessity_size {
 
 #define GOLD_PERCENT 46
 
+enum rogue_system_size {
+    ROGUE_PATH_MAX = 4096 /* 取得できる最大パス長を限定する */
+};
+
 struct id
 {
     short value;

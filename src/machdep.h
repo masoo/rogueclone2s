@@ -43,5 +43,6 @@ extern char *md_gln(void);
 extern char *md_malloc(int n);
 extern int md_gseed(void);
 extern void md_exit(int status);
+extern char *md_ghome(void);
 
 #endif /* not __MACHDEP_H__ */

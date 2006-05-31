@@ -88,7 +88,7 @@ save_into_file(char *sfile)
     }
 #endif /* not ORIGINAL */
     if (sfile[0] == '~') {
-	if ((hptr = getenv("HOME"))) {
+	if ((hptr = md_ghome())) {
 	    (void) strcpy(name_buffer, hptr);
 	    (void) strcat(name_buffer, sfile + 1);
 	    sfile = name_buffer;

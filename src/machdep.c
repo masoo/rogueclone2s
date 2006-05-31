@@ -21,7 +21,7 @@
 
 #if defined( HAVE_WINDOWS_H )
 # include <windows.h>
-# include <stdlib.>
+# include <stdlib.h>
 #endif /* HAVE_WINDOWS_H */
 
 #include "rogue.h"
@@ -243,6 +243,26 @@ md_gln(void)
 
     /* 上記全てが取得できないならば A FIGHTER とする */
     return "A FIGHTER";
+}
+
+/*
+ * md_ghome
+ * getenv("HOME") のラッパー関数
+ */
+char *
+md_ghome(void)
+{
+    char *home;
+
+    /* 環境変数 HOME が設定されているなら最優先で取得する */
+    home = getenv("HOME");
+    if (home != NULL) {
+	return home;
+    }
+
+    /* 上記環境変数が取得できないならば、カレントディレクトリを取得する */
+    getcwd(home, ROGUE_PATH_MAX);
+    return home;
 }
 
 /* md_malloc()
