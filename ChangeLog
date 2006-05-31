@@ -1,5 +1,7 @@
 2006-06-01  FUNABARA Masao
 
+	* TODO: 対応済み作業を削除
+
 	* zap.c : 魔法使いを封印する。(define WIZARD)
 
 2006-05-31  FUNABARA Masao
