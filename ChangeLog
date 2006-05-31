@@ -1,6 +1,8 @@
 2006-06-01  FUNABARA Masao
 
-	* TODO: 対応済み作業を削除
+	* configure.ac : Release 5 作成のためパッケージバージョンを 6.0 とする
+
+	* TODO : 対応済み作業を削除
 
 	* zap.c : 魔法使いを封印する。(define WIZARD)
 
@@ -51,7 +53,7 @@
 
 	* Release 5 公開
 
-	* configure.ac: Release 5 作成に向けてパッケージバージョンを 5.0 とする
+	* configure.ac : Release 5 作成のためパッケージバージョンを 5.0 とする
 
 	* init.c : FreeBSD にて Ctrl-Y を入力した際に rogue が
 	バックグラウンド動作に移項する問題を修正する
@@ -86,7 +88,7 @@
 	* options.doc : 起動時オプション、環境オプションの説明ドキュメントを改
 	訂する
 
-	* configure.ac: Release 4 作成に向けてパッケージバージョンを 4.0 とする
+	* configure.ac : Release 4 作成のためパッケージバージョンを 4.0 とする
 
 	* display.c : オプション時のカラー表示のオン・オフが反映されない
 	問題を修正
@@ -168,11 +170,11 @@
 
 2005-12-18  FUNABARA Masao
 
-	* configure.ac: Release 3 作成に向けてパッケージバージョンを 3.0 とする
+	* configure.ac : Release 3 作成のためパッケージバージョンを 3.0 とする
 
 2005-12-11  FUNABARA Masao
 
-	* rogue.h: rogue の必要最小画面の定義をマクロ定義から列挙型に変更
+	* rogue.h : rogue の必要最小画面の定義をマクロ定義から列挙型に変更
 	さらに、定義名も分かりやすいように ROGUE_LINES, ROGUE_COLUMNS
 	に変更する
 
