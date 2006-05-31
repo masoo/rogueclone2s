@@ -1,6 +1,6 @@
 2006-06-01  FUNABARA Masao
 
-	* configure.ac : Release 5 作成のためパッケージバージョンを 6.0 とする
+	* configure.ac : Release 6 作成のためパッケージバージョンを 6.0 とする
 
 	* TODO : 対応済み作業を削除
 
