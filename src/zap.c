@@ -251,6 +251,7 @@ tele_away(object *monster)
 void
 wizardize(void)
 {
+#if defined( WIZARD )
     char buf[100];
 
     if (wizard) {
@@ -290,4 +291,11 @@ wizardize(void)
 	    }
 	}
     }
+#else /* not WIZARD */
+#if defined( JAPAN )
+   message("魔法使いは封印されている。", 0);
+#else
+   message("Wizard has been blocked.", 0);
+#endif
+#endif /* not WIZARD */
 }

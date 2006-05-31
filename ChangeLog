@@ -1,3 +1,7 @@
+2006-06-01  FUNABARA Masao
+
+	* zap.c : 魔法使いを封印する。(define WIZARD)
+
 2006-05-31  FUNABARA Masao
 
 	* machdep.c : 環境変数 HOME が設定されていない時、
