@@ -302,7 +302,7 @@ md_malloc(int n)
 int
 md_gseed(void)
 {
-    return getpid();
+    return (int)time(NULL);
 }
 
 /* md_exit():

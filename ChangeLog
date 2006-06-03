@@ -1,6 +1,11 @@
-2006-06-01  FUNABARA Masao
+2006-06-03  FUNABARA Masao
+
+	* machdep.c : 乱数の種をプロセスID からシステム時刻へ変更
+	これで Windows でも同じ初期値にはなりにくいはず
 
 	* AUTHORS : 著作者表記を誤解を与える表現から修正
+
+2006-06-01  FUNABARA Masao
 
 	* INSTALL : MinGW でコンパイルする方法の文章を追加
 
