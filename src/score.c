@@ -451,14 +451,14 @@ put_scores(object *monster, short other)
 	    *p++ = '/';
 	}
 	strcpy(p, score_file);
-	if ((fp = fopen(file, "r+")) == NULL) {
-	    fp = fopen(file, "w+");
+	if ((fp = fopen(file, "rb+")) == NULL) {
+	    fp = fopen(file, "wb+");
 	}
     }
     if (fp == NULL) {
 	strcpy(file, score_file);
-	if ((fp = fopen(file, "r+")) == NULL) {
-	    fp = fopen(file, "w+");
+	if ((fp = fopen(file, "rb+")) == NULL) {
+	    fp = fopen(file, "wb+");
 	}
     }
     if (fp == NULL) {
@@ -553,7 +553,7 @@ put_scores(object *monster, short other)
     }
     refresh();
     if (rank < 10) {
-	if ((fp = fopen(file, "w")) == NULL) {
+	if ((fp = fopen(file, "wb")) == NULL) {
 	    message(mesg[186], 0);
 	    sf_error();
 	}

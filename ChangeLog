@@ -1,5 +1,7 @@
 2006-06-03  FUNABARA Masao
 
+	* score.c : Windows 上でスコアファイルが書き込めない問題を修正
+
 	* machdep.c : 乱数の種をプロセスID からシステム時刻へ変更
 	これで Windows でも同じ初期値にはなりにくいはず
 
