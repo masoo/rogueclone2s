@@ -94,7 +94,7 @@ save_into_file(char *sfile)
 	    sfile = name_buffer;
 	}
     }
-    if (((fp = fopen(sfile, "w")) == NULL) ||
+    if (((fp = fopen(sfile, "wb")) == NULL) ||
 	((file_id = md_get_file_id(sfile)) == -1)) {
 #if defined( JAPAN )
 	message("セーブファイルにアクセスできません。", 0);
@@ -176,7 +176,7 @@ restore(char *fname)
 #endif /* ORIGINAL */
 
     if (((new_file_id = md_get_file_id(fname)) == -1) ||
-	((fp = fopen(fname, "r")) == NULL)) {
+	((fp = fopen(fname, "rb")) == NULL)) {
 #if defined( JAPAN )
 	clean_up("ファイルがオープンできませんでした。");
 #else /* not JAPAN */
@@ -263,6 +263,7 @@ restore(char *fname)
 	clean_up("Sorry, file has been touched");
 #endif /* not JAPAN */
     }
+    fclose(fp);
     if ((!wizard) && !md_df(fname)) {
 #if defined( JAPAN )
 	clean_up("ファイルを消すことができません。");
@@ -272,7 +273,6 @@ restore(char *fname)
     }
     msg_cleared = 0;
     ring_stats(0);
-    fclose(fp);
 
 #if !defined( ORIGINAL )
     if (game_dir && *game_dir) {

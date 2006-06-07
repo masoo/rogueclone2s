@@ -581,7 +581,7 @@ short other;
     FILE *fp;
     long s;
     boolean failed = 0;
-    char *mode = "r+w";
+    char *mode = "r+wb";
 
     while ((fp = fopen(score_file, mode)) == NULL) {
 	if (!failed) {
