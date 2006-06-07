@@ -1,5 +1,7 @@
 2006-06-08  FUNABARA Masao
 
+	* Release 6 公開
+
 	* save.c, score.c : Windows 上でセーブファイルが正しく保存できない
 	問題を修正
 
