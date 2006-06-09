@@ -70,6 +70,11 @@ main(int argc, char *argv[])
     }
 }
 
+/*
+ * read_mesg
+ * メッセージファイル読み込み関数
+ * 返り値: 成功:0, 失敗:1
+ */
 int
 read_mesg(char *argv_msgfile)
 {
@@ -84,7 +89,9 @@ read_mesg(char *argv_msgfile)
 
     while (fgets(buf, 256, mesg_file) != NULL) {
 	if ((n = atoi(buf)) > 0 && n < 500) {
-	    for (i = 0; buf[i] && buf[i] != '\"'; ++i) continue;
+	    for (i = 0; buf[i] && buf[i] != '\"'; ++i) {
+		continue;
+	    }
 	    if (buf[i]) {
 		s = i + 1;
 	    } else {
@@ -92,8 +99,9 @@ read_mesg(char *argv_msgfile)
 		fprintf(stderr, "Illegal format '%s'\n", argv_msgfile);
 		return 1;
 	    }
-	    for (i = s; buf[i] && buf[i] != '\"'; ++i)
+	    for (i = s; buf[i] && buf[i] != '\"'; ++i) {
 		continue;
+	    }
 	    if (buf[i]) {
 		e = i - 1;
 	    } else {
@@ -109,6 +117,10 @@ read_mesg(char *argv_msgfile)
     return 0;
 }
 
+/*
+ * usage
+ * 使い方
+ */
 void
 usage()
 {

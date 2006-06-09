@@ -1,3 +1,7 @@
+2006-06-10  FUNABARA Masao
+
+	* main.c : 括弧なし for文に括弧を付与する
+
 2006-06-08  FUNABARA Masao
 
 	* Release 6 公開
