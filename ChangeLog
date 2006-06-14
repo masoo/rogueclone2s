@@ -1,3 +1,7 @@
+2006-06-14  FUNABARA Masao
+
+	* level.c : for 文の short 変数を影響のない範囲で int に変更する
+
 2006-06-10  FUNABARA Masao
 
 	* main.c : 括弧なし for文に括弧を付与する

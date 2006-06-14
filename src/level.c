@@ -66,7 +66,7 @@ extern short party_counter;
 void
 make_level(void)
 {
-    short i, j;
+    int i, j;
     short must_exist1, must_exist2, must_exist3;
     boolean big_room;
     boolean vertical;
@@ -139,7 +139,7 @@ make_room(short rn, short r1, short r2, short r3)
     short left_col, right_col, top_row, bottom_row;
     short width, height;
     short row_offset, col_offset;
-    short i, j;
+    int i, j;
     short ch;
 
     if (rn == BIG_ROOM) {
@@ -278,7 +278,7 @@ connect_rooms(short room1, short room2)
 void
 clear_level(void)
 {
-    short i, j;
+    int i, j;
 
     for (i = 0; i < MAXROOMS; i++) {
 	rooms[i].is_room = R_NOTHING;
@@ -340,7 +340,7 @@ put_door(room *rm, short dir, short *row, short *col)
 void
 draw_simple_passage(short row1, short col1, short row2, short col2, short dir)
 {
-    short i;
+    int i;
     short middle, t;
 
     if ((dir == LEFT) || (dir == RIGHT)) {
@@ -394,7 +394,7 @@ same_col(int room1, int room2)
 void
 add_mazes(void)
 {
-    short i, j;
+    int i, j;
     short start;
     short maze_percent;
 
@@ -428,7 +428,8 @@ add_mazes(void)
 void
 fill_out_level(void)
 {
-    short i, rn;
+    int i;
+    short rn;
 
     mix_random_rooms();
 
@@ -449,7 +450,7 @@ fill_out_level(void)
 void
 fill_it(int rn, boolean do_rec_de)
 {
-    short i;
+    int i;
     short tunnel_dir, door_dir, drow, dcol;
     short target_room, rooms_found = 0;
     short srow, scol, t;
@@ -510,7 +511,8 @@ fill_it(int rn, boolean do_rec_de)
 void
 recursive_deadend(short rn, short *offsets, short srow, short scol)
 {
-    short i, de;
+    int i;
+    short de;
     short drow, dcol, tunnel_dir;
 
     rooms[rn].is_room = R_DEADEND;
@@ -543,7 +545,7 @@ recursive_deadend(short rn, short *offsets, short srow, short scol)
 boolean
 mask_room(short rn, short *row, short *col, unsigned short mask)
 {
-    short i, j;
+    int i, j;
 
     for (i = rooms[rn].top_row; i <= rooms[rn].bottom_row; i++) {
 	for (j = rooms[rn].left_col; j <= rooms[rn].right_col; j++) {
@@ -561,7 +563,8 @@ void
 make_maze(short r, short c, short tr, short br, short lc, short rc)
 {
     char dirs[4];
-    short i, t;
+    int i;
+    short t;
 
     dirs[0] = UPWARD;
     dirs[1] = DOWN;
@@ -625,7 +628,8 @@ make_maze(short r, short c, short tr, short br, short lc, short rc)
 void
 hide_boxed_passage(short row1, short col1, short row2, short col2, short n)
 {
-    short i, j, t;
+    int i, j;
+    short t;
     short row, col, row_cut, col_cut;
     short h, w;
 
@@ -770,7 +774,7 @@ add_exp(int e, boolean promotion)
 int
 get_exp_level(long e)
 {
-    short i;
+    int i;
 
     for (i = 0; i < (MAX_EXP_LEVEL - 1); i++) {
 	if (level_points[i] > e) {
