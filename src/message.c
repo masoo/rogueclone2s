@@ -28,7 +28,7 @@
 
 char msg_line[ROGUE_COLUMNS] = "";
 short msg_col = 0;
-bool msg_cleared = 1;
+bool msg_cleared = true;
 char hunger_str[8] = "";
 
 extern bool cant_int, did_int, interrupted, save_is_interactive;
@@ -42,9 +42,9 @@ message(char *msg, bool intrpt)
 	return;
     }
     if (intrpt) {
-	interrupted = 1;
+	interrupted = true;
     }
-    cant_int = 1;
+    cant_int = true;
 
     if (!msg_cleared) {
 	mvaddstr_rogue(MIN_ROW - 1, msg_col, mesg[11]);
@@ -56,12 +56,12 @@ message(char *msg, bool intrpt)
     mvaddstr_rogue(MIN_ROW - 1, 0, msg);
     addch_rogue(' ');
     refresh();
-    msg_cleared = 0;
+    msg_cleared = false;
     msg_col = strlen(msg);
 
-    cant_int = 0;
+    cant_int = false;
     if (did_int) {
-	did_int = 0;
+	did_int = false;
 	onintr(0);		/* 「0」に意味はないが警告除去のために値を入れる。onintr関数を見直す必要がある。 */
     }
 }
@@ -83,7 +83,7 @@ check_message(void)
     move(MIN_ROW - 1, 0);
     clrtoeol();
     refresh();
-    msg_cleared = 1;
+    msg_cleared = true;
 }
 
 int
@@ -442,13 +442,13 @@ save_screen(void)
 
     if ((fp = fopen("rogue.screen", "w")) != NULL) {
 	for (i = 0; i < ROGUE_LINES; i++) {
-	    found_non_blank = 0;
+	    found_non_blank = false;
 	    for (j = (ROGUE_COLUMNS - 1); j >= 0; j--) {
 		buf[j] = mvinch_rogue(i, j);
 		if (!found_non_blank) {
 		    if ((buf[j] != ' ') || (j == 0)) {
 			buf[j + ((j == 0) ? 0 : 1)] = 0;
-			found_non_blank = 1;
+			found_non_blank = true;
 		    }
 		}
 	    }

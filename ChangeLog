@@ -1,5 +1,7 @@
 2006-06-18  FUNABARA Masao
 
+	* message.c : bool 型で true, false を使える場合は使うようにする
+
 	* level.c : bool 型で true, false を使える場合は使うようにする
 
 	* invent.c : bool 型で true, false を使える場合は使うようにする

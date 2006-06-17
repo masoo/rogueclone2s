@@ -133,7 +133,7 @@ mv_mons(void)
     while (monster) {
 	next_monster = monster->next_monster;
 	if (monster->m_flags & HASTED) {
-	    mon_disappeared = 0;
+	    mon_disappeared = false;
 	    mv_monster(monster, rogue.row, rogue.col);
 	    if (mon_disappeared) {
 		goto NM;
@@ -147,10 +147,10 @@ mv_mons(void)
 	if ((monster->m_flags & CONFUSED) && move_confused(monster)) {
 	    goto NM;
 	}
-	flew = 0;
+	flew = false;
 	if ((monster->m_flags & FLIES) && !(monster->m_flags & NAPPING)
 	    && !mon_can_go(monster, rogue.row, rogue.col)) {
-	    flew = 1;
+	    flew = true;
 	    mv_monster(monster, rogue.row, rogue.col);
 	}
 	if (!(flew && mon_can_go(monster, rogue.row, rogue.col))) {
@@ -299,7 +299,7 @@ mv_monster(object *monster, short row, short col)
     }
 
     for (i = 0; i <= 5; i++) {
-	tried[i] = 0;
+	tried[i] = false;
     }
 
     for (i = 0; i < 6; i++) {
@@ -338,7 +338,7 @@ mv_monster(object *monster, short row, short col)
 	    }
 	    break;
 	}
-	tried[n] = 1;
+	tried[n] = true;
     }
 O:
     if ((monster->row == monster->o_row) && (monster->col == monster->o_col)) {
@@ -529,24 +529,24 @@ wanderer(void)
 {
     object *monster;
     short row, col, i;
-    bool found = 0;
+    bool found = false;
 
     for (i = 0; ((i < 15) && (!found)); i++) {
 	monster = gr_monster((object *) 0, 0);
 	if (!(monster->m_flags & (WAKENS | WANDERS))) {
 	    free_object(monster);
 	} else {
-	    found = 1;
+	    found = true;
 	}
     }
     if (found) {
-	found = 0;
+	found = false;
 	wake_up(monster);
 	for (i = 0; ((i < 25) && (!found)); i++) {
 	    gr_row_col(&row, &col, (FLOOR | TUNNEL | STAIRS | OBJECT));
 	    if (!rogue_can_see(row, col)) {
 		put_m_at(row, col, monster);
-		found = 1;
+		found = true;
 	    }
 	}
 	if (!found) {
@@ -560,7 +560,7 @@ show_monsters(void)
 {
     object *monster;
 
-    detect_monster = 1;
+    detect_monster = true;
 
     if (blind) {
 	return;
@@ -583,7 +583,7 @@ create_monster(void)
     short row, col;
     short r, c;
     short i;
-    bool found = 0;
+    bool found = false;
     object *monster;
 
     r = rogue.row;
@@ -600,7 +600,7 @@ create_monster(void)
 	}
 	if ((!(dungeon[row][col] & MONSTER)) &&
 	    (dungeon[row][col] & (FLOOR | TUNNEL | STAIRS | DOOR))) {
-	    found = 1;
+	    found = true;
 	    break;
 	}
     }
@@ -763,7 +763,7 @@ mon_sees(object *monster, int row, int col)
     if ((rn != NO_ROOM) &&
 	(rn == get_room_number(monster->row, monster->col)) &&
 	!(rooms[rn].is_room & R_MAZE)) {
-	return 1;
+	return true;
     }
     rdif = row - monster->row;
     cdif = col - monster->col;

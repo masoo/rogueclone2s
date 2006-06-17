@@ -32,10 +32,10 @@
 
 short m_moves = 0;
 #if !defined( ORIGINAL )
-bool jump = 0;
+bool jump = false;
 bool bent_passage;
 #else /* ORIGINAL */
-bool jump = 1;
+bool jump = true;
 #endif /* ORIGINAL */
 char *you_can_move_again = mesg[66];
 
@@ -62,7 +62,7 @@ one_move_rogue(short dirch, short pickup)
     r = rogue.row;
     c = rogue.col;
 #if !defined( ORIGINAL )
-    bent_passage = 0;
+    bent_passage = false;
 #endif /* not ORIGINAL */
 
     if (confused) {
@@ -76,7 +76,7 @@ one_move_rogue(short dirch, short pickup)
 #if !defined( ORIGINAL )
 	if (cur_room == PASSAGE && !blind && !confused
 	    && !strchr("yubn", dirch))
-	    bent_passage = 1;
+	    bent_passage = true;
 #endif /* not ORIGINAL */
 	return (MOVE_FAILED);
     }
@@ -393,14 +393,14 @@ move_onto(void)
 bool
 is_direction(int c)
 {
-    return (bool) ((strchr("hjklbyun\033", c) != (char *) 0) ? 1 : 0);
+    return (bool) ((strchr("hjklbyun\033", c) != (char *) 0) ? true : false);
 }
 
 bool
 check_hunger(bool messages_only)
 {
     short i, n;
-    bool fainted = 0;
+    bool fainted = false;
     static short move_left_cou = 0;	/* Yasha */
 
     if (rogue.moves_left == HUNGRY) {
@@ -421,7 +421,7 @@ check_hunger(bool messages_only)
 	}
 	n = get_rand(0, (FAINT - rogue.moves_left));
 	if (n > 0) {
-	    fainted = 1;
+	    fainted = true;
 	    if (rand_percent(40)) {
 		rogue.moves_left++;
 	    }
@@ -477,7 +477,7 @@ reg_move(void)
     if ((rogue.moves_left <= HUNGRY) || (cur_level >= max_level)) {
 	fainted = check_hunger(0);
     } else {
-	fainted = 0;
+	fainted = false;
     }
 
     mv_mons();
@@ -531,7 +531,7 @@ rest(int count)
 {
     int i;
 
-    interrupted = 0;
+    interrupted = false;
 
     for (i = 0; i < count; i++) {
 	if (interrupted) {
