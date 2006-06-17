@@ -1,5 +1,7 @@
 2006-06-18  FUNABARA Masao
 
+	* hit.c : bool 型で true, false を使える場合は使うようにする
+
 	* display.c : bool 型で true, false を使える場合は使うようにする
 
 	* *.c : boolean 型を C99 標準の bool 型に変更する

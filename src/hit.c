@@ -58,7 +58,7 @@ mon_hit(object *monster, char *other, bool flame)
 	hit_chance /= 2;
     }
     if (!fight_monster) {
-	interrupted = 1;
+	interrupted = true;
     }
     mn = mon_name(monster);
 
@@ -282,7 +282,7 @@ mon_damage(object *monster, int damage)
 	take_from_pack(monster, &level_monsters);
 
 	if (monster->m_flags & HOLDS) {
-	    being_held = 0;
+	    being_held = false;
 	}
 	free_object(monster);
 	return 0;
