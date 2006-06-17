@@ -31,7 +31,6 @@
 short write_failed = 0;
 char *save_file = "";
 
-extern bool detect_monster;
 extern short cur_level, max_level;
 extern char hunger_str[];
 extern char login_name[];
@@ -272,7 +271,7 @@ restore(char *fname)
 	clean_up("Cannot delete file");
 #endif /* not JAPAN */
     }
-    msg_cleared = 0;
+    msg_cleared = false;
     ring_stats(0);
 
 #if !defined( ORIGINAL )
@@ -448,41 +447,42 @@ has_been_touched(struct rogue_time *saved_time, struct rogue_time *mod_time)
     sav = (short *) saved_time;
     mod = (short *) mod_time;
     for (i = 0; i < 6; i++) {
-	if (*sav < *mod)
-	    return 1;
-	else if (*sav++ > *mod++)
-	    return 0;
+	if (*sav < *mod) {
+	    return true;
+	} else if (*sav++ > *mod++) {
+	    return false;
+	}
     }
-    return 0;
+    return false;
 #else /* ORIGINAL */
     if (saved_time->year < mod_time->year) {
-	return 1;
+	return true;
     } else if (saved_time->year > mod_time->year) {
-	return 0;
+	return false;
     }
     if (saved_time->month < mod_time->month) {
-	return 1;
+	return true;
     } else if (saved_time->month > mod_time->month) {
-	return 0;
+	return false;
     }
     if (saved_time->day < mod_time->day) {
-	return 1;
+	return true;
     } else if (saved_time->day > mod_time->day) {
-	return 0;
+	return false;
     }
     if (saved_time->hour < mod_time->hour) {
-	return 1;
+	return true;
     } else if (saved_time->hour > mod_time->hour) {
-	return 0;
+	return false;
     }
     if (saved_time->minute < mod_time->minute) {
-	return 1;
+	return true;
     } else if (saved_time->minute > mod_time->minute) {
-	return 0;
+	return false;
     }
     if (saved_time->second < mod_time->second) {
-	return 1;
+	return true;
     }
-    return 0;
+    return false;
 #endif /* ORIGINAL */
 }

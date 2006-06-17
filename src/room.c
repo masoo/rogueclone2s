@@ -226,7 +226,7 @@ party_objects(int rn)
 	    row = get_rand(rooms[rn].top_row + 1, rooms[rn].bottom_row - 1);
 	    col = get_rand(rooms[rn].left_col + 1, rooms[rn].right_col - 1);
 	    if ((dungeon[row][col] == FLOOR) || (dungeon[row][col] == TUNNEL)) {
-		found = 1;
+		found = true;
 	    }
 	}
 	if (found) {
@@ -258,7 +258,7 @@ is_all_connected(void)
     short i, starting_room = 0;	/* 未初期化変数の警告除去のため 0 で初期化 */
 
     for (i = 0; i < MAXROOMS; i++) {
-	rooms_visited[i] = 0;
+	rooms_visited[i] = false;
 	if (rooms[i].is_room & (R_ROOM | R_MAZE)) {
 	    starting_room = i;
 	}
@@ -280,7 +280,7 @@ visit_rooms(int rn)
     short i;
     short oth_rn;
 
-    rooms_visited[rn] = 1;
+    rooms_visited[rn] = true;
 
     for (i = 0; i < 4; i++) {
 	oth_rn = rooms[rn].doors[i].oth_room;
