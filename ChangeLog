@@ -1,5 +1,7 @@
 2006-06-18  FUNABARA Masao
 
+	* throw.c : bool 型で true, false を使える場合は使うようにする
+
 	* spechit.c : bool 型で true, false を使える場合は使うようにする
 
 	* score.c : bool 型で true, false を使える場合は使うようにする
