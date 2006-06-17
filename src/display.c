@@ -59,7 +59,7 @@ init_color_attr(void)
     static bool first_init = true;
 
     /* 最初の一回のみ実行する命令 */
-    if (first_init) {
+    if (first_init == true) {
 	start_color();
 
 	/* 背景色の定義 */
