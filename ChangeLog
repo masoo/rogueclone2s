@@ -1,5 +1,7 @@
 2006-06-18  FUNABARA Masao
 
+	* trap.c : bool 型で true, false を使える場合は使うようにする
+
 	* throw.c : bool 型で true, false を使える場合は使うようにする
 
 	* spechit.c : bool 型で true, false を使える場合は使うようにする
