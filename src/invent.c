@@ -545,13 +545,13 @@ get_wand_and_ring_materials(void)
     bool used[WAND_MATERIALS];
 
     for (i = 0; i < WAND_MATERIALS; i++) {
-	used[i] = 0;
+	used[i] = false;
     }
     for (i = 0; i < WANDS; i++) {
 	do {
 	    j = get_rand(0, WAND_MATERIALS - 1);
 	} while (used[j]);
-	used[j] = 1;
+	used[j] = true;
 	p = id_wands[i].title;
 	(void) strcpy(p, wand_materials[j]);
 #if defined( JAPAN )
@@ -560,13 +560,13 @@ get_wand_and_ring_materials(void)
 	is_wood[i] = (j > MAX_METAL);
     }
     for (i = 0; i < GEMS; i++) {
-	used[i] = 0;
+	used[i] = false;
     }
     for (i = 0; i < RINGS; i++) {
 	do {
 	    j = get_rand(0, GEMS - 1);
 	} while (used[j]);
-	used[j] = 1;
+	used[j] = true;
 	p = id_rings[i].title;
 	(void) strcpy(p, gems[j]);
 #if defined( JAPAN )

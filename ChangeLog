@@ -1,5 +1,7 @@
 2006-06-18  FUNABARA Masao
 
+	* invent.c : bool 型で true, false を使える場合は使うようにする
+
 	* hit.c : bool 型で true, false を使える場合は使うようにする
 
 	* display.c : bool 型で true, false を使える場合は使うようにする

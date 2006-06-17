@@ -85,7 +85,7 @@ init(int argc, char *argv[])
     }
 
     start_window();
-    init_curses = 1;
+    init_curses = true;
     md_heed_signals();
 
     if (score_only) {
@@ -218,7 +218,7 @@ onintr(int sig)
 {
     md_ignore_signals();
     if (cant_int) {
-	did_int = 1;
+	did_int = true;
     } else {
 	check_message();
 	message(mesg[15], 1);
@@ -229,7 +229,7 @@ onintr(int sig)
 void
 error_save(int sig)
 {
-    save_is_interactive = 0;
+    save_is_interactive = false;
     save_into_file(error_file);
     clean_up("");
 }
@@ -250,11 +250,11 @@ do_args(int argc, char *argv[])
     while ((ch = getopt(argc, argv, option_strings)) != EOF) {
 	switch (ch) {
 	case 's':
-	    score_only = 1;
+	    score_only = true;
 	    break;
 #if !defined( ORIGINAL )
 	case 'r':
-	    do_restore = 1;
+	    do_restore = true;
 	    break;
 #endif /* Not ORIGINAL */
 	case '?':
