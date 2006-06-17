@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <curses.h>
 
@@ -34,10 +35,10 @@ char hit_message[80] = "";
 
 extern short halluc, blind, cur_level;
 extern short add_strength, ring_exp, r_rings;
-extern boolean being_held, interrupted, wizard;
+extern bool being_held, interrupted, wizard;
 
 void
-mon_hit(object *monster, char *other, boolean flame)
+mon_hit(object *monster, char *other, bool flame)
 {
     short damage, hit_chance;
     char *mn;
@@ -111,7 +112,7 @@ mon_hit(object *monster, char *other, boolean flame)
 }
 
 void
-rogue_hit(object *monster, boolean force_hit)
+rogue_hit(object *monster, bool force_hit)
 {
     short damage, hit_chance;
 
@@ -158,7 +159,7 @@ rogue_damage(short d, object *monster)
 }
 
 int
-get_damage(char *ds, boolean r)
+get_damage(char *ds, bool r)
 {
     int i = 0, j, n, d, total = 0;
 
@@ -290,7 +291,7 @@ mon_damage(object *monster, int damage)
 }
 
 void
-fight(boolean to_the_death)
+fight(bool to_the_death)
 {
     short ch, c;
     short row, col;

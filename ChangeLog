@@ -1,5 +1,7 @@
 2006-06-18  FUNABARA Masao
 
+	* hit.c : boolean 型を C99 標準の bool 型に変更する
+
 	* display.c : boolean 型を C99 標準の bool 型に変更する
 
 	* random.c : srrandom で使われていた関数宣言をはずす
