@@ -4,6 +4,7 @@
  */
 
 #include <string.h>
+#include <stdbool.h>
 #include <curses.h>
 
 #include "rogue.h"
@@ -40,7 +41,7 @@ enum rogue_colors
 #define RCYAN	 14
 static int ch_attr[256];
 char *color_str = "cbmyg";
-extern boolean use_color;
+extern bool use_color;
 
 /*
  * init_color_attr
@@ -55,7 +56,7 @@ init_color_attr(void)
     int colormap_list[5];
 
 #if defined( COLOR )
-    static boolean first_init = 1;
+    static bool first_init = true;
 
     /* 最初の一回のみ実行する命令 */
     if (first_init) {
@@ -79,6 +80,9 @@ init_color_attr(void)
 	init_pair(BLUE_REVERSE, COLOR_BLACK, COLOR_BLUE);
 	init_pair(MAGENTA_REVERSE, COLOR_BLACK, COLOR_MAGENTA);
 	init_pair(CYAN_REVERSE, COLOR_BLACK, COLOR_CYAN);
+
+	/* フラグを OFF にする */
+	first_init = false;
     }
 #endif /* COLOR */
 
