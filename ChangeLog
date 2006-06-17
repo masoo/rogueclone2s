@@ -1,3 +1,7 @@
+2006-06-18  FUNABARA Masao
+
+	* random.c : srrandom で使われていた関数宣言をはずす
+
 2006-06-14  FUNABARA Masao
 
 	* level.c : for 文の short 変数を影響のない範囲で int に変更する

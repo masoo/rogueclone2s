@@ -22,7 +22,6 @@ void
 srrandom(int x)
 {
     int i;
-    long rrandom();
 
     state[0] = (long) x;
     if (rand_type != 0) {
