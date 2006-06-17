@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <sys/types.h>
 #include <sys/file.h>
 #include <sys/stat.h>
@@ -200,13 +201,13 @@ md_gfmt(char *fname, struct rogue_time *rt_buf)
  * deleted and can be replayed.
  */
 
-boolean
+bool
 md_df(char *fname)
 {
     if (unlink(fname)) {
-	return 0;
+	return false;
     }
-    return 1;
+    return true;
 }
 
 /* md_gln: (Get login name)

@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <curses.h>
 
@@ -139,10 +140,10 @@ struct id id_rings[RINGS] = {
 extern short cur_level, max_level;
 extern short party_room;
 extern char *error_file;
-extern boolean is_wood[];
+extern bool is_wood[];
 
 #if defined( COLOR )
-extern boolean use_color;
+extern bool use_color;
 
 #endif /* COLOR */
 
@@ -175,7 +176,7 @@ put_gold(void)
 {
     short i, j;
     short row, col;
-    boolean is_maze, is_room;
+    bool is_maze, is_room;
 
     for (i = 0; i < MAXROOMS; i++) {
 	is_maze = (rooms[i].is_room & R_MAZE) ? 1 : 0;
@@ -199,7 +200,7 @@ put_gold(void)
 }
 
 void
-plant_gold(short row, short col, boolean is_maze)
+plant_gold(short row, short col, bool is_maze)
 {
     object *obj;
 
@@ -535,7 +536,7 @@ gr_wand(object *obj)
 }
 
 void
-get_food(object *obj, boolean force_ration)
+get_food(object *obj, bool force_ration)
 {
     obj->what_is = FOOD;
 

@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <curses.h>
 
 #include "rogue.h"
@@ -23,10 +24,10 @@
 #include "spechit.h"
 
 room rooms[MAXROOMS];
-boolean rooms_visited[MAXROOMS];
+bool rooms_visited[MAXROOMS];
 
 extern short blind;
-extern boolean detect_monster;
+extern bool detect_monster;
 
 void
 light_up_room(int rn)
@@ -212,7 +213,7 @@ party_objects(int rn)
     short i, j, nf = 0;
     object *obj;
     short n, N, row, col;
-    boolean found;
+    bool found;
 
     N = ((rooms[rn].bottom_row - rooms[rn].top_row) - 1) *
 	((rooms[rn].right_col - rooms[rn].left_col) - 1);
@@ -338,7 +339,7 @@ draw_magic_map(void)
 }
 
 void
-dr_course(object *monster, boolean entering, short row, short col)
+dr_course(object *monster, bool entering, short row, short col)
 {
     short i, j, k, rn;
     short r, rr;

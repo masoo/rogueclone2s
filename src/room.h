@@ -13,7 +13,7 @@ extern int get_room_number(int row, int col);
 extern int is_all_connected(void);
 extern void visit_rooms(int rn);
 extern void draw_magic_map(void);
-extern void dr_course(object *monster, boolean entering, short row, short col);
+extern void dr_course(object *monster, bool entering, short row, short col);
 extern int get_oth_room(short rn, short *row, short *col);
 
 #endif /* not __ROOM_H__ */

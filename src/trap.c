@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <curses.h>
 
 #include "rogue.h"
@@ -28,7 +29,7 @@
 #include "use.h"
 
 trap traps[MAX_TRAPS];
-boolean trap_door = 0;
+bool trap_door = 0;
 short bear_trap = 0;
 
 char *trap_strings[TRAPS * 2] = {
@@ -38,9 +39,9 @@ char *trap_strings[TRAPS * 2] = {
 
 extern short cur_level, party_room;
 extern char *new_level_message;
-extern boolean interrupted;
+extern bool interrupted;
 extern short ring_exp;
-extern boolean sustain_strength;
+extern bool sustain_strength;
 extern short blind;
 
 int
@@ -191,11 +192,11 @@ show_traps(void)
 }
 
 void
-search(short n, boolean is_auto)
+search(short n, bool is_auto)
 {
     short s, i, j, row, col, t;
     short shown = 0, found = 0;
-    static boolean reg_search;
+    static bool reg_search;
 
     for (i = -1; i <= 1; i++) {
 	for (j = -1; j <= 1; j++) {

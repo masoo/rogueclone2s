@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <curses.h>
 
 #include "rogue.h"
@@ -27,7 +28,7 @@
 #include "throw.h"
 
 object level_monsters;
-boolean mon_disappeared;
+bool mon_disappeared;
 
 char *m_names[] = {
     mesg[307], mesg[308], mesg[309], mesg[310], mesg[311], mesg[312],
@@ -69,7 +70,7 @@ object mon_tab[MONSTERS] = {
 extern short cur_level;
 extern short cur_room, party_room;
 extern short blind, halluc, haste_self;
-extern boolean detect_monster, see_invisible, r_see_invisible;
+extern bool detect_monster, see_invisible, r_see_invisible;
 extern short stealthy;
 
 void
@@ -121,7 +122,7 @@ void
 mv_mons(void)
 {
     object *monster, *next_monster;
-    boolean flew;
+    bool flew;
 
     if (haste_self % 2) {
 	return;
@@ -166,7 +167,7 @@ party_monsters(int rn, int n)
     short i, j;
     short row, col;
     object *monster;
-    boolean found;
+    bool found;
 
     n += n;
 
@@ -225,7 +226,7 @@ void
 mv_monster(object *monster, short row, short col)
 {
     short i, n;
-    boolean tried[6];
+    bool tried[6];
 
     if (monster->m_flags & ASLEEP) {
 	if (monster->m_flags & NAPPING) {
@@ -462,11 +463,11 @@ wake_up(object *monster)
 }
 
 void
-wake_room(short rn, boolean entering, short row, short col)
+wake_room(short rn, bool entering, short row, short col)
 {
     object *monster;
     short wake_percent;
-    boolean in_room;
+    bool in_room;
 
     wake_percent = (rn == party_room) ? PARTY_WAKE_PERCENT : WAKE_PERCENT;
     if (stealthy > 0) {
@@ -528,7 +529,7 @@ wanderer(void)
 {
     object *monster;
     short row, col, i;
-    boolean found = 0;
+    bool found = 0;
 
     for (i = 0; ((i < 15) && (!found)); i++) {
 	monster = gr_monster((object *) 0, 0);
@@ -582,7 +583,7 @@ create_monster(void)
     short row, col;
     short r, c;
     short i;
-    boolean found = 0;
+    bool found = 0;
     object *monster;
 
     r = rogue.row;
@@ -752,7 +753,7 @@ aggravate(void)
     }
 }
 
-boolean
+bool
 mon_sees(object *monster, int row, int col)
 {
     short rn, rdif, cdif;
@@ -767,7 +768,7 @@ mon_sees(object *monster, int row, int col)
     rdif = row - monster->row;
     cdif = col - monster->col;
 
-    return (boolean) ((rdif >= -1) && (rdif <= 1) && (cdif >= -1)
+    return (bool) ((rdif >= -1) && (rdif <= 1) && (cdif >= -1)
 		      && (cdif <= 1));
 }
 

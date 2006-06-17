@@ -38,7 +38,7 @@ extern int md_get_file_id(char *fname);
 extern int md_link_count(char *fname);
 extern void md_gct(struct rogue_time *rt_buf);
 extern void md_gfmt(char *fname, struct rogue_time *rt_buf);
-extern boolean md_df(char *fname);
+extern bool md_df(char *fname);
 extern char *md_gln(void);
 extern char *md_malloc(int n);
 extern int md_gseed(void);

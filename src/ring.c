@@ -10,6 +10,7 @@
  *
  */
 
+#include <stdbool.h>
 #include <string.h>
 
 #include "rogue.h"
@@ -26,10 +27,10 @@ char *left_or_right = mesg[158];
 char *no_ring = mesg[159];
 short stealthy, r_rings, add_strength, e_rings, regeneration, ring_exp;
 short auto_search;
-boolean r_teleport, r_see_invisible, sustain_strength, maintain_armor;
+bool r_teleport, r_see_invisible, sustain_strength, maintain_armor;
 
 extern char *curse_message;
-extern boolean wizard;
+extern bool wizard;
 
 void
 put_on_ring(void)
@@ -95,7 +96,7 @@ put_on_ring(void)
  */
 
 void
-do_put_on(object *ring, boolean on_left)
+do_put_on(object *ring, bool on_left)
 {
     if (on_left) {
 	ring->in_use_flags |= ON_LEFT_HAND;
@@ -109,7 +110,7 @@ do_put_on(object *ring, boolean on_left)
 void
 remove_ring(void)
 {
-    boolean left = 0, right = 0;
+    bool left = 0, right = 0;
     short ch;
     char buf[ROGUE_COLUMNS];
     object *ring;
@@ -180,7 +181,7 @@ un_put_on(object *ring)
 }
 
 void
-gr_ring(object *ring, boolean assign_wk)
+gr_ring(object *ring, bool assign_wk)
 {
     ring->what_is = RING;
     if (assign_wk) {
@@ -249,7 +250,7 @@ inv_rings(void)
 }
 
 void
-ring_stats(boolean pr)
+ring_stats(bool pr)
 {
     short i;
     object *ring;

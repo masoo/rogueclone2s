@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <curses.h>
 
@@ -33,12 +34,12 @@
 
 short less_hp = 0;
 char *flame_name = mesg[200];
-boolean being_held;
+bool being_held;
 
 extern short cur_level, max_level, blind, levitate, ring_exp;
 extern long level_points[];
-extern boolean detect_monster, mon_disappeared;
-extern boolean sustain_strength, maintain_armor;
+extern bool detect_monster, mon_disappeared;
+extern bool sustain_strength, maintain_armor;
 extern char *you_can_move_again;
 
 void
@@ -149,7 +150,7 @@ steal_item(object *monster)
     object *obj;
     short i, n, t = 0;		/* 未初期化変数の使用の警告のための初期化。 0 を代入 */
     char desc[80];
-    boolean has_something = 0;
+    bool has_something = 0;
 
     if (rand_percent(15)) {
 	return;

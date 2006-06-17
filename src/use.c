@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include <curses.h>
 
@@ -35,18 +36,18 @@ short blind = 0;
 short confused = 0;
 short levitate = 0;
 short haste_self = 0;
-boolean see_invisible = 0;
+bool see_invisible = 0;
 short extra_hp = 0;
-boolean detect_monster = 0;
+bool detect_monster = 0;
 char *strange_feeling = mesg[230];
 
 extern short bear_trap;
 extern char hunger_str[];
 extern short cur_room;
 extern long level_points[];
-extern boolean being_held;
+extern bool being_held;
 extern char *fruit, *you_can_move_again;
-extern boolean sustain_strength;
+extern bool sustain_strength;
 
 #if defined( JAPAN )
 void

@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <curses.h>
@@ -32,9 +33,9 @@ char *score_file = ".rogue.scores";
 extern char login_name[];
 extern char *m_names[];
 extern short cur_level, max_level;
-extern boolean score_only, show_skull, msg_cleared;
+extern bool score_only, show_skull, msg_cleared;
 extern char *byebye_string, *nick_name;
-extern boolean use_color;
+extern bool use_color;
 
 #if !defined( ORIGINAL )
 #if defined( JAPAN )
@@ -385,11 +386,11 @@ mvaddbanner(int row, int col, int *ban)
 #endif /* not ORIGINAL */
 
 void
-quit(boolean from_intrpt)
+quit(bool from_intrpt)
 {
     char buf[128];
     short i, orow = 0, ocol = 0;	/* 初期化されず使われている変数のため 0 を代入 */
-    boolean mc = 0;
+    bool mc = 0;
 
     md_ignore_signals();
 
@@ -580,7 +581,7 @@ short other;
     char buf[100];
     FILE *fp;
     long s;
-    boolean failed = 0;
+    bool failed = 0;
     char *mode = "r+wb";
 
     while ((fp = fopen(score_file, mode)) == NULL) {
@@ -1002,7 +1003,7 @@ xxxx(char *buf, short n)
 }
 
 long
-xxx(boolean st)
+xxx(bool st)
 {
     static long f, s;
     long r;

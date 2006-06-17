@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <curses.h>
 
@@ -181,7 +182,7 @@ flop_weapon(object *weapon, short row, short col)
     object *new_weapon, *monster;
     short i = 0;
     char msg[80];
-    boolean found = 0;
+    bool found = 0;
     short mch, dch;
     unsigned short mon;
 

@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <curses.h>
 
@@ -30,12 +31,12 @@
 #include "spechit.h"
 #include "use.h"
 
-boolean wizard = 0;
+bool wizard = 0;
 #if !defined( ORIGINAL )
 char *wiz_passwd = "\253\104\114\266\134\245\000\333\355\064\000";
 #endif /* ORIGINAL */
 
-extern boolean being_held, score_only, detect_monster;
+extern bool being_held, score_only, detect_monster;
 
 void
 zapp(void)

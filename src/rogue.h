@@ -24,8 +24,6 @@ typedef unsigned char uchar;
 #endif /* not ORIGINAL */
 #endif
 
-#define boolean char
-
 #define NOTHING  ((unsigned short)     0)
 #define OBJECT   ((unsigned short)    01)
 #define MONSTER  ((unsigned short)    02)
@@ -417,10 +415,10 @@ struct rogue_time
 typedef struct sopt
 {
     char *name;		/* option name */
-    boolean *bp;	/* boolean ptr */
+    bool *bp;	/* boolean ptr */
     char **cp;		/* string ptr */
-    boolean ab;		/* add blank */
-    boolean nc;		/* no colon */
+    bool ab;		/* add blank */
+    bool nc;		/* no colon */
 } opt;
 extern opt envopt[];
 extern char *optdesc[];

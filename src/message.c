@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <curses.h>
 
@@ -27,15 +28,15 @@
 
 char msg_line[ROGUE_COLUMNS] = "";
 short msg_col = 0;
-boolean msg_cleared = 1;
+bool msg_cleared = 1;
 char hunger_str[8] = "";
 
-extern boolean cant_int, did_int, interrupted, save_is_interactive;
+extern bool cant_int, did_int, interrupted, save_is_interactive;
 extern short add_strength;
 extern short cur_level;
 
 void
-message(char *msg, boolean intrpt)
+message(char *msg, bool intrpt)
 {
     if (!save_is_interactive) {
 	return;
@@ -100,7 +101,7 @@ get_direction(void)
 
 int
 get_input_line(char *prompt, char *insert, char *buf, char *if_cancelled,
-	       boolean add_blank, boolean do_echo)
+	       bool add_blank, bool do_echo)
 {
     int n;
 
@@ -116,9 +117,9 @@ input_line(int row, int col, char *insert, char *buf, int ch)
 }
 
 int
-do_input_line(boolean is_msg, int row, int col, char *prompt, char *insert,
-	      char *buf, char *if_cancelled, boolean add_blank,
-	      boolean do_echo, int first_ch)
+do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
+	      char *buf, char *if_cancelled, bool add_blank,
+	      bool do_echo, int first_ch)
 {
     short ch;
     short i = 0, n = 0;
@@ -303,7 +304,7 @@ void
 print_stats(int stat_mask)
 {
     char buf[16];
-    boolean label;
+    bool label;
     int row = ROGUE_LINES - 1;
 
     label = (stat_mask & STAT_LABEL) ? 1 : 0;
@@ -437,7 +438,7 @@ save_screen(void)
     FILE *fp;
     short i, j;
     char buf[ROGUE_COLUMNS + 2];
-    boolean found_non_blank;
+    bool found_non_blank;
 
     if ((fp = fopen("rogue.screen", "w")) != NULL) {
 	for (i = 0; i < ROGUE_LINES; i++) {
@@ -467,14 +468,14 @@ sound_bell(void)
     fflush(stdout);
 }
 
-boolean
+bool
 is_digit(short ch)
 {
-    return (boolean) ((ch >= '0') && (ch <= '9'));
+    return (bool) ((ch >= '0') && (ch <= '9'));
 }
 
 int
-r_index(char *str, int ch, boolean last)
+r_index(char *str, int ch, bool last)
 {
     int i;
 

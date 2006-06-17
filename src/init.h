@@ -12,7 +12,7 @@ extern void error_save(int sig);
 extern void do_args(int argc, char *argv[]);
 extern void do_opts(void);
 extern void set_opts(char *env);
-extern void env_get_value(char **s, char *e, boolean add_blank,
-			  boolean no_colon);
+extern void env_get_value(char **s, char *e, bool add_blank,
+			  bool no_colon);
 
 #endif /* not __INIT_H__ */

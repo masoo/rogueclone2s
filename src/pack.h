@@ -18,7 +18,7 @@ extern void do_wield(object *obj);
 extern void unwield(object *obj);
 extern void call_it(void);
 extern int pack_count(object *new_obj);
-extern boolean mask_pack(object *pack, unsigned short mask);
+extern bool mask_pack(object *pack, unsigned short mask);
 extern int is_pack_letter(short *c, unsigned short *mask);
 extern int has_amulet(void);
 extern void kick_into_pack(void);

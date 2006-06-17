@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <curses.h>
@@ -30,29 +31,29 @@
 short write_failed = 0;
 char *save_file = "";
 
-extern boolean detect_monster;
+extern bool detect_monster;
 extern short cur_level, max_level;
 extern char hunger_str[];
 extern char login_name[];
 extern short party_room;
 extern short party_counter;
 extern short foods;
-extern boolean is_wood[];
+extern bool is_wood[];
 extern short cur_room;
-extern boolean being_held;
+extern bool being_held;
 extern short bear_trap;
 extern short halluc;
 extern short blind;
 extern short confused;
 extern short levitate;
 extern short haste_self;
-extern boolean see_invisible;
-extern boolean detect_monster;
-extern boolean wizard;
-extern boolean score_only;
+extern bool see_invisible;
+extern bool detect_monster;
+extern bool wizard;
+extern bool score_only;
 extern short m_moves;
 
-extern boolean msg_cleared;
+extern bool msg_cleared;
 
 void
 save_game(void)
@@ -125,7 +126,7 @@ save_into_file(char *sfile)
     rw_id(id_wands, fp, WANDS, 1);
     rw_id(id_rings, fp, RINGS, 1);
     r_write(fp, (char *) traps, (MAX_TRAPS * sizeof(trap)));
-    r_write(fp, (char *) is_wood, (WANDS * sizeof(boolean)));
+    r_write(fp, (char *) is_wood, (WANDS * sizeof(bool)));
     r_write(fp, (char *) &cur_room, sizeof(cur_room));
     rw_rooms(fp, 1);
     r_write(fp, (char *) &being_held, sizeof(being_held));
@@ -227,7 +228,7 @@ restore(char *fname)
     rw_id(id_wands, fp, WANDS, 0);
     rw_id(id_rings, fp, RINGS, 0);
     r_read(fp, (char *) traps, (MAX_TRAPS * sizeof(trap)));
-    r_read(fp, (char *) is_wood, (WANDS * sizeof(boolean)));
+    r_read(fp, (char *) is_wood, (WANDS * sizeof(bool)));
     r_read(fp, (char *) &cur_room, sizeof(cur_room));
     rw_rooms(fp, 0);
     r_read(fp, (char *) &being_held, sizeof(being_held));
@@ -294,7 +295,7 @@ write_pack(object *pack, FILE *fp)
 }
 
 void
-read_pack(object *pack, FILE *fp, boolean is_rogue)
+read_pack(object *pack, FILE *fp, bool is_rogue)
 {
     object read_obj, *new_obj;
 
@@ -326,7 +327,7 @@ read_pack(object *pack, FILE *fp, boolean is_rogue)
  * セーブデータからのダンジョン情報の保存と復元
  */
 void
-rw_dungeon(FILE *fp, boolean rw)
+rw_dungeon(FILE *fp, bool rw)
 {
     short i, j;
     char buf[ROGUE_COLUMNS];
@@ -358,7 +359,7 @@ rw_dungeon(FILE *fp, boolean rw)
 }
 
 void
-rw_id(struct id id_table[], FILE *fp, int n, boolean wr)
+rw_id(struct id id_table[], FILE *fp, int n, bool wr)
 {
     short i;
 
@@ -399,7 +400,7 @@ read_string(char *s, FILE *fp)
 }
 
 void
-rw_rooms(FILE *fp, boolean rw)
+rw_rooms(FILE *fp, bool rw)
 {
     short i;
 
@@ -437,7 +438,7 @@ r_write(FILE *fp, char *buf, int n)
     }
 }
 
-boolean
+bool
 has_been_touched(struct rogue_time *saved_time, struct rogue_time *mod_time)
 {
 #if !defined( ORIGINAL )

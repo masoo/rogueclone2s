@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <curses.h>
 
@@ -24,7 +25,7 @@
 
 #define swap_string(x,y) {t = x; x = y; y = t;}
 
-boolean is_wood[WANDS];
+bool is_wood[WANDS];
 
 char *wand_materials[WAND_MATERIALS] = {
     mesg[410], mesg[411], mesg[412], mesg[413], mesg[414], mesg[415],
@@ -50,7 +51,7 @@ char *syllables[MAXSYLLABLES] = {
     mesg[490], mesg[491], mesg[492], mesg[493]
 };
 
-extern boolean wizard;
+extern bool wizard;
 
 char descs[ROGUE_LINES][ROGUE_COLUMNS];	/* multi-purpose screen saver */
 
@@ -194,7 +195,7 @@ make_scroll_titles(void)
 }
 
 void
-get_desc(object *obj, char *desc, boolean capitalized)
+get_desc(object *obj, char *desc, bool capitalized)
 {
 
 #if defined( JAPAN )			/* for whole function */
@@ -541,7 +542,7 @@ get_wand_and_ring_materials(void)
 {
     short i, j;
     char *p;
-    boolean used[WAND_MATERIALS];
+    bool used[WAND_MATERIALS];
 
     for (i = 0; i < WAND_MATERIALS; i++) {
 	used[i] = 0;
@@ -620,7 +621,7 @@ get_id_table(object *obj)
 }
 
 void
-inv_armor_weapon(boolean is_weapon)
+inv_armor_weapon(bool is_weapon)
 {
     if (is_weapon) {
 	if (rogue.weapon) {

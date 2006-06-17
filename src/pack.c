@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 
 #include "rogue.h"
@@ -218,7 +219,7 @@ next_avail_ichar(void)
 {
     object *obj;
     int i;
-    boolean ichars[26];
+    bool ichars[26];
 
     for (i = 0; i < 26; i++) {
 	ichars[i] = 0;
@@ -497,7 +498,7 @@ pack_count(object *new_obj)
     return (count);
 }
 
-boolean
+bool
 mask_pack(object *pack, unsigned short mask)
 {
     while (pack->next_object) {

@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
 #include <curses.h>
@@ -40,12 +41,12 @@
 
 #define	CTRL(c)	((c) & 037)
 
-boolean interrupted = 0;
+bool interrupted = false;
 char *unknown_command = mesg[115];
 
 extern short party_room, bear_trap;
 extern char hit_message[];
-extern boolean wizard, trap_door;
+extern bool wizard, trap_door;
 
 void
 play_level(void)
@@ -419,7 +420,7 @@ options(void)
     int n, i, j, changed;
     short ch;
     short pos[ROGUE_LINES];
-    boolean bbuf[ROGUE_LINES];
+    bool bbuf[ROGUE_LINES];
     char cbuf[ROGUE_LINES][MAX_TITLE_LENGTH];
     char optbuf[BUFSIZ];
 

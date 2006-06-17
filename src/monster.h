@@ -12,7 +12,7 @@ extern int mtry(object *monster, short row, short col);
 extern void move_mon_to(object *monster, short row, short col);
 extern int mon_can_go(object *monster, short row, short col);
 extern void wake_up(object *monster);
-extern void wake_room(short rn, boolean entering, short row, short col);
+extern void wake_room(short rn, bool entering, short row, short col);
 extern char *mon_name(object *monster);
 extern int rogue_is_around(short row, short col);
 extern void wanderer(void);
@@ -26,7 +26,7 @@ extern int flit(object *monster);
 extern int gr_obj_char(void);
 extern int no_room_for_monster(int rn);
 extern void aggravate(void);
-extern boolean mon_sees(object *monster, int row, int col);
+extern bool mon_sees(object *monster, int row, int col);
 extern void mv_aquatars(void);
 
 #endif /* not __MONSTER_H__ */

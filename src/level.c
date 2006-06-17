@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <curses.h>
 
 #include "rogue.h"
@@ -58,8 +59,8 @@ long level_points[MAX_EXP_LEVEL] = {
 
 short random_rooms[MAXROOMS] = { 3, 7, 5, 2, 0, 6, 1, 4, 8 };
 
-extern boolean being_held, wizard, detect_monster;
-extern boolean see_invisible;
+extern bool being_held, wizard, detect_monster;
+extern bool see_invisible;
 extern short bear_trap, levitate, extra_hp, less_hp, cur_room;
 extern short party_counter;
 
@@ -68,8 +69,8 @@ make_level(void)
 {
     int i, j;
     short must_exist1, must_exist2, must_exist3;
-    boolean big_room;
-    boolean vertical;
+    bool big_room;
+    bool vertical;
 
     if (cur_level < LAST_DUNGEON) {
 	cur_level++;
@@ -448,14 +449,14 @@ fill_out_level(void)
 }
 
 void
-fill_it(int rn, boolean do_rec_de)
+fill_it(int rn, bool do_rec_de)
 {
     int i;
     short tunnel_dir, door_dir, drow, dcol;
     short target_room, rooms_found = 0;
     short srow, scol, t;
     static short offsets[4] = { -1, 1, 3, -3 };
-    boolean did_this = 0;
+    bool did_this = 0;
 
     for (i = 0; i < 10; i++) {
 	srow = get_rand(0, 3);
@@ -542,7 +543,7 @@ recursive_deadend(short rn, short *offsets, short srow, short scol)
     }
 }
 
-boolean
+bool
 mask_room(short rn, short *row, short *col, unsigned short mask)
 {
     int i, j;
@@ -733,7 +734,7 @@ check_up(void)
 }
 
 void
-add_exp(int e, boolean promotion)
+add_exp(int e, bool promotion)
 {
     char mbuf[40];
     short new_exp;

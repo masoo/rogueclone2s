@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <curses.h>
@@ -34,21 +35,21 @@
 char login_name[30];
 char *nick_name = "";
 char *rest_file = 0;
-boolean cant_int = 0, did_int = 0, score_only = 0, init_curses = 0;
-boolean save_is_interactive = 1;
-boolean show_skull = 1;
-boolean ask_quit = 1;
+bool cant_int = false, did_int = false, score_only = false, init_curses = false;
+bool save_is_interactive = true;
+bool show_skull = true;
+bool ask_quit = true;
 #if !defined( ORIGINAL )
-boolean pass_go = 1, do_restore = 0;
+bool pass_go = true, do_restore = false;
 char org_dir[64], *game_dir = "";
 #endif /* Not ORIGINAL */
-boolean use_color = 1;
+bool use_color = true;
 char *error_file = "rogue.esave";
 
 extern char *fruit;
 extern char *save_file;
 extern short party_room, party_counter;
-extern boolean jump;
+extern bool jump;
 
 int
 init(int argc, char *argv[])
@@ -446,7 +447,7 @@ set_opts(char *env)
  * 取得した環境変数の値を変数に格納する
  */
 void
-env_get_value(char **s, char *e, boolean add_blank, boolean no_colon)
+env_get_value(char **s, char *e, bool add_blank, bool no_colon)
 {
     int i = 0;
     char *t;

@@ -11,6 +11,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <curses.h>
 
@@ -31,10 +32,10 @@
 
 short m_moves = 0;
 #if !defined( ORIGINAL )
-boolean jump = 0;
-boolean bent_passage;
+bool jump = 0;
+bool bent_passage;
 #else /* ORIGINAL */
-boolean jump = 1;
+bool jump = 1;
 #endif /* ORIGINAL */
 char *you_can_move_again = mesg[66];
 
@@ -43,9 +44,9 @@ extern short cur_level, max_level;
 extern short bear_trap, haste_self, confused;
 extern short e_rings, regeneration, auto_search;
 extern char hunger_str[];
-extern boolean being_held, interrupted, r_teleport;
+extern bool being_held, interrupted, r_teleport;
 #if !defined( ORIGINAL )
-extern boolean pass_go;
+extern bool pass_go;
 #endif /* not ORIGINAL */
 
 int
@@ -389,17 +390,17 @@ move_onto(void)
     }
 }
 
-boolean
+bool
 is_direction(int c)
 {
-    return (boolean) ((strchr("hjklbyun\033", c) != (char *) 0) ? 1 : 0);
+    return (bool) ((strchr("hjklbyun\033", c) != (char *) 0) ? 1 : 0);
 }
 
-boolean
-check_hunger(boolean messages_only)
+bool
+check_hunger(bool messages_only)
 {
     short i, n;
-    boolean fainted = 0;
+    bool fainted = 0;
     static short move_left_cou = 0;	/* Yasha */
 
     if (rogue.moves_left == HUNGRY) {
@@ -468,10 +469,10 @@ check_hunger(boolean messages_only)
     return fainted;
 }
 
-boolean
+bool
 reg_move(void)
 {
-    boolean fainted;
+    bool fainted;
 
     if ((rogue.moves_left <= HUNGRY) || (cur_level >= max_level)) {
 	fainted = check_hunger(0);
@@ -550,7 +551,7 @@ void
 heal(void)
 {
     static short heal_exp = -1, n, c = 0;
-    static boolean alt;
+    static bool alt;
     static char na[] = { 0, 20, 18, 17, 14, 13, 10, 9, 8, 7, 4, 3 };
 
     if (rogue.hp_current == rogue.hp_max) {
