@@ -110,7 +110,7 @@ do_put_on(object *ring, bool on_left)
 void
 remove_ring(void)
 {
-    bool left = 0, right = 0;
+    bool left = false, right = false;
     short ch;
     char buf[ROGUE_COLUMNS];
     object *ring;
@@ -118,9 +118,9 @@ remove_ring(void)
     if (r_rings == 0) {
 	inv_rings();
     } else if (rogue.left_ring && !rogue.right_ring) {
-	left = 1;
+	left = true;
     } else if (!rogue.left_ring && rogue.right_ring) {
-	right = 1;
+	right = true;
     } else {
 	message(left_or_right, 0);
 	do {
@@ -258,13 +258,13 @@ ring_stats(bool pr)
     stealthy = 0;
     r_rings = 0;
     e_rings = 0;
-    r_teleport = 0;
-    sustain_strength = 0;
+    r_teleport = false;
+    sustain_strength = false;
     add_strength = 0;
     regeneration = 0;
     ring_exp = 0;
-    r_see_invisible = 0;
-    maintain_armor = 0;
+    r_see_invisible = false;
+    maintain_armor = false;
     auto_search = 0;
 
     for (i = 0; i < 2; i++) {
@@ -278,7 +278,7 @@ ring_stats(bool pr)
 	    stealthy++;
 	    break;
 	case R_TELEPORT:
-	    r_teleport = 1;
+	    r_teleport = true;
 	    break;
 	case REGENERATION:
 	    regeneration++;
@@ -290,7 +290,7 @@ ring_stats(bool pr)
 	    add_strength += ring->class;
 	    break;
 	case SUSTAIN_STRENGTH:
-	    sustain_strength = 1;
+	    sustain_strength = true;
 	    break;
 	case DEXTERITY:
 	    ring_exp += ring->class;
@@ -298,10 +298,10 @@ ring_stats(bool pr)
 	case ADORNMENT:
 	    break;
 	case R_SEE_INVISIBLE:
-	    r_see_invisible = 1;
+	    r_see_invisible = true;
 	    break;
 	case MAINTAIN_ARMOR:
-	    maintain_armor = 1;
+	    maintain_armor = true;
 	    break;
 	case SEARCHING:
 	    auto_search += 2;

@@ -142,11 +142,6 @@ extern short party_room;
 extern char *error_file;
 extern bool is_wood[];
 
-#if defined( COLOR )
-extern bool use_color;
-
-#endif /* COLOR */
-
 void
 put_objects(void)
 {

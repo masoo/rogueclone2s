@@ -1,5 +1,9 @@
 2006-06-18  FUNABARA Masao
 
+	* object.c : bool 型で true, false を使える場合は使うようにする
+
+	* move.c : bool 型で true, false を使える場合は使うようにする
+
 	* monster.c : bool 型で true, false を使える場合は使うようにする
 
 	* message.c : bool 型で true, false を使える場合は使うようにする

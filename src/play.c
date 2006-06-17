@@ -56,13 +56,13 @@ play_level(void)
 
     cmd = '.';
     for (;;) {
-	interrupted = 0;
+	interrupted = false;
 	if (hit_message[0]) {
 	    message(hit_message, 1);
 	    hit_message[0] = 0;
 	}
 	if (trap_door) {
-	    trap_door = 0;
+	    trap_door = false;
 	    return;
 	}
 	move(rogue.row, rogue.col);

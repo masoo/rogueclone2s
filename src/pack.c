@@ -222,11 +222,11 @@ next_avail_ichar(void)
     bool ichars[26];
 
     for (i = 0; i < 26; i++) {
-	ichars[i] = 0;
+	ichars[i] = false;
     }
     obj = rogue.pack.next_object;
     while (obj) {
-	ichars[(obj->ichar - 'a')] = 1;
+	ichars[(obj->ichar - 'a')] = true;
 	obj = obj->next_object;
     }
     for (i = 0; i < 26; i++) {
@@ -504,10 +504,10 @@ mask_pack(object *pack, unsigned short mask)
     while (pack->next_object) {
 	pack = pack->next_object;
 	if (pack->what_is & mask) {
-	    return 1;
+	    return true;
 	}
     }
-    return 0;
+    return false;
 }
 
 int
