@@ -31,7 +31,7 @@
 #include "spechit.h"
 #include "use.h"
 
-bool wizard = 0;
+bool wizard = false;
 #if !defined( ORIGINAL )
 char *wiz_passwd = "\253\104\114\266\134\245\000\333\355\064\000";
 #endif /* ORIGINAL */
@@ -191,7 +191,7 @@ zap_monster(object *monster, unsigned short kind)
 	break;
     case POLYMORPH:
 	if (monster->m_flags & HOLDS) {
-	    being_held = 0;
+	    being_held = false;
 	}
 	nm = monster->next_monster;
 	tc = monster->trail_char;
@@ -213,7 +213,7 @@ zap_monster(object *monster, unsigned short kind)
 	break;
     case CANCELLATION:
 	if (monster->m_flags & HOLDS) {
-	    being_held = 0;
+	    being_held = false;
 	}
 	if (monster->m_flags & STEALS_ITEM) {
 	    monster->drop_percent = 0;
@@ -234,7 +234,7 @@ tele_away(object *monster)
     short row, col;
 
     if (monster->m_flags & HOLDS) {
-	being_held = 0;
+	being_held = false;
     }
     gr_row_col(&row, &col, (FLOOR | TUNNEL | STAIRS | OBJECT));
     mvaddch_rogue(monster->row, monster->col,
@@ -256,7 +256,7 @@ wizardize(void)
     char buf[100];
 
     if (wizard) {
-	wizard = 0;
+	wizard = false;
 #if defined( JAPAN )
 	message("もはや、魔法使いではない。", 0);
 #else /* not JAPAN */
@@ -276,8 +276,8 @@ wizardize(void)
 #else /* ORIGINAL */
 	    if (!strncmp(buf, "\247\104\126\272\115\243\027", 7)) {
 #endif /* ORIGINAL */
-		wizard = 1;
-		score_only = 1;
+		wizard = true;
+		score_only = true;
 #if defined( JAPAN )
 		message("ようこそ、魔法使いよ！", 0);
 #else /* not JAPAN */

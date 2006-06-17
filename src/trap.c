@@ -29,7 +29,7 @@
 #include "use.h"
 
 trap traps[MAX_TRAPS];
-bool trap_door = 0;
+bool trap_door = false;
 short bear_trap = 0;
 
 char *trap_strings[TRAPS * 2] = {
@@ -72,7 +72,7 @@ trap_player(short row, short col)
     }
     switch (t) {
     case TRAP_DOOR:
-	trap_door = 1;
+	trap_door = true;
 	new_level_message = trap_strings[(t * 2) + 1];
 	break;
     case BEAR_TRAP:

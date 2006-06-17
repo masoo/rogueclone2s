@@ -36,9 +36,9 @@ short blind = 0;
 short confused = 0;
 short levitate = 0;
 short haste_self = 0;
-bool see_invisible = 0;
+bool see_invisible = false;
 short extra_hp = 0;
-bool detect_monster = 0;
+bool detect_monster = false;
 char *strange_feeling = mesg[230];
 
 extern short bear_trap;
@@ -150,7 +150,7 @@ quaff(void)
 	if (blind) {
 	    unblind();
 	}
-	see_invisible = 1;
+	see_invisible = true;
 	relight();
 	break;
     }
@@ -269,7 +269,7 @@ quaff()
 	if (blind) {
 	    unblind();
 	}
-	see_invisible = 1;
+	see_invisible = true;
 	relight();
 	break;
     }
@@ -677,7 +677,7 @@ tele(void)
 	darken_room(cur_room);
     }
     put_player(get_room_number(rogue.row, rogue.col));
-    being_held = 0;
+    being_held = false;
     bear_trap = 0;
 }
 

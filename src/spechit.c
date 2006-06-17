@@ -38,7 +38,7 @@ bool being_held;
 
 extern short cur_level, max_level, blind, levitate, ring_exp;
 extern long level_points[];
-extern bool detect_monster, mon_disappeared;
+extern bool mon_disappeared;
 extern bool sustain_strength, maintain_armor;
 extern char *you_can_move_again;
 
@@ -52,7 +52,7 @@ special_hit(object *monster)
 	rust(monster);
     }
     if ((monster->m_flags & HOLDS) && !levitate) {
-	being_held = 1;
+	being_held = true;
     }
     if (monster->m_flags & FREEZES) {
 	freeze(monster);
@@ -150,7 +150,7 @@ steal_item(object *monster)
     object *obj;
     short i, n, t = 0;		/* 未初期化変数の使用の警告のための初期化。 0 を代入 */
     char desc[80];
-    bool has_something = 0;
+    bool has_something = false;
 
     if (rand_percent(15)) {
 	return;
@@ -174,7 +174,7 @@ steal_item(object *monster)
 #endif /* ORIGINAL */
     while (obj) {
 	if (!(obj->in_use_flags & BEING_USED)) {
-	    has_something = 1;
+	    has_something = true;
 	    break;
 	}
 	obj = obj->next_object;
@@ -234,7 +234,7 @@ disappear(object *monster)
     }
     take_from_pack(monster, &level_monsters);
     free_object(monster);
-    mon_disappeared = 1;
+    mon_disappeared = true;
 }
 
 void

@@ -35,7 +35,6 @@ extern char *m_names[];
 extern short cur_level, max_level;
 extern bool score_only, show_skull, msg_cleared;
 extern char *byebye_string, *nick_name;
-extern bool use_color;
 
 #if !defined( ORIGINAL )
 #if defined( JAPAN )
@@ -390,7 +389,7 @@ quit(bool from_intrpt)
 {
     char buf[128];
     short i, orow = 0, ocol = 0;	/* 初期化されず使われている変数のため 0 を代入 */
-    bool mc = 0;
+    bool mc = false;
 
     md_ignore_signals();
 
@@ -494,7 +493,7 @@ put_scores(object *monster, short other)
 	if (rogue.gold > lget_number(p)) {
 	    found_pos = i;
 	} else {
-	    score_only = 1;
+	    score_only = true;
 	}
     }
     if (found_pos != -1) {
@@ -581,7 +580,7 @@ short other;
     char buf[100];
     FILE *fp;
     long s;
-    bool failed = 0;
+    bool failed = false;
     char *mode = "r+wb";
 
     while ((fp = fopen(score_file, mode)) == NULL) {
@@ -591,7 +590,7 @@ short other;
 	    message("Cannot read/write/create score file", 0);
 	    sf_error();
 	}
-	failed = 1;
+	failed = true;
     }
     (void) xxx(1);
 
@@ -616,7 +615,7 @@ short other;
 		}
 		s = lget_number(scores[i] + x);
 		if (rogue.gold < s) {
-		    score_only = 1;
+		    score_only = true;
 		} else {
 		    found_player = i;
 		}

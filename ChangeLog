@@ -1,5 +1,13 @@
 2006-06-18  FUNABARA Masao
 
+	* spechit.c : bool 型で true, false を使える場合は使うようにする
+
+	* score.c : bool 型で true, false を使える場合は使うようにする
+
+	* save.c : bool 型で true, false を使える場合は使うようにする
+
+	* room.c : bool 型で true, false を使える場合は使うようにする
+
 	* ring.c : bool 型で true, false を使える場合は使うようにする
 
 	* play.c : bool 型で true, false を使える場合は使うようにする

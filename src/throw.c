@@ -182,7 +182,7 @@ flop_weapon(object *weapon, short row, short col)
     object *new_weapon, *monster;
     short i = 0;
     char msg[80];
-    bool found = 0;
+    bool found = false;
     short mch, dch;
     unsigned short mon;
 
@@ -193,7 +193,7 @@ flop_weapon(object *weapon, short row, short col)
 	    (dungeon[row][col] & ~(FLOOR | TUNNEL | DOOR | MONSTER))) {
 	    continue;
 	}
-	found = 1;
+	found = true;
 	break;
     }
 
