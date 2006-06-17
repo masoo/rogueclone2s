@@ -296,7 +296,7 @@ clear_level(void)
 	    dungeon[i][j] = NOTHING;
 	}
     }
-    detect_monster = see_invisible = 0;
+    detect_monster = see_invisible = false;
     being_held = bear_trap = 0;
     party_room = NO_ROOM;
     rogue.row = rogue.col = -1;
@@ -456,7 +456,7 @@ fill_it(int rn, bool do_rec_de)
     short target_room, rooms_found = 0;
     short srow, scol, t;
     static short offsets[4] = { -1, 1, 3, -3 };
-    bool did_this = 0;
+    bool did_this = false;
 
     for (i = 0; i < 10; i++) {
 	srow = get_rand(0, 3);
@@ -553,11 +553,11 @@ mask_room(short rn, short *row, short *col, unsigned short mask)
 	    if (dungeon[i][j] & mask) {
 		*row = i;
 		*col = j;
-		return 1;
+		return true;
 	    }
 	}
     }
-    return 0;
+    return false;
 }
 
 void

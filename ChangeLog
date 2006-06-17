@@ -1,6 +1,10 @@
 2006-06-18  FUNABARA Masao
 
+	* level.c : bool 型で true, false を使える場合は使うようにする
+
 	* invent.c : bool 型で true, false を使える場合は使うようにする
+
+	* init.c : bool 型で true, false を使える場合は使うようにする
 
 	* hit.c : bool 型で true, false を使える場合は使うようにする
 
