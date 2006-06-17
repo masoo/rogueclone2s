@@ -1,5 +1,7 @@
 2006-06-18  FUNABARA Masao
 
+	* ring.c : bool 型で true, false を使える場合は使うようにする
+
 	* play.c : bool 型で true, false を使える場合は使うようにする
 
 	* pack.c : bool 型で true, false を使える場合は使うようにする
