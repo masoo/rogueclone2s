@@ -153,6 +153,15 @@ get_thrown_at_monster(object *obj, short dir, short *row, short *col)
 	    *col = ocol;
 	    return 0;
 	}
+#if defined ( THROW_TUNNEL )
+	/* 迷路で斜めにモノを投げられない制御 */
+	if ((dungeon[*row][*col] & TUNNEL) &&
+	    ((dir == 'y') || (dir == 'u') || (dir == 'b') || (dir == 'n'))) {
+	    *row = orow;
+	    *col = ocol;
+	    return 0;
+	}
+#endif /* THROW_TUNNEL */
 	if ((i != 0) && rogue_can_see(orow, ocol)) {
 	    mvaddch_rogue(orow, ocol, get_dungeon_char(orow, ocol));
 	}
