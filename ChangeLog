@@ -1,9 +1,12 @@
 2006-06-18  FUNABARA Masao
 
+	* configure.ac : 斜めにモノを投げれる処理を THROW_TUNNEL マクロ
+	として常に定義するようにした。
+
 	* configure.ac : 今のところ、固定の定義 JAPAN, EUC, TOPSCO を
 	configure.ac に組込み Makefile.am から削除する
 
-	* throw.c : トンネル・迷路内で、斜めにものを投げられる問題を修正
+	* throw.c : トンネル・迷路内で、斜めにモノを投げられる問題を修正
 
 	* zap.c : bool 型で true, false を使える場合は使うようにする
 

@@ -52,5 +52,6 @@ fi
 AC_DEFINE([JAPAN], , [Define if you have the 'JAPAN'])
 AC_DEFINE([EUC], , [Define if you have the 'EUC'])
 AC_DEFINE([TOPSCO], , [Define if you have the 'TOPSCO'])
+AC_DEFINE([THROW_TUNNEL], , [Define if you have the 'THROW_TUNNEL'])
 
 AC_OUTPUT
