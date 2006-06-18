@@ -49,4 +49,8 @@ if test "$enable_color" != "no"; then
 AC_DEFINE([COLOR], , [Define if you have the 'COLOR'])
 fi
 
+AC_DEFINE([JAPAN], , [Define if you have the 'JAPAN'])
+AC_DEFINE([EUC], , [Define if you have the 'EUC'])
+AC_DEFINE([TOPSCO], , [Define if you have the 'TOPSCO'])
+
 AC_OUTPUT

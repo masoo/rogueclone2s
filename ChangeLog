@@ -1,5 +1,8 @@
 2006-06-18  FUNABARA Masao
 
+	* configure.ac : 今のところ、固定の定義 JAPAN, EUC, TOPSCO を
+	configure.ac に組込み Makefile.am から削除する
+
 	* throw.c : トンネル・迷路内で、斜めにものを投げられる問題を修正
 
 	* zap.c : bool 型で true, false を使える場合は使うようにする

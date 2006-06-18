@@ -25,8 +25,3 @@ rogue_SOURCES = \
 	trap.c trap.h \
 	use.c use.h \
 	zap.c zap.h
-
-rogue_CFLAGS = \
-	-DJAPAN \
-	-DEUC \
-	-DTOPSCO
