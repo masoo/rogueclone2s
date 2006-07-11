@@ -1,3 +1,7 @@
+2006-07-12  FUNABARA Masao
+
+	* throw.c : 拾い幅のトンネル時には斜めに投げられるように修正
+
 2006-06-18  FUNABARA Masao
 
 	* configure.ac : 斜めにモノを投げれる処理を THROW_TUNNEL マクロ
