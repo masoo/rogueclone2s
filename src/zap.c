@@ -107,6 +107,35 @@ get_zapped_monster(short dir, short *row, short *col)
 	    (dungeon[*row][*col] == NOTHING)) {
 	    return 0;
 	}
+#if defined ( THROW_TUNNEL )
+	/* 迷路で斜めにモノを投げられない制御 */
+        if (dungeon[*row][*col] & TUNNEL) {
+	    if ((dir == 'y') && (!(dungeon[*row][*col+1] & TUNNEL) ||
+				 !(dungeon[*row+1][*col] & TUNNEL))) {
+		*row = orow;
+		*col = ocol;
+		return 0;
+	    }
+	    if ((dir == 'u') && (!(dungeon[*row][*col-1] & TUNNEL) ||
+				 !(dungeon[*row+1][*col] & TUNNEL))) {
+		*row = orow;
+		*col = ocol;
+		return 0;
+	    }
+	    if ((dir == 'b') && (!(dungeon[*row][*col+1] & TUNNEL) ||
+				 !(dungeon[*row-1][*col] & TUNNEL))) {
+		*row = orow;
+		*col = ocol;
+		return 0;
+	    }
+	    if ((dir == 'n') && (!(dungeon[*row][*col-1] & TUNNEL) ||
+				 !(dungeon[*row-1][*col] & TUNNEL))) {
+		*row = orow;
+		*col = ocol;
+		return 0;
+	    }
+        }
+#endif /* THROW_TUNNEL */
 	if (dungeon[*row][*col] & MONSTER) {
 	    if (!imitating(*row, *col)) {
 		return (object_at(&level_monsters, *row, *col));
@@ -132,6 +161,35 @@ get_missiled_monster(short dir, short *row, short *col)
 	    *col = ocol;
 	    return 0;
 	}
+#if defined ( THROW_TUNNEL )
+	/* 迷路で斜めにモノを投げられない制御 */
+        if (dungeon[*row][*col] & TUNNEL) {
+	    if ((dir == 'y') && (!(dungeon[*row][*col+1] & TUNNEL) ||
+				 !(dungeon[*row+1][*col] & TUNNEL))) {
+		*row = orow;
+		*col = ocol;
+		return 0;
+	    }
+	    if ((dir == 'u') && (!(dungeon[*row][*col-1] & TUNNEL) ||
+				 !(dungeon[*row+1][*col] & TUNNEL))) {
+		*row = orow;
+		*col = ocol;
+		return 0;
+	    }
+	    if ((dir == 'b') && (!(dungeon[*row][*col+1] & TUNNEL) ||
+				 !(dungeon[*row-1][*col] & TUNNEL))) {
+		*row = orow;
+		*col = ocol;
+		return 0;
+	    }
+	    if ((dir == 'n') && (!(dungeon[*row][*col-1] & TUNNEL) ||
+				 !(dungeon[*row-1][*col] & TUNNEL))) {
+		*row = orow;
+		*col = ocol;
+		return 0;
+	    }
+        }
+#endif /* THROW_TUNNEL */
 	if (!first && rogue_can_see(orow, ocol)) {
 	    mvaddch_rogue(orow, ocol, get_dungeon_char(orow, ocol));
 	}
