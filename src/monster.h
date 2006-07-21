@@ -1,5 +1,5 @@
-#if !defined( __MONSTER_H__ )
-#define __MONSTER_H__
+#if !defined( MONSTER_H )
+#define MONSTER_H
 
 extern void put_mons(void);
 extern object *gr_monster(object *monster, int mn);
@@ -29,4 +29,4 @@ extern void aggravate(void);
 extern bool mon_sees(object *monster, int row, int col);
 extern void mv_aquatars(void);
 
-#endif /* not __MONSTER_H__ */
+#endif /* not MONSTER_H */

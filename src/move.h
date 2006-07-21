@@ -1,5 +1,5 @@
-#if !defined( __MOVE_H__ )
-#define __MOVE_H__
+#if !defined( MOVE_H )
+#define MOVE_H
 
 extern int one_move_rogue(short dirch, short pickup);
 extern void multiple_move_rogue(int dirch);
@@ -14,4 +14,4 @@ extern void rest(int count);
 extern int gr_dir(void);
 extern void heal(void);
 
-#endif /* not __MOVE_H__ */
+#endif /* not MOVE_H */

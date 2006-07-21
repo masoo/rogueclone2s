@@ -1,5 +1,5 @@
-#if !defined( __MESSAGE_H__ )
-#define __MESSAGE_H__
+#if !defined( MESSAGE_H )
+#define MESSAGE_H
 
 extern void message(char *msg, bool intrpt);
 extern void remessage(void);
@@ -20,4 +20,4 @@ extern void sound_bell(void);
 extern bool is_digit(short ch);
 extern int r_index(char *str, int ch, bool last);
 
-#endif /* not __MESSAGE_H__ */
+#endif /* not MESSAGE_H */

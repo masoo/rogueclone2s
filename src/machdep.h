@@ -1,5 +1,5 @@
-#if !defined( __MACHDEP_H__ )
-#define __MACHDEP_H__
+#if !defined( MACHDEP_H )
+#define MACHDEP_H
 
 /* POSIX システムのシグナル名 SIGQUIT, SIGHUP について
  * そのマクロ名が処理系に存在しない場合は C99 で認めているシグナル名
@@ -45,4 +45,4 @@ extern int md_gseed(void);
 extern void md_exit(int status);
 extern char *md_ghome(void);
 
-#endif /* not __MACHDEP_H__ */
+#endif /* not MACHDEP_H */

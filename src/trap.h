@@ -1,5 +1,5 @@
-#if !defined( __TRAP_H__ )
-#define __TRAP_H__
+#if !defined( TRAP_H )
+#define TRAP_H
 
 extern int trap_at(int row, int col);
 extern void trap_player(short row, short col);
@@ -8,4 +8,4 @@ extern void id_trap(void);
 extern void show_traps(void);
 extern void search(short n, bool is_auto);
 
-#endif /* not __TRAP_H__ */
+#endif /* not TRAP_H */

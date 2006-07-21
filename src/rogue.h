@@ -10,8 +10,8 @@
  *
  */
 
-#if !defined( __ROGUE_H__ )
-#define __ROGUE_H__
+#if !defined( ROGUE_H )
+#define ROGUE_H
 
 #if defined( HAVE_CONFIG_H )
 # include "config.h"
@@ -444,4 +444,4 @@ extern char org_dir[], *game_dir;
 #define RMAGENTA 13
 #define RCYAN	 14
 
-#endif /* not __ROGUE_H__ */
+#endif /* not ROGUE_H */

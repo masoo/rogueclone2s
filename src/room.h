@@ -1,5 +1,5 @@
-#if !defined( __ROOM_H__ )
-#define __ROOM_H__
+#if !defined( ROOM_H )
+#define ROOM_H
 
 extern void light_up_room(int rn);
 extern void light_passage(int row, int col);
@@ -16,4 +16,4 @@ extern void draw_magic_map(void);
 extern void dr_course(object *monster, bool entering, short row, short col);
 extern int get_oth_room(short rn, short *row, short *col);
 
-#endif /* not __ROOM_H__ */
+#endif /* not ROOM_H */

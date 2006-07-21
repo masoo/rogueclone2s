@@ -1,5 +1,5 @@
-#if !defined( __THROW_H__ )
-#define __THROW_H__
+#if !defined( THROW_H )
+#define THROW_H
 
 extern void throw(void);
 extern int throw_at_monster(object *monster, object *weapon);
@@ -9,4 +9,4 @@ extern void flop_weapon(object *weapon, short row, short col);
 extern void rand_around(short i, short *r, short *c);
 extern void potion_monster(object *monster, unsigned short kind);
 
-#endif /* not __THROW_H__ */
+#endif /* not THROW_H */

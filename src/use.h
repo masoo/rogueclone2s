@@ -1,5 +1,5 @@
-#if !defined( __USE_H__ )
-#define __USE_H__
+#if !defined( USE_H )
+#define USE_H
 
 extern void quaff(void);
 extern void read_scroll(void);
@@ -20,4 +20,4 @@ extern void confuse(void);
 extern void unconfuse(void);
 extern void uncurse_all(void);
 
-#endif /* not __USE_H__ */
+#endif /* not USE_H */

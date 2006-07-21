@@ -1,5 +1,5 @@
-#if !defined( __DISPLAY_H__ )
-#define __DISPLAY_H__
+#if !defined( DISPLAY_H )
+#define DISPLAY_H
 
 extern void init_color_attr(void);
 extern int put_colorpair_number(char ch);
@@ -12,4 +12,4 @@ extern chtype mvinch_rogue(int y, int x);
 
 extern char *color_str;
 
-#endif /* not __DISPLAY_H__ */
+#endif /* not DISPLAY_H */
