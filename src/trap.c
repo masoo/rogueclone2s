@@ -167,7 +167,7 @@ id_trap(void)
     row = rogue.row;
     col = rogue.col;
 
-    get_dir_rc(dir, &row, &col, 0);
+    get_dir_rc(dir, &row, &col, false);
 
     if ((dungeon[row][col] & TRAP) && (!(dungeon[row][col] & HIDDEN))) {
 	t = trap_at(row, col);

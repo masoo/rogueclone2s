@@ -1,5 +1,10 @@
 2006-07-25  FUNABARA Masao
 
+	* *.c : 前回の修正不足の get_dir_rc 関数を使用している部分の
+	allow_off_screen を true/false に修正する
+
+2006-07-25  FUNABARA Masao
+
 	* hit.c : get_dir_rc 関数の dir 変数を char 型に
 	allow_off_screen 変数を bool 型に変更
 	また、get_dir_rc 関数を使用している部分の allow_off_screen を

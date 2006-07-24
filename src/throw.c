@@ -145,7 +145,7 @@ get_thrown_at_monster(object *obj, short dir, short *row, short *col)
     ch = get_mask_char(obj->what_is);
 
     for (i = 0; i < 24; i++) {
-	get_dir_rc(dir, row, col, 0);
+	get_dir_rc(dir, row, col, false);
 	if ((dungeon[*row][*col] == NOTHING) ||
 	    ((dungeon[*row][*col] & (HORWALL | VERTWALL | HIDDEN)) &&
 	     (!(dungeon[*row][*col] & TRAP)))) {
