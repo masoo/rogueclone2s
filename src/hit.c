@@ -304,7 +304,7 @@ fight(bool to_the_death)
     }
     row = rogue.row;
     col = rogue.col;
-    get_dir_rc(ch, &row, &col, 0);
+    get_dir_rc(ch, &row, &col, false);
 
     c = mvinch_rogue(row, col);
     if (((c < 'A') || (c > 'Z')) ||
@@ -334,52 +334,56 @@ fight(bool to_the_death)
     }
 }
 
+/*
+ * get_dir_rc
+ * 移動後の位置を取得する
+ */
 void
-get_dir_rc(short dir, short *row, short *col, short allow_off_screen)
+get_dir_rc(char dir, short *lines, short *columns, bool allow_off_screen)
 {
     switch (dir) {
     case 'h':
-	if (allow_off_screen || (*col > 0)) {
-	    (*col)--;
+	if (allow_off_screen || (*columns > 0)) {
+	    (*columns)--;
 	}
 	break;
     case 'j':
-	if (allow_off_screen || (*row < (ROGUE_LINES - 2))) {
-	    (*row)++;
+	if (allow_off_screen || (*lines < (ROGUE_LINES - 2))) {
+	    (*lines)++;
 	}
 	break;
     case 'k':
-	if (allow_off_screen || (*row > MIN_ROW)) {
-	    (*row)--;
+	if (allow_off_screen || (*lines > MIN_ROW)) {
+	    (*lines)--;
 	}
 	break;
     case 'l':
-	if (allow_off_screen || (*col < (ROGUE_COLUMNS - 1))) {
-	    (*col)++;
+	if (allow_off_screen || (*columns < (ROGUE_COLUMNS - 1))) {
+	    (*columns)++;
 	}
 	break;
     case 'y':
-	if (allow_off_screen || ((*row > MIN_ROW) && (*col > 0))) {
-	    (*row)--;
-	    (*col)--;
+	if (allow_off_screen || ((*lines > MIN_ROW) && (*columns > 0))) {
+	    (*lines)--;
+	    (*columns)--;
 	}
 	break;
     case 'u':
-	if (allow_off_screen || ((*row > MIN_ROW) && (*col < (ROGUE_COLUMNS - 1)))) {
-	    (*row)--;
-	    (*col)++;
+	if (allow_off_screen || ((*lines > MIN_ROW) && (*columns < (ROGUE_COLUMNS - 1)))) {
+	    (*lines)--;
+	    (*columns)++;
 	}
 	break;
     case 'n':
-	if (allow_off_screen || ((*row < (ROGUE_LINES - 2)) && (*col < (ROGUE_COLUMNS - 1)))) {
-	    (*row)++;
-	    (*col)++;
+	if (allow_off_screen || ((*lines < (ROGUE_LINES - 2)) && (*columns < (ROGUE_COLUMNS - 1)))) {
+	    (*lines)++;
+	    (*columns)++;
 	}
 	break;
     case 'b':
-	if (allow_off_screen || ((*row < (ROGUE_LINES - 2)) && (*col > 0))) {
-	    (*row)++;
-	    (*col)--;
+	if (allow_off_screen || ((*lines < (ROGUE_LINES - 2)) && (*columns > 0))) {
+	    (*lines)++;
+	    (*columns)--;
 	}
 	break;
     }

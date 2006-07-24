@@ -101,7 +101,7 @@ get_zapped_monster(short dir, short *row, short *col)
     for (;;) {
 	orow = *row;
 	ocol = *col;
-	get_dir_rc(dir, row, col, 0);
+	get_dir_rc(dir, row, col, false);
 	if (((*row == orow) && (*col == ocol)) ||
 	    (dungeon[*row][*col] & (HORWALL | VERTWALL)) ||
 	    (dungeon[*row][*col] == NOTHING)) {
@@ -153,7 +153,7 @@ get_missiled_monster(short dir, short *row, short *col)
     orow = *row;
     ocol = *col;
     for (;;) {
-	get_dir_rc(dir, row, col, 0);
+	get_dir_rc(dir, row, col, false);
 	if (((*row == orow) && (*col == ocol)) ||
 	    (dungeon[*row][*col] & (HORWALL | VERTWALL)) ||
 	    (dungeon[*row][*col] == NOTHING)) {

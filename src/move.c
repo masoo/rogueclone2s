@@ -68,7 +68,7 @@ one_move_rogue(short dirch, short pickup)
     if (confused) {
 	dirch = gr_dir();
     }
-    get_dir_rc(dirch, &r, &c, 1);
+    get_dir_rc(dirch, &r, &c, true);
     row = r;
     col = c;
 
@@ -224,7 +224,7 @@ multiple_move_rogue(int dirch)
 	    for (n = 0, dir = "hjkl", i = 0; i < 4; i++) {
 		row = rogue.row;
 		col = rogue.col;
-		get_dir_rc(dir[i], &row, &col, 1);
+		get_dir_rc(dir[i], &row, &col, true);
 		if (is_passable(row, col) && dirch != dir[3 - i]) {
 		    n++, ch = dir[i];
 		}
