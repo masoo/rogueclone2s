@@ -498,6 +498,37 @@ flame_broil(object *monster)
     if (((row != 0) && (col != 0) && (row != col)) || ((row > 7) || (col > 7))) {
 	return 0;
     }
+    /* 迷路で壁ごしに炎がいかないようにする制御 */
+    if (rogue_is_around(monster->row, monster->col) || ((row == 1) && (col == 1))) {
+	row = rogue.row - monster->row;
+	col = rogue.col - monster->col;
+	if (dungeon[monster->row][monster->col] & TUNNEL) {
+	    if ((row == 1) && (col == 1)) {
+		if(!(dungeon[monster->row + 1][monster->col] & TUNNEL) &&
+		   !(dungeon[monster->row][monster->col + 1] & TUNNEL)) {
+		    return 0;
+		}
+	    }
+	    if ((row == -1) && (col == 1)) {
+		if (!(dungeon[monster->row - 1][monster->col] & TUNNEL) &&
+		    !(dungeon[monster->row][monster->col + 1] & TUNNEL)) {
+		    return 0;
+		}
+	    }
+	    if ((row == 1) && (col == -1)) {
+		if(!(dungeon[monster->row + 1][monster->col] & TUNNEL) &&
+		   !(dungeon[monster->row][monster->col - 1] & TUNNEL)) {
+		    return 0;
+		}
+	    }
+	    if ((row == -1) && (col == -1)) {
+		if(!(dungeon[monster->row - 1][monster->col] & TUNNEL) &&
+		   !(dungeon[monster->row][monster->col - 1] & TUNNEL)) {
+		    return 0;
+		}
+	    }
+	}
+    }
     if ((!blind) && (!rogue_is_around(monster->row, monster->col))) {
 	row = monster->row;
 	col = monster->col;

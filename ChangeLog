@@ -1,3 +1,8 @@
+2006-11-30  FUNABARA Masao
+
+	* spechit.c : 迷路内で、つながっていなくても斜めに
+	はいた炎に当たる問題を修正
+
 2006-07-25  FUNABARA Masao
 
 	* *.c : 前回の修正不足の get_dir_rc 関数を使用している部分の
