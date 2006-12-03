@@ -294,11 +294,7 @@ opt envopt[] = {
 #if defined( COLOR )
     {"color", &use_color, NULL, 0, 0} ,
 #endif /* COLOR */
-#if defined( JAPAN )
     {"fruit", NULL, &fruit, 0, 0} ,
-#else /* not JAPAN */
-    {"fruit", NULL, &fruit, 1, 0} ,
-#endif /* not JAPAN */
     {"file", NULL, &save_file, 0, 0} ,
     {"name", NULL, &nick_name, 0, 1} ,
 #if !defined( ORIGINAL )
@@ -310,7 +306,6 @@ opt envopt[] = {
     {NULL, NULL, NULL, 0, 0}
 };
 
-#if defined( JAPAN )
 char *optdesc[] = {
     "終了するかどうか確認をとる",
     "移動中の表示を行わない",
@@ -334,31 +329,6 @@ char *optdesc[] = {
 #endif /* COLOR */
     NULL
 };
-#else /* not JAPAN */
-char *optdesc[] = {
-    "Ask whether quit or not on quit signal",
-    "Show position only at end of run",
-#if !defined( ORIGINAL )
-    "Follow turnings in passageways",
-    "Print out tombstone and score when killed",
-#else /* Not ORIGINAL */
-    "Print out skull and score when killed",
-#endif /* ORIGINAL */
-#if defined( COLOR )
-    "Show characters in map with color",
-#endif /* COLOR */
-    mesg[16],
-    "Save filename",
-    "Your nickname",
-#if !defined( ORIGINAL )
-    "Game directory name",
-#endif /* Not ORIGINAL */
-#if defined( COLOR )
-    "Color mapping for characters",
-#endif /* COLOR */
-    NULL
-};
-#endif /*JAPAN*/
 
 /*
  * do_opts
