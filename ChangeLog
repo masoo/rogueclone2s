@@ -1,5 +1,7 @@
 2006-12-03  FUNABARA Masao
 
+	* save.c : 英語メッセージを削除
+
 	* play.c : 英語メッセージを削除
 
 	* object.c : 英語メッセージを削除
