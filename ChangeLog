@@ -1,5 +1,7 @@
 2006-12-03  FUNABARA Masao
 
+	* object.c : 英語メッセージを削除
+
 	* invent.c : 英語メッセージを削除
 
 	* init.c : 英語メッセージを削除

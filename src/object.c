@@ -569,11 +569,7 @@ alloc_object(void)
 	obj = free_list;
 	free_list = free_list->next_object;
     } else if (!(obj = (object *) md_malloc(sizeof(object)))) {
-#if defined( JAPAN )
 	message("メモリーが足りません。 ゲームをセーブします。", 0);
-#else /* not JAPAN */
-	message("Cannot allocate object, saving game", 0);
-#endif /* not JAPAN */
 	save_into_file(error_file);
     }
     obj->quantity = 1;
@@ -795,13 +791,8 @@ list_object(object *obj, short max)
 #if defined( COLOR )
     char *p;
 #endif /* COLOR */
-#if defined( JAPAN )
     char *msg = "  ＝スペースを押してください＝";
     short len = 30;
-#else /* not JAPAN */
-    char *msg = " --Press space to continue--";
-    short len = 28;
-#endif /* not JAPAN */
 
     weapon_or_armor = 0;
     switch (obj->what_is) {
