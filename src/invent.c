@@ -62,13 +62,8 @@ inventory(object *pack, unsigned short mask)
     short i, j, maxlen, n;
     short row, col;
     char *p;
-#if defined( JAPAN )
     char *msg = "  ＝スペースを押してください＝";
     short len = 30;
-#else /* not JAPAN */
-    char *msg = " --Press space to continue--";
-    short len = 28;
-#endif /* not JAPAN */
 
     if (!(obj = pack->next_object)) {
 	message(mesg[26], 0);
@@ -672,13 +667,8 @@ discovered(void)
     struct dlist *dp, *enddp;
     struct dobj *op;
     char *p;
-#if defined( JAPAN )
     char *msg = "  ＝スペースを押してください＝";
     short len = 30;
-#else /* not JAPAN */
-    char *msg = " --Press space to continue--";
-    short len = 28;
-#endif /* not JAPAN */
 
     message(mesg[45], 0);
     while (r_index("?!/=*\033", (ch = rgetchar()), 0) == -1) {

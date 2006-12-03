@@ -1,4 +1,6 @@
-2006-12-03  FUNABARA Masao  <l07steps@users.sourceforge.jp>
+2006-12-03  FUNABARA Masao
+
+	* invent.c : 英語メッセージを削除
 
 	* init.c : 英語メッセージを削除
 
