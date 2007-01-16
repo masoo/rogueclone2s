@@ -1,4 +1,4 @@
-#if !defined( SPECHIT_H )
+#ifndef SPECHIT_H
 #define SPECHIT_H
 
 extern void special_hit(object *monster);

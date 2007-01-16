@@ -1,5 +1,5 @@
-#if !defined( __INIT_H__ )
-#define __INIT_H__
+#ifndef INIT_H
+#define INIT_H
 
 extern int init(int argc, char *argv[]);
 extern void player_init(void);
@@ -15,4 +15,4 @@ extern void set_opts(char *env);
 extern void env_get_value(char **s, char *e, bool add_blank,
 			  bool no_colon);
 
-#endif /* not __INIT_H__ */
+#endif /* not INIT_H */

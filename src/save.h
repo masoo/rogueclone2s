@@ -1,4 +1,4 @@
-#if !defined( SAVE_H )
+#ifndef SAVE_H
 #define SAVE_H
 
 extern void save_game(void);

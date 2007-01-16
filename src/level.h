@@ -1,4 +1,4 @@
-#if !defined( LEVEL_H )
+#ifndef LEVEL_H
 #define LEVEL_H
 
 extern void make_level(void);

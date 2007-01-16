@@ -1,4 +1,4 @@
-#if !defined( PLAY_H )
+#ifndef PLAY_H
 #define PLAY_H
 
 extern void play_level(void);

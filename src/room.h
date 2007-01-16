@@ -1,4 +1,4 @@
-#if !defined( ROOM_H )
+#ifndef ROOM_H
 #define ROOM_H
 
 extern void light_up_room(int rn);

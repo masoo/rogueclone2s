@@ -1,4 +1,4 @@
-#if !defined( PACK_H )
+#ifndef PACK_H
 #define PACK_H
 
 extern object *add_to_pack(object *obj, object *pack, int condense);

@@ -1,4 +1,4 @@
-#if !defined( RANDOM_H )
+#ifndef RANDOM_H
 #define RANDOM_H
 
 extern void srrandom(int x);

@@ -1,4 +1,4 @@
-#if !defined( THROW_H )
+#ifndef THROW_H
 #define THROW_H
 
 extern void throw(void);

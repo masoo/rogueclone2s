@@ -1,4 +1,4 @@
-#if !defined( MONSTER_H )
+#ifndef MONSTER_H
 #define MONSTER_H
 
 extern void put_mons(void);

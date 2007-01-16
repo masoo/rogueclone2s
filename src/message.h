@@ -1,4 +1,4 @@
-#if !defined( MESSAGE_H )
+#ifndef MESSAGE_H
 #define MESSAGE_H
 
 extern void message(char *msg, bool intrpt);

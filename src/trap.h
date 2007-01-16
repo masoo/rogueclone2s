@@ -1,4 +1,4 @@
-#if !defined( TRAP_H )
+#ifndef TRAP_H
 #define TRAP_H
 
 extern int trap_at(int row, int col);

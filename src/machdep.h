@@ -1,4 +1,4 @@
-#if !defined( MACHDEP_H )
+#ifndef MACHDEP_H
 #define MACHDEP_H
 
 /* POSIX システムのシグナル名 SIGQUIT, SIGHUP について

@@ -1,4 +1,4 @@
-#if !defined( MAIN_H )
+#ifndef MAIN_H
 #define MAIN_H
 
 extern int read_mesg(char *argv_msgfile);

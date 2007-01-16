@@ -1,4 +1,4 @@
-#if !defined( USE_H )
+#ifndef USE_H
 #define USE_H
 
 extern void quaff(void);

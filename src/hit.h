@@ -1,4 +1,4 @@
-#if !defined( HIT_H )
+#ifndef HIT_H
 #define HIT_H
 
 extern void mon_hit(object *monster, char *other, bool flame);

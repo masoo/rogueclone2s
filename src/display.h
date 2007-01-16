@@ -1,4 +1,4 @@
-#if !defined( DISPLAY_H )
+#ifndef DISPLAY_H
 #define DISPLAY_H
 
 extern void init_color_attr(void);

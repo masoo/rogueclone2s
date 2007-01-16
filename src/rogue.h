@@ -10,7 +10,7 @@
  *
  */
 
-#if !defined( ROGUE_H )
+#ifndef ROGUE_H
 #define ROGUE_H
 
 #if defined( HAVE_CONFIG_H )

@@ -1,4 +1,4 @@
-#if !defined( ZAP_H )
+#ifndef ZAP_H
 #define ZAP_H
 
 extern void zapp(void);

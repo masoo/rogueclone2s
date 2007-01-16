@@ -1,4 +1,4 @@
-#if !defined( INVENT_H )
+#ifndef INVENT_H
 #define INVENT_H
 
 extern void inventory(object *pack, unsigned short maskd);

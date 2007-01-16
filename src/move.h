@@ -1,4 +1,4 @@
-#if !defined( MOVE_H )
+#ifndef MOVE_H
 #define MOVE_H
 
 extern int one_move_rogue(short dirch, short pickup);

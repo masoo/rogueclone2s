@@ -1,4 +1,4 @@
-#if !defined( RING_H )
+#ifndef RING_H
 #define RING_H
 
 extern void put_on_ring(void);

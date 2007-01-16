@@ -1,4 +1,4 @@
-#if !defined( OBJECT_H )
+#ifndef OBJECT_H
 #define OBJECT_H
 
 extern void put_objects(void);

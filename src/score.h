@@ -1,4 +1,4 @@
-#if !defined( SCORE_H )
+#ifndef SCORE_H
 #define SCORE_H
 
 extern void killed_by(object *monster, short other);
