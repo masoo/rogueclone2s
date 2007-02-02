@@ -1,3 +1,7 @@
+2007-02-03  FUNABARA Masao
+
+	* invent.c : マクロ定義 JAPAN を削除
+
 2007-01-17  FUNABARA Masao
 
 	* *.h : 2重インクルードを if !defined から ifndef に変更
