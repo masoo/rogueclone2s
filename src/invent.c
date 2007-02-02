@@ -118,20 +118,14 @@ nextpage:
 	}
     }
 #else /* not COLOR */
-#if !defined( JAPAN )			/* if.. by Yasha */
-    for (j = 1; j < i; j++) {
-	mvaddstr_rogue(j, col, descs[j - 1]);
-    }
-#else /* JAPAN */
-    for (j = 1; j < i; j++) {	/* by Yasha */
-	move(j, col);		/* by Yasha */
-	clrtoeol();		/* by Yasha */
+    for (j = 1; j < i; j++) {		/* by Yasha */
+	move(j, col);			/* by Yasha */
+	clrtoeol();			/* by Yasha */
 	addstr_rogue(descs[j - 1]);	/* by Yasha */
-    }				/* by Yasha */
+    }					/* by Yasha */
     move(ROGUE_LINES - 1, 0);		/* by Yasha */
-    clrtoeol();			/* by Yasha */
-    print_stats(STAT_ALL);	/* by Yasha */
-#endif /* JAPAN */
+    clrtoeol();				/* by Yasha */
+    print_stats(STAT_ALL);		/* by Yasha */
 #endif /* not COLOR */
 
     if (obj) {
@@ -164,7 +158,6 @@ make_scroll_titles(void)
 
     for (i = 0; i < SCROLS; i++) {
 	sylls = get_rand(2, 5);
-#if defined( JAPAN )
 	(void) strcpy(id_scrolls[i].title, "¡Ö");
 	len = 2;
 	for (j = 0; j < sylls; j++) {
@@ -177,23 +170,12 @@ make_scroll_titles(void)
 	    len += n;
 	}
 	(void) strcpy(id_scrolls[i].title + (len - 1), "¡×");
-#else /* not JAPAN */
-	(void) strcpy(id_scrolls[i].title, "'");
-	for (j = 0; j < sylls; j++) {
-	    s = get_rand(1, (MAXSYLLABLES - 1));
-	    (void) strcat(id_scrolls[i].title, syllables[s]);
-	}
-	n = strlen(id_scrolls[i].title);
-	(void) strcpy(id_scrolls[i].title + (n - 1), "' ");
-#endif /* not JAPAN */
     }
 }
 
 void
 get_desc(object *obj, char *desc, bool capitalized)
 {
-
-#if defined( JAPAN )			/* for whole function */
     char *item_name, *p;
     struct id *id_table;
     char more_info[32];
@@ -359,177 +341,6 @@ ANA:
 	p = "";
     }
     (void) strcat(desc, p);
-
-#else /* not JAPAN for whole function get_desc */
-    char *p;
-    char *item_name;
-    struct id *id_table;
-    char more_info[32];
-    short i;
-
-    if (obj->what_is == AMULET) {
-	(void) strcpy(desc, mesg[27]);
-	if (!capitalized) {
-	    *desc = 't';
-	}
-	return;
-    }
-    item_name = name_of(obj);
-
-    if (obj->what_is == GOLD) {
-	sprintf(desc, mesg[28], obj->quantity);
-	return;
-    }
-
-    if (obj->what_is != ARMOR) {
-	if (obj->quantity == 1) {
-	    strcpy(desc, capitalized ? "A " : "a ");
-	} else {
-	    sprintf(desc, "%d ", obj->quantity);
-	}
-    }
-    if (obj->what_is == FOOD) {
-	if (obj->which_kind == RATION) {
-	    if (obj->quantity > 1) {
-		sprintf(desc, mesg[30], obj->quantity);
-	    } else {
-		strcpy(desc, capitalized ? "Some " : "some ");
-	    }
-	} else {
-	    strcpy(desc, capitalized ? "A " : "a ");
-	}
-	(void) strcat(desc, item_name);
-	goto ANA;
-    }
-    id_table = get_id_table(obj);
-
-    if (wizard) {
-	goto ID;
-    }
-    if (obj->what_is & (WEAPON | ARMOR | WAND | RING)) {
-	goto CHECK;
-    }
-
-    switch (id_table[obj->which_kind].id_status) {
-    case UNIDENTIFIED:
-    CHECK:
-	switch (obj->what_is) {
-	case SCROL:
-	    (void) strcat(desc, item_name);
-	    (void) strcat(desc, mesg[33]);
-	    (void) strcat(desc, id_table[obj->which_kind].title);
-	    break;
-	case POTION:
-	    (void) strcat(desc, id_table[obj->which_kind].title);
-	    (void) strcat(desc, item_name);
-	    break;
-	case WAND:
-	case RING:
-	    if (obj->identified ||
-		(id_table[obj->which_kind].id_status == IDENTIFIED)) {
-		goto ID;
-	    }
-	    if (id_table[obj->which_kind].id_status == CALLED) {
-		goto CALL;
-	    }
-	    (void) strcat(desc, id_table[obj->which_kind].title);
-	    (void) strcat(desc, item_name);
-	    break;
-	case ARMOR:
-	    if (obj->identified) {
-		goto ID;
-	    }
-	    (void) strcpy(desc, id_table[obj->which_kind].title);
-	    break;
-	case WEAPON:
-	    if (obj->identified) {
-		goto ID;
-	    }
-	    (void) strcat(desc, name_of(obj));
-	    break;
-	}
-	break;
-    case CALLED:
-    CALL:
-	switch (obj->what_is) {
-	case SCROL:
-	case POTION:
-	case WAND:
-	case RING:
-	    (void) strcat(desc, item_name);
-	    (void) strcat(desc, mesg[34]);
-	    (void) strcat(desc, id_table[obj->which_kind].title);
-	    break;
-	}
-	break;
-    case IDENTIFIED:
-    ID:
-	switch (obj->what_is) {
-	case SCROL:
-	case POTION:
-	    (void) strcat(desc, item_name);
-	    (void) strcat(desc, id_table[obj->which_kind].real);
-	    break;
-	case RING:
-	    if (wizard || obj->identified) {
-		if ((obj->which_kind == DEXTERITY) ||
-		    (obj->which_kind == ADD_STRENGTH)) {
-		    sprintf(more_info, "%s%d ",
-			    ((obj->class > 0) ? "+" : ""), obj->class);
-		    (void) strcat(desc, more_info);
-		}
-	    }
-	    (void) strcat(desc, item_name);
-	    (void) strcat(desc, id_table[obj->which_kind].real);
-	    break;
-	case WAND:
-	    (void) strcat(desc, item_name);
-	    (void) strcat(desc, id_table[obj->which_kind].real);
-	    if (wizard || obj->identified) {
-		sprintf(more_info, "[%d]", obj->class);
-		(void) strcat(desc, more_info);
-	    }
-	    break;
-	case ARMOR:
-	    sprintf(desc, "%s%d ",
-		    ((obj->d_enchant >= 0) ? "+" : ""), obj->d_enchant);
-	    (void) strcat(desc, id_table[obj->which_kind].title);
-	    sprintf(more_info, "[%d] ", get_armor_class(obj));
-	    (void) strcat(desc, more_info);
-	    break;
-	case WEAPON:
-	    sprintf(desc + strlen(desc), "%s%d, %s%d ",
-		    ((obj->hit_enchant >= 0) ? "+" : ""),
-		    obj->hit_enchant,
-		    ((obj->d_enchant >= 0) ? "+" : ""), obj->d_enchant);
-	    (void) strcat(desc, name_of(obj));
-	    break;
-	}
-	break;
-    }
-ANA:
-    if (!strncmp(desc, (capitalized ? "A " : "a "), 2)) {
-	if (is_vowel(desc[2])) {
-	    for (i = strlen(desc) + 1; i > 1; i--) {
-		desc[i] = desc[i - 1];
-	    }
-	    desc[1] = 'n';
-	}
-    }
-    i = obj->in_use_flags;
-    if (i & BEING_WIELDED) {
-	p = mesg[35];
-    } else if (i & BEING_WORN) {
-	p = mesg[36];
-    } else if (i & ON_LEFT_HAND) {
-	p = mesg[37];
-    } else if (i & ON_RIGHT_HAND) {
-	p = "(on right hand)";
-    } else {
-	p = "";
-    }
-    (void) strcat(desc, p);
-#endif /* not JAPAN for whole function get_desc() */
 }
 
 void
@@ -549,9 +360,7 @@ get_wand_and_ring_materials(void)
 	used[j] = true;
 	p = id_wands[i].title;
 	(void) strcpy(p, wand_materials[j]);
-#if defined( JAPAN )
 	(void) strcat(p, mesg[39]);
-#endif /* JAPAN */
 	is_wood[i] = (j > MAX_METAL);
     }
     for (i = 0; i < GEMS; i++) {
@@ -564,9 +373,7 @@ get_wand_and_ring_materials(void)
 	used[j] = true;
 	p = id_rings[i].title;
 	(void) strcpy(p, gems[j]);
-#if defined( JAPAN )
 	(void) strcat(p, mesg[40]);
-#endif /* JAPAN */
     }
 }
 
@@ -638,9 +445,7 @@ struct dlist
 {
     short type, no;
     char *name, *real;
-#if defined( JAPAN )
     char *sub;
-#endif /* JAPAN */
 } dlist[SCROLS + POTIONS + WANDS + RINGS + 4];
 
 struct dobj
@@ -693,20 +498,11 @@ discovered(void)
 		dp->name = op->name;
 		if (wizard || j == IDENTIFIED) {
 		    dp->real = op->id[i].real;
-#if defined( JAPAN )
 		    dp->sub = "";
-#endif /* JAPAN */
 		} else {
 		    dp->real = op->id[i].title;
-#if defined( JAPAN )
 		    dp->sub = mesg[34];
-#endif /* JAPAN */
 		}
-#if !defined( JAPAN )
-		if (op->type == WAND && is_wood[i]) {
-		    dp->name = "staff ";
-		}
-#endif /* not JAPAN */
 		found |= op->type;
 		dp++;
 	    }
@@ -738,21 +534,11 @@ nextpage:
 	    (void) strcpy(p, "");
 	} else if (dp->no < 0) {
 	    (void) sprintf(p, mesg[47], dp->name);
-#if !defined( JAPAN )
-	    descs[i][strlen(p) - 1] = 's';
-#endif /* not JAPAN */
 	} else {
-#if defined( JAPAN )
 	    (void) strcpy(p, "  ");
 	    (void) strcat(p, dp->real);
 	    (void) strcat(p, dp->sub);
 	    (void) strcat(p, dp->name);
-#else /* not JAPAN */
-	    p[0] = ' ';
-	    (void) strcpy(p + 1, dp->name);
-	    (void) strcat(p, dp->real);
-	    p[1] -= 'a' - 'A';
-#endif /* not JAPAN */
 	}
 	if ((n = strlen(p)) > maxlen) {
 	    maxlen = n;
@@ -793,20 +579,14 @@ nextpage:
 	}
     }
 #else /* not COLOR */
-#if !defined( JAPAN )			/* if.. by Yasha */
-    for (j = 1; j < i; j++) {
-	mvaddstr_rogue(j, col, descs[j - 1]);
-    }
-#else /* JAPAN */
-    for (j = 1; j < i; j++) {	/* by Yasha */
-	move(j, col);		/* by Yasha */
-	clrtoeol();		/* by Yasha */
+    for (j = 1; j < i; j++) {		/* by Yasha */
+	move(j, col);			/* by Yasha */
+	clrtoeol();			/* by Yasha */
 	addstr_rogue(descs[j - 1]);	/* by Yasha */
-    }				/* by Yasha */
+    }					/* by Yasha */
     move(ROGUE_LINES - 1, 0);		/* by Yasha */
-    clrtoeol();			/* by Yasha */
-    print_stats(STAT_ALL);	/* by Yasha */
-#endif /* JAPAN */
+    clrtoeol();				/* by Yasha */
+    print_stats(STAT_ALL);		/* by Yasha */
 #endif /* not COLOR */
 
     if (dp < enddp) {
@@ -814,7 +594,6 @@ nextpage:
     }
 }
 #endif /* not ORIGINAL */
-#if defined( JAPAN )
 static char *_num[10] =
     { "£°", "£±", "£²", "£³", "£´", "£µ", "£¶", "£·", "£¸", "£¹" };
 
@@ -855,4 +634,3 @@ lznum(char *buf, long n, int plus)
 	buf += 2;
     }
 }
-#endif /* JAPAN */
