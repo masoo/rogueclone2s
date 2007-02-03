@@ -529,11 +529,7 @@ options(void)
 
     init_color_attr();
 
-#if !defined( JAPAN )			/* #if.. by Yasha */
     for (lines = 0; lines < ROGUE_LINES; lines++) {
-#else /* not JAPAN */
-    for (lines = 0; lines < ROGUE_LINES - 1; lines++) {	/* by Yasha */
-#endif /* JAPAN */
 	move(lines, 0);
 	for (columns = 0; columns < ROGUE_COLUMNS; columns++) {
 	    if (lines == ROGUE_LINES - 1 && columns == ROGUE_COLUMNS - 1) {

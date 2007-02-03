@@ -739,9 +739,7 @@ add_exp(int e, bool promotion)
     char mbuf[40];
     short new_exp;
     short i, hp;
-#if defined( JAPAN )
     char bf[8];
-#endif /* JAPAN */
 
     rogue.exp_points += e;
 
@@ -751,13 +749,9 @@ add_exp(int e, bool promotion)
 	    rogue.exp_points = MAX_EXP + 1;
 	}
 	for (i = rogue.exp + 1; i <= new_exp; i++) {
-#if defined( JAPAN )
 	    bf[0] = '\0';
 	    znum(bf, i, 0);
 	    sprintf(mbuf, mesg[53], bf);
-#else /* not JAPAN */
-	    sprintf(mbuf, mesg[53], i);
-#endif /* not JAPAN */
 	    message(mbuf, 0);
 	    if (promotion) {
 		hp = hp_raise();

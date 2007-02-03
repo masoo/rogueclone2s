@@ -37,7 +37,6 @@ extern bool score_only, show_skull, msg_cleared;
 extern char *byebye_string, *nick_name;
 
 #if !defined( ORIGINAL )
-#if defined( JAPAN )
 void
 killed_by(object *monster, short other)
 {
@@ -47,11 +46,11 @@ killed_by(object *monster, short other)
     char buf2[20];
     struct rogue_time rt;
     static char xpos[] = {
-	ROGUE_COLUMNS / 2 - 5, ROGUE_COLUMNS / 2 - 6, ROGUE_COLUMNS / 2 - 7, ROGUE_COLUMNS / 2 - 8,
-	    ROGUE_COLUMNS / 2 - 9,
-	ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10,
-	    ROGUE_COLUMNS / 2 - 10,
-	ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 11, ROGUE_COLUMNS / 2 - 19
+	ROGUE_COLUMNS / 2 - 5, ROGUE_COLUMNS / 2 - 6, ROGUE_COLUMNS / 2 - 7,
+	ROGUE_COLUMNS / 2 - 8, ROGUE_COLUMNS / 2 - 9, ROGUE_COLUMNS / 2 - 10,
+	ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10,
+	ROGUE_COLUMNS / 2 - 10,	ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10,
+	ROGUE_COLUMNS / 2 - 11, ROGUE_COLUMNS / 2 - 19
     };				/* by Yasha */
 /*	static char xpos[] = {35,34,33,32,31,30,30,30,30,30,30,30,29,21};*/
     static char *str[] = {
@@ -132,89 +131,6 @@ killed_by(object *monster, short other)
     message("", 0);
     put_scores(monster, other);
 }
-#else /* not JAPAN */
-killed_by(monster, other)
-object *monster;
-short other;
-{
-    int i;
-    char *p, *q;
-    char buf[80];
-    char buf2[20];
-    struct rogue_time rt;
-    static char xpos[] = {
-	ROGUE_COLUMNS / 2 - 5, ROGUE_COLUMNS / 2 - 6, ROGUE_COLUMNS / 2 - 7, ROGUE_COLUMNS / 2 - 8,
-	    ROGUE_COLUMNS / 2 - 9,
-	ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10,
-	ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 10, ROGUE_COLUMNS / 2 - 11, ROGUE_COLUMNS / 2 - 19
-    };				/* by Yasha */
-/*	static char xpos[] = {35,34,33,32,31,30,30,30,30,30,30,29,21};*/
-    static char *str[] = {
-	"----------",
-	"/          \\",
-	"/            \\",
-	"/              \\",
-	"/                \\",
-	"/                  \\",
-	"|                  |",
-	"|                  |",
-	"|                  |",
-	"|                  |",
-	"|                  |",
-	"*|     *  *  *      | *",
-	"________)/\\\\_//(\\/(/\\)/\\//\\/|_)_______"
-    };
-    static char *os1[] = { "", mesg[172], mesg[173], mesg[174], mesg[175] };
-    static char *os2[] = { "", mesg[168], mesg[169], mesg[170], mesg[171] };
-
-    md_ignore_signals();
-
-    if (other != QUIT) {
-	rogue.gold = ((rogue.gold * 9) / 10);
-    }
-
-    if (other) {
-	(void) strcpy(buf, os1[other]);
-	(void) strcpy(buf2, os2[other]);
-    } else {
-	(void) strcpy(buf, mesg[176]);
-	if (is_vowel(m_names[monster->m_char - 'A'][0])) {
-	    (void) strcat(buf, "n");
-	}
-	(void) strcpy(buf2, m_names[monster->m_char - 'A']);
-    }
-    if (show_skull && other != QUIT) {
-	md_gct(&rt);
-	clear();
-	for (i = 0; i < 13; i++)
-	    mvaddstr_rogue(i + 4, xpos[i], str[i]);
-	center(6, mesg[177]);
-	center(7, mesg[178]);
-	center(8, mesg[179]);
-#if defined( COLOR )
-	standend();
-#endif /* COLOR */
-	center(10, nick_name);
-	center(12, buf);
-	center(13, buf2);
-	sprintf(buf, mesg[180], rogue.gold);
-	center(11, buf);
-	sprintf(buf, "%d", rt.year + 1900);
-	center(14, buf);
-	check_message();
-	message("", 0);
-    } else {
-	if (*buf2)
-	    (void) strcat(buf, " ");
-	(void) strcat(buf, buf2);
-/*		(void) strcat(buf, " with ");*/
-	sprintf(buf + strlen(buf), mesg[181], rogue.gold);
-	message(buf, 0);
-    }
-    message("", 0);
-    put_scores(monster, other);
-}
-#endif /* not JAPAN */
 #else /* ORIGINAL */
 killed_by(monster, other)
 object *monster;
@@ -404,11 +320,7 @@ quit(bool from_intrpt)
 	}
     }
     check_message();
-#if defined( JAPAN )
     message("ゲームを終了してよいのですか？", 1);
-#else /* not JAPAN */
-    message("Really quit?", 1);
-#endif /* not JAPAN */
     if (rgetchar() != 'y') {
 	md_heed_signals();
 	check_message();
@@ -530,11 +442,7 @@ put_scores(object *monster, short other)
 
     md_ignore_signals();
     clear();
-#if defined( JAPAN )
     mvaddstr_rogue(3, 20, mesg[187]);
-#else /* not JAPAN */
-    mvaddstr_rogue(3, 25, mesg[187]);
-#endif /* not JAPAN */
     mvaddstr_rogue(6, 0, mesg[188]);
 #if defined( COLOR )
     standend();
@@ -694,7 +602,6 @@ short other;
 }
 #endif /* ORIGINAL */
 
-#if defined( JAPAN )
 void
 insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
 	     short n, object *monster, int other)
@@ -757,74 +664,7 @@ insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
     (void) strcpy(n_names[rank], n_name);
 }
 
-#else /* not JAPAN */
-insert_score(scores, n_names, n_name, rank, n, monster, other)
-char scores[][82];
-char n_names[][30];
-char *n_name;
-short rank, n;
-object *monster;
-{
-    short i;
-    char *p;
-    char buf[82];
-
-    if (n > 0) {
-	for (i = n; i > rank; i--) {
-	    if ((i < 10) && (i > 0)) {
-		(void) strcpy(scores[i], scores[i - 1]);
-		(void) strcpy(n_names[i], n_names[i - 1]);
-	    }
-	}
-    }
-    sprintf(buf, " %2d   %6ld   %s: ", rank + 1, rogue.gold, login_name);
-
-    if (other) {
-	switch (other) {
-	case HYPOTHERMIA:
-	    p = mesg[192];
-	    break;
-	case STARVATION:
-	    p = mesg[193];
-	    break;
-	case POISON_DART:
-	    p = mesg[194];
-	    break;
-	case QUIT:
-	    p = mesg[195];
-	    break;
-	case WIN:
-	    p = mesg[196];
-	    break;
-	}
-	(void) strcat(buf, p);
-    } else {
-	(void) strcat(buf, mesg[197]);
-	if (is_vowel(m_names[monster->m_char - 'A'][0])) {
-	    p = "an ";
-	} else {
-	    p = "a ";
-	}
-	(void) strcat(buf, p);
-	(void) strcat(buf, m_names[monster->m_char - 'A']);
-    }
-#if !defined( ORIGINAL )
-    sprintf(buf + strlen(buf), " on level %d ", cur_level);
-#else /* ORIGINAL */
-    sprintf(buf + strlen(buf), " on level %d ", max_level);
-#endif /* ORIGINAL */
-    if ((other != WIN) && has_amulet()) {
-	(void) strcat(buf, mesg[189]);
-    }
-    for (i = strlen(buf); i < 79; i++) {
-	buf[i] = ' ';
-    }
-    buf[79] = 0;
-    (void) strcpy(scores[rank], buf);
-    (void) strcpy(n_names[rank], n_name);
-}
-#endif /* not JAPAN */
-    int
+int
 is_vowel(short ch)
 {
     return ((ch == 'a') ||

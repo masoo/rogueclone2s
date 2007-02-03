@@ -123,10 +123,8 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 {
     short ch;
     short i = 0, n = 0;
-#if defined( JAPAN )
     short k;
     char kanji[MAX_TITLE_LENGTH];
-#endif /* JAPAN */
 
     if (is_msg) {
 	message(prompt, 0);
@@ -139,7 +137,6 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 	mvaddstr_rogue(row, col + n, insert);
 	(void) strcpy(buf, insert);
 	i = strlen(insert);
-#if defined( JAPAN )
 	k = 0;
 	while (k < i) {
 	    ch = insert[k];
@@ -161,11 +158,9 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 	    }
 #endif /* not EUC */
 	}
-#endif /* JAPAN */
 	move(row, col + n + i);
 	refresh();
     }
-#if defined( JAPAN )
     for (;;) {
 	if (first_ch) {
 	    ch = first_ch;
@@ -224,36 +219,6 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
     if (add_blank) {
 	buf[i++] = ' ';
     }
-#else /* not JAPAN */
-	while (((ch = rgetchar()) != '\r') && (ch != '\n') && (ch != CANCEL)) {
-	if ((ch >= ' ') && (ch <= '~') && (i < MAX_TITLE_LENGTH - 2)) {
-	    if ((ch != ' ') || (i > 0)) {
-		buf[i++] = ch;
-		if (do_echo) {
-		    addch_rogue(ch);
-		}
-	    }
-	}
-	if ((ch == '\b') && (i > 0)) {
-	    i--;
-	    if (do_echo) {
-		mvaddch_rogue(row, col + n + i, ' ');
-		move(row, col + n + i);
-	    }
-	}
-	refresh();
-    }
-    if (is_msg) {
-	check_message();
-    }
-    if (add_blank) {
-	buf[i++] = ' ';
-    } else {
-	while ((i > 0) && (buf[i - 1] == ' ')) {
-	    i--;
-	}
-    }
-#endif /* not JAPAN */
 	buf[i] = 0;
 
     if ((ch == CANCEL) || (i == 0) || ((i == 1) && add_blank)) {
@@ -315,11 +280,7 @@ print_stats(int stat_mask)
 	}
 	/* max level taken care of in make_level() */
 	sprintf(buf, "%d", cur_level);
-#if defined( JAPAN )
 	mvaddstr_rogue(row, 4, buf);
-#else /* not JAPAN */
-	mvaddstr_rogue(row, 7, buf);
-#endif /* not JAPAN */
 	pad(buf, 2);
     }
     if (stat_mask & STAT_GOLD) {
@@ -327,47 +288,27 @@ print_stats(int stat_mask)
 	    if (rogue.gold > MAX_GOLD) {
 		rogue.gold = MAX_GOLD;
 	    }
-#if defined( JAPAN )
 	    mvaddstr_rogue(row, 7, mesg[57]);
-#else /* not JAPAN */
-	    mvaddstr_rogue(row, 10, mesg[57]);
-#endif /* not JAPAN */
 	}
 	sprintf(buf, "%ld", rogue.gold);
-#if defined( JAPAN )
 	mvaddstr_rogue(row, 13, buf);
-#else /* not JAPAN */
-	mvaddstr_rogue(row, 16, buf);
-#endif /* not JAPAN */
 	pad(buf, 6);
     }
     if (stat_mask & STAT_HP) {
 	if (label) {
-#if defined( JAPAN )
 	    mvaddstr_rogue(row, 20, mesg[58]);
-#else /* not JAPAN */
-	    mvaddstr_rogue(row, 23, mesg[58]);
-#endif /* not JAPAN */
 	    if (rogue.hp_max > MAX_HP) {
 		rogue.hp_current -= (rogue.hp_max - MAX_HP);
 		rogue.hp_max = MAX_HP;
 	    }
 	}
 	sprintf(buf, "%d(%d)", rogue.hp_current, rogue.hp_max);
-#if defined( JAPAN )
 	mvaddstr_rogue(row, 26, buf);
-#else /* not JAPAN */
-	mvaddstr_rogue(row, 27, buf);
-#endif /* not JAPAN */
 	pad(buf, 8);
     }
     if (stat_mask & STAT_STRENGTH) {
 	if (label) {
-#if defined( JAPAN )
 	    mvaddstr_rogue(row, 35, mesg[59]);
-#else /* not JAPAN */
-	    mvaddstr_rogue(row, 36, mesg[59]);
-#endif /* not JAPAN */
 	}
 	if (rogue.str_max > MAX_STRENGTH) {
 	    rogue.str_current -= (rogue.str_max - MAX_STRENGTH);
@@ -386,38 +327,21 @@ print_stats(int stat_mask)
 	    rogue.armor->d_enchant = MAX_ARMOR;
 	}
 	sprintf(buf, "%d", get_armor_class(rogue.armor));
-#if defined( JAPAN )
 	mvaddstr_rogue(row, 54, buf);
-#else /* not JAPAN */
-	mvaddstr_rogue(row, 53, buf);
-#endif /* not JAPAN */
 	pad(buf, 2);
     }
     if (stat_mask & STAT_EXP) {
 	if (label) {
-#if defined( JAPAN )
 	    mvaddstr_rogue(row, 57, mesg[61]);
-#else /* not JAPAN */
-	    mvaddstr_rogue(row, 56, mesg[61]);
-#endif /* not JAPAN */
 	}
 	/*  Max exp taken care of in add_exp() */
 	sprintf(buf, "%d/%ld", rogue.exp, rogue.exp_points);
-#if defined( JAPAN )
 	mvaddstr_rogue(row, 63, buf);
-#else /* not JAPAN */
-	mvaddstr_rogue(row, 61, buf);
-#endif /* not JAPAN */
 	pad(buf, 11);
     }
     if (stat_mask & STAT_HUNGER) {
-#if defined( JAPAN )
 	mvaddstr_rogue(row, 75, hunger_str);
 	clrtoeol();
-#else /* not JAPAN */
-	mvaddstr_rogue(row, 73, hunger_str);
-	clrtoeol();
-#endif /* not JAPAN */
     }
     refresh();
 }

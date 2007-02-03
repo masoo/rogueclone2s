@@ -263,50 +263,21 @@ name_of(object *obj)
 {
 #if !defined( ORIGINAL )
     int i;
-#if !defined( JAPAN )
-    static char bf[81];		/* by Yasha */
-#endif /* not JAPAN */
     static unsigned short wa[] = {
 	SCROL, POTION, WAND, ARMOR, RING, AMULET
     };
     static char *na[] = {
 	mesg[3], mesg[4], mesg[5], mesg[7], mesg[8], mesg[9]
     };
-#if !defined( JAPAN )
-    if (obj->what_is == WAND)
-	return is_wood[obj->which_kind] ? mesg[6] : mesg[5];
-#endif /* not JAPAN */
     if (obj->what_is == WEAPON) {
-#if defined( JAPAN )
 	return id_weapons[obj->which_kind].title;
-#else /* not JAPAN */
-	strcpy(bf, id_weapons[obj->which_kind].title);
-	switch (obj->which_kind) {
-	case DART:
-	case ARROW:
-	case DAGGER:
-	case SHURIKEN:
-	    if (obj->quantity == 1) {
-		i = strlen(bf);
-		bf[i - 2] = ' ';
-		bf[i - 1] = '\0';
-	    }
-	    break;
-	}
-	return bf;
-#endif /* not JAPAN */
     }
     if (obj->what_is == FOOD) {
 	return (obj->which_kind == RATION) ? mesg[2] : fruit;
     }
     for (i = 0; i < 6; i++) {
 	if (obj->what_is == wa[i]) {
-#if defined( JAPAN )
 	    return na[i];
-#else /* not JAPAN */
-	    sprintf(bf, na[i], obj->quantity > 1 ? "s" : "");
-	    return bf;
-#endif /* not JAPAN */
 	}
     }
     return mesg[80];
@@ -823,21 +794,11 @@ list_object(object *obj, short max)
     maxlen = len;
     for (i = 0; i <= max; i++) {
 #if 1				/* by Yasha */
-#if defined( JAPAN )
 	sprintf(descs[i], " %c) %s%s", i + 'a',
 		weapon_or_armor ? id[i].title : id[i].real,
 		weapon_or_armor ? "" : name_of(obj));
-#else /* not JAPAN */
-	sprintf(descs[i], " %c) %s%s", i + 'a',
-		weapon_or_armor ? "" : name_of(obj),
-		weapon_or_armor ? id[i].title : id[i].real);
-#endif /* not JAPAN */
 #else
-#if defined( JAPAN )
 	sprintf(descs[i], " %c) %s%s", i + 'a', id[i].real, name_of(obj));
-#else /* not JAPAN */
-	sprintf(descs[i], " %c) %s%s", i + 'a', name_of(obj), id[i].real);
-#endif /* not JAPAN */
 #endif
 	if ((n = strlen(descs[i])) > maxlen) {
 	    maxlen = n;

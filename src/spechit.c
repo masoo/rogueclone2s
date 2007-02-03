@@ -198,19 +198,12 @@ steal_item(object *monster)
 #if !defined( ORIGINAL )
 adornment:
 #endif /* not ORIGINAL */
-#if !defined( JAPAN )
-    (void) strcpy(desc, mesg[205]);
-#endif /* JAPAN */
     if (obj->what_is != WEAPON) {
 	t = obj->quantity;
 	obj->quantity = 1;
     }
-#if defined( JAPAN )
     get_desc(obj, desc, 0);
     (void) strcat(desc, mesg[205]);
-#else /* not JAPAN */
-    get_desc(obj, desc + 10, 0);
-#endif /* not JAPAN */
     message(desc, 0);
 
     obj->quantity = ((obj->what_is != WEAPON) ? t : 1);

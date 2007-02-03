@@ -1,5 +1,23 @@
 2007-02-03  FUNABARA Masao
 
+	* spechit.c : マクロ定義 JAPAN を削除
+
+	* score.c : マクロ定義 JAPAN を削除
+
+	* ring.c : マクロ定義 JAPAN を削除
+
+	* play.c : マクロ定義 JAPAN を削除
+
+	* pack.c : マクロ定義 JAPAN を削除
+
+	* object.c : マクロ定義 JAPAN を削除
+
+	* move.c : マクロ定義 JAPAN を削除
+
+	* message.c : マクロ定義 JAPAN を削除
+
+	* level.c : マクロ定義 JAPAN を削除
+
 	* invent.c : マクロ定義 JAPAN を削除
 
 2007-01-17  FUNABARA Masao

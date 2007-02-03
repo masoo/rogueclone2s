@@ -64,12 +64,10 @@ put_on_ring(void)
 	message(left_or_right, 0);
 	do {
 	    ch = rgetchar();
-#if defined( JAPAN )
 	    if (ch == 'L')
 		ch = 'l';
 	    if (ch == 'R')
 		ch = 'r';
-#endif /* JAPAN */
 	} while ((ch != CANCEL) && (ch != 'l') && (ch != 'r') && (ch != '\n')
 		 && (ch != '\r'));
     }
@@ -125,14 +123,12 @@ remove_ring(void)
 	message(left_or_right, 0);
 	do {
 	    ch = rgetchar();
-#if defined( JAPAN )
 	    if (ch == 'L') {
 		ch = 'l';
 	    }
 	    if (ch == 'R') {
 		ch = 'r';
 	    }
-#endif /* JAPAN */
 	} while ((ch != CANCEL) && (ch != 'l') && (ch != 'r') &&
 		 (ch != '\n') && (ch != '\r'));
 	left = (ch == 'l');
@@ -152,13 +148,8 @@ remove_ring(void)
 	    message(curse_message, 0);
 	} else {
 	    un_put_on(ring);
-#if defined( JAPAN )
 	    get_desc(ring, buf, 0);
 	    (void) strcat(buf, mesg[166]);
-#else /* not JAPAN */
-	    (void) strcpy(buf, mesg[166]);
-	    get_desc(ring, buf + strlen(mesg[166]), 0);
-#endif /* not JAPAN */
 	    message(buf, 0);
 	    (void) reg_move();
 	}
