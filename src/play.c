@@ -250,9 +250,7 @@ play_level(void)
 	case CTRL('A'):
 	    show_average_hp();
 	    break;
-#if !defined( ORIGINAL )
 	case CTRL('G'):
-#endif /* not ORIGINAL */
 	case CTRL('C'):
 	    if (wizard) {
 		new_object_for_wizard();
@@ -273,7 +271,6 @@ play_level(void)
 	case ',':
 	    kick_into_pack();
 	    break;
-#if !defined( ORIGINAL )
 	case CTRL('X'):
 	    if (!wizard) {
 		message(unknown_command, 0);
@@ -305,7 +302,6 @@ play_level(void)
 	case 'a':
 	    ch = cmd = oldcmd;
 	    goto CH;
-#endif /* not ORIGINAL */
 	default:
 	    message(unknown_command, 0);
 	    break;
@@ -313,7 +309,6 @@ play_level(void)
     }
 }
 
-#if !defined( ORIGINAL )
 char *help_message[] = {
     mesg[116], mesg[117], mesg[118], mesg[119], mesg[120], mesg[121],
     mesg[122], mesg[123], mesg[124], mesg[125], mesg[126], mesg[127],
@@ -571,5 +566,3 @@ doshell(void)
     start_window();
     wrefresh(curscr);
 }
-
-#endif /* not ORIGINAL */

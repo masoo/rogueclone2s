@@ -10,6 +10,7 @@
  *
  */
 
+#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 
@@ -228,7 +229,7 @@ inv_rings(void)
 	    message(buf, 0);
 	}
     }
-#if ORIGINAL
+#if defined ( ORIGINAL )
     if (wizard) {
 	sprintf(buf,
 		"ste %d, r_r %d, e_r %d, r_t %d, s_s %d, a_s %d, reg %d, r_e %d, s_i %d, m_a %d, aus %d",

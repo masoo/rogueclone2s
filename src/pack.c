@@ -39,7 +39,6 @@ add_to_pack(object *obj, object *pack, int condense)
 	    obj->ichar = next_avail_ichar();
 	}
     }
-#if !defined( ORIGINAL )
     for (op = pack; op->next_object; op = op->next_object) {
 	if (op->next_object->what_is > obj->what_is) {
 	    p = op->next_object;
@@ -51,20 +50,6 @@ add_to_pack(object *obj, object *pack, int condense)
     op->next_object = obj;
     obj->next_object = 0;
     return obj;
-#else /* ORIGINAL */
-    if (pack->next_object == 0) {
-	pack->next_object = obj;
-    } else {
-	op = pack->next_object;
-
-	while (op->next_object) {
-	    op = op->next_object;
-	}
-	op->next_object = obj;
-    }
-    obj->next_object = 0;
-    return obj;
-#endif /* ORIGINAL */
 }
 
 void
@@ -536,12 +521,10 @@ kick_into_pack(void)
     if (!(dungeon[rogue.row][rogue.col] & OBJECT)) {
 	message(mesg[112], 0);
     } else {
-#if !defined( ORIGINAL )
 	if (levitate) {
 	    message(mesg[113], 0);
 	    return;
 	}
-#endif /* ORIGINAL */
 	if ((obj = pick_up(rogue.row, rogue.col, &stat))) {
 	    get_desc(obj, desc, 1);
 	    (void) strcat(desc, mesg[114]);

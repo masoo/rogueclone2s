@@ -386,11 +386,9 @@ eat(void)
     if ((obj->which_kind == FRUIT) || rand_percent(60)) {
 	moves = get_rand(900, 1100);
 	if (obj->which_kind == RATION) {
-#if !defined( ORIGINAL )
 	    if (get_rand(1, 10) == 1) {
 		message(mesg[265], 0);
 	    } else
-#endif /* not ORIGINAL */
 		message(mesg[266], 0);
 	} else {
 	    sprintf(buf, mesg[267], fruit);

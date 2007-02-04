@@ -411,7 +411,6 @@ struct rogue_time
     short second;	/* 0 - 59 */
 };
 
-#if !defined( ORIGINAL )
 typedef struct sopt
 {
     char *name;		/* option name */
@@ -422,11 +421,7 @@ typedef struct sopt
 } opt;
 extern opt envopt[];
 extern char *optdesc[];
-#endif /* not ORIGINAL */
-
-#if !defined( ORIGINAL )
 extern char org_dir[], *game_dir;
-#endif /* not ORIGINAL */
 
 #undef getchar
 #undef putchar

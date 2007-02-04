@@ -39,10 +39,8 @@ bool cant_int = false, did_int = false, score_only = false, init_curses = false;
 bool save_is_interactive = true;
 bool show_skull = true;
 bool ask_quit = true;
-#if !defined( ORIGINAL )
 bool pass_go = true, do_restore = false;
 char org_dir[64], *game_dir = "";
-#endif /* Not ORIGINAL */
 bool use_color = true;
 char *error_file = "rogue.esave";
 
@@ -58,9 +56,7 @@ init(int argc, char *argv[])
     int seed;
     WINDOW *main_window;
 
-#if !defined( ORIGINAL )
     getcwd(org_dir, 64);
-#endif /* Not ORIGINAL */
     do_args(argc, argv);
     do_opts();
 
@@ -94,11 +90,9 @@ init(int argc, char *argv[])
     }
     seed = md_gseed();
     (void) srrandom(seed);
-#if !defined( ORIGINAL )
     if (do_restore && save_file && *save_file) {
 	rest_file = save_file;
     }
-#endif /* Not ORIGINAL */
     if (rest_file) {
 	restore(rest_file);
 	return (1);
@@ -170,9 +164,7 @@ clean_up(char *estr)
     if (save_is_interactive) {
 	if (init_curses) {
 	    move(ROGUE_LINES - 1, 0);
-#if !defined( ORIGINAL )
 	    clrtoeol();
-#endif /* Not ORIGINAL */
 	    refresh();
 	    stop_window();
 	}
@@ -241,22 +233,16 @@ do_args(int argc, char *argv[])
     char *option_strings;
     extern int optind;
 
-#if !defined( ORIGINAL )
     option_strings = "sr";
-#else /* Not ORIGINAL */
-    option_strings = "s";
-#endif /* ORIGINAL */
 
     while ((ch = getopt(argc, argv, option_strings)) != EOF) {
 	switch (ch) {
 	case 's':
 	    score_only = true;
 	    break;
-#if !defined( ORIGINAL )
 	case 'r':
 	    do_restore = true;
 	    break;
-#endif /* Not ORIGINAL */
 	case '?':
 	default:
 	    usage();
@@ -274,19 +260,16 @@ do_args(int argc, char *argv[])
     if (read_mesg(argv[0])) {
 	exit(1);
     }
-#if !defined( ORIGINAL )
     if (argc == 2) {
 	rest_file = argv[1];
     }
-#endif /* Not ORIGINAL */
-
 }
 
 opt envopt[] = {
     {"askquit", &ask_quit, NULL, 0, 0} ,
     {"jump", &jump, NULL, 0, 0} ,
-#if !defined( ORIGINAL )
     {"passgo", &pass_go, NULL, 0, 0} ,
+#if !defined( ORIGINAL )
     {"tombstone", &show_skull, NULL, 0, 0} ,
 #else /* Not ORIGINAL */
     {"skull", &show_skull, NULL, 0, 0} ,
@@ -297,9 +280,7 @@ opt envopt[] = {
     {"fruit", NULL, &fruit, 0, 0} ,
     {"file", NULL, &save_file, 0, 0} ,
     {"name", NULL, &nick_name, 0, 1} ,
-#if !defined( ORIGINAL )
     {"directory", NULL, &game_dir, 0, 0} ,
-#endif /* Not ORIGINAL */
 #if defined( COLOR )
     {"map", NULL, &color_str, 0, 0} ,
 #endif /* COLOR */
@@ -309,8 +290,8 @@ opt envopt[] = {
 char *optdesc[] = {
     "終了するかどうか確認をとる",
     "移動中の表示を行わない",
-#if !defined( ORIGINAL )
     "通路の角で止まらずに進む",
+#if !defined( ORIGINAL )
     "ゲーム終了時に墓標を表示する",
 #else /* Not ORIGINAL */
     "ゲーム終了時に骸骨を表示する",
@@ -321,9 +302,7 @@ char *optdesc[] = {
     mesg[16],
     "セーブファイル名",
     "ニックネーム",
-#if !defined( ORIGINAL )
     "ゲームディレクトリー名",
-#endif /* Not ORIGINAL */
 #if defined( COLOR )
     "キャラクターの表示色マッピング",
 #endif /* COLOR */
@@ -405,11 +384,9 @@ set_opts(char *env)
 	}
     }
 
-#if !defined( ORIGINAL )
     if (game_dir && *game_dir) {
 	chdir(game_dir);
     }
-#endif /* Not ORIGINAL */
 }
 
 /*

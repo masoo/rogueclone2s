@@ -261,7 +261,6 @@ free_stuff(object *objlist)
 char *
 name_of(object *obj)
 {
-#if !defined( ORIGINAL )
     int i;
     static unsigned short wa[] = {
 	SCROL, POTION, WAND, ARMOR, RING, AMULET
@@ -281,44 +280,6 @@ name_of(object *obj)
 	}
     }
     return mesg[80];
-#else /* ORIGINAL */
-    char *retstring;
-
-    switch (obj->what_is) {
-    case SCROL:
-	retstring = mesg[3];
-	break;
-    case POTION:
-	retstring = mesg[4];
-	break;
-    case FOOD:
-	if (obj->which_kind == RATION) {
-	    retstring = mesg[2];
-	} else {
-	    retstring = fruit;
-	}
-	break;
-    case WAND:
-	retstring = mesg[5];
-	break;
-    case WEAPON:
-	retstring = id_weapons[obj->which_kind].title;
-	break;
-    case ARMOR:
-	retstring = mesg[7];
-	break;
-    case RING:
-	retstring = mesg[8];
-	break;
-    case AMULET:
-	retstring = mesg[9];
-	break;
-    default:
-	retstring = mesg[80];
-	break;
-    }
-    return retstring;
-#endif /* ORIGINAL */
 }
 
 object *
@@ -634,9 +595,6 @@ void
 new_object_for_wizard(void)
 {
     short ch, max = 0;		/* 未初期化変数の使用の Warning の対策で 0 を不可 */
-#if defined( ORIGINAL )
-    short wk;
-#endif /* ORIGINAL */
     object *obj;
     char buf[80];
 
@@ -691,7 +649,6 @@ new_object_for_wizard(void)
 	break;
     }
     if ((ch != ',') && (ch != ':')) {
-#if !defined( ORIGINAL )
 /*		sprintf(buf, mesg[83], name_of(obj));*/
 	sprintf(buf, mesg[83], (obj->what_is == WEAPON)	/* by Yasha */
 		? mesg[84] : name_of(obj));	/* by Yasha */
@@ -727,30 +684,12 @@ new_object_for_wizard(void)
 	} else if (obj->what_is == WEAPON) {	/* by Yasha */
 	    gr_weapon(obj, 0);	/* by Yasha */
 	}
-#else /* ORIGINAL */
-	    if (get_input_line("Which kind?", "", buf, "", 0, 1)) {
-	    wk = get_number(buf);
-	    if ((wk >= 0) && (wk <= max)) {
-		obj->which_kind = (unsigned short) wk;
-		if (obj->what_is == RING) {
-		    gr_ring(obj, 0);
-		}
-	    } else {
-		sound_bell();
-		goto GIL;
-	    }
-	} else {
-	    free_object(obj);
-	    return;
-	}
-#endif /* ORIGINAL */
     }
     get_desc(obj, buf, 1);
     message(buf, 0);
     (void) add_to_pack(obj, &rogue.pack, 1);
 }
 
-#if !defined( ORIGINAL )
 void
 list_object(object *obj, short max)
 {
@@ -835,7 +774,6 @@ list_object(object *obj, short max)
     }
 #endif /* not COLOR */
 }
-#endif /* not ORIGINAL */
 
 int
 next_party(void)

@@ -132,9 +132,8 @@ killed_by(object *monster, short other)
     put_scores(monster, other);
 }
 #else /* ORIGINAL */
-killed_by(monster, other)
-object *monster;
-short other;
+void
+killed_by(object *monster, short other)
 {
     char *p;
     char buf[80];
@@ -341,7 +340,6 @@ quit(bool from_intrpt)
     killed_by((object *) 0, QUIT);
 }
 
-#if !defined( ORIGINAL )
 void
 put_scores(object *monster, short other)
 {
@@ -477,130 +475,6 @@ put_scores(object *monster, short other)
     message("", 0);
     clean_up("");
 }
-#else /* ORIGINAL */
-put_scores(monster, other)
-object *monster;
-short other;
-{
-    short i, n, rank = 10, x, ne = 0, found_player = -1;
-    char scores[10][82];
-    char n_names[10][30];
-    char buf[100];
-    FILE *fp;
-    long s;
-    bool failed = false;
-    char *mode = "r+wb";
-
-    while ((fp = fopen(score_file, mode)) == NULL) {
-	if (!failed) {
-	    mode = "w";
-	} else {
-	    message("Cannot read/write/create score file", 0);
-	    sf_error();
-	}
-	failed = true;
-    }
-    (void) xxx(1);
-
-    for (i = 0; i < 10; i++) {
-	if (((n = fread(scores[i], sizeof(char), 80, fp)) < 80) && (n != 0)) {
-	    sf_error();
-	} else if (n != 0) {
-	    xxxx(scores[i], 80);
-	    if ((n = fread(n_names[i], sizeof(char), 30, fp)) < 30) {
-		sf_error();
-	    }
-	    xxxx(n_names[i], 30);
-	} else {
-	    break;
-	}
-	ne++;
-	if (!score_only) {
-	    if (!name_cmp(scores[i] + 15, login_name)) {
-		x = 5;
-		while (scores[i][x] == ' ') {
-		    x++;
-		}
-		s = lget_number(scores[i] + x);
-		if (rogue.gold < s) {
-		    score_only = true;
-		} else {
-		    found_player = i;
-		}
-	    }
-	}
-    }
-    if (found_player != -1) {
-	ne--;
-	for (i = found_player; i < ne; i++) {
-	    (void) strcpy(scores[i], scores[i + 1]);
-	    (void) strcpy(n_names[i], n_names[i + 1]);
-	}
-    }
-    if (!score_only) {
-	for (i = 0; i < ne; i++) {
-	    x = 5;
-	    while (scores[i][x] == ' ') {
-		x++;
-	    }
-	    s = lget_number(scores[i] + x);
-
-	    if (rogue.gold >= s) {
-		rank = i;
-		break;
-	    }
-	}
-	if (ne == 0) {
-	    rank = 0;
-	} else if ((ne < 10) && (rank == 10)) {
-	    rank = ne;
-	}
-	if (rank < 10) {
-	    insert_score(scores, n_names, nick_name, rank, ne, monster, other);
-	    if (ne < 10) {
-		ne++;
-	    }
-	}
-	rewind(fp);
-    }
-
-    clear();
-    mvaddstr_rogue(3, 30, "Top  Ten  Rogueists");
-    mvaddstr_rogue(8, 0, "Rank   Score   Name");
-
-    md_ignore_signals();
-
-    (void) xxx(1);
-
-    for (i = 0; i < ne; i++) {
-	if (i == rank) {
-	    standout();
-	}
-	if (i == 9) {
-	    scores[i][0] = '1';
-	    scores[i][1] = '0';
-	} else {
-	    scores[i][0] = ' ';
-	    scores[i][1] = i + '1';
-	}
-	nickize(buf, scores[i], n_names[i]);
-	mvaddstr_rogue(i + 10, 0, buf);
-	if (rank < 10) {
-	    xxxx(scores[i], 80);
-	    fwrite(scores[i], sizeof(char), 80, fp);
-	    xxxx(n_names[i], 30);
-	    fwrite(n_names[i], sizeof(char), 30, fp);
-	}
-	if (i == rank) {
-	    standend();
-	}
-    }
-    refresh();
-    fclose(fp);
-    message("", 0);
-    clean_up("");
-}
-#endif /* ORIGINAL */
 
 void
 insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
@@ -625,11 +499,7 @@ insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
 	    (void) strcat(buf, mesg[189]);
 	}
 	strcat(buf, mesg[190]);
-#if !defined( ORIGINAL )
 	znum(buf, cur_level, 0);
-#else /* ORIGINAL */
-	znum(buf, max_level, 0);
-#endif /* ORIGINAL */
 	strcat(buf, mesg[191]);
     }
     if (other) {
@@ -774,14 +644,13 @@ id_all(void)
 }
 
 #if !defined( TOPSCO )
-name_cmp(s1, s2)
-char *s1, *s2;
+void
+name_cmp(char *s1, char *s2)
 {
     short i = 0;
     int r;
 
     while (s1[i] != ':') {
-#if !defined( ORIGINAL )
 	r = (unsigned char) s1[i];
 #if defined( EUC )
 	if (r & 0x80) {
@@ -792,7 +661,6 @@ char *s1, *s2;
 	    i++;
 	}
 #endif /* not EUC */
-#endif /* not ORIGINAL */
 	i++;
     }
     s1[i] = 0;
@@ -800,42 +668,18 @@ char *s1, *s2;
     s1[i] = ':';
     return r;
 }
-#else /* TOPSCO */
-#if defined( ORIGINAL )
-name_cmp(s1, s2)
-char *s1, *s2;
-{
-    short i = 0;
-    int r;
-
-    while (s1[i] != ':') {
-	i++;
-    }
-    s1[i] = 0;
-    r = strcmp(s1, s2);
-    s1[i] = ':';
-    return r;
-}
-#endif /* ORIGINAL */
 #endif /* TOPSCO */
-    void
+
+void
 xxxx(char *buf, short n)
 {
     short i;
-#if !defined( ORIGINAL )
     char c;			/* char is already defined to be unsigned */
-#else /* ORIGINAL */
-    unsigned char c;
-#endif /* ORIGINAL */
 
     for (i = 0; i < n; i++) {
 
 	/* It does not matter if accuracy is lost during this assignment */
-#if !defined( ORIGINAL )
 	c = (char) xxx(0);
-#else /* ORIGINAL */
-	c = (unsigned char) xxx(0);
-#endif /* ORIGINAL */
 
 	buf[i] ^= c;
     }

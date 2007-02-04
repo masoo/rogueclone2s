@@ -440,7 +440,6 @@ inv_armor_weapon(bool is_weapon)
     }
 }
 
-#if !defined( ORIGINAL )
 struct dlist
 {
     short type, no;
@@ -593,7 +592,7 @@ nextpage:
 	goto nextpage;
     }
 }
-#endif /* not ORIGINAL */
+
 static char *_num[10] =
     { "£°", "£±", "£²", "£³", "£´", "£µ", "£¶", "£·", "£¸", "£¹" };
 

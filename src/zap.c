@@ -32,9 +32,7 @@
 #include "use.h"
 
 bool wizard = false;
-#if !defined( ORIGINAL )
 char *wiz_passwd = "\253\104\114\266\134\245\000\333\355\064\000";
-#endif /* ORIGINAL */
 
 extern bool being_held, score_only, detect_monster;
 
@@ -69,7 +67,6 @@ zapp(void)
 	wand->class--;
 	row = rogue.row;
 	col = rogue.col;
-#if !defined( ORIGINAL )
 	if (wand->which_kind == MAGIC_MISSILE) {
 	    monster = get_missiled_monster(dir, &row, &col);
 	    mvaddch_rogue(rogue.row, rogue.col, rogue.fchar);
@@ -81,9 +78,6 @@ zapp(void)
 	} else {
 	    monster = get_zapped_monster(dir, &row, &col);
 	}
-#else /* ORIGINAL */
-	monster = get_zapped_monster(dir, &row, &col);
-#endif /* ORIGINAL */
 	if (monster) {
 	    wake_up(monster);
 	    zap_monster(monster, wand->which_kind);
@@ -144,7 +138,6 @@ get_zapped_monster(short dir, short *row, short *col)
     }
 }
 
-#if !defined( ORIGINAL )
 object *
 get_missiled_monster(short dir, short *row, short *col)
 {
@@ -209,7 +202,6 @@ get_missiled_monster(short dir, short *row, short *col)
 	ocol = *col;
     }
 }
-#endif /* not ORIGINAL */
 
 void
 zap_monster(object *monster, unsigned short kind)
@@ -321,11 +313,7 @@ wizardize(void)
 			   "", buf, "", 0, 0)) {
 	    (void) xxx(1);
 	    xxxx(buf, strlen(buf));
-#if !defined( ORIGINAL )
 	    if (!memcmp(buf, wiz_passwd, 11)) {
-#else /* ORIGINAL */
-	    if (!strncmp(buf, "\247\104\126\272\115\243\027", 7)) {
-#endif /* ORIGINAL */
 		wizard = true;
 		score_only = true;
 		message("ようこそ、魔法使いよ！", 0);

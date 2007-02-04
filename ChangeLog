@@ -1,3 +1,35 @@
+2007-02-04  FUNABARA Masao
+
+	* zap.c : マクロ定義 ORIGINAL を削除
+
+	* use.c : マクロ定義 ORIGINAL を一部削除
+
+	* save.c : マクロ定義 ORIGINAL を削除
+
+	* pack.c : マクロ定義 ORIGINAL を削除
+
+	* move.c : マクロ定義 ORIGINAL を一部削除
+
+	* machdep.c : マクロ定義 ORIGINAL を削除
+
+	* init.c : マクロ定義 ORIGINAL を一部削除
+
+	* play.c : マクロ定義 ORIGINAL を削除
+
+	* message.c : マクロ定義 ORIGINAL を削除
+
+	* score.c : マクロ定義 ORIGINAL を一部削除
+
+	* score.c : killed_by, name_cmp 関数の関数宣言を修正
+
+	* ring.c : マクロ定義 ORIGINAL の定義ミスを修正
+
+	* object.c : マクロ定義 ORIGINAL を削除
+
+	* main.c : マクロ定義 ORIGINAL を一部削除
+
+	* rogue.h : マクロ定義 ORIGINAL を一部削除
+
 2007-02-03  FUNABARA Masao
 
 	* spechit.c : マクロ定義 JAPAN を削除

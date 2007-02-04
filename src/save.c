@@ -77,11 +77,9 @@ save_into_file(char *sfile)
     char *hptr;
     struct rogue_time rt_buf;
 
-#if !defined( ORIGINAL )
     if (org_dir && *org_dir) {
 	chdir(org_dir);
     }
-#endif /* not ORIGINAL */
     if (sfile[0] == '~') {
 	if ((hptr = md_ghome())) {
 	    (void) strcpy(name_buffer, hptr);
@@ -144,11 +142,9 @@ save_into_file(char *sfile)
 
 err_return:
     ;
-#if !defined( ORIGINAL )
     if (game_dir && *game_dir) {
 	chdir(game_dir);
     }
-#endif /* not ORIGINAL */
 }
 
 void
@@ -160,11 +156,9 @@ restore(char *fname)
     char tbuf[40];
     int new_file_id, saved_file_id;
 
-#if !defined( ORIGINAL )
     if (org_dir && *org_dir) {
 	chdir(org_dir);
     }
-#endif /* ORIGINAL */
 
     if (((new_file_id = md_get_file_id(fname)) == -1) ||
 	((fp = fopen(fname, "rb")) == NULL)) {
@@ -237,11 +231,9 @@ restore(char *fname)
     msg_cleared = false;
     ring_stats(0);
 
-#if !defined( ORIGINAL )
     if (game_dir && *game_dir) {
 	chdir(game_dir);
     }
-#endif /* not ORIGINAL */
 }
 
 void
@@ -395,7 +387,6 @@ r_write(FILE *fp, char *buf, int n)
 bool
 has_been_touched(struct rogue_time *saved_time, struct rogue_time *mod_time)
 {
-#if !defined( ORIGINAL )
     short *sav, *mod;
     int i;
 
@@ -409,35 +400,4 @@ has_been_touched(struct rogue_time *saved_time, struct rogue_time *mod_time)
 	}
     }
     return false;
-#else /* ORIGINAL */
-    if (saved_time->year < mod_time->year) {
-	return true;
-    } else if (saved_time->year > mod_time->year) {
-	return false;
-    }
-    if (saved_time->month < mod_time->month) {
-	return true;
-    } else if (saved_time->month > mod_time->month) {
-	return false;
-    }
-    if (saved_time->day < mod_time->day) {
-	return true;
-    } else if (saved_time->day > mod_time->day) {
-	return false;
-    }
-    if (saved_time->hour < mod_time->hour) {
-	return true;
-    } else if (saved_time->hour > mod_time->hour) {
-	return false;
-    }
-    if (saved_time->minute < mod_time->minute) {
-	return true;
-    } else if (saved_time->minute > mod_time->minute) {
-	return false;
-    }
-    if (saved_time->second < mod_time->second) {
-	return true;
-    }
-    return false;
-#endif /* ORIGINAL */
 }

@@ -316,9 +316,7 @@ md_gseed(void)
 void
 md_exit(int status)
 {
-#if !defined( ORIGINAL )
     if (org_dir && *org_dir)
 	chdir(org_dir);
-#endif /* not ORIGINAL */
     exit(status);
 }
