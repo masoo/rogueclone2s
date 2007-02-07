@@ -520,7 +520,6 @@ options(void)
 	}
 	set_opts(optbuf);
     }
-    print_stats(STAT_ALL);
 
     init_color_attr();
 
@@ -537,6 +536,7 @@ options(void)
 	    }
 	}
     }
+    print_stats(STAT_ALL);
 
     refresh();
 }
