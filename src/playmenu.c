@@ -87,8 +87,8 @@ char *colorstr[2][NCOLORS] = {
 
 char *linechar[][7] = {
     {"  ", " ", " ", "  ", " ", "  ", " "},
-    {"��", "��", "��", "��", "��", "��", "��"},
-    {"��", "��", "��", "��", "��", "��", "��"}
+    {"━", "┃", "┃", "┏", "┓", "┗", "┛"},
+    {"��", "��", "��", "��", "��", "��", "��"}
 };
 
 int linecolor[] = { RGREEN, GREEN, GREEN };
@@ -259,25 +259,25 @@ int by, bx, ey, ex;
 #define	NMESGS		19
 
 char *msg[NMESGS] = {
-    "���������������󣲡����ܸ��ǣ��������ץ쥤�䡼����˥塼������",
-    "�������Ԥ��������� ...",
-    "�ȡ��ʡ��ˡ��̤����򡢥��ڡ����Ǽ¹Ԥ��ޤ�",
-    "�ȡ��ʡ��ˡ��̤����򡢥��ڡ�������Ͽ���ϡ����������פǥ���󥻥�",
-    "�ץ쥤�䡼̾�����Ϥ����꥿���󡦥����򲡤��Ƥ�������",
-    "\004�ץ쥤�䡼�Ϥ���ʾ���Ͽ�Ǥ��ޤ���\001�ʲ��������򲡤��Ƥ���������",
-    "\004�ץ쥤�䡼�ϣ��ͤ���Ͽ����Ƥ��ޤ���\001�ʲ��������򲡤��Ƥ���������",
-    "�ȡ��ʡ��ˡ��̤����򡢥��ڡ������ѹ����ϡ����������פǥ���󥻥�",
-    "�ץ쥤�䡼̾���ѹ������꥿���󡦥����򲡤��Ƥ�������",
-    "�ȡ��ʡ��ˡ��̤����򡢥��ڡ����Ǻ�������������פǥ���󥻥�",
-    "������Ƥ�������Ǥ�������\003�Σ����",
-    "�����ब�����֤���Ƥ��ޤ�������Ǥ������ޤ�������\003�Σ����",
-    "\004�ңϣǣգš��ţأŤ��¹ԤǤ��ޤ���\001�ʲ��������򲡤��Ƥ���������",
-    "\004�ңϣǣգš��գӣҤ�����������ޤ���\001�ʺ�����ޤ���",
-    "\004�ңϣǣգš��գӣҤ˽񤭹���ޤ���\001�ʲ��������򲡤��Ƥ���������",
-    "����ʥ����򲡤����äơ����ⵯ����ޤ���衩",
-    "���ⵯ����ʤ��äƤС������顪",
-    "���Ĥ��ä���ä�������������ͷ�������Ǥ������ä��������ۥ�Ȥ�",
-    "�褫�ä��顢�ޤ�ͷ��Ǥ��������͡�����\003 Presented by Junn Ohta 1989"
+    "ローグ・クローン２　日本語版１．３　プレイヤー・メニュー１．３",
+    "少々お待ちください ...",
+    "Ｈ、Ｊ、Ｋ、Ｌで選択、スペースで実行します",
+    "Ｈ、Ｊ、Ｋ、Ｌで選択、スペースで登録開始、エスケープでキャンセル",
+    "プレイヤー名を入力し、リターン・キーを押してください",
+    "\004プレイヤーはこれ以上登録できません　\001（何かキーを押してください）",
+    "\004プレイヤーは１人も登録されていません　\001（何かキーを押してください）",
+    "Ｈ、Ｊ、Ｋ、Ｌで選択、スペースで変更開始、エスケープでキャンセル",
+    "プレイヤー名を変更し、リターン・キーを押してください",
+    "Ｈ、Ｊ、Ｋ、Ｌで選択、スペースで削除、エスケープでキャンセル",
+    "削除してよろしいですか？　\003［ｙｎ］",
+    "ゲームがセーブされています　それでも削除しますか？　\003［ｙｎ］",
+    "\004ＲＯＧＵＥ．ＥＸＥが実行できません　\001（何かキーを押してください）",
+    "\004ＲＯＧＵＥ．ＵＳＲが正しくありません　\001（削除します）",
+    "\004ＲＯＧＵＥ．ＵＳＲに書き込めません　\001（何かキーを押してください）",
+    "そんなキーを押したって、何も起こりませんよ？",
+    "何も起こらないってば！　コラ！",
+    "見つかっちゃった！　ローグで遊んだ回数です　困ったもんだ、ホントに",
+    "よかったら、また遊んでくださいね？　　\003 Presented by Junn Ohta 1989"
 };
 
 header()
@@ -364,22 +364,22 @@ typedef struct _ctable
  */
 stable menu[NCOMMANDS + 1] = {
 /*	      cmd,      msg,     name,      saved, hidden,    y,      x */
-    {CMDPLAY, "����", pname[0], NO, NO, playy, playx1},
-    {CMDPLAY, "����", pname[1], NO, NO, playy + 2, playx1},
-    {CMDPLAY, "����", pname[2], NO, NO, playy + 4, playx1},
-    {CMDPLAY, "����", pname[3], NO, NO, playy + 6, playx1},
-    {CMDPLAY, "����", pname[4], NO, NO, playy + 8, playx1},
-    {CMDPLAY, "����", pname[5], NO, NO, playy, playx2},
-    {CMDPLAY, "����", pname[6], NO, NO, playy + 2, playx2},
-    {CMDPLAY, "����", pname[7], NO, NO, playy + 4, playx2},
-    {CMDPLAY, "����", pname[8], NO, NO, playy + 6, playx2},
-    {CMDPLAY, "����", pname[9], NO, NO, playy + 8, playx2},
-    {CMDSCORE, "�ӡ�", "�������򸫤�", NO, NO, menuy, menux},
-    {CMDADD, "����", "�ץ쥤�䡼��Ͽ", NO, NO, menuy + 2, menux},
-    {CMDCHANGE, "�á�", "�ץ쥤�䡼�ѹ�", NO, NO, menuy + 4, menux},
-    {CMDDELETE, "�ġ�", "�ץ쥤�䡼���", NO, NO, menuy + 6, menux},
-    {CMDEXIT, "�š�", "��λ", NO, NO, menuy + 8, menux},
-    {CMDCOUNT, "����", "�ץ쥤���ɽ��", NO, YES, 0, 0}
+    {CMDPLAY, "０．", pname[0], NO, NO, playy, playx1},
+    {CMDPLAY, "１．", pname[1], NO, NO, playy + 2, playx1},
+    {CMDPLAY, "２．", pname[2], NO, NO, playy + 4, playx1},
+    {CMDPLAY, "３．", pname[3], NO, NO, playy + 6, playx1},
+    {CMDPLAY, "４．", pname[4], NO, NO, playy + 8, playx1},
+    {CMDPLAY, "５．", pname[5], NO, NO, playy, playx2},
+    {CMDPLAY, "６．", pname[6], NO, NO, playy + 2, playx2},
+    {CMDPLAY, "７．", pname[7], NO, NO, playy + 4, playx2},
+    {CMDPLAY, "８．", pname[8], NO, NO, playy + 6, playx2},
+    {CMDPLAY, "９．", pname[9], NO, NO, playy + 8, playx2},
+    {CMDSCORE, "Ｓ．", "スコアを見る", NO, NO, menuy, menux},
+    {CMDADD, "Ａ．", "プレイヤー登録", NO, NO, menuy + 2, menux},
+    {CMDCHANGE, "Ｃ．", "プレイヤー変更", NO, NO, menuy + 4, menux},
+    {CMDDELETE, "Ｄ．", "プレイヤー削除", NO, NO, menuy + 6, menux},
+    {CMDEXIT, "Ｅ．", "終了", NO, NO, menuy + 8, menux},
+    {CMDCOUNT, "？．", "プレイ回数表示", NO, YES, 0, 0}
 };
 
 #define	absent(n)	(menu[n].name[0] == 0)	/* should be skipped? */
@@ -718,7 +718,7 @@ register int len;
     for (; len < NAMELEN; len++)
 	xputch(' ');
     if (len <= NAMELEN)
-	xputs("��");
+	xputs("］");
 }
 
 char *
@@ -753,7 +753,7 @@ char *init;
     y = menu[no].y;
     x = menu[no].x + 4;
     move(y, x - 2);
-    xputs("��");
+    xputs("［");
     for (n = 0; n < len; n++)
 	xputch(buf[n]);
     fillup(len);
@@ -1348,7 +1348,7 @@ show_score()
     xputs(curoff);
     move(20, 10);
     color(MAGENTA);
-    xputs("�᥹�ڡ����򲡤��Ƥ���������");
+    xputs("＝スペースを押してください＝");
     color(WHITE);
     xgetch();
     initcrt();
@@ -1359,7 +1359,7 @@ show_score()
 /*
  * Print zenkaku number
  */
-char *dig[] = { "��", "��", "��", "��", "��", "��", "��", "��", "��", "��" };
+char *dig[] = { "０", "１", "２", "３", "４", "５", "６", "７", "８", "９" };
 
 znum(num, n)
 int num, n;
@@ -1374,7 +1374,7 @@ int num, n;
 	    xputs("  ");
 	    break;
 	case '-':
-	    xputs("��");
+	    xputs("－");
 	    break;
 	default:
 	    xputs(dig[*p - '0']);

@@ -1,650 +1,650 @@
 2007-02-08  FUNABARA Masao
 
-	* play.c : ���ץ������̤��饲����������塢���ơ��������̤�
-	��������������
+	* play.c : オプション画面からゲームに復帰後、ステータス画面が
+	くずれる問題を修正
 
 2007-02-04  FUNABARA Masao
 
-	* zap.c : �ޥ������ ORIGINAL ����
+	* zap.c : マクロ定義 ORIGINAL を削除
 
-	* use.c : �ޥ������ ORIGINAL ��������
+	* use.c : マクロ定義 ORIGINAL を一部削除
 
-	* save.c : �ޥ������ ORIGINAL ����
+	* save.c : マクロ定義 ORIGINAL を削除
 
-	* pack.c : �ޥ������ ORIGINAL ����
+	* pack.c : マクロ定義 ORIGINAL を削除
 
-	* move.c : �ޥ������ ORIGINAL ��������
+	* move.c : マクロ定義 ORIGINAL を一部削除
 
-	* machdep.c : �ޥ������ ORIGINAL ����
+	* machdep.c : マクロ定義 ORIGINAL を削除
 
-	* init.c : �ޥ������ ORIGINAL ��������
+	* init.c : マクロ定義 ORIGINAL を一部削除
 
-	* play.c : �ޥ������ ORIGINAL ����
+	* play.c : マクロ定義 ORIGINAL を削除
 
-	* message.c : �ޥ������ ORIGINAL ����
+	* message.c : マクロ定義 ORIGINAL を削除
 
-	* score.c : �ޥ������ ORIGINAL ��������
+	* score.c : マクロ定義 ORIGINAL を一部削除
 
-	* score.c : killed_by, name_cmp �ؿ��δؿ��������
+	* score.c : killed_by, name_cmp 関数の関数宣言を修正
 
-	* ring.c : �ޥ������ ORIGINAL ������ߥ�����
+	* ring.c : マクロ定義 ORIGINAL の定義ミスを修正
 
-	* object.c : �ޥ������ ORIGINAL ����
+	* object.c : マクロ定義 ORIGINAL を削除
 
-	* main.c : �ޥ������ ORIGINAL ��������
+	* main.c : マクロ定義 ORIGINAL を一部削除
 
-	* rogue.h : �ޥ������ ORIGINAL ��������
+	* rogue.h : マクロ定義 ORIGINAL を一部削除
 
 2007-02-03  FUNABARA Masao
 
-	* spechit.c : �ޥ������ JAPAN ����
+	* spechit.c : マクロ定義 JAPAN を削除
 
-	* score.c : �ޥ������ JAPAN ����
+	* score.c : マクロ定義 JAPAN を削除
 
-	* ring.c : �ޥ������ JAPAN ����
+	* ring.c : マクロ定義 JAPAN を削除
 
-	* play.c : �ޥ������ JAPAN ����
+	* play.c : マクロ定義 JAPAN を削除
 
-	* pack.c : �ޥ������ JAPAN ����
+	* pack.c : マクロ定義 JAPAN を削除
 
-	* object.c : �ޥ������ JAPAN ����
+	* object.c : マクロ定義 JAPAN を削除
 
-	* move.c : �ޥ������ JAPAN ����
+	* move.c : マクロ定義 JAPAN を削除
 
-	* message.c : �ޥ������ JAPAN ����
+	* message.c : マクロ定義 JAPAN を削除
 
-	* level.c : �ޥ������ JAPAN ����
+	* level.c : マクロ定義 JAPAN を削除
 
-	* invent.c : �ޥ������ JAPAN ����
+	* invent.c : マクロ定義 JAPAN を削除
 
 2007-01-17  FUNABARA Masao
 
-	* *.h : 2�ť��󥯥롼�ɤ� if !defined ���� ifndef ���ѹ�
+	* *.h : 2重インクルードを if !defined から ifndef に変更
 
 2006-12-03  FUNABARA Masao
 
-	* zap.c : �Ѹ��å���������
+	* zap.c : 英語メッセージを削除
 
-	* save.c : �Ѹ��å���������
+	* save.c : 英語メッセージを削除
 
-	* play.c : �Ѹ��å���������
+	* play.c : 英語メッセージを削除
 
-	* object.c : �Ѹ��å���������
+	* object.c : 英語メッセージを削除
 
-	* invent.c : �Ѹ��å���������
+	* invent.c : 英語メッセージを削除
 
-	* init.c : �Ѹ��å���������
+	* init.c : 英語メッセージを削除
 
 2006-11-30  FUNABARA Masao
 
-	* spechit.c : ��ϩ��ǡ��Ĥʤ��äƤ��ʤ��Ƥ�Ф��
-	�Ϥ�������������������
+	* spechit.c : 迷路内で、つながっていなくても斜めに
+	はいた炎に当たる問題を修正
 
 2006-07-25  FUNABARA Masao
 
-	* *.c : ����ν�����­�� get_dir_rc �ؿ�����Ѥ��Ƥ�����ʬ��
-	allow_off_screen �� true/false �˽�������
+	* *.c : 前回の修正不足の get_dir_rc 関数を使用している部分の
+	allow_off_screen を true/false に修正する
 
 2006-07-25  FUNABARA Masao
 
-	* hit.c : get_dir_rc �ؿ��� dir �ѿ��� char ����
-	allow_off_screen �ѿ��� bool �����ѹ�
-	�ޤ���get_dir_rc �ؿ�����Ѥ��Ƥ�����ʬ�� allow_off_screen ��
-	true/false ���ѹ�
+	* hit.c : get_dir_rc 関数の dir 変数を char 型に
+	allow_off_screen 変数を bool 型に変更
+	また、get_dir_rc 関数を使用している部分の allow_off_screen を
+	true/false に変更
 
 2006-07-22  FUNABARA Masao
 
-	* *.h : �ޥ���̾��ͽ��Ѥ߼��̻ҤˤʤäƤ����Τǽ���
+	* *.h : マクロ名が予約済み識別子になっていたので修正
 
 2006-07-12  FUNABARA Masao
 
-	* zap.c : ��򿶤ä����ˡ��Ҥ��äƤ��ʤ��Ƥ�Ф�˶��֤�����ʤ�
-	���ä����̤�������������
+	* zap.c : 杖を振った時に、繋がっていなくても斜めに空間があるなら
+	振った効果が現れる問題を修正
 
-	* throw.c : �������Υȥ�ͥ���ˤϼФ���ꤲ����褦�˽���
+	* throw.c : 広い幅のトンネル時には斜めに投げられるように修正
 
 2006-06-18  FUNABARA Masao
 
-	* configure.ac : �Ф�˥�Τ��ꤲ�������� THROW_TUNNEL �ޥ���
-	�Ȥ��ƾ���������褦�ˤ�����
+	* configure.ac : 斜めにモノを投げれる処理を THROW_TUNNEL マクロ
+	として常に定義するようにした。
 
-	* configure.ac : ���ΤȤ������������� JAPAN, EUC, TOPSCO ��
-	configure.ac ���ȹ��� Makefile.am ����������
+	* configure.ac : 今のところ、固定の定義 JAPAN, EUC, TOPSCO を
+	configure.ac に組込み Makefile.am から削除する
 
-	* throw.c : �ȥ�ͥ롦��ϩ��ǡ��Ф�˥�Τ��ꤲ�����������
+	* throw.c : トンネル・迷路内で、斜めにモノを投げられる問題を修正
 
-	* zap.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* zap.c : bool 型で true, false を使える場合は使うようにする
 
-	* use.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* use.c : bool 型で true, false を使える場合は使うようにする
 
-	* trap.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* trap.c : bool 型で true, false を使える場合は使うようにする
 
-	* throw.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* throw.c : bool 型で true, false を使える場合は使うようにする
 
-	* spechit.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* spechit.c : bool 型で true, false を使える場合は使うようにする
 
-	* score.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* score.c : bool 型で true, false を使える場合は使うようにする
 
-	* save.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* save.c : bool 型で true, false を使える場合は使うようにする
 
-	* room.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* room.c : bool 型で true, false を使える場合は使うようにする
 
-	* ring.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* ring.c : bool 型で true, false を使える場合は使うようにする
 
-	* play.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* play.c : bool 型で true, false を使える場合は使うようにする
 
-	* pack.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* pack.c : bool 型で true, false を使える場合は使うようにする
 
-	* object.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* object.c : bool 型で true, false を使える場合は使うようにする
 
-	* move.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* move.c : bool 型で true, false を使える場合は使うようにする
 
-	* monster.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* monster.c : bool 型で true, false を使える場合は使うようにする
 
-	* message.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* message.c : bool 型で true, false を使える場合は使うようにする
 
-	* level.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* level.c : bool 型で true, false を使える場合は使うようにする
 
-	* invent.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* invent.c : bool 型で true, false を使える場合は使うようにする
 
-	* init.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* init.c : bool 型で true, false を使える場合は使うようにする
 
-	* hit.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* hit.c : bool 型で true, false を使える場合は使うようにする
 
-	* display.c : bool ���� true, false ��Ȥ�����ϻȤ��褦�ˤ���
+	* display.c : bool 型で true, false を使える場合は使うようにする
 
-	* *.c : boolean ���� C99 ɸ��� bool �����ѹ�����
+	* *.c : boolean 型を C99 標準の bool 型に変更する
 
-	* random.c : srrandom �ǻȤ��Ƥ����ؿ������Ϥ���
+	* random.c : srrandom で使われていた関数宣言をはずす
 
 2006-06-14  FUNABARA Masao
 
-	* level.c : for ʸ�� short �ѿ���ƶ��Τʤ��ϰϤ� int ���ѹ�����
+	* level.c : for 文の short 変数を影響のない範囲で int に変更する
 
 2006-06-10  FUNABARA Masao
 
-	* main.c : ��̤ʤ� forʸ�˳�̤���Ϳ����
+	* main.c : 括弧なし for文に括弧を付与する
 
 2006-06-08  FUNABARA Masao
 
-	* Release 6 ����
+	* Release 6 公開
 
-	* save.c, score.c : Windows ��ǥ����֥ե����뤬��������¸�Ǥ��ʤ�
-	�������
+	* save.c, score.c : Windows 上でセーブファイルが正しく保存できない
+	問題を修正
 
 2006-06-03  FUNABARA Masao
 
-	* score.c : Windows ��ǥ������ե����뤬�񤭹���ʤ��������
+	* score.c : Windows 上でスコアファイルが書き込めない問題を修正
 
-	* machdep.c : ����μ��ץ�����ID ���饷���ƥ������ѹ�
-	����� Windows �Ǥ�Ʊ������ͤˤϤʤ�ˤ����Ϥ�
+	* machdep.c : 乱数の種をプロセスID からシステム時刻へ変更
+	これで Windows でも同じ初期値にはなりにくいはず
 
-	* AUTHORS : �����ɽ��������Ϳ����ɽ�����齤��
+	* AUTHORS : 著作者表記を誤解を与える表現から修正
 
 2006-06-01  FUNABARA Masao
 
-	* INSTALL : MinGW �ǥ���ѥ��뤹����ˡ��ʸ�Ϥ��ɲ�
+	* INSTALL : MinGW でコンパイルする方法の文章を追加
 
-	* README : ʸ�Ϥο���
+	* README : 文章の推敲
 
-	* configure.ac : Release 6 �����Τ���ѥå������С������� 6.0 �Ȥ���
+	* configure.ac : Release 6 作成のためパッケージバージョンを 6.0 とする
 
-	* TODO : �б��Ѥߺ�Ȥ���
+	* TODO : 対応済み作業を削除
 
-	* zap.c : ��ˡ�Ȥ����������롣(define WIZARD)
+	* zap.c : 魔法使いを封印する。(define WIZARD)
 
 2006-05-31  FUNABARA Masao
 
-	* machdep.c : �Ķ��ѿ� HOME �����ꤵ��Ƥ��ʤ�����
-	�ǥե����ư��ǥ����ȥǥ��쥯�ȥ��
-	�������ե��������¸����褦�˽���
+	* machdep.c : 環境変数 HOME が設定されていない時、
+	デフォルト動作でカレントディレクトリに
+	スコアファイルを保存するように修正
 
 2006-05-30  FUNABARA Masao
 
-	* machdep.c : �Ķ��ѿ� FIGHTER, USER �����ꤵ��Ƥ��ʤ�����
-	�۾ｪλ�����������	
+	* machdep.c : 環境変数 FIGHTER, USER が設定されていない時、
+	異常終了する問題を修正	
 
-	* message.c : Windows �ǥ��ץ���������Υ���ȥ����뤬���������ä�
-	���������
+	* message.c : Windows でオプションの設定のコントロールがおかしかった
+	問題を修正。
 
 2006-05-28  FUNABARA Masao
 
-	* machdep.c : FreeBSD ��ȯ�����Ƥ�������ѥ�����Υ��顼�����롣
+	* machdep.c : FreeBSD で発生していたコンパイル時のエラーを除去する。
 
 2006-05-26  FUNABARA Masao
 
-	* machdep.c : �����Ȥ���Ϳ��������������
+	* machdep.c : コメントの付与。ソースの整形
 
-	* *.h *.c : �ٹ�ν�� #include ���ɲ�
+	* *.h *.c : 警告の除去。 #include の追加
 
-	* machdep.c : md_sleep ��åѡ��ؿ����ѻߤ� sleep ��Ȥ��褦�ˤ���
+	* machdep.c : md_sleep ラッパー関数を廃止し sleep を使うようにする
 
-	* machdep.c : md_chdir ��åѡ��ؿ����ѻߤ� chdir ��Ȥ��褦�ˤ���
+	* machdep.c : md_chdir ラッパー関数を廃止し chdir を使うようにする
 
-	* machdep.c : md_getcwd ��åѡ��ؿ����ѻߤ� getcwd ��Ȥ��褦�ˤ���
+	* machdep.c : md_getcwd ラッパー関数を廃止し getcwd を使うようにする
 
 2006-05-25  FUNABARA Masao
 
-	* MinGW �ǥ���ѥ��뤬�̤�褦�˽���
+	* MinGW でコンパイルが通るように修正
 
-	* ChangeLog-0 : �ѥå������� ChangeLog-0 ��ޤ�˺��Ƥ�������
-	�ɲä���
+	* ChangeLog-0 : パッケージに ChangeLog-0 を含め忘れていたため
+	追加する
 
 2006-05-20  FUNABARA Masao
 
-	* *.h, *.c : #indef �Υޥ�������� #if defined() ���ѹ�����
+	* *.h, *.c : #indef のマクロ定義を #if defined() に変更する
 
-	* *.h, *.c : #ifndef �Υޥ�������� #if !defined() ���ѹ�����
+	* *.h, *.c : #ifndef のマクロ定義を #if !defined() に変更する
 
 2006-05-13  FUNABARA Masao
 
-	* Release 5 ����
+	* Release 5 公開
 
-	* configure.ac : Release 5 �����Τ���ѥå������С������� 5.0 �Ȥ���
+	* configure.ac : Release 5 作成のためパッケージバージョンを 5.0 とする
 
-	* init.c : FreeBSD �ˤ� Ctrl-Y �����Ϥ����ݤ� rogue ��
-	�Хå����饦���ư��˰ܹह�������������
+	* init.c : FreeBSD にて Ctrl-Y を入力した際に rogue が
+	バックグラウンド動作に移項する問題を修正する
 
-	* rogue.doc : �ɥ�����Ȥθ����������
+	* rogue.doc : ドキュメントの誤りを修正する
 
-	* message.c : ����ʸ���˥���饯������ɽ���ޥåԥ󥰤ο������������
-	��������
+	* message.c : 入力文字にキャラクターの表示マッピングの色が入る問題を
+	修正する
 
-	* play.c : ���ץ������̤ǥ������뤬�����ʤ�����������롣
+	* play.c : オプション画面でカーソルが見えない問題を修正する。
 
 2006-04-29  FUNABARA Masao
 
-	* display.c : ����ü���ˤ�äƥǥե���Ȥ��طʿ����㤦�褦�ʤΤǡ�
-	���줵����
+	* display.c : 仮想端末によってデフォルトの背景色が違うようなので、
+	統一させる
 
 2006-03-26  FUNABARA Masao
 
-	* Release 4 ����
+	* Release 4 公開
 
 2006-03-21  FUNABARA Masao
 
-	* doc/Makefile.am : �������� doc ��Υե��������ꤷ�ʤ�����
+	* doc/Makefile.am : 整理した doc 内のファイルを指定しなおす。
 
-	* README : README.1st.org, README.doc.org, README.org ��ޡ������롣
+	* README : README.1st.org, README.doc.org, README.org をマージする。
 
-	* COPYING : �饤���󥹤ν����� README.doc.org ��Ʊ���ˤʤ�褦�˽���
-	���롣
+	* COPYING : ライセンスの書き方を README.doc.org と同じになるように修正
+	する。
 
-	* rogue.doc : ��������ͷ�����ˤĤ��ƤΥɥ�����Ȥ��������
+	* rogue.doc : ローグの遊び方についてのドキュメントを改訂する
 
-	* options.doc : ��ư�����ץ���󡢴Ķ����ץ����������ɥ�����Ȥ��
-	������
+	* options.doc : 起動時オプション、環境オプションの説明ドキュメントを改
+	訂する
 
-	* configure.ac : Release 4 �����Τ���ѥå������С������� 4.0 �Ȥ���
+	* configure.ac : Release 4 作成のためパッケージバージョンを 4.0 とする
 
-	* display.c : ���ץ������Υ��顼ɽ���Υ��󡦥��դ�ȿ�Ǥ���ʤ�
-	�������
+	* display.c : オプション時のカラー表示のオン・オフが反映されない
+	問題を修正
 
-	* play.c : ���ץ������Υ��顼�ޥåԥ󥰤�ȿ�Ǥ���ʤ��������
+	* play.c : オプション時のカラーマッピングが反映されない問題を修正
 
-	* display.c : init_color_attr �ؿ��򲿲�Ǥ�Ƥ֤����
-	�ǽ�ΰ������¹Ԥ�����������
+	* display.c : init_color_attr 関数を何回でも呼ぶために
+	最初の一回だけ実行する処理を作成
 
 2006-03-20  FUNABARA Masao
 
-	* play.c : ��λ���ν����� quit ���� byebye ���ѹ�����
-	���ץ���� askquit ��ͭ���ˤʤ�褦�˽�����
+	* play.c : 終了時の処理を quit から byebye へ変更し、
+	オプション askquit が有効になるように修正。
 
-	* score.c : �ޥ������ EUC ��ʬ����䤹������褦�˥���������
+	* score.c : マクロ定義 EUC を分かりやすくするようにソース修正
 
-	* message.c : ���Ѵ� (unsigned char) �����������ܸ������������
-	�����Ǥ���褦�ˤ��롣
+	* message.c : 型変換 (unsigned char) を削除し、日本語処理を正しく
+	処理できるようにする。
 
 2006-03-19  FUNABARA Masao
 
-	* invent.c : �ޥ������ EUC ��ʬ����䤹������褦�˥���������
+	* invent.c : マクロ定義 EUC を分かりやすくするようにソース修正
 
 2006-03-16  FUNABARA Masao
 
-	* init.c : ʸ�������ɽ����򥪥ꥸ�ʥ�ˤ��Ƥ����꤬��������ʤΤ�
-	ORIGINAL�ޥ����������
+	* init.c : 文字コード処理をオリジナルにしても問題があるだけなので
+	ORIGINALマクロ定義を削除
 
-	* init.c : �ؿ��������Υ������ɲ�
+	* init.c : 関数の説明のコメント追加
 
-	* init.c : EUC-JP �ν��������ܤˤ���褦�˽���
+	* init.c : EUC-JP の処理を真面目にするように修正
 
 2006-03-07  FUNABARA Masao
 
-	* MANIFEST : man �ե�������������Ƥ���
+	* MANIFEST : man ファイルの説明内容を修正
 
-	* TODO : �б�ͽ��κ�Ȥ��ɲá��ѹ�
+	* TODO : 対応予定の作業を追加・変更
 
-	* pack.c : �ޥ������ EUC ��ʬ����䤹������褦�˥���������
+	* pack.c : マクロ定義 EUC を分かりやすくするようにソース修正
 
-	* message.c : �ޥ������ EUC ��ʬ����䤹������褦�˥���������
+	* message.c : マクロ定義 EUC を分かりやすくするようにソース修正
 
-	* init.c : �ޥ������ EUC ��ʬ����䤹������褦�˥���������
+	* init.c : マクロ定義 EUC を分かりやすくするようにソース修正
 
 2006-03-03  FUNABARA Masao
 
-	* zap.c : Ʊ��̿�����Ѥ��Ƥ���ʬ���ޥ�����õ�
+	* zap.c : 同じ命令を使用している分岐マクロを消去
 
-	* score.c : �����ȥ����ȤˤʤäƤ������顼ɽ��������ɽ���ؿ���õ�
+	* score.c : コメントアウトになっていたカラー表示以前の表示関数を消去
 
 2006-03-01  FUNABARA Masao
 
-	* play.c : �إ�פ��������������˥��ơ�������å�������
-	�����������
+	* play.c : ヘルプから復帰した時にステータスメッセージが
+	乱れる問題を修正
 
-	* play.c : �ȼ��ΥС�������ռ����뤿��˥С���������ɽ����ʬ����
-	�С���������ʬ�� ORIGINAL�ޥ��������õ�
+	* play.c : 独自のバージョンを意識するためにバージョン情報表示部分から
+	バージョンの部分の ORIGINALマクロ定義を消去
 
 2006-02-06  FUNABARA Masao
 
-	* save.c : �����֥ǡ����ɤ߹��߻��˥��ơ�������ʸ�����������������
+	* save.c : セーブデータ読み込み時にステータスが文字化けする問題を修正
 
 2006-02-05  FUNABARA Masao
 
-	* src/Makefile.am : ���ץ���� -O2 �򤳤��ǻ��ꤷ�ʤ��Ƥ��Ŭ�������
-	�ΤǺ��
+	* src/Makefile.am : オプション -O2 をここで指定しなくても最適化される
+	ので削除
 
-	* rogue.man : man �ڡ������Τν����ȥ��ƥ���� 1 ���� 6 �ؽ���
+	* rogue.man : man ページ自体の修正とカテゴリを 1 から 6 へ修正
 
 2006-02-04  FUNABARA Masao
 
-	* Release 3 ����
+	* Release 3 公開
 
 2005-12-19  FUNABARA Masao
 
-	* machdep.c : FreeBSD �ǤΥ���ѥ��륨�顼�����Τ��ᡢ
-	ɬ�ܤǤʤ��ؿ�����
-	��������Τ� md_slurp, md_control_keyboard
+	* machdep.c : FreeBSD でのコンパイルエラー修正のため、
+	必須でない関数を削除
+	削除したのは md_slurp, md_control_keyboard
 
 2005-12-18  FUNABARA Masao
 
-	* configure.ac : Release 3 �����Τ���ѥå������С������� 3.0 �Ȥ���
+	* configure.ac : Release 3 作成のためパッケージバージョンを 3.0 とする
 
 2005-12-11  FUNABARA Masao
 
-	* rogue.h : rogue ��ɬ�׺Ǿ����̤������ޥ������������󷿤��ѹ�
-	����ˡ����̾��ʬ����䤹���褦�� ROGUE_LINES, ROGUE_COLUMNS
-	���ѹ�����
+	* rogue.h : rogue の必要最小画面の定義をマクロ定義から列挙型に変更
+	さらに、定義名も分かりやすいように ROGUE_LINES, ROGUE_COLUMNS
+	に変更する
 
-	* init.c : ���ץ����β��Ϥ� getopt �ؿ������
+	* init.c : オプションの解析に getopt 関数を使用
 
 2005-12-10  FUNABARA Masao
 
-	* machdep.c : putstr �ؿ��� printf �ؿ����ִ�
+	* machdep.c : putstr 関数を printf 関数に置換
 
-	* init.c : clean_up �ؿ��� curses �ν�λ�������ɲä���
+	* init.c : clean_up 関数に curses の終了処理を追加する
 
-	* display.c : ɽ���Ϥ�̿����󤷡� COLOR �ޥ������������Ĥ������
+	* display.c : 表示系の命令を集約し、 COLOR マクロ定義を中に閉じ込める
 
 2005-12-07  FUNABARA Masao
 
-	* message.c : NeXT �ޥ����������
+	* message.c : NeXT マクロ定義を削除
 
-	* machdep.c : ����¾���Ѥ���Ƥ��ʤ��ޥ����������
+	* machdep.c : その他使用されていないマクロ定義を削除
 
 2005-12-06  FUNABARA Masao
 
-	* zap : �����ɤΥ��꡼�󥢥å�
+	* zap : コードのクリーンアップ
 
-	* use.c : �����ɤΥ��꡼�󥢥å�
+	* use.c : コードのクリーンアップ
 
-	* trap.c : �����ɤΥ��꡼�󥢥å�
+	* trap.c : コードのクリーンアップ
 
-	* throw.c : �����ɤΥ��꡼�󥢥å�
+	* throw.c : コードのクリーンアップ
 
-	* spechit.c : �����ɤΥ��꡼�󥢥å�
+	* spechit.c : コードのクリーンアップ
 
-	* score.c : �����ɤΥ��꡼�󥢥å�
+	* score.c : コードのクリーンアップ
 
-	* save.c : �����ɤΥ��꡼�󥢥å�
+	* save.c : コードのクリーンアップ
 
-	* room.c : �����ɤΥ��꡼�󥢥å�
+	* room.c : コードのクリーンアップ
 
 2005-12-05  FUNABARA Masao
 
-	* ring.c : �����ɤΥ��꡼�󥢥å�
+	* ring.c : コードのクリーンアップ
 
-	* random.c : �����ɤΥ��꡼�󥢥å�
+	* random.c : コードのクリーンアップ
 
-	* message.c : �����ȥ����ȤΥ����ɤ�ǽ���
+	* message.c : コメントアウトのコードを最修正
 
-	* play.c : �����ɤΥ��꡼�󥢥å�
+	* play.c : コードのクリーンアップ
 
-	* pack.c : �����ɤΥ��꡼�󥢥å�
+	* pack.c : コードのクリーンアップ
 
-	* object.c : �����ɤΥ��꡼�󥢥å�
+	* object.c : コードのクリーンアップ
 
-	* move.c : �����ɤΥ��꡼�󥢥å�
+	* move.c : コードのクリーンアップ
 
-	* monster.c : �����ɤΥ��꡼�󥢥å�
+	* monster.c : コードのクリーンアップ
 
-	* message.c : �����ɤΥ��꡼�󥢥å�
+	* message.c : コードのクリーンアップ
 
-	* main.c : �����ɤΥ��꡼�󥢥å�
+	* main.c : コードのクリーンアップ
 
-	* machdep.c : �����ɤΥ��꡼�󥢥å�
+	* machdep.c : コードのクリーンアップ
 
-	* level.c : �����ɤΥ��꡼�󥢥å�
+	* level.c : コードのクリーンアップ
 
-	* invent.c : �����ɤΥ��꡼�󥢥å�
+	* invent.c : コードのクリーンアップ
 
 2005-12-04  FUNABARA Masao
 
-	* init.c : �����ɤΥ��꡼�󥢥å�
+	* init.c : コードのクリーンアップ
 
-	* hit.c : �����ɤΥ��꡼�󥢥å�
+	* hit.c : コードのクリーンアップ
 
-	* rogue.h : �����ɤΥ��꡼�󥢥å�
+	* rogue.h : コードのクリーンアップ
 
-	* machdep.c : UNIX_SYSV �ޥ��������õ��
+	* machdep.c : UNIX_SYSV マクロ定義を消去する
 
-	* ALL_FILES :  UNIX_BSD4_2 �ޥ��������õ��
+	* ALL_FILES :  UNIX_BSD4_2 マクロ定義を消去する
 
-	* machdep.c : UNIX_386BSD �ޥ��������õ��
+	* machdep.c : UNIX_386BSD マクロ定義を消去する
 
-	* ALL_FILES : UNIX �ޥ��������õ��
+	* ALL_FILES : UNIX マクロ定義を消去する
 
-	* zap.c : MSDOS �ޥ��������õ��
+	* zap.c : MSDOS マクロ定義を消去する
 
-	* save.c : MSDOS �ޥ��������õ��
+	* save.c : MSDOS マクロ定義を消去する
 
-	* play.c : MSDOS �ޥ��������õ��
+	* play.c : MSDOS マクロ定義を消去する
 
-	* message.c : MSDOS �ޥ��������õ��
+	* message.c : MSDOS マクロ定義を消去する
 
-	* machdep.c : MSDOS �ޥ��������õ��
+	* machdep.c : MSDOS マクロ定義を消去する
 
-	* init.c : MSDOS �ޥ��������õ��
+	* init.c : MSDOS マクロ定義を消去する
 
-	* ALL_FILES : HUMAN �ޥ��������õ��
+	* ALL_FILES : HUMAN マクロ定義を消去する
 
-	* Release 2 ����
+	* Release 2 公開
 
-	* src/Makefile.am : ��Ŭ�����ץ����(-O2)����Ϳ
+	* src/Makefile.am : 最適化オプション(-O2)の付与
 
-	* init.c : C89 �ǥ���ѥ��뤹��ȥ��顼�ˤʤäƤ�����ʬ����
+	* init.c : C89 でコンパイルするとエラーになっていた部分を修正
 
-	* MANIFEST : ��������ե������ɽ�����������ե�������������ɲ�
+	* MANIFEST : 削除したファイルの表示を修正し、ファイルの説明を追加
 
-	* play.c : ���������ɽ�������С���������ν���
+	* play.c : ゲーム中に表示されるバージョン情報の修正
 
-	* ALL_FILES : COLOR ����θ�ľ��
+	* ALL_FILES : COLOR 定義の見直し
 
 2005-12-03  FUNABARA Masao
 
-	* configure.ac : --enable-color ���ץ������ɲ�
+	* configure.ac : --enable-color オプションの追加
 
-	* ALL_FILES : CURSES ����ȥ���ѥ��륪�ץ���� -DCURSES ��õ�
+	* ALL_FILES : CURSES 定義とコンパイルオプション -DCURSES を消去
 
-	* ChangeLog : ChangeLog �ν񼰤�����
+	* ChangeLog : ChangeLog の書式を統一
 
-	* TODO : ����ͽ����ɲ�
+	* TODO : 修正予定の追加
 
-	* object.c : colored �ؿ�����Ѥ��ʤ��Ƥ⥫�顼�����Ƥ���ΤǴؿ���
-	�������. �ޤ��� colored �ؿ�����Ѥ��Ƥ�����ʬ�ν���
+	* object.c : colored 関数を使用しなくてもカラー化しているので関数を
+	削除する. また、 colored 関数を使用している部分の修正
 
-	* init.c : ��������˥��顼�ޥåפ��ѹ����뵡ǽ��ͭ���ˤ���
+	* init.c : ゲーム中にカラーマップを変更する機能を有効にする
 
-	* ALL_FILES : c_attr ������̾�� ch_attr ���ѹ�����̣�����Τˤ���
+	* ALL_FILES : c_attr の配列名を ch_attr と変更し意味を明確にする
 
-	* ALL_FILES : Ncurses �Ǥβ��̤Υ��顼��
+	* ALL_FILES : Ncurses での画面のカラー化
 
 2005-11-29  FUNABARA Masao
 
-	* ALL_FILES : ����Ǥ��Ƥ��ʤ��ä�register �ε������饹�黻�Ҥ���
+	* ALL_FILES : 削除できていなかったregister の記憶クラス演算子を削除
 
 2005-11-27  FUNABARA Masao
 
-	* curses.c : ��°�� curses.c �������� Ncurses ����Ѥ���褦���ѹ�
-	�����ȼ�������ϲ��̤����顼�ˤʤ餺������ΤߤȤʤ�
+	* curses.c : 付属の curses.c を削除し、 Ncurses を使用するように変更
+	それに伴い現状は画面がカラーにならず、白黒のみとなる
 
 2005-11-26  FUNABARA Masao
 
-	* configure.ac : Release 2 �����˸����ƥѥå������С������� 2.0 ��
-	����
+	* configure.ac : Release 2 作成に向けてパッケージバージョンを 2.0 と
+	する
 
 2005-11-24  FUNABARA Masao
 
-	* Release 1 ����
+	* Release 1 公開
 
-	* doc : Makefile.am �� commit ��Ԥ�
+	* doc : Makefile.am の commit を行う
 
-	* doc : doc �ǥ��쥯�ȥ�ʲ��Υե����뤬���ۥѥå������˴ޤޤ�ʤ���
-	����Ф��뽤��
+	* doc : doc ディレクトリ以下のファイルが配布パッケージに含まれない問
+	題に対する修正
 
-	* INSTALL : ���󥹥ȡ�����Υǥ��쥯�ȥ깽�����ѹ�
-	��å������ե������ɸ�।�󥹥ȡ������ $(datadir)/share/rogue �ˤ�
-	��
+	* INSTALL : インストール時のディレクトリ構成を変更
+	メッセージファイルの標準インストール先を $(datadir)/share/rogue にす
+	る
 
 2005-11-23  FUNABARA Masao
 
-	* score.c : �������ե������ɥåȥե�������ѹ�
+	* score.c : スコアファイルをドットファイルに変更
 
-	* move.c : strlen �γ����������Ĺ�ʤΤǺ��
+	* move.c : strlen の外部宣言が冗長なので削除
 
-	* MANIFEST : �����Ѥ˥ޥ˥奢�������
+	* MANIFEST : 配布用にマニュアル類を修正
 
-	* configure.ac/Makefile.am : ���ۥե���������Τ��������򵭽�
+	* configure.ac/Makefile.am : 配布ファイル作成のための設定を記述
 
 2005-11-22  FUNABARA Masao
 
-	* ALL_FILES : register �ε������饹�黻�Ҥ�ե����뤫����
+	* ALL_FILES : register の記憶クラス演算子をファイルから削除
 
-	* rogue.h : �ؿ��γ�������κ��
-	�ƥإå��ե�����˳��������ʬ�����������Ȥˤ��
+	* rogue.h : 関数の外部宣言の削除
+	各ヘッダファイルに外部宣言を分散させたことによる
 
 2005-11-20  FUNABARA Masao
 
-	* zap.c : �ؿ��γ�������Υ����å�
+	* zap.c : 関数の外部宣言のチェック
 
-	* use.c : �ؿ��γ�������Υ����å�
+	* use.c : 関数の外部宣言のチェック
 
-	* trap.c : �ؿ��γ�������Υ����å�
+	* trap.c : 関数の外部宣言のチェック
 
-	* throw.c : �ؿ��γ�������Υ����å�
+	* throw.c : 関数の外部宣言のチェック
 
-	* spechit.c : �ؿ��γ�������Υ����å�
+	* spechit.c : 関数の外部宣言のチェック
 
-	* score.c : �ؿ��γ�������Υ����å�
+	* score.c : 関数の外部宣言のチェック
 
-	* save.c : �ؿ��γ�������Υ����å�
+	* save.c : 関数の外部宣言のチェック
 
-	* room.c : �ؿ��γ�������Υ����å�
+	* room.c : 関数の外部宣言のチェック
 
-	* ring.c : �ؿ��γ�������Υ����å�
+	* ring.c : 関数の外部宣言のチェック
 
-	* random.c : �ؿ��γ�������Υ����å�
+	* random.c : 関数の外部宣言のチェック
 
-	* play.c : �ؿ��γ�������Υ����å�
+	* play.c : 関数の外部宣言のチェック
 
-	* pack.c : �ؿ��γ�������Υ����å�
+	* pack.c : 関数の外部宣言のチェック
 
-	* object.c : �ؿ��γ�������Υ����å�
+	* object.c : 関数の外部宣言のチェック
 
-	* move.c : �ؿ��γ�������Υ����å�
+	* move.c : 関数の外部宣言のチェック
 
-	* monster.c : �ؿ��γ�������Υ����å�
+	* monster.c : 関数の外部宣言のチェック
 
-	* message.c : �ؿ��γ�������Υ����å�
+	* message.c : 関数の外部宣言のチェック
 
-	* main.c : �ؿ��γ�������Υ����å�
+	* main.c : 関数の外部宣言のチェック
 
-	* machdep.c : �ؿ��γ�������Υ����å�
+	* machdep.c : 関数の外部宣言のチェック
 
-	* level.c : �ؿ��γ�������Υ����å�
+	* level.c : 関数の外部宣言のチェック
 
 2005-11-18  FUNABARA Masao
 
-	* invent.c : �ؿ��γ�������Υ����å�
+	* invent.c : 関数の外部宣言のチェック
 
-	* init.c : �ؿ��γ�������Υ����å�
+	* init.c : 関数の外部宣言のチェック
 
 2005-11-17  FUNABARA Masao
 
-	* hit.c : �ؿ��γ�������Υ����å�
+	* hit.c : 関数の外部宣言のチェック
 
-	* curese.c : ��¤��̾����Υݥ��󥿰��֤ν���
+	* curese.c : 構造体名宣言のポインタ位置の修正
 
-	* curses.c : �ؿ��γ�������Υ����å�
+	* curses.c : 関数の外部宣言のチェック
 
-	* curses.c : #ifdef ����������ؿ����ϰϤˤޤȤ��
+	* curses.c : #ifdef を出来るだけ関数の範囲にまとめる
 
-	* zap.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* zap.c : Warning メッセージを出さないように修正
 
-	* use.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* use.c : Warning メッセージを出さないように修正
 
-	* throw.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* throw.c : Warning メッセージを出さないように修正
 
-	* spechit.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* spechit.c : Warning メッセージを出さないように修正
 
-	* score.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* score.c : Warning メッセージを出さないように修正
 
-	* save.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* save.c : Warning メッセージを出さないように修正
 
-	* room.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* room.c : Warning メッセージを出さないように修正
 
-	* ring.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* ring.c : Warning メッセージを出さないように修正
 
-	* pack.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* pack.c : Warning メッセージを出さないように修正
 
-	* move.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* move.c : Warning メッセージを出さないように修正
 
-	* machdep.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* machdep.c : Warning メッセージを出さないように修正
 
-	* invent.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* invent.c : Warning メッセージを出さないように修正
 
-	* curses.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* curses.c : Warning メッセージを出さないように修正
 
-	* trap.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* trap.c : Warning メッセージを出さないように修正
 
-	* play.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* play.c : Warning メッセージを出さないように修正
 
-	* object.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* object.c : Warning メッセージを出さないように修正
 
-	* monster.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* monster.c : Warning メッセージを出さないように修正
 
-	* hit.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* hit.c : Warning メッセージを出さないように修正
 
-	* message.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* message.c : Warning メッセージを出さないように修正
 
-	* level.c : Warning ��å�������Ф��ʤ��褦�˽���
+	* level.c : Warning メッセージを出さないように修正
 
-	* init.c : Warning ��å�������Фʤ��褦�˽���
+	* init.c : Warning メッセージを出ないように修正
 
-	* init.c : Warning ��å�������ۤܽФʤ��褦�˽���
+	* init.c : Warning メッセージをほぼ出ないように修正
 
 2005-11-16  FUNABARA Masao
 
-	* main.c : Warning ��å�������Фʤ��褦�˽���
+	* main.c : Warning メッセージを出ないように修正
 
-	* machdep.c : ����ѥ��륨�顼����
-	ȯ�����Ƥ�������ѥ��륨�顼������������ѥ����λ�Ǥ���褦�˽���
-	����
+	* machdep.c : コンパイルエラーを修正
+	発生していたコンパイルエラーを修正し、コンパイルを完了できるように修正
+	する
 
-	* automake/autoconf ��
-	AUTHORS, COPYING, ChangeLog, INSTALL, NEWS, README, TODO  �Υ�å�����
-	��������.
-	Makefile.am, configure.ac �Υե�������ɲä���
+	* automake/autoconf 化
+	AUTHORS, COPYING, ChangeLog, INSTALL, NEWS, README, TODO  のメッセージ
+	作成する.
+	Makefile.am, configure.ac のファイルを追加する
 
-	* rogueclone2s �Υץ�������������
-	�ǡ���ʬΥ�ǥ���������������II�Υ������� CVS �ˤ��Τޤ������
+	* rogueclone2s のプログラム作成開始
+	データ分離版ローグ・クローンIIのソースを CVS にそのまま入れる
 

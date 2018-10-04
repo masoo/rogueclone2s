@@ -154,7 +154,7 @@ get_thrown_at_monster(object *obj, short dir, short *row, short *col)
 	    return 0;
 	}
 #if defined ( THROW_TUNNEL )
-	/* ÌÂÏ©¤Ç¼Ğ¤á¤Ë¥â¥Î¤òÅê¤²¤é¤ì¤Ê¤¤À©¸æ */
+	/* è¿·è·¯ã§æ–œã‚ã«ãƒ¢ãƒã‚’æŠ•ã’ã‚‰ã‚Œãªã„åˆ¶å¾¡ */
         if (dungeon[*row][*col] & TUNNEL) {
 	    if ((dir == 'y') && (!(dungeon[*row][*col+1] & TUNNEL) ||
 				 !(dungeon[*row+1][*col] & TUNNEL))) {

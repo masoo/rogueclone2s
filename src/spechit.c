@@ -148,7 +148,7 @@ void
 steal_item(object *monster)
 {
     object *obj;
-    short i, n, t = 0;		/* Ì¤½é´ü²½ÊÑ¿ô¤Î»ÈÍÑ¤Î·Ù¹ð¤Î¤¿¤á¤Î½é´ü²½¡£ 0 ¤òÂåÆþ */
+    short i, n, t = 0;		/* æœªåˆæœŸåŒ–å¤‰æ•°ã®ä½¿ç”¨ã®è­¦å‘Šã®ãŸã‚ã®åˆæœŸåŒ–ã€‚ 0 ã‚’ä»£å…¥ */
     char desc[80];
     bool has_something = false;
 
@@ -491,7 +491,7 @@ flame_broil(object *monster)
     if (((row != 0) && (col != 0) && (row != col)) || ((row > 7) || (col > 7))) {
 	return 0;
     }
-    /* ÌÂÏ©¤ÇÊÉ¤´¤·¤Ë±ê¤¬¤¤¤«¤Ê¤¤¤è¤¦¤Ë¤¹¤ëÀ©¸æ */
+    /* è¿·è·¯ã§å£ã”ã—ã«ç‚ŽãŒã„ã‹ãªã„ã‚ˆã†ã«ã™ã‚‹åˆ¶å¾¡ */
     if (rogue_is_around(monster->row, monster->col) || ((row == 1) && (col == 1))) {
 	row = rogue.row - monster->row;
 	col = rogue.col - monster->col;

@@ -176,7 +176,7 @@ multiple_move_rogue(int dirch)
 {
     short row, col;
     short m;
-    short n, i, ch = 0;		/* Ì¤½é´ü²½ÊÑ¿ô¤Î·Ù¹ğ½üµî¤Î¤¿¤á 0 ¤Ç½é´ü²½ */
+    short n, i, ch = 0;		/* æœªåˆæœŸåŒ–å¤‰æ•°ã®è­¦å‘Šé™¤å»ã®ãŸã‚ 0 ã§åˆæœŸåŒ– */
     char *dir;
 
     switch (dirch) {

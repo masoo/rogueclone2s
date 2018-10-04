@@ -1,6 +1,6 @@
 /*
  * display.c
- * É½¼¨·Ï¥é¥Ã¥Ñ¡¼´Ø¿ô¤òÄêµÁ¤¹¤ë
+ * è¡¨ç¤ºç³»ãƒ©ãƒƒãƒ‘ãƒ¼é–¢æ•°ã‚’å®šç¾©ã™ã‚‹
  */
 
 #include <string.h>
@@ -45,7 +45,7 @@ extern bool use_color;
 
 /*
  * init_color_attr
- * ¥«¥é¡¼Â°À­ÇÛÎó¤Î½é´ü²½
+ * ã‚«ãƒ©ãƒ¼å±æ€§é…åˆ—ã®åˆæœŸåŒ–
  */
 void
 init_color_attr(void)
@@ -58,14 +58,14 @@ init_color_attr(void)
 #if defined( COLOR )
     static bool first_init = true;
 
-    /* ºÇ½é¤Î°ì²ó¤Î¤ß¼Â¹Ô¤¹¤ëÌ¿Îá */
+    /* æœ€åˆã®ä¸€å›ã®ã¿å®Ÿè¡Œã™ã‚‹å‘½ä»¤ */
     if (first_init) {
 	start_color();
 
-	/* ÇØ·Ê¿§¤ÎÄêµÁ */
+	/* èƒŒæ™¯è‰²ã®å®šç¾© */
 	assume_default_colors(COLOR_WHITE, COLOR_BLACK);
 
-	/* É½¼¨¿§¤ÎÄêµÁ */
+	/* è¡¨ç¤ºè‰²ã®å®šç¾© */
 	init_pair(WHITE, COLOR_WHITE, COLOR_BLACK);
 	init_pair(RED, COLOR_RED, COLOR_BLACK);
 	init_pair(GREEN, COLOR_GREEN, COLOR_BLACK);
@@ -81,12 +81,12 @@ init_color_attr(void)
 	init_pair(MAGENTA_REVERSE, COLOR_BLACK, COLOR_MAGENTA);
 	init_pair(CYAN_REVERSE, COLOR_BLACK, COLOR_CYAN);
 
-	/* ¥Õ¥é¥°¤ò OFF ¤Ë¤¹¤ë */
+	/* ãƒ•ãƒ©ã‚°ã‚’ OFF ã«ã™ã‚‹ */
 	first_init = false;
     }
 #endif /* COLOR */
 
-    /* É½¼¨ÀßÄê²òÀÏ */
+    /* è¡¨ç¤ºè¨­å®šè§£æ */
     for (i = 0; i < 5 && color_str[i]; i++) {
 	j = r_index(color_type, color_str[i], 0);
 	if (j >= 0) {
@@ -140,7 +140,7 @@ init_color_attr(void)
 	}
     }
 
-    /* Ê¸»ú¤Î¥«¥é¡¼¥Ş¥Ã¥×¤ÎºîÀ® */
+    /* æ–‡å­—ã®ã‚«ãƒ©ãƒ¼ãƒãƒƒãƒ—ã®ä½œæˆ */
     for (chx = "-|#+"; *chx; chx++) {
 	get_colorpair_number((signed) *chx, colormap_list[0]);
     }
@@ -163,7 +163,7 @@ init_color_attr(void)
 
 /*
  * put_color_pair
- * »ØÄê¤ÎÊ¸»ú¤Î¥«¥é¡¼¥Ú¥¢ÈÖ¹æ¤ò½ĞÎÏ¤¹¤ë
+ * æŒ‡å®šã®æ–‡å­—ã®ã‚«ãƒ©ãƒ¼ãƒšã‚¢ç•ªå·ã‚’å‡ºåŠ›ã™ã‚‹
  */
 int
 put_colorpair_number(char ch)
@@ -173,7 +173,7 @@ put_colorpair_number(char ch)
 
 /*
  * get_color_pair
- * »ØÄê¤ÎÊ¸»úÎó¤Î¥«¥é¡¼¥Ú¥¢ÈÖ¹æ¤òÆşÎÏ¤¹¤ë
+ * æŒ‡å®šã®æ–‡å­—åˆ—ã®ã‚«ãƒ©ãƒ¼ãƒšã‚¢ç•ªå·ã‚’å…¥åŠ›ã™ã‚‹
  */
 void
 get_colorpair_number(char ch, int num)
@@ -183,8 +183,8 @@ get_colorpair_number(char ch, int num)
 
 /*
  * addch_rogue
- * addch ¤Î¥é¥Ã¥Ñ¡¼´Ø¿ô
- * Ê¸»úËè¤Î¥«¥é¡¼É½¼¨¤â°ì³ç¤·¤ÆÀÁ¤±Éé¤¦
+ * addch ã®ãƒ©ãƒƒãƒ‘ãƒ¼é–¢æ•°
+ * æ–‡å­—æ¯ã®ã‚«ãƒ©ãƒ¼è¡¨ç¤ºã‚‚ä¸€æ‹¬ã—ã¦è«‹ã‘è² ã†
  */
 int
 addch_rogue(const chtype ch)
@@ -197,8 +197,8 @@ addch_rogue(const chtype ch)
 
 /*
  * mvaddch_rogue
- * mvaddch ¤Î¥é¥Ã¥Ñ¡¼´Ø¿ô
- * Ê¸»úËè¤Î¥«¥é¡¼É½¼¨¤â°ì³ç¤·¤ÆÀÁ¤±Éé¤¦
+ * mvaddch ã®ãƒ©ãƒƒãƒ‘ãƒ¼é–¢æ•°
+ * æ–‡å­—æ¯ã®ã‚«ãƒ©ãƒ¼è¡¨ç¤ºã‚‚ä¸€æ‹¬ã—ã¦è«‹ã‘è² ã†
  */
 int
 mvaddch_rogue(int y, int x, const chtype ch)
@@ -211,8 +211,8 @@ mvaddch_rogue(int y, int x, const chtype ch)
 
 /*
  * addstr_rogue
- * addstr ¤Î¥é¥Ã¥Ñ¡¼´Ø¿ô
- * Ê¸»úÎó¤Î¥«¥é¡¼É½¼¨¤â°ì³ç¤·¤ÆÀÁ¤±Éé¤¦
+ * addstr ã®ãƒ©ãƒƒãƒ‘ãƒ¼é–¢æ•°
+ * æ–‡å­—åˆ—ã®ã‚«ãƒ©ãƒ¼è¡¨ç¤ºã‚‚ä¸€æ‹¬ã—ã¦è«‹ã‘è² ã†
  */
 int
 addstr_rogue(const char *str)
@@ -225,8 +225,8 @@ addstr_rogue(const char *str)
 
 /*
  * mvaddstr_rogue
- * mvaddstr ¤Î¥é¥Ã¥Ñ¡¼´Ø¿ô
- * Ê¸»úÎó¤Î¥«¥é¡¼É½¼¨¤â°ì³ç¤·¤ÆÀÁ¤±Éé¤¦
+ * mvaddstr ã®ãƒ©ãƒƒãƒ‘ãƒ¼é–¢æ•°
+ * æ–‡å­—åˆ—ã®ã‚«ãƒ©ãƒ¼è¡¨ç¤ºã‚‚ä¸€æ‹¬ã—ã¦è«‹ã‘è² ã†
  */
 int
 mvaddstr_rogue(int y, int x, const char *str)
@@ -252,8 +252,8 @@ mvaddstr_rogue(int y, int x, const char *str)
 
 /*
  * mvinch_rogue
- * mvinch ¤Î¥é¥Ã¥Ñ¡¼´Ø¿ô
- * Â°À­¤ò½üµî¤·¤ÆÊ¸»ú¾ğÊó¤À¤±¤òÃê½Ğ¤¹¤ë
+ * mvinch ã®ãƒ©ãƒƒãƒ‘ãƒ¼é–¢æ•°
+ * å±æ€§ã‚’é™¤å»ã—ã¦æ–‡å­—æƒ…å ±ã ã‘ã‚’æŠ½å‡ºã™ã‚‹
  */
 chtype
 mvinch_rogue(int y, int x)

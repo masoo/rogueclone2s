@@ -62,7 +62,7 @@ inventory(object *pack, unsigned short mask)
     short i, j, maxlen, n;
     short row, col;
     char *p;
-    char *msg = "  °·•π•⁄°º•π§Ú≤°§∑§∆§Ø§¿§µ§§°·";
+    char *msg = "  Ôºù„Çπ„Éö„Éº„Çπ„ÇíÊäº„Åó„Å¶„Åè„Å†„Åï„ÅÑÔºù";
     short len = 30;
 
     if (!(obj = pack->next_object)) {
@@ -158,7 +158,7 @@ make_scroll_titles(void)
 
     for (i = 0; i < SCROLS; i++) {
 	sylls = get_rand(2, 5);
-	(void) strcpy(id_scrolls[i].title, "°÷");
+	(void) strcpy(id_scrolls[i].title, "„Äå");
 	len = 2;
 	for (j = 0; j < sylls; j++) {
 	    s = get_rand(1, (MAXSYLLABLES - 1));
@@ -169,7 +169,7 @@ make_scroll_titles(void)
 	    (void) strcat(id_scrolls[i].title, syllables[s]);
 	    len += n;
 	}
-	(void) strcpy(id_scrolls[i].title + (len - 1), "°◊");
+	(void) strcpy(id_scrolls[i].title + (len - 1), "„Äç");
     }
 }
 
@@ -288,9 +288,9 @@ get_desc(object *obj, char *desc, bool capitalized)
 	    if (wizard || obj->identified) {
 		if ((obj->which_kind == DEXTERITY) ||
 		    (obj->which_kind == ADD_STRENGTH)) {
-		    strcpy(more_info, "° ");
+		    strcpy(more_info, "Ôºà");
 		    znum(more_info, obj->class, 1);
-		    strcat(more_info, "°À");
+		    strcat(more_info, "Ôºâ");
 		    (void) strcat(desc, more_info);
 		}
 	    }
@@ -300,28 +300,28 @@ get_desc(object *obj, char *desc, bool capitalized)
 	    (void) strcat(desc, id_table[obj->which_kind].real);
 	    (void) strcat(desc, item_name);
 	    if (wizard || obj->identified) {
-		strcpy(more_info, "°Œ");
+		strcpy(more_info, "Ôºª");
 		znum(more_info, obj->class, 0);
-		strcat(more_info, "°œ");
+		strcat(more_info, "ÔºΩ");
 		(void) strcat(desc, more_info);
 	    }
 	    break;
 	case ARMOR:
-	    strcpy(desc, "° ");
+	    strcpy(desc, "Ôºà");
 	    znum(desc, obj->d_enchant, 1);
-	    strcat(desc, "°À");
+	    strcat(desc, "Ôºâ");
 	    (void) strcat(desc, id_table[obj->which_kind].title);
-	    strcpy(more_info, "°Œ");
+	    strcpy(more_info, "Ôºª");
 	    znum(more_info, get_armor_class(obj), 0);
-	    strcat(more_info, "°œ");
+	    strcat(more_info, "ÔºΩ");
 	    (void) strcat(desc, more_info);
 	    break;
 	case WEAPON:
-	    strcat(desc, "° ");
+	    strcat(desc, "Ôºà");
 	    znum(desc, obj->hit_enchant, 1);
-	    strcat(desc, "°§");
+	    strcat(desc, "Ôºå");
 	    znum(desc, obj->d_enchant, 1);
-	    strcat(desc, "°À");
+	    strcat(desc, "Ôºâ");
 	    (void) strcat(desc, name_of(obj));
 	    break;
 	}
@@ -471,7 +471,7 @@ discovered(void)
     struct dlist *dp, *enddp;
     struct dobj *op;
     char *p;
-    char *msg = "  °·•π•⁄°º•π§Ú≤°§∑§∆§Ø§¿§µ§§°·";
+    char *msg = "  Ôºù„Çπ„Éö„Éº„Çπ„ÇíÊäº„Åó„Å¶„Åè„Å†„Åï„ÅÑÔºù";
     short len = 30;
 
     message(mesg[45], 0);
@@ -594,7 +594,7 @@ nextpage:
 }
 
 static char *_num[10] =
-    { "£∞", "£±", "£≤", "£≥", "£¥", "£µ", "£∂", "£∑", "£∏", "£π" };
+    { "Ôºê", "Ôºë", "Ôºí", "Ôºì", "Ôºî", "Ôºï", "Ôºñ", "Ôºó", "Ôºò", "Ôºô" };
 
 void
 znum(char *buf, int n, int plus)
@@ -605,12 +605,12 @@ znum(char *buf, int n, int plus)
 	buf++;
     }
     if (plus && n >= 0) {
-	strcpy(buf, "°‹");
+	strcpy(buf, "Ôºã");
 	buf += 2;
     }
     sprintf(s, "%d", n);
     for (p = s; *p; p++) {
-	strcpy(buf, (*p == '-') ? "°›" : _num[*p - '0']);
+	strcpy(buf, (*p == '-') ? "Ôºç" : _num[*p - '0']);
 	buf += 2;
     }
 }
@@ -624,12 +624,12 @@ lznum(char *buf, long n, int plus)
 	buf++;
     }
     if (plus && n >= 0L) {
-	strcpy(buf, "°‹");
+	strcpy(buf, "Ôºã");
 	buf += 2;
     }
     sprintf(s, "%ld", n);
     for (p = s; *p; p++) {
-	strcpy(buf, (*p == '-') ? "°›" : _num[*p - '0']);
+	strcpy(buf, (*p == '-') ? "Ôºç" : _num[*p - '0']);
 	buf += 2;
     }
 }

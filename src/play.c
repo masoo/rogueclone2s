@@ -315,13 +315,13 @@ char *help_message[] = {
     mesg[128], mesg[129], mesg[130], mesg[131], mesg[132], mesg[133],
     mesg[134], mesg[135], mesg[136], mesg[137],
     "",
-    "¡á¥¹¥Ú¡¼¥¹¤ò²¡¤·¤Æ¤¯¤À¤µ¤¤¡á",
+    "ï¼ã‚¹ãƒšãƒ¼ã‚¹ã‚’æŠ¼ã—ã¦ãã ã•ã„ï¼",
     (char *) 0
 };
 
 /*
  * help
- * ¥Ø¥ë¥×¥á¥Ã¥»¡¼¥¸¤òÉ½¼¨¤¹¤ë
+ * ãƒ˜ãƒ«ãƒ—ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹
  */
 void
 help(void)
@@ -330,14 +330,14 @@ help(void)
     int n;
     char disp_message[ROGUE_COLUMNS+1];
 
-    /* ¸½ºß¤Î²èÌÌ¤òÊİÂ¸¤¹¤ë */
+    /* ç¾åœ¨ã®ç”»é¢ã‚’ä¿å­˜ã™ã‚‹ */
     for (lines = 0; lines < ROGUE_LINES; lines++) {
 	for (columns = 0; columns < ROGUE_COLUMNS; columns++) {
 	    descs[lines][columns] = mvinch_rogue(lines, columns);
 	}
     }
 
-    /* ¥Ø¥ë¥×¥á¥Ã¥»¡¼¥¸¤òÉ½¼¨¤¹¤ë */
+    /* ãƒ˜ãƒ«ãƒ—ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹ */
     clear();
     for (n = 0; help_message[n]; n++) {
 	mvaddstr_rogue(n, 0, help_message[n]);
@@ -346,7 +346,7 @@ help(void)
     refresh();
     wait_for_ack();
 
-    /* Êİ»ı¤·¤¿²èÌÌ¤òÉüµ¢¤µ¤»¤ë */
+    /* ä¿æŒã—ãŸç”»é¢ã‚’å¾©å¸°ã•ã›ã‚‹ */
     for (lines = 0; lines < ROGUE_LINES; lines++) {
 	move(lines, 0);
 	if (lines > 0 && lines < ROGUE_LINES - 1) {
@@ -354,7 +354,7 @@ help(void)
 		addch_rogue(descs[lines][columns]);
 	    }
 	} else {
-	    /* ¥á¥Ã¥»¡¼¥¸¥Ç¡¼¥¿¤ÎºÇ¸å¤ËËöÃ¼µ­¹æ¤òÉÕ²Ã¤¹¤ë */
+	    /* ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿ã®æœ€å¾Œã«æœ«ç«¯è¨˜å·ã‚’ä»˜åŠ ã™ã‚‹ */
 	    strncpy(disp_message, descs[lines], ROGUE_COLUMNS);
 	    disp_message[ROGUE_COLUMNS] = '\0';
 
@@ -402,7 +402,7 @@ again:
 
 /*
  * options
- * ¥ª¥×¥·¥ç¥ó²èÌÌ¤ÎÉ½¼¨¤ÈÀßÄê¤ò¹Ô¤¦
+ * ã‚ªãƒ—ã‚·ãƒ§ãƒ³ç”»é¢ã®è¡¨ç¤ºã¨è¨­å®šã‚’è¡Œã†
  */
 void
 options(void)
@@ -415,14 +415,14 @@ options(void)
     char cbuf[ROGUE_LINES][MAX_TITLE_LENGTH];
     char optbuf[BUFSIZ];
 
-    /* ¸½ºß¤Î²èÌÌ¤òÊİÂ¸¤¹¤ë */
+    /* ç¾åœ¨ã®ç”»é¢ã‚’ä¿å­˜ã™ã‚‹ */
     for (lines = 0; lines < ROGUE_LINES; lines++) {
 	for (columns = 0; columns < ROGUE_COLUMNS; columns++) {
 	    descs[lines][columns] = mvinch_rogue(lines, columns);
 	}
     }
 
-    /* ¥ª¥×¥·¥ç¥ó²èÌÌ¤òÉ½¼¨¤¹¤ë */
+    /* ã‚ªãƒ—ã‚·ãƒ§ãƒ³ç”»é¢ã‚’è¡¨ç¤ºã™ã‚‹ */
     clear();
     for (n = 0; envopt[n].name; n++) {
 	mvaddstr_rogue(n, 2, optdesc[n]);
@@ -443,7 +443,7 @@ options(void)
 	pos[n] = strlen(optdesc[n]) + strlen(envopt[n].name) + 7;
     }
 
-    /* ¥ª¥×¥·¥ç¥ó¤ÎÀßÄê */
+    /* ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®è¨­å®š */
     i = 0;
     while (i >= 0 && i < n) {
 	mvaddch(i, 1, '>');
@@ -498,7 +498,7 @@ options(void)
     changed = (i < 0 || i >= n);
     if (changed) {
 	move(n + 1, 0);
-	addstr_rogue("¡á¥¹¥Ú¡¼¥¹¤ò²¡¤·¤Æ¤¯¤À¤µ¤¤¡á");
+	addstr_rogue("ï¼ã‚¹ãƒšãƒ¼ã‚¹ã‚’æŠ¼ã—ã¦ãã ã•ã„ï¼");
 	refresh();
 	wait_for_ack();
     }

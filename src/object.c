@@ -501,7 +501,7 @@ alloc_object(void)
 	obj = free_list;
 	free_list = free_list->next_object;
     } else if (!(obj = (object *) md_malloc(sizeof(object)))) {
-	message("¥á¥â¥ê¡¼¤¬Â­¤ê¤Ş¤»¤ó¡£ ¥²¡¼¥à¤ò¥»¡¼¥Ö¤·¤Ş¤¹¡£", 0);
+	message("ãƒ¡ãƒ¢ãƒªãƒ¼ãŒè¶³ã‚Šã¾ã›ã‚“ã€‚ ã‚²ãƒ¼ãƒ ã‚’ã‚»ãƒ¼ãƒ–ã—ã¾ã™ã€‚", 0);
 	save_into_file(error_file);
     }
     obj->quantity = 1;
@@ -594,7 +594,7 @@ rand_place(object *obj)
 void
 new_object_for_wizard(void)
 {
-    short ch, max = 0;		/* Ì¤½é´ü²½ÊÑ¿ô¤Î»ÈÍÑ¤Î Warning ¤ÎÂĞºö¤Ç 0 ¤òÉÔ²Ä */
+    short ch, max = 0;		/* æœªåˆæœŸåŒ–å¤‰æ•°ã®ä½¿ç”¨ã® Warning ã®å¯¾ç­–ã§ 0 ã‚’ä¸å¯ */
     object *obj;
     char buf[80];
 
@@ -701,7 +701,7 @@ list_object(object *obj, short max)
 #if defined( COLOR )
     char *p;
 #endif /* COLOR */
-    char *msg = "  ¡á¥¹¥Ú¡¼¥¹¤ò²¡¤·¤Æ¤¯¤À¤µ¤¤¡á";
+    char *msg = "  ï¼ã‚¹ãƒšãƒ¼ã‚¹ã‚’æŠ¼ã—ã¦ãã ã•ã„ï¼";
     short len = 30;
 
     weapon_or_armor = 0;

@@ -336,7 +336,7 @@ fight(bool to_the_death)
 
 /*
  * get_dir_rc
- * °ÜÆ°¸å¤Î°ÌÃÖ¤ò¼èÆÀ¤¹¤ë
+ * ç§»å‹•å¾Œã®ä½ç½®ã‚’å–å¾—ã™ã‚‹
  */
 void
 get_dir_rc(char dir, short *lines, short *columns, bool allow_off_screen)
