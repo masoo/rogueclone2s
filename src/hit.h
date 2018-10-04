@@ -13,7 +13,7 @@ extern int damage_for_strength(void);
 extern int mon_damage(object *monster, int damage);
 extern void fight(bool to_the_death);
 extern void get_dir_rc(char dir, short *lines, short *columns,
-		       bool allow_off_screen);
+                       bool allow_off_screen);
 extern int get_hit_chance(object *weapon);
 extern int get_weapon_damage(object *weapon);
 

@@ -10,7 +10,7 @@
 
 typedef unsigned char u_char;
 typedef unsigned int u_int;
-#define	char	u_char
+#define char u_char
 
 char *strcpy(), *strncmp(), *strchr();
 char *getenv(), *memset();
@@ -18,22 +18,22 @@ char *getenv(), *memset();
 /*
  * General constant
  */
-#define	NO	0
-#define	YES	1
+#define NO 0
+#define YES 1
 
-#define	OFF	0
-#define	ON	1
-#define	HIGH	2
+#define OFF 0
+#define ON 1
+#define HIGH 2
 
 /*
  * Character constant
  */
-#define	SPACE	' '
-#define	RET	'\r'
-#define	NL	'\n'
-#define	BS	'\b'
-#define	ESCAPE	0x1b
-#define CTRLU	0x15
+#define SPACE ' '
+#define RET '\r'
+#define NL '\n'
+#define BS '\b'
+#define ESCAPE 0x1b
+#define CTRLU 0x15
 
 typedef struct machine
 {
@@ -49,49 +49,46 @@ mac macs[] = {
     {"b16", "1b5b3e356c/1b5b3e3568", "", "", 0},
     {"if800", "1b31/1b30", "1b4e301b6e391b53202030", "1b53202031", 1},
     {"jis83", "", "", "", 1},
-    {"", "", "", "", 0}
-};
+    {"", "", "", "", 0}};
 
 /*
  * Color constant
  */
-#define	NONE		 0	/* dummy */
-#define	WHITE		 1
-#define	GREEN		 2
-#define	YELLOW		 3
-#define	MAGENTA		 4
-#define	CYAN		 5
-#define	RGREEN		 6
-#define	RYELLOW		 7
-#define	RMAGENTA 	 8
-#define	RCYAN		 9
-#define	NCOLORS		10
+#define NONE 0 /* dummy */
+#define WHITE 1
+#define GREEN 2
+#define YELLOW 3
+#define MAGENTA 4
+#define CYAN 5
+#define RGREEN 6
+#define RYELLOW 7
+#define RMAGENTA 8
+#define RCYAN 9
+#define NCOLORS 10
 
 char *colorstr[2][NCOLORS] = {
     {"", "\033[m", "\033[m", "\033[m", "\033[m",
      "\033[m", "\033[7m", "\033[7m", "\033[7m", "\033[7m"},
     {"", "\033[m", "\033[32m", "\033[33m", "\033[35m",
-     "\033[36m", "\033[32;7m", "\033[33;7m", "\033[35;7m", "\033[36;7m"}
-};
+     "\033[36m", "\033[32;7m", "\033[33;7m", "\033[35;7m", "\033[36;7m"}};
 
 /*
  * Line character index
  */
-#define	HOR	0
-#define	VERL	1
-#define	VERR	2
-#define	TOPL	3
-#define	TOPR	4
-#define	BOTL	5
-#define	BOTR	6
+#define HOR 0
+#define VERL 1
+#define VERR 2
+#define TOPL 3
+#define TOPR 4
+#define BOTL 5
+#define BOTR 6
 
 char *linechar[][7] = {
     {"  ", " ", " ", "  ", " ", "  ", " "},
     {"━", "┃", "┃", "┏", "┓", "┗", "┛"},
-    {"��", "��", "��", "��", "��", "��", "��"}
-};
+    {"��", "��", "��", "��", "��", "��", "��"}};
 
-int linecolor[] = { RGREEN, GREEN, GREEN };
+int linecolor[] = {RGREEN, GREEN, GREEN};
 
 char curon[10], curoff[10], initstr[20], termstr[20];
 char **linec;
@@ -101,42 +98,42 @@ int lcolor;
 /*
  * Screen constant
  */
-#define	LINES	24
-#define	COLS	80
-#define	heady	 2
-#define	headx	 6
-#define	playy	 7
-#define	playx1	 6
-#define	playx2	28
-#define	menuy	 7
-#define	menux	54
-#define	msgy	19
-#define	msgx	 6
-#define	msglen	66
-#define	barlen	18
+#define LINES 24
+#define COLS 80
+#define heady 2
+#define headx 6
+#define playy 7
+#define playx1 6
+#define playx2 28
+#define menuy 7
+#define menux 54
+#define msgy 19
+#define msgx 6
+#define msglen 66
+#define barlen 18
 
-#define	headbox()	box(heady-1, headx-4,  heady+1,  headx+msglen+2)
-#define	playbox()	box(playy-2, playx1-4, playy+10, playx2+barlen+2)
-#define	menubox()	box(menuy-2, menux-4,  menuy+10, menux+barlen+2)
-#define	msgbox()	box(msgy-1,  msgx-4,   msgy+1,   msgx+msglen+2)
+#define headbox() box(heady - 1, headx - 4, heady + 1, headx + msglen + 2)
+#define playbox() box(playy - 2, playx1 - 4, playy + 10, playx2 + barlen + 2)
+#define menubox() box(menuy - 2, menux - 4, menuy + 10, menux + barlen + 2)
+#define msgbox() box(msgy - 1, msgx - 4, msgy + 1, msgx + msglen + 2)
 
-get_hex_num(p, n)
-register char *p;
+get_hex_num(p, n) register char *p;
 int n;
 {
     int x;
 
     x = 0;
-    while (n-- > 0) {
-	x <<= 4;
-	if (*p >= '0' && *p <= '9')
-	    x += *p++ - '0';
-	else if (*p >= 'a' && *p <= 'z')
-	    x += *p++ - 'a' + 10;
-	else if (*p >= 'A' && *p <= 'Z')
-	    x += *p++ - 'A' + 10;
-	else
-	    return -1;
+    while (n-- > 0)
+    {
+        x <<= 4;
+        if (*p >= '0' && *p <= '9')
+            x += *p++ - '0';
+        else if (*p >= 'a' && *p <= 'z')
+            x += *p++ - 'a' + 10;
+        else if (*p >= 'A' && *p <= 'Z')
+            x += *p++ - 'A' + 10;
+        else
+            return -1;
     }
     return x;
 }
@@ -169,34 +166,32 @@ xputch(c)
 #endif
 }
 
-xputs(s)
-register char *s;
+xputs(s) register char *s;
 {
 #ifndef __TURBOC__
     union REGS regs;
 #endif
 
-    while (*s) {
+    while (*s)
+    {
 #ifdef __TURBOC__
-	_AH = 0x02;
-	_AL = *s++;
-	geninterrupt(0x29);
+        _AH = 0x02;
+        _AL = *s++;
+        geninterrupt(0x29);
 #else
-	regs.h.ah = 0x02;
-	regs.h.al = *s++;
-	int86(0x29, &regs, &regs);
+        regs.h.ah = 0x02;
+        regs.h.al = *s++;
+        int86(0x29, &regs, &regs);
 #endif
     }
 }
 
-color(n)
-int n;
+color(n) int n;
 {
     xputs(colors[n]);
 }
 
-move(y, x)
-int y, x;
+move(y, x) int y, x;
 {
     char buf[10];
 
@@ -209,8 +204,7 @@ clear()
     xputs("\033[2J");
 }
 
-box(by, bx, ey, ex)
-int by, bx, ey, ex;
+box(by, bx, ey, ex) int by, bx, ey, ex;
 {
     register int n;
 
@@ -218,18 +212,19 @@ int by, bx, ey, ex;
     move(by, bx);
     xputs(linec[TOPL]);
     for (n = bx + 2; n < ex; n += 2)
-	xputs(linec[HOR]);
+        xputs(linec[HOR]);
     xputs(linec[TOPR]);
-    for (n = by + 1; n < ey; n++) {
-	move(n, bx);
-	xputs(linec[VERL]);
-	move(n, ex);
-	xputs(linec[VERR]);
+    for (n = by + 1; n < ey; n++)
+    {
+        move(n, bx);
+        xputs(linec[VERL]);
+        move(n, ex);
+        xputs(linec[VERR]);
     }
     move(ey, bx);
     xputs(linec[BOTL]);
     for (n = bx + 2; n < ex; n += 2)
-	xputs(linec[HOR]);
+        xputs(linec[HOR]);
     xputs(linec[BOTR]);
     color(WHITE);
 }
@@ -237,26 +232,26 @@ int by, bx, ey, ex;
 /*
  * Footer messages
  */
-#define	TITLE		 0
-#define	WAIT		 1
-#define	SELECT		 2
-#define	ADD		 3
-#define	ADDINPUT	 4
-#define	ADDFULL		 5
-#define	EMPTY		 6
-#define	CHANGE		 7
-#define	CHGINPUT	 8
-#define	DELETE		 9
-#define	DELASK		10
-#define	DELSAVED	11
-#define	NOEXEFILE	12
-#define	BADUSR		13
-#define	CANTWRITE	14
-#define	INVALID1	15
-#define	INVALID2	16
-#define	SHOWCNTS	17
-#define	BYEBYE		18
-#define	NMESGS		19
+#define TITLE 0
+#define WAIT 1
+#define SELECT 2
+#define ADD 3
+#define ADDINPUT 4
+#define ADDFULL 5
+#define EMPTY 6
+#define CHANGE 7
+#define CHGINPUT 8
+#define DELETE 9
+#define DELASK 10
+#define DELSAVED 11
+#define NOEXEFILE 12
+#define BADUSR 13
+#define CANTWRITE 14
+#define INVALID1 15
+#define INVALID2 16
+#define SHOWCNTS 17
+#define BYEBYE 18
+#define NMESGS 19
 
 char *msg[NMESGS] = {
     "ローグ・クローン２　日本語版１．３　プレイヤー・メニュー１．３",
@@ -277,8 +272,7 @@ char *msg[NMESGS] = {
     "そんなキーを押したって、何も起こりませんよ？",
     "何も起こらないってば！　コラ！",
     "見つかっちゃった！　ローグで遊んだ回数です　困ったもんだ、ホントに",
-    "よかったら、また遊んでくださいね？　　\003 Presented by Junn Ohta 1989"
-};
+    "よかったら、また遊んでくださいね？　　\003 Presented by Junn Ohta 1989"};
 
 header()
 {
@@ -288,8 +282,7 @@ header()
     color(WHITE);
 }
 
-message(which)
-int which;
+message(which) int which;
 {
     register char *p;
     register int i;
@@ -299,25 +292,27 @@ int which;
     n = lastlen;
     move(msgy, msgx);
     i = 0;
-    for (p = msg[which]; *p; p++) {
-	if (*p < NCOLORS) {
-	    color(*p);
-	    continue;
-	}
-	xputch(*p);
-	i++;
+    for (p = msg[which]; *p; p++)
+    {
+        if (*p < NCOLORS)
+        {
+            color(*p);
+            continue;
+        }
+        xputch(*p);
+        i++;
     }
     lastlen = i;
     color(WHITE);
     for (; i < n; i++)
-	xputch(' ');
+        xputch(' ');
 }
 
 /*
  * Player entry (also in file)
  */
-#define	NPLAYERS	10
-#define	NAMELEN		14
+#define NPLAYERS 10
+#define NAMELEN 14
 
 u_int pcount[NPLAYERS];
 char pname[NPLAYERS][NAMELEN + 1];
@@ -328,11 +323,11 @@ char ppass[NPLAYERS][NAMELEN + 1];
  */
 typedef struct _stable
 {
-    int cmd;			/* command to be execute */
-    char *msg, *name;		/* message and name on screen */
-    int saved;			/* saved game exists? (player only) */
-    int hidden;			/* hidden command? */
-    int y, x;			/* screen location */
+    int cmd;          /* command to be execute */
+    char *msg, *name; /* message and name on screen */
+    int saved;        /* saved game exists? (player only) */
+    int hidden;       /* hidden command? */
+    int y, x;         /* screen location */
 } stable;
 
 typedef struct _ctable
@@ -346,24 +341,24 @@ typedef struct _ctable
 /*
  * Size of stable and ctable
  */
-#define	NCOMMANDS	15
+#define NCOMMANDS 15
 
 /*
  * Value of stable.cmd
  */
-#define	CMDPLAY		 0
-#define	CMDSCORE	 1
-#define	CMDADD		 2
-#define	CMDCHANGE 	 3
-#define	CMDDELETE	 4
-#define	CMDEXIT		 5
-#define	CMDCOUNT	 6	/* hidden command (show play count) */
+#define CMDPLAY 0
+#define CMDSCORE 1
+#define CMDADD 2
+#define CMDCHANGE 3
+#define CMDDELETE 4
+#define CMDEXIT 5
+#define CMDCOUNT 6 /* hidden command (show play count) */
 
 /*
  * Command menu
  */
 stable menu[NCOMMANDS + 1] = {
-/*	      cmd,      msg,     name,      saved, hidden,    y,      x */
+    /*	      cmd,      msg,     name,      saved, hidden,    y,      x */
     {CMDPLAY, "０．", pname[0], NO, NO, playy, playx1},
     {CMDPLAY, "１．", pname[1], NO, NO, playy + 2, playx1},
     {CMDPLAY, "２．", pname[2], NO, NO, playy + 4, playx1},
@@ -379,10 +374,9 @@ stable menu[NCOMMANDS + 1] = {
     {CMDCHANGE, "Ｃ．", "プレイヤー変更", NO, NO, menuy + 4, menux},
     {CMDDELETE, "Ｄ．", "プレイヤー削除", NO, NO, menuy + 6, menux},
     {CMDEXIT, "Ｅ．", "終了", NO, NO, menuy + 8, menux},
-    {CMDCOUNT, "？．", "プレイ回数表示", NO, YES, 0, 0}
-};
+    {CMDCOUNT, "？．", "プレイ回数表示", NO, YES, 0, 0}};
 
-#define	absent(n)	(menu[n].name[0] == 0)	/* should be skipped? */
+#define absent(n) (menu[n].name[0] == 0) /* should be skipped? */
 
 /*
  * Characters for selection
@@ -407,9 +401,8 @@ ctable ccon[NCOMMANDS] = {
     {10, 12, 6, 2},
     {11, 13, 7, 3},
     {12, 14, 8, 4},
-    {13, 0, 9, 0}
-};
-int curc = -1;			/* current index for ccon */
+    {13, 0, 9, 0}};
+int curc = -1; /* current index for ccon */
 
 /*
  * Player connection table
@@ -424,34 +417,35 @@ ctable pcon[NPLAYERS] = {
     {5, 7, 1, 2},
     {6, 8, 2, 3},
     {7, 9, 3, 4},
-    {8, 0, 4, 0}
-};
-int curp = -1;			/* current index for pcon */
+    {8, 0, 4, 0}};
+int curp = -1; /* current index for pcon */
 
 showmenu()
 {
     register int n;
     register stable *menup;
 
-    for (n = 0; n < NCOMMANDS; n++) {
-	menup = &menu[n];
-	move(menup->y, menup->x);
-	if (menup->saved) {
-	    color(CYAN);
-	}
-	xputs(menup->msg);
-	xputs(menup->name);
-	if (menup->saved) {
-	    color(WHITE);
-	}
+    for (n = 0; n < NCOMMANDS; n++)
+    {
+        menup = &menu[n];
+        move(menup->y, menup->x);
+        if (menup->saved)
+        {
+            color(CYAN);
+        }
+        xputs(menup->msg);
+        xputs(menup->name);
+        if (menup->saved)
+        {
+            color(WHITE);
+        }
     }
 }
 
 /*
  * Reverse item on/off
  */
-reverse(n, sw)
-int n, sw;
+reverse(n, sw) int n, sw;
 {
     register stable *p;
     register int i;
@@ -459,24 +453,27 @@ int n, sw;
     p = &menu[n];
     i = NAMELEN - strlen(p->name) + 2;
     move(p->y, p->x - 2);
-    if (sw) {			/* (sw == ON || sw == HIGH) */
-	color((sw == HIGH) ? RMAGENTA : (p->saved) ? RCYAN : RYELLOW);
-	xputs("  ");
-	xputs(p->msg);
-	xputs(p->name);
-	while (i--)
-	    xputch(' ');
-	color(WHITE);
-    } else {
-	xputs("  ");
-	if (p->saved)
-	    color(CYAN);
-	xputs(p->msg);
-	xputs(p->name);
-	if (p->saved)
-	    color(WHITE);
-	while (i--)
-	    xputch(' ');
+    if (sw)
+    { /* (sw == ON || sw == HIGH) */
+        color((sw == HIGH) ? RMAGENTA : (p->saved) ? RCYAN : RYELLOW);
+        xputs("  ");
+        xputs(p->msg);
+        xputs(p->name);
+        while (i--)
+            xputch(' ');
+        color(WHITE);
+    }
+    else
+    {
+        xputs("  ");
+        if (p->saved)
+            color(CYAN);
+        xputs(p->msg);
+        xputs(p->name);
+        if (p->saved)
+            color(WHITE);
+        while (i--)
+            xputch(' ');
     }
 }
 
@@ -484,25 +481,25 @@ int n, sw;
  * Menu selection routine
  */
 get()
-{				/* get menu selection character */
+{ /* get menu selection character */
     register int c;
 
     c = xgetch();
     while (kbhit())
-	c = xgetch();
+        c = xgetch();
     if (c >= 'a' && c <= 'z')
-	c += 'A' - 'a';
+        c += 'A' - 'a';
     return (c);
 }
 
-index(c)			/* get index from selection character */
-int c;
+index(c) /* get index from selection character */
+    int c;
 {
     register int i;
 
     for (i = 0; menuc[i]; i++)
-	if (c == menuc[i])
-	    return (i);
+        if (c == menuc[i])
+            return (i);
     return (-1);
 }
 
@@ -512,8 +509,8 @@ nplayers()
 
     n = 0;
     for (i = 0; i < NPLAYERS; i++)
-	if (absent(i) == NO)
-	    n++;
+        if (absent(i) == NO)
+            n++;
     return (n);
 }
 
@@ -522,177 +519,192 @@ addcmdpos()
     register int n;
 
     for (n = 0; n < NCOMMANDS; n++)
-	if (menu[n].cmd == CMDADD)
-	    return (n);
+        if (menu[n].cmd == CMDADD)
+            return (n);
     return (0);
 }
 
-#define	UP	     0x0b	/* sent from PC-9801 up arrow key */
-#define	DOWN	     0x0a	/* sent from PC-9801 down arrow key */
-#define	LEFT	     0x08	/* sent from PC-9801 left arrow key */
-#define	RIGHT	     0x0c	/* sent from PC-9801 right arrow key */
+#define UP 0x0b    /* sent from PC-9801 up arrow key */
+#define DOWN 0x0a  /* sent from PC-9801 down arrow key */
+#define LEFT 0x08  /* sent from PC-9801 left arrow key */
+#define RIGHT 0x0c /* sent from PC-9801 right arrow key */
 
 cselect()
 {
     register int c, n;
     int msgno;
 
-    if (absent(curc)) {
-	if (nplayers() == 0)
-	    curc = addcmdpos();
-	while (absent(curc))
-	    curc = ccon[curc].down;
+    if (absent(curc))
+    {
+        if (nplayers() == 0)
+            curc = addcmdpos();
+        while (absent(curc))
+            curc = ccon[curc].down;
     }
-    if (curp >= 0) {
-	reverse(curp, OFF);
-	curp = -1;
+    if (curp >= 0)
+    {
+        reverse(curp, OFF);
+        curp = -1;
     }
     reverse(curc, ON);
     msgno = SELECT;
-    for (;;) {
-	message(msgno);
-	c = get();
-	if ((n = index(c)) >= 0) {
-	    if (absent(n))
-		continue;
-	    if (menu[n].hidden == NO) {
-		reverse(curc, OFF);
-		curc = n;
-		reverse(curc, ON);
-	    }
-	    return (n);
-	}
-	switch (c) {
-	case 'H':
-	case 'J':
-	case 'K':
-	case 'L':
-	case UP:
-	case DOWN:
-	case LEFT:
-	case RIGHT:
-	    reverse(curc, OFF);
-	    do {
-		switch (c) {
-		case 'K':
-		case UP:
-		    curc = ccon[curc].up;
-		    break;
-		case 'J':
-		case DOWN:
-		    curc = ccon[curc].down;
-		    break;
-		case 'H':
-		case LEFT:
-		    curc = ccon[curc].left;
-		    break;
-		case 'L':
-		case RIGHT:
-		    curc = ccon[curc].right;
-		    break;
-		}
-	    } while (absent(curc));
-	    reverse(curc, ON);
-	    break;
-	case RET:
-	case SPACE:
-	    return (curc);
-	default:
-	    msgno = (msgno != INVALID1) ? INVALID1 : INVALID2;
-	    continue;
-	}
-	msgno = SELECT;
+    for (;;)
+    {
+        message(msgno);
+        c = get();
+        if ((n = index(c)) >= 0)
+        {
+            if (absent(n))
+                continue;
+            if (menu[n].hidden == NO)
+            {
+                reverse(curc, OFF);
+                curc = n;
+                reverse(curc, ON);
+            }
+            return (n);
+        }
+        switch (c)
+        {
+        case 'H':
+        case 'J':
+        case 'K':
+        case 'L':
+        case UP:
+        case DOWN:
+        case LEFT:
+        case RIGHT:
+            reverse(curc, OFF);
+            do
+            {
+                switch (c)
+                {
+                case 'K':
+                case UP:
+                    curc = ccon[curc].up;
+                    break;
+                case 'J':
+                case DOWN:
+                    curc = ccon[curc].down;
+                    break;
+                case 'H':
+                case LEFT:
+                    curc = ccon[curc].left;
+                    break;
+                case 'L':
+                case RIGHT:
+                    curc = ccon[curc].right;
+                    break;
+                }
+            } while (absent(curc));
+            reverse(curc, ON);
+            break;
+        case RET:
+        case SPACE:
+            return (curc);
+        default:
+            msgno = (msgno != INVALID1) ? INVALID1 : INVALID2;
+            continue;
+        }
+        msgno = SELECT;
     }
 }
 
-#define	PRESENT		 0	/* skip absent entry */
-#define	ABSENT		 1	/* skip present entry */
+#define PRESENT 0 /* skip absent entry */
+#define ABSENT 1  /* skip present entry */
 
-#define	digit(c)	((c) >= '0' && (c) <= '9')
-#define	dignum(c)	((c) - '0')
+#define digit(c) ((c) >= '0' && (c) <= '9')
+#define dignum(c) ((c) - '0')
 
 /*
  * value of pselect
  */
-#define	ESCAPED		-1
-#define	NOTFOUND	-2
+#define ESCAPED -1
+#define NOTFOUND -2
 
-pselect(init, mno, status)
-int init, mno, status;
+pselect(init, mno, status) int init, mno, status;
 {
     register int c, n;
     int msgno;
 
     n = init;
-    while (absent(init) != (status == ABSENT)) {
-	init = pcon[init].down;
-	if (init == n)
-	    return (NOTFOUND);
+    while (absent(init) != (status == ABSENT))
+    {
+        init = pcon[init].down;
+        if (init == n)
+            return (NOTFOUND);
     }
-    if (curp >= 0 && curp != init) {
-	reverse(curp, OFF);
-	/* curp = -1; */
+    if (curp >= 0 && curp != init)
+    {
+        reverse(curp, OFF);
+        /* curp = -1; */
     }
     curp = init;
     /* reverse(curc, HIGH); */
     reverse(curp, ON);
     msgno = mno;
-    for (;;) {
-	message(msgno);
-	c = get();
-	if (c == ESCAPE) {
-	    reverse(curp, OFF);
-	    curp = init;
-	    return (ESCAPED);
-	}
-	if (digit(c)) {
-	    n = dignum(c);
-	    if (absent(n) != (status == ABSENT))
-		continue;
-	    reverse(curp, OFF);
-	    curp = n;
-	    reverse(curp, ON);
-	    return (n);
-	}
-	switch (c) {
-	case 'H':
-	case 'J':
-	case 'K':
-	case 'L':
-	case UP:
-	case DOWN:
-	case LEFT:
-	case RIGHT:
-	    reverse(curp, OFF);
-	    do {
-		switch (c) {
-		case 'K':
-		case UP:
-		    curp = pcon[curp].up;
-		    break;
-		case 'J':
-		case DOWN:
-		    curp = pcon[curp].down;
-		    break;
-		case 'H':
-		case LEFT:
-		    curp = pcon[curp].left;
-		    break;
-		case 'L':
-		case RIGHT:
-		    curp = pcon[curp].right;
-		    break;
-		}
-	    } while (absent(curp) != (status == ABSENT));
-	    reverse(curp, ON);
-	    break;
-	case RET:
-	case SPACE:
-	    return (curp);
-	default:
-	    break;
-	}
-	msgno = mno;
+    for (;;)
+    {
+        message(msgno);
+        c = get();
+        if (c == ESCAPE)
+        {
+            reverse(curp, OFF);
+            curp = init;
+            return (ESCAPED);
+        }
+        if (digit(c))
+        {
+            n = dignum(c);
+            if (absent(n) != (status == ABSENT))
+                continue;
+            reverse(curp, OFF);
+            curp = n;
+            reverse(curp, ON);
+            return (n);
+        }
+        switch (c)
+        {
+        case 'H':
+        case 'J':
+        case 'K':
+        case 'L':
+        case UP:
+        case DOWN:
+        case LEFT:
+        case RIGHT:
+            reverse(curp, OFF);
+            do
+            {
+                switch (c)
+                {
+                case 'K':
+                case UP:
+                    curp = pcon[curp].up;
+                    break;
+                case 'J':
+                case DOWN:
+                    curp = pcon[curp].down;
+                    break;
+                case 'H':
+                case LEFT:
+                    curp = pcon[curp].left;
+                    break;
+                case 'L':
+                case RIGHT:
+                    curp = pcon[curp].right;
+                    break;
+                }
+            } while (absent(curp) != (status == ABSENT));
+            reverse(curp, ON);
+            break;
+        case RET:
+        case SPACE:
+            return (curp);
+        default:
+            break;
+        }
+        msgno = mno;
     }
 }
 
@@ -702,28 +714,26 @@ int init, mno, status;
  * returns NULL if escaped, or length is zero
  */
 #ifdef EUC
-#define kanji1(c)	((c) & 0x80)	/* by Yasha */
-#else /* Shift JIS */
-#define	kanji1(c)	((c)>=0x81 && (c)<=0x9f || (c)>=0xe0 && (c)<=0xfc)
+#define kanji1(c) ((c)&0x80) /* by Yasha */
+#else                        /* Shift JIS */
+#define kanji1(c) ((c) >= 0x81 && (c) <= 0x9f || (c) >= 0xe0 && (c) <= 0xfc)
 #endif
 /*#define sjis1(c)	((c)>=0x81 && (c)<=0x9f || (c)>=0xe0 && (c)<=0xfc)*/
 
-fillup(len)
-register int len;
+fillup(len) register int len;
 {
     color(RGREEN);
     xputch(' ');
     color(WHITE);
     len++;
     for (; len < NAMELEN; len++)
-	xputch(' ');
+        xputch(' ');
     if (len <= NAMELEN)
-	xputs("］");
+        xputs("］");
 }
 
 char *
-input(no, init)
-int no;
+    input(no, init) int no;
 char *init;
 {
     register char *p;
@@ -734,20 +744,25 @@ char *init;
     static char buf[NAMELEN + 1];
 
     n = 0;
-    if (*init) {
-	for (p = init; *p; p++) {
-	    if (kanji1(*p) && p[1]) {	/* by Yasha */
-/*			if (sjis1(*p) && p[1]) {*/
-		kanji[n] = kanji[n + 1] = YES;
-		buf[n] = *p++;
-		buf[n + 1] = *p;
-		n += 2;
-	    } else {
-		kanji[n] = NO;
-		buf[n] = *p;
-		n++;
-	    }
-	}
+    if (*init)
+    {
+        for (p = init; *p; p++)
+        {
+            if (kanji1(*p) && p[1])
+            { /* by Yasha */
+                /*			if (sjis1(*p) && p[1]) {*/
+                kanji[n] = kanji[n + 1] = YES;
+                buf[n] = *p++;
+                buf[n + 1] = *p;
+                n += 2;
+            }
+            else
+            {
+                kanji[n] = NO;
+                buf[n] = *p;
+                n++;
+            }
+        }
     }
     len = n;
     y = menu[no].y;
@@ -755,89 +770,93 @@ char *init;
     move(y, x - 2);
     xputs("［");
     for (n = 0; n < len; n++)
-	xputch(buf[n]);
+        xputch(buf[n]);
     fillup(len);
 
-    for (;;) {
-	c = xgetch();
-	if (kanji1(c)) {	/* by Yasha */
-/*		if (sjis1(c)) {*/
-	    c1 = xgetch();
-	    if (len >= NAMELEN - 1)
-		continue;
-	    buf[len] = c;
-	    buf[len + 1] = c1;
-	    kanji[len] = kanji[len + 1] = YES;
-	    move(y, x + len);
-	    xputch(c);
-	    xputch(c1);
-	    len += 2;
-	    fillup(len);
-	    continue;
-	}
-	switch (c) {
-	case ESCAPE:
-	    return (NULL);
-	case NL:
-	case RET:
-	    for (;;) {
-		if (len == 0)
-		    break;
-		if (kanji[len - 1] && buf[len - 2] == 0x81
-		    && buf[len - 1] == 0x40) {
-		    len -= 2;
-		    continue;
-		}
-		if (kanji[len - 1] == NO && buf[len - 1] == ' ') {
-		    len--;
-		    continue;
-		}
-		break;
-	    }
-	    if (len == 0)
-		return (NULL);
-	    buf[len] = '\0';
-	    return (buf);
-	case CTRLU:
-	    if (len == 0)
-		continue;
-	    len = 0;
-	    move(y, x);
-	    fillup(0);
-	    break;
-	case BS:
-	    if (len == 0)
-		continue;
-	    if (kanji[len - 1] == YES)
-		len -= 2;
-	    else
-		len--;
-	    move(y, x + len);
-	    fillup(len);
-	    break;
-	default:
-	    if (c < 0x20 || c == 0x7f)
-		continue;
-	    if (len >= NAMELEN)
-		continue;
-	    buf[len] = c;
-	    kanji[len] = NO;
-	    move(y, x + len);
-	    xputch(c);
-	    len++;
-	    fillup(len);
-	    break;
-	}
+    for (;;)
+    {
+        c = xgetch();
+        if (kanji1(c))
+        { /* by Yasha */
+            /*		if (sjis1(c)) {*/
+            c1 = xgetch();
+            if (len >= NAMELEN - 1)
+                continue;
+            buf[len] = c;
+            buf[len + 1] = c1;
+            kanji[len] = kanji[len + 1] = YES;
+            move(y, x + len);
+            xputch(c);
+            xputch(c1);
+            len += 2;
+            fillup(len);
+            continue;
+        }
+        switch (c)
+        {
+        case ESCAPE:
+            return (NULL);
+        case NL:
+        case RET:
+            for (;;)
+            {
+                if (len == 0)
+                    break;
+                if (kanji[len - 1] && buf[len - 2] == 0x81 && buf[len - 1] == 0x40)
+                {
+                    len -= 2;
+                    continue;
+                }
+                if (kanji[len - 1] == NO && buf[len - 1] == ' ')
+                {
+                    len--;
+                    continue;
+                }
+                break;
+            }
+            if (len == 0)
+                return (NULL);
+            buf[len] = '\0';
+            return (buf);
+        case CTRLU:
+            if (len == 0)
+                continue;
+            len = 0;
+            move(y, x);
+            fillup(0);
+            break;
+        case BS:
+            if (len == 0)
+                continue;
+            if (kanji[len - 1] == YES)
+                len -= 2;
+            else
+                len--;
+            move(y, x + len);
+            fillup(len);
+            break;
+        default:
+            if (c < 0x20 || c == 0x7f)
+                continue;
+            if (len >= NAMELEN)
+                continue;
+            buf[len] = c;
+            kanji[len] = NO;
+            move(y, x + len);
+            xputch(c);
+            len++;
+            fillup(len);
+            break;
+        }
     }
 }
 
 /*
  * Change current directory
  */
-#define	SELECTDISK	0x0e
+#define SELECTDISK 0x0e
 
-changedir(dir)
-char *dir;
+changedir(dir) char *dir;
 {
     register char *p;
     char drive;
@@ -845,17 +864,18 @@ char *dir;
     union REGS regs;
 #endif
 
-    if (p = strchr(dir, ':')) {
-	p--;
-	drive = (*p >= 'A' && *p <= 'Z') ? *p - 'A' : *p - 'a';
+    if (p = strchr(dir, ':'))
+    {
+        p--;
+        drive = (*p >= 'A' && *p <= 'Z') ? *p - 'A' : *p - 'a';
 #ifdef __TURBOC__
-	_AH = SELECTDISK;
-	_DL = drive;
-	geninterrupt(0x21);
+        _AH = SELECTDISK;
+        _DL = drive;
+        geninterrupt(0x21);
 #else
-	regs.h.ah = SELECTDISK;
-	regs.h.dl = drive;
-	intdos(&regs, &regs);
+        regs.h.ah = SELECTDISK;
+        regs.h.dl = drive;
+        intdos(&regs, &regs);
 #endif
     }
     chdir(dir);
@@ -864,29 +884,30 @@ char *dir;
 /*
  * Miscelaneous file handling
  */
-#define	DIRLEN		64
-#define	USRFILE		"ROGUE.USR"
-#define	EXEFILE		"ROGUE.EXE"
+#define DIRLEN 64
+#define USRFILE "ROGUE.USR"
+#define EXEFILE "ROGUE.EXE"
 
 char orgdir[DIRLEN + 1];
 char gamedir[DIRLEN + 1];
 char usrpath[DIRLEN + 1];
 char exepath[DIRLEN + 1];
-int exist_gd;			/* game directory exists? */
+int exist_gd; /* game directory exists? */
 
 /*
  * Look up saved file and set menu[*].saved
  */
 char savename[] = "USER0?.SAV";
-#define	SAVEX		5
+#define SAVEX 5
 
 look_saved()
 {
     register int n;
 
-    for (n = 0; n < NPLAYERS; n++) {
-	savename[SAVEX] = n + '0';
-	menu[n].saved = (access(savename, 0) == 0) ? YES : NO;
+    for (n = 0; n < NPLAYERS; n++)
+    {
+        savename[SAVEX] = n + '0';
+        menu[n].saved = (access(savename, 0) == 0) ? YES : NO;
     }
 }
 
@@ -898,14 +919,14 @@ searchusr()
     register char *p, *q;
 
     if (exist_gd)
-	p = gamedir;
+        p = gamedir;
     else if ((p = getenv("HOME")) == NULL)
-	p = orgdir;
+        p = orgdir;
     q = usrpath;
     while (*p)
-	*q++ = *p++;
+        *q++ = *p++;
     if (q[-1] != '\\')
-	*q++ = '\\';
+        *q++ = '\\';
     strcpy(q, USRFILE);
 }
 
@@ -914,18 +935,21 @@ readfile()
     register int n;
     register FILE *fp;
 
-    if ((fp = fopen(usrpath, "rb")) == NULL) {
-	for (n = 0; n < NPLAYERS; n++) {
-	    pcount[n] = 0;
-	    *pname[n] = 0;
-	    *ppass[n] = 0;
-	}
-	return;
+    if ((fp = fopen(usrpath, "rb")) == NULL)
+    {
+        for (n = 0; n < NPLAYERS; n++)
+        {
+            pcount[n] = 0;
+            *pname[n] = 0;
+            *ppass[n] = 0;
+        }
+        return;
     }
-    for (n = 0; n < NPLAYERS; n++) {
-	fread((char *) &pcount[n], sizeof(int), 1, fp);
-	fread(pname[n], NAMELEN + 1, 1, fp);
-	fread(ppass[n], NAMELEN + 1, 1, fp);
+    for (n = 0; n < NPLAYERS; n++)
+    {
+        fread((char *)&pcount[n], sizeof(int), 1, fp);
+        fread(pname[n], NAMELEN + 1, 1, fp);
+        fread(ppass[n], NAMELEN + 1, 1, fp);
     }
     fclose(fp);
     return;
@@ -936,15 +960,17 @@ writefile()
     register int n;
     register FILE *fp;
 
-    if ((fp = fopen(usrpath, "wb")) == NULL) {
-	message(CANTWRITE);
-	xgetch();
-	return;
+    if ((fp = fopen(usrpath, "wb")) == NULL)
+    {
+        message(CANTWRITE);
+        xgetch();
+        return;
     }
-    for (n = 0; n < NPLAYERS; n++) {
-	fwrite((char *) &pcount[n], sizeof(int), 1, fp);
-	fwrite(pname[n], NAMELEN + 1, 1, fp);
-	fwrite(ppass[n], NAMELEN + 1, 1, fp);
+    for (n = 0; n < NPLAYERS; n++)
+    {
+        fwrite((char *)&pcount[n], sizeof(int), 1, fp);
+        fwrite(pname[n], NAMELEN + 1, 1, fp);
+        fwrite(ppass[n], NAMELEN + 1, 1, fp);
     }
     fclose(fp);
     return;
@@ -961,29 +987,30 @@ searchexe()
     p = orgdir;
     q = buf;
     while (*p)
-	*q++ = *p++;
+        *q++ = *p++;
     if (q[-1] != '\\')
-	*q++ = '\\';
+        *q++ = '\\';
     strcpy(q, EXEFILE);
 
     if (access(buf, 0) == 0)
-	goto currentdir;
+        goto currentdir;
     if ((p = getenv("PATH")) == NULL)
-	goto currentdir;
-    while (*p) {
-	q = exepath;
-	while (*p && *p != ';')
-	    *q++ = *p++;
-	if (q[-1] != '\\')
-	    *q++ = '\\';
-	strcpy(q, EXEFILE);
-	if (access(exepath, 0) == 0)
-	    return;
-	if (*p == ';')
-	    p++;
+        goto currentdir;
+    while (*p)
+    {
+        q = exepath;
+        while (*p && *p != ';')
+            *q++ = *p++;
+        if (q[-1] != '\\')
+            *q++ = '\\';
+        strcpy(q, EXEFILE);
+        if (access(exepath, 0) == 0)
+            return;
+        if (*p == ';')
+            p++;
     }
 
-  currentdir:
+currentdir:
     strcpy(exepath, buf);
 }
 
@@ -991,7 +1018,7 @@ searchexe()
  * Initialize and terminate
  */
 char envname[] = "ROGUEOPT?";
-#define	TAILX		     8
+#define TAILX 8
 char *tail = "S123456789";
 
 char envbuf[1024];
@@ -1010,93 +1037,114 @@ init()
     exist_gd = NO;
 
     *envbuf = 0;
-    for (q = tail; *q; q++) {
-	envname[TAILX] = *q;
-	p = getenv(envname);
-	if (p == NULL)
-	    continue;
-	strcat(envbuf, ",");
-	strcat(envbuf, p);
+    for (q = tail; *q; q++)
+    {
+        envname[TAILX] = *q;
+        p = getenv(envname);
+        if (p == NULL)
+            continue;
+        strcat(envbuf, ",");
+        strcat(envbuf, p);
     }
     for (p = envbuf; *p; p++)
-	if (*p >= 'A' && *p <= 'Z')
-	    *p += 'a' - 'A';
+        if (*p >= 'A' && *p <= 'Z')
+            *p += 'a' - 'A';
 
     cursorp = initp = termp = "";
     ltype = 0;
     p = envbuf;
-    while (*p) {
-	if (*p == ',') {
-	    p++;
-	    continue;
-	}
-	q = buf;
-	while (*p && *p != ',')
-	    *q++ = *p++;
-	*q = 0;
-	if (!strcmp(buf, "color")) {
-	    colors = colorstr[YES];
-	} else if (!strcmp(buf, "nocolor")) {
-	    colors = colorstr[NO];
-	} else if (!strncmp(buf, "type:", 5)) {
-	    q = buf + 5;
-	    for (mp = macs; *mp->mtype; mp++)
-		if (!strcmp(q, mp->mtype))
-		    break;
-	    cursorp = mp->cursor;
-	    initp = mp->init;
-	    termp = mp->term;
-	    ltype = mp->ltype;
-	} else if (!strncmp(buf, "cursor:", 7)) {
-	    cursorp = buf + 7;
-	} else if (!strncmp(buf, "init:", 5)) {
-	    initp = buf + 5;
-	} else if (!strncmp(buf, "term:", 5)) {
-	    termp = buf + 5;
-	} else if (!strncmp(buf, "dir", 3)) {
-	    for (q = buf; *q && *q != ':'; q++)
-		/* void */ ;
-	    if (*q == ':' && *++q) {
-		strcpy(gamedir, q);
-		exist_gd = YES;
-	    }
-	}
+    while (*p)
+    {
+        if (*p == ',')
+        {
+            p++;
+            continue;
+        }
+        q = buf;
+        while (*p && *p != ',')
+            *q++ = *p++;
+        *q = 0;
+        if (!strcmp(buf, "color"))
+        {
+            colors = colorstr[YES];
+        }
+        else if (!strcmp(buf, "nocolor"))
+        {
+            colors = colorstr[NO];
+        }
+        else if (!strncmp(buf, "type:", 5))
+        {
+            q = buf + 5;
+            for (mp = macs; *mp->mtype; mp++)
+                if (!strcmp(q, mp->mtype))
+                    break;
+            cursorp = mp->cursor;
+            initp = mp->init;
+            termp = mp->term;
+            ltype = mp->ltype;
+        }
+        else if (!strncmp(buf, "cursor:", 7))
+        {
+            cursorp = buf + 7;
+        }
+        else if (!strncmp(buf, "init:", 5))
+        {
+            initp = buf + 5;
+        }
+        else if (!strncmp(buf, "term:", 5))
+        {
+            termp = buf + 5;
+        }
+        else if (!strncmp(buf, "dir", 3))
+        {
+            for (q = buf; *q && *q != ':'; q++)
+                /* void */;
+            if (*q == ':' && *++q)
+            {
+                strcpy(gamedir, q);
+                exist_gd = YES;
+            }
+        }
     }
 
     linec = linechar[ltype];
     lcolor = linecolor[ltype];
     p = initp;
     q = initstr;
-    while ((i = get_hex_num(p, 2)) >= 0) {
-	*q++ = i;
-	p += 2;
+    while ((i = get_hex_num(p, 2)) >= 0)
+    {
+        *q++ = i;
+        p += 2;
     }
     *q = 0;
     p = termp;
     q = termstr;
-    while ((i = get_hex_num(p, 2)) >= 0) {
-	*q++ = i;
-	p += 2;
+    while ((i = get_hex_num(p, 2)) >= 0)
+    {
+        *q++ = i;
+        p += 2;
     }
     *q = 0;
     p = cursorp;
     q = curon;
-    while ((i = get_hex_num(p, 2)) >= 0) {
-	*q++ = i;
-	p += 2;
+    while ((i = get_hex_num(p, 2)) >= 0)
+    {
+        *q++ = i;
+        p += 2;
     }
     *q = 0;
     if (*p)
-	p++;
+        p++;
     q = curoff;
-    while ((i = get_hex_num(p, 2)) >= 0) {
-	*q++ = i;
-	p += 2;
+    while ((i = get_hex_num(p, 2)) >= 0)
+    {
+        *q++ = i;
+        p += 2;
     }
     *q = 0;
 
     if (exist_gd == YES)
-	changedir(gamedir);
+        changedir(gamedir);
 
     searchusr();
     searchexe();
@@ -1105,7 +1153,7 @@ init()
 term()
 {
     if (exist_gd == YES)
-	changedir(orgdir);
+        changedir(orgdir);
 
     exit(0);
 }
@@ -1113,8 +1161,7 @@ term()
 /*
  * Set environment for user "no"
  */
-setenv(no)
-int no;
+setenv(no) int no;
 {
     register char *p;
     char fname[64];
@@ -1124,9 +1171,9 @@ int no;
     putenv(ubuf);
     strcpy(fname, gamedir);
     for (p = fname; *p; p++)
-	/* void */ ;
+        /* void */;
     if (p[-1] != '\\')
-	*p++ = '\\';
+        *p++ = '\\';
     sprintf(p, "USER%02d.SAV", no);
     sprintf(buf, "ROGUEOPT9=name:%s,file:%s", pname[no], fname);
     putenv(buf);
@@ -1135,8 +1182,7 @@ int no;
 /*
  * Add new entry
  */
-add_entry(no, name)
-register int no;
+add_entry(no, name) register int no;
 char *name;
 {
     pcount[no] = 0;
@@ -1146,14 +1192,13 @@ char *name;
     menu[no].saved = NO;
     savename[SAVEX] = no + '0';
     if (access(savename, 0) == 0)
-	unlink(savename);
+        unlink(savename);
 }
 
 /*
  * Change present entry
  */
-change_entry(no, name)
-register int no;
+change_entry(no, name) register int no;
 char *name;
 {
     memset(pname[no], '\0', NAMELEN);
@@ -1163,8 +1208,7 @@ char *name;
 /*
  * Delete present entry
  */
-delete_entry(no)
-register int no;
+delete_entry(no) register int no;
 {
     pcount[no] = 0;
     memset(pname[no], '\0', NAMELEN);
@@ -1172,7 +1216,7 @@ register int no;
     menu[no].saved = NO;
     savename[SAVEX] = no + '0';
     if (access(savename, 0) == 0)
-	unlink(savename);
+        unlink(savename);
 }
 
 /*
@@ -1185,32 +1229,36 @@ add_player()
 
     n = 0;
     reverse(curc, HIGH);
-    for (;;) {
-	n = pselect(n, ADD, ABSENT);
-	if (n == ESCAPED) {
-	    reverse(curc, ON);
-	    message(SELECT);
-	    return;
-	}
-	if (n == NOTFOUND) {
-	    message(ADDFULL);
-	    xgetch();
-	    reverse(curc, ON);
-	    return;
-	}
-	message(ADDINPUT);
-	reverse(n, OFF);
-	p = input(n, "");
-	if (p != NULL) {
-	    add_entry(n, p);
-	    reverse(n, ON);
-	    message(WAIT);
-	    writefile();
-	    reverse(n, OFF);
-	    reverse(curc, ON);
-	    message(SELECT);
-	    return;
-	}
+    for (;;)
+    {
+        n = pselect(n, ADD, ABSENT);
+        if (n == ESCAPED)
+        {
+            reverse(curc, ON);
+            message(SELECT);
+            return;
+        }
+        if (n == NOTFOUND)
+        {
+            message(ADDFULL);
+            xgetch();
+            reverse(curc, ON);
+            return;
+        }
+        message(ADDINPUT);
+        reverse(n, OFF);
+        p = input(n, "");
+        if (p != NULL)
+        {
+            add_entry(n, p);
+            reverse(n, ON);
+            message(WAIT);
+            writefile();
+            reverse(n, OFF);
+            reverse(curc, ON);
+            message(SELECT);
+            return;
+        }
     }
 }
 
@@ -1224,40 +1272,44 @@ change_player()
 
     n = 0;
     reverse(curc, HIGH);
-    for (;;) {
-	n = pselect(n, CHANGE, PRESENT);
-	if (n == ESCAPED) {
-	    reverse(curc, ON);
-	    message(SELECT);
-	    return;
-	}
-	if (n == NOTFOUND) {
-	    message(EMPTY);
-	    xgetch();
-	    reverse(curc, ON);
-	    return;
-	}
-	message(CHGINPUT);
-	reverse(n, OFF);
-	p = input(n, menu[n].name);
-	if (p != NULL) {
-	    change_entry(n, p);
-	    reverse(n, ON);
-	    message(WAIT);
-	    writefile();
-	    reverse(n, OFF);
-	    reverse(curc, ON);
-	    message(SELECT);
-	    return;
-	}
+    for (;;)
+    {
+        n = pselect(n, CHANGE, PRESENT);
+        if (n == ESCAPED)
+        {
+            reverse(curc, ON);
+            message(SELECT);
+            return;
+        }
+        if (n == NOTFOUND)
+        {
+            message(EMPTY);
+            xgetch();
+            reverse(curc, ON);
+            return;
+        }
+        message(CHGINPUT);
+        reverse(n, OFF);
+        p = input(n, menu[n].name);
+        if (p != NULL)
+        {
+            change_entry(n, p);
+            reverse(n, ON);
+            message(WAIT);
+            writefile();
+            reverse(n, OFF);
+            reverse(curc, ON);
+            message(SELECT);
+            return;
+        }
     }
 }
 
 /*
  * Delete player command
  */
-#define	isyes(c)	((c) == 'y' || (c) == 'Y')
-#define	isno(c)		((c) == 'n' || (c) == 'N' || (c) == ESCAPE)
+#define isyes(c) ((c) == 'y' || (c) == 'Y')
+#define isno(c) ((c) == 'n' || (c) == 'N' || (c) == ESCAPE)
 
 delete_player()
 {
@@ -1265,41 +1317,45 @@ delete_player()
 
     n = 0;
     reverse(curc, HIGH);
-    for (;;) {
-	n = pselect(n, DELETE, PRESENT);
-	if (n == ESCAPED) {
-	    reverse(curc, ON);
-	    message(SELECT);
-	    return;
-	}
-	if (n == NOTFOUND) {
-	    message(EMPTY);
-	    xgetch();
-	    reverse(curc, ON);
-	    return;
-	}
-	message(menu[n].saved ? DELSAVED : DELASK);
-	do {
-	    c = xgetch();
-	} while (!isyes(c) && !isno(c));
-	if (isyes(c)) {
-	    delete_entry(n);
-	    reverse(n, ON);
-	    message(WAIT);
-	    writefile();
-	    reverse(n, OFF);
-	    reverse(curc, ON);
-	    message(SELECT);
-	    return;
-	}
+    for (;;)
+    {
+        n = pselect(n, DELETE, PRESENT);
+        if (n == ESCAPED)
+        {
+            reverse(curc, ON);
+            message(SELECT);
+            return;
+        }
+        if (n == NOTFOUND)
+        {
+            message(EMPTY);
+            xgetch();
+            reverse(curc, ON);
+            return;
+        }
+        message(menu[n].saved ? DELSAVED : DELASK);
+        do
+        {
+            c = xgetch();
+        } while (!isyes(c) && !isno(c));
+        if (isyes(c))
+        {
+            delete_entry(n);
+            reverse(n, ON);
+            message(WAIT);
+            writefile();
+            reverse(n, OFF);
+            reverse(curc, ON);
+            message(SELECT);
+            return;
+        }
     }
 }
 
 /*
  * Play rogue
  */
-play(no)
-register int no;
+play(no) register int no;
 {
     register char *arg;
     int status;
@@ -1315,11 +1371,12 @@ register int no;
 #else
     status = spawnl(P_WAIT, exepath, "rogue", arg, NULL);
 #endif
-    if (status < 0) {
-	message(NOEXEFILE);
-	xgetch();
-	reverse(no, ON);
-	return;
+    if (status < 0)
+    {
+        message(NOEXEFILE);
+        xgetch();
+        reverse(no, ON);
+        return;
     }
     initcrt();
     look_saved();
@@ -1339,11 +1396,12 @@ show_score()
 #else
     status = spawnl(P_WAIT, exepath, "rogue", "-s", NULL);
 #endif
-    if (status < 0) {
-	message(NOEXEFILE);
-	xgetch();
-	reverse(curc, ON);
-	return;
+    if (status < 0)
+    {
+        message(NOEXEFILE);
+        xgetch();
+        reverse(curc, ON);
+        return;
     }
     xputs(curoff);
     move(20, 10);
@@ -1359,27 +1417,28 @@ show_score()
 /*
  * Print zenkaku number
  */
-char *dig[] = { "０", "１", "２", "３", "４", "５", "６", "７", "８", "９" };
+char *dig[] = {"０", "１", "２", "３", "４", "５", "６", "７", "８", "９"};
 
-znum(num, n)
-int num, n;
+znum(num, n) int num, n;
 {
     register char *p;
     char buf[20];
 
     sprintf(buf, "%*d", n, num);
-    for (p = buf; *p; p++) {
-	switch (*p) {
-	case ' ':
-	    xputs("  ");
-	    break;
-	case '-':
-	    xputs("－");
-	    break;
-	default:
-	    xputs(dig[*p - '0']);
-	    break;
-	}
+    for (p = buf; *p; p++)
+    {
+        switch (*p)
+        {
+        case ' ':
+            xputs("  ");
+            break;
+        case '-':
+            xputs("－");
+            break;
+        default:
+            xputs(dig[*p - '0']);
+            break;
+        }
     }
 }
 
@@ -1392,21 +1451,22 @@ show_counts()
     register stable *p;
 
     message(SHOWCNTS);
-    for (n = 0; n < NPLAYERS; n++) {
-	p = &menu[n];
-	move(p->y, p->x - 2);
-	xputs("  ");
-	if (p->saved)
-	    color(CYAN);
-	xputs(p->msg);
-	znum(pcount[n], NAMELEN >> 1);
-	if (p->saved)
-	    color(WHITE);
-	xputs("  ");
+    for (n = 0; n < NPLAYERS; n++)
+    {
+        p = &menu[n];
+        move(p->y, p->x - 2);
+        xputs("  ");
+        if (p->saved)
+            color(CYAN);
+        xputs(p->msg);
+        znum(pcount[n], NAMELEN >> 1);
+        if (p->saved)
+            color(WHITE);
+        xputs("  ");
     }
     xgetch();
     for (n = 0; n < NPLAYERS; n++)
-	reverse(n, OFF);
+        reverse(n, OFF);
     message(SELECT);
 }
 
@@ -1459,32 +1519,34 @@ main()
     look_saved();
     showmenu();
     curc = 0;
-    for (;;) {
-	n = cselect();
-	switch (menu[n].cmd) {
-	case CMDPLAY:
-	    play(n);
-	    break;
-	case CMDSCORE:
-	    show_score();
-	    break;
-	case CMDADD:
-	    add_player();
-	    break;
-	case CMDCHANGE:
-	    change_player();
-	    break;
-	case CMDDELETE:
-	    delete_player();
-	    break;
-	case CMDEXIT:
-	    /*
+    for (;;)
+    {
+        n = cselect();
+        switch (menu[n].cmd)
+        {
+        case CMDPLAY:
+            play(n);
+            break;
+        case CMDSCORE:
+            show_score();
+            break;
+        case CMDADD:
+            add_player();
+            break;
+        case CMDCHANGE:
+            change_player();
+            break;
+        case CMDDELETE:
+            delete_player();
+            break;
+        case CMDEXIT:
+            /*
 	     * no return
 	     */
-	    quit();
-	case CMDCOUNT:
-	    show_counts();
-	    break;
-	}
+            quit();
+        case CMDCOUNT:
+            show_counts();
+            break;
+        }
     }
 }

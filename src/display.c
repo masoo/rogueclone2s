@@ -32,13 +32,13 @@ enum rogue_colors
     MAGENTA_REVERSE = 13,
     CYAN_REVERSE = 14
 };
-#define RWHITE	 8
-#define RRED	 9
-#define RGREEN	 10
-#define RYELLOW	 11
-#define RBLUE	 12
+#define RWHITE 8
+#define RRED 9
+#define RGREEN 10
+#define RYELLOW 11
+#define RBLUE 12
 #define RMAGENTA 13
-#define RCYAN	 14
+#define RCYAN 14
 static int ch_attr[256];
 char *color_str = "cbmyg";
 extern bool use_color;
@@ -47,138 +47,143 @@ extern bool use_color;
  * init_color_attr
  * カラー属性配列の初期化
  */
-void
-init_color_attr(void)
+void init_color_attr(void)
 {
     char *chx, chy, *chz;
     int i, j, k;
     char color_type[] = "wrgybmcWRGYBMC";
     int colormap_list[5];
 
-#if defined( COLOR )
+#if defined(COLOR)
     static bool first_init = true;
 
     /* 最初の一回のみ実行する命令 */
-    if (first_init) {
-	start_color();
+    if (first_init)
+    {
+        start_color();
 
-	/* 背景色の定義 */
-	assume_default_colors(COLOR_WHITE, COLOR_BLACK);
+        /* 背景色の定義 */
+        assume_default_colors(COLOR_WHITE, COLOR_BLACK);
 
-	/* 表示色の定義 */
-	init_pair(WHITE, COLOR_WHITE, COLOR_BLACK);
-	init_pair(RED, COLOR_RED, COLOR_BLACK);
-	init_pair(GREEN, COLOR_GREEN, COLOR_BLACK);
-	init_pair(YELLOW, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(BLUE, COLOR_BLUE, COLOR_BLACK);
-	init_pair(MAGENTA, COLOR_MAGENTA, COLOR_BLACK);
-	init_pair(CYAN, COLOR_CYAN, COLOR_BLACK);
-	init_pair(WHITE_REVERSE, COLOR_BLACK, COLOR_WHITE);
-	init_pair(RED_REVERSE, COLOR_BLACK, COLOR_RED);
-	init_pair(GREEN_REVERSE, COLOR_BLACK, COLOR_GREEN);
-	init_pair(YELLOW_REVERSE, COLOR_BLACK, COLOR_YELLOW);
-	init_pair(BLUE_REVERSE, COLOR_BLACK, COLOR_BLUE);
-	init_pair(MAGENTA_REVERSE, COLOR_BLACK, COLOR_MAGENTA);
-	init_pair(CYAN_REVERSE, COLOR_BLACK, COLOR_CYAN);
+        /* 表示色の定義 */
+        init_pair(WHITE, COLOR_WHITE, COLOR_BLACK);
+        init_pair(RED, COLOR_RED, COLOR_BLACK);
+        init_pair(GREEN, COLOR_GREEN, COLOR_BLACK);
+        init_pair(YELLOW, COLOR_YELLOW, COLOR_BLACK);
+        init_pair(BLUE, COLOR_BLUE, COLOR_BLACK);
+        init_pair(MAGENTA, COLOR_MAGENTA, COLOR_BLACK);
+        init_pair(CYAN, COLOR_CYAN, COLOR_BLACK);
+        init_pair(WHITE_REVERSE, COLOR_BLACK, COLOR_WHITE);
+        init_pair(RED_REVERSE, COLOR_BLACK, COLOR_RED);
+        init_pair(GREEN_REVERSE, COLOR_BLACK, COLOR_GREEN);
+        init_pair(YELLOW_REVERSE, COLOR_BLACK, COLOR_YELLOW);
+        init_pair(BLUE_REVERSE, COLOR_BLACK, COLOR_BLUE);
+        init_pair(MAGENTA_REVERSE, COLOR_BLACK, COLOR_MAGENTA);
+        init_pair(CYAN_REVERSE, COLOR_BLACK, COLOR_CYAN);
 
-	/* フラグを OFF にする */
-	first_init = false;
+        /* フラグを OFF にする */
+        first_init = false;
     }
 #endif /* COLOR */
 
     /* 表示設定解析 */
-    for (i = 0; i < 5 && color_str[i]; i++) {
-	j = r_index(color_type, color_str[i], 0);
-	if (j >= 0) {
-	    switch (color_type[j]) {
-	    default:
-		colormap_list[i] = 0;
-		break;
-	    case 'w':
-		colormap_list[i] = WHITE;
-		break;
-	    case 'r':
-		colormap_list[i] = RED;
-		break;
-	    case 'g':
-		colormap_list[i] = GREEN;
-		break;
-	    case 'y':
-		colormap_list[i] = YELLOW;
-		break;
-	    case 'b':
-		colormap_list[i] = BLUE;
-		break;
-	    case 'm':
-		colormap_list[i] = MAGENTA;
-		break;
-	    case 'c':
-		colormap_list[i] = CYAN;
-		break;
-	    case 'W':
-		colormap_list[i] = WHITE_REVERSE;
-		break;
-	    case 'R':
-		colormap_list[i] = RED_REVERSE;
-		break;
-	    case 'G':
-		colormap_list[i] = GREEN_REVERSE;
-		break;
-	    case 'Y':
-		colormap_list[i] = YELLOW_REVERSE;
-		break;
-	    case 'B':
-		colormap_list[i] = BLUE_REVERSE;
-		break;
-	    case 'M':
-		colormap_list[i] = MAGENTA_REVERSE;
-		break;
-	    case 'C':
-		colormap_list[i] = CYAN_REVERSE;
-		break;
-	    }
-	}
+    for (i = 0; i < 5 && color_str[i]; i++)
+    {
+        j = r_index(color_type, color_str[i], 0);
+        if (j >= 0)
+        {
+            switch (color_type[j])
+            {
+            default:
+                colormap_list[i] = 0;
+                break;
+            case 'w':
+                colormap_list[i] = WHITE;
+                break;
+            case 'r':
+                colormap_list[i] = RED;
+                break;
+            case 'g':
+                colormap_list[i] = GREEN;
+                break;
+            case 'y':
+                colormap_list[i] = YELLOW;
+                break;
+            case 'b':
+                colormap_list[i] = BLUE;
+                break;
+            case 'm':
+                colormap_list[i] = MAGENTA;
+                break;
+            case 'c':
+                colormap_list[i] = CYAN;
+                break;
+            case 'W':
+                colormap_list[i] = WHITE_REVERSE;
+                break;
+            case 'R':
+                colormap_list[i] = RED_REVERSE;
+                break;
+            case 'G':
+                colormap_list[i] = GREEN_REVERSE;
+                break;
+            case 'Y':
+                colormap_list[i] = YELLOW_REVERSE;
+                break;
+            case 'B':
+                colormap_list[i] = BLUE_REVERSE;
+                break;
+            case 'M':
+                colormap_list[i] = MAGENTA_REVERSE;
+                break;
+            case 'C':
+                colormap_list[i] = CYAN_REVERSE;
+                break;
+            }
+        }
     }
 
     /* 文字のカラーマップの作成 */
-    for (chx = "-|#+"; *chx; chx++) {
-	get_colorpair_number((signed) *chx, colormap_list[0]);
+    for (chx = "-|#+"; *chx; chx++)
+    {
+        get_colorpair_number((signed)*chx, colormap_list[0]);
     }
-    get_colorpair_number((signed) '.', colormap_list[1]);
-    for (chy = 'A'; chy <= 'Z'; chy++) {
-	get_colorpair_number((signed) chy, colormap_list[2]);
+    get_colorpair_number((signed)'.', colormap_list[1]);
+    for (chy = 'A'; chy <= 'Z'; chy++)
+    {
+        get_colorpair_number((signed)chy, colormap_list[2]);
     }
-    for (chz = "%!?/=)]^*:,"; *chz; chz++) {
-	get_colorpair_number((signed) *chz, colormap_list[3]);
+    for (chz = "%!?/=)]^*:,"; *chz; chz++)
+    {
+        get_colorpair_number((signed)*chz, colormap_list[3]);
     }
     get_colorpair_number(rogue.fchar, colormap_list[4]);
 
-    if (!use_color) {
-	for(k=0; k<128; k++) {
-	    get_colorpair_number(k,0);
-	}
+    if (!use_color)
+    {
+        for (k = 0; k < 128; k++)
+        {
+            get_colorpair_number(k, 0);
+        }
     }
-
 }
 
 /*
  * put_color_pair
  * 指定の文字のカラーペア番号を出力する
  */
-int
-put_colorpair_number(char ch)
+int put_colorpair_number(char ch)
 {
-    return ch_attr[(signed) ch];
+    return ch_attr[(signed)ch];
 }
 
 /*
  * get_color_pair
  * 指定の文字列のカラーペア番号を入力する
  */
-void
-get_colorpair_number(char ch, int num)
+void get_colorpair_number(char ch, int num)
 {
-    ch_attr[(signed) ch] = num;
+    ch_attr[(signed)ch] = num;
 }
 
 /*
@@ -186,10 +191,9 @@ get_colorpair_number(char ch, int num)
  * addch のラッパー関数
  * 文字毎のカラー表示も一括して請け負う
  */
-int
-addch_rogue(const chtype ch)
+int addch_rogue(const chtype ch)
 {
-#if defined( COLOR )
+#if defined(COLOR)
     attrset(COLOR_PAIR(put_colorpair_number(ch)));
 #endif /* COLOR */
     return addch(ch);
@@ -200,10 +204,9 @@ addch_rogue(const chtype ch)
  * mvaddch のラッパー関数
  * 文字毎のカラー表示も一括して請け負う
  */
-int
-mvaddch_rogue(int y, int x, const chtype ch)
+int mvaddch_rogue(int y, int x, const chtype ch)
 {
-#if defined( COLOR )
+#if defined(COLOR)
     attrset(COLOR_PAIR(put_colorpair_number(ch)));
 #endif /* COLOR */
     return mvaddch(y, x, ch);
@@ -214,10 +217,9 @@ mvaddch_rogue(int y, int x, const chtype ch)
  * addstr のラッパー関数
  * 文字列のカラー表示も一括して請け負う
  */
-int
-addstr_rogue(const char *str)
+int addstr_rogue(const char *str)
 {
-#if defined( COLOR )
+#if defined(COLOR)
     attrset(COLOR_PAIR(0));
 #endif /* COLOR */
     return addstr(str);
@@ -228,23 +230,29 @@ addstr_rogue(const char *str)
  * mvaddstr のラッパー関数
  * 文字列のカラー表示も一括して請け負う
  */
-int
-mvaddstr_rogue(int y, int x, const char *str)
+int mvaddstr_rogue(int y, int x, const char *str)
 {
-#if defined( COLOR )
+#if defined(COLOR)
     attr_t attr_stats;
     int color_stats;
 
     attr_get(&attr_stats, &color_stats, NULL);
-    if (attr_stats & A_REVERSE) {
-	attrset(COLOR_PAIR(CYAN));
-	attron(A_REVERSE);
-    } else if (strcmp(str, mesg[187]) == 0) {
-	attrset(COLOR_PAIR(YELLOW));
-    } else if (strcmp(str, mesg[188]) == 0) {
-	attrset(COLOR_PAIR(GREEN));
-    } else {
-	attrset(COLOR_PAIR(0));
+    if (attr_stats & A_REVERSE)
+    {
+        attrset(COLOR_PAIR(CYAN));
+        attron(A_REVERSE);
+    }
+    else if (strcmp(str, mesg[187]) == 0)
+    {
+        attrset(COLOR_PAIR(YELLOW));
+    }
+    else if (strcmp(str, mesg[188]) == 0)
+    {
+        attrset(COLOR_PAIR(GREEN));
+    }
+    else
+    {
+        attrset(COLOR_PAIR(0));
     }
 #endif /* COLOR */
     return mvaddstr(y, x, str);
@@ -258,9 +266,9 @@ mvaddstr_rogue(int y, int x, const char *str)
 chtype
 mvinch_rogue(int y, int x)
 {
-#if defined( COLOR )
+#if defined(COLOR)
     return mvinch(y, x) & A_CHARTEXT;
-#else /* not COLOR */
+#else  /* not COLOR */
     return mvinch(y, x);
 #endif /* not COLOR */
 }

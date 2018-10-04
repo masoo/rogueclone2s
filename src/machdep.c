@@ -20,9 +20,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#if defined( HAVE_WINDOWS_H )
-# include <windows.h>
-# include <stdlib.h>
+#if defined(HAVE_WINDOWS_H)
+#include <windows.h>
+#include <stdlib.h>
 #endif /* HAVE_WINDOWS_H */
 
 #include "rogue.h"
@@ -32,7 +32,7 @@
 /*
  * getlogin 関数が存在しない時のでっちあげ関数
  */
-#if !defined( HAVE_GETLOGIN )
+#if !defined(HAVE_GETLOGIN)
 char *
 getlogin(void)
 {
@@ -56,8 +56,7 @@ getlogin(void)
  * input, this is not usually critical.
  */
 
-void
-md_heed_signals(void)
+void md_heed_signals(void)
 {
     void onintr(int);
     signal(SIGINT, onintr);
@@ -77,8 +76,7 @@ md_heed_signals(void)
  * file, corruption.
  */
 
-void
-md_ignore_signals(void)
+void md_ignore_signals(void)
 {
     signal(SIGQUIT, SIG_IGN);
     signal(SIGINT, SIG_IGN);
@@ -96,15 +94,15 @@ md_ignore_signals(void)
  * modifying saved-game files.  This is probably no big deal.
  */
 
-int
-md_get_file_id(char *fname)
+int md_get_file_id(char *fname)
 {
     struct stat sbuf;
 
-    if (stat(fname, &sbuf)) {
-	return -1;
+    if (stat(fname, &sbuf))
+    {
+        return -1;
     }
-    return ((int) sbuf.st_ino);
+    return ((int)sbuf.st_ino);
 }
 
 /* md_link_count():
@@ -115,13 +113,12 @@ md_get_file_id(char *fname)
  * this routine can be stubbed by just returning 1.
  */
 
-int
-md_link_count(char *fname)
+int md_link_count(char *fname)
 {
     struct stat sbuf;
 
     stat(fname, &sbuf);
-    return ((int) sbuf.st_nlink);
+    return ((int)sbuf.st_nlink);
 }
 
 /* md_gct(): (Get Current Time)
@@ -138,8 +135,7 @@ md_link_count(char *fname)
  * saved-game files and play them.  
  */
 
-void
-md_gct(struct rogue_time *rt_buf)
+void md_gct(struct rogue_time *rt_buf)
 {
     struct tm *t;
     time_t seconds;
@@ -171,15 +167,14 @@ md_gct(struct rogue_time *rt_buf)
  * saved-games that have been modified.
  */
 
-void
-md_gfmt(char *fname, struct rogue_time *rt_buf)
+void md_gfmt(char *fname, struct rogue_time *rt_buf)
 {
     struct stat sbuf;
     time_t seconds;
     struct tm *t;
 
     stat(fname, &sbuf);
-    seconds = (long) sbuf.st_mtime;
+    seconds = (long)sbuf.st_mtime;
     t = localtime(&seconds);
 
     rt_buf->year = t->tm_year;
@@ -201,11 +196,11 @@ md_gfmt(char *fname, struct rogue_time *rt_buf)
  * deleted and can be replayed.
  */
 
-bool
-md_df(char *fname)
+bool md_df(char *fname)
 {
-    if (unlink(fname)) {
-	return false;
+    if (unlink(fname))
+    {
+        return false;
     }
     return true;
 }
@@ -226,19 +221,22 @@ md_gln(void)
 
     /* 環境変数 FIGHTER が設定されているなら最優先で取得する */
     name = getenv("FIGHTER");
-    if (name != NULL) {
+    if (name != NULL)
+    {
         return name;
     }
 
     /* 上記が存在しないなら getlogin 関数ログイン名を取得する */
     name = getlogin();
-    if (name != NULL) {
+    if (name != NULL)
+    {
         return name;
     }
 
     /* 上記が存在しないなら環境変数 USER を取得する */
     name = getenv("USER");
-    if (name != NULL) {
+    if (name != NULL)
+    {
         return name;
     }
 
@@ -257,8 +255,9 @@ md_ghome(void)
 
     /* 環境変数 HOME が設定されているなら最優先で取得する */
     home = getenv("HOME");
-    if (home != NULL) {
-	return home;
+    if (home != NULL)
+    {
+        return home;
     }
 
     /* 上記環境変数が取得できないならば、カレントディレクトリを取得する */
@@ -300,8 +299,7 @@ md_malloc(int n)
  * exactly the same way given the same input.
  */
 
-int
-md_gseed(void)
+int md_gseed(void)
 {
     return (int)time(NULL);
 }
@@ -313,10 +311,9 @@ md_gseed(void)
  * hang when it should quit.
  */
 
-void
-md_exit(int status)
+void md_exit(int status)
 {
     if (org_dir && *org_dir)
-	chdir(org_dir);
+        chdir(org_dir);
     exit(status);
 }

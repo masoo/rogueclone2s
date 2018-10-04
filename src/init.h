@@ -13,6 +13,6 @@ extern void do_args(int argc, char *argv[]);
 extern void do_opts(void);
 extern void set_opts(char *env);
 extern void env_get_value(char **s, char *e, bool add_blank,
-			  bool no_colon);
+                          bool no_colon);
 
 #endif /* not INIT_H */

@@ -5,30 +5,30 @@
  * そのマクロ名が処理系に存在しない場合は C99 で認めているシグナル名
  * に強制変換するという後ろ向きな解決方法
  */
-#if !defined( SIGQUIT )
-# define SIGQUIT SIGTERM
+#if !defined(SIGQUIT)
+#define SIGQUIT SIGTERM
 #endif
 
-#if !defined( SIGHUP )
-# define SIGHUP SIGABRT
+#if !defined(SIGHUP)
+#define SIGHUP SIGABRT
 #endif
 
-#if !defined( HAVE_ASSUME_DEFAULT_COLORS )
-# define assume_default_colors(to, from) init_pair(0, (to), (from))
+#if !defined(HAVE_ASSUME_DEFAULT_COLORS)
+#define assume_default_colors(to, from) init_pair(0, (to), (from))
 #endif
 
 /* 使用の関数を使わないことで回避 */
 //あとで考えなおす
-#if !defined( HAVE_ATTR_GET )
-# define attr_get
+#if !defined(HAVE_ATTR_GET)
+#define attr_get
 #endif
 
-#if !defined( HAVE_GETLOGIN )
+#if !defined(HAVE_GETLOGIN)
 extern char *getlogin(void);
 #endif
 
-#if !defined( HAVE_SLEEP ) && defined( HAVE_WINDOWS_H )
-# define sleep(nsecs) _sleep((nsecs)*1000)
+#if !defined(HAVE_SLEEP) && defined(HAVE_WINDOWS_H)
+#define sleep(nsecs) _sleep((nsecs)*1000)
 #endif
 
 extern void putstr(char *s);

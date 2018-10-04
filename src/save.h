@@ -14,6 +14,6 @@ extern void rw_rooms(FILE *fp, bool rw);
 extern void r_read(FILE *fp, char *buf, int n);
 extern void r_write(FILE *fp, char *buf, int n);
 extern bool has_been_touched(struct rogue_time *saved_time,
-				struct rogue_time *mod_time);
+                             struct rogue_time *mod_time);
 
 #endif /* not SAVE_H */
