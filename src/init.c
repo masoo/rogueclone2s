@@ -17,6 +17,7 @@
 #include <curses.h>
 #include <unistd.h>
 #include <getopt.h>
+#include <locale.h>
 
 #include "rogue.h"
 #include "init.h"
@@ -71,6 +72,7 @@ int init(int argc, char *argv[])
     }
 
     /* init curses */
+    setlocale(LC_ALL, "");
     main_window = initscr();
     if (main_window == NULL)
     {
