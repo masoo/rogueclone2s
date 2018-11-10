@@ -12,6 +12,7 @@ rogue_SOURCES = \
 	message.c message.h \
 	monster.c monster.h \
 	move.c move.h \
+	mutf8.c mutf8.h \
 	object.c object.h \
 	pack.c pack.h \
 	play.c play.h \
