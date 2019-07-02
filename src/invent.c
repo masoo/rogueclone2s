@@ -55,7 +55,7 @@ char *syllables[MAXSYLLABLES] = {
 
 extern bool wizard;
 
-char descs[ROGUE_LINES][ROGUE_COLUMNS]; /* multi-purpose screen saver */
+char descs[ROGUE_LINES][MAX_COLUMNS_BUFFER_SIZE]; /* multi-purpose screen saver */
 
 void inventory(object *pack, unsigned short mask)
 {
