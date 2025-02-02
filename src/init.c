@@ -12,6 +12,7 @@
 
 #include <curses.h>
 #include <getopt.h>
+#include <locale.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -72,6 +73,7 @@ init(int argc, char *argv[])
 	}
 
 	/* init curses */
+	setlocale(LC_ALL, "");
 	main_window = initscr();
 	if (main_window == NULL) {
 		return 1;
