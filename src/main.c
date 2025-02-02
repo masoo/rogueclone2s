@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "utf8.h"
+
 #include "init.h"
 #include "level.h"
 #include "main.h"
@@ -28,7 +30,9 @@
 extern short party_room;
 extern char *nick_name;
 static char *progname;
-char mesg[507][80]; /* for separation */
+utf8_int8_t mesg[MESSAGE_QUANTITY + 1]
+		[MAX_MESG_BUFFER_SIZE]; /* for separation */
+utf8_mesg umesg[MESSAGE_QUANTITY + 1];
 
 int
 main(int argc, char *argv[])
@@ -72,8 +76,8 @@ int
 read_mesg(char *argv_msgfile)
 {
 	FILE *mesg_file;
-	char buf[256];
-	int i, n, s, e;
+	utf8_int8_t buf[MAX_MESG_LINE_SIZE];
+	int e;
 
 	if ((mesg_file = fopen(argv_msgfile, "r")) == NULL) {
 		fprintf(stderr, "Cannot open message file '%s'\n",
@@ -81,8 +85,12 @@ read_mesg(char *argv_msgfile)
 		return 1;
 	}
 
-	while (fgets(buf, 256, mesg_file) != NULL) {
-		if ((n = atoi(buf)) > 0 && n < 500) {
+	umesg[0].string[0] = '\0';
+	umesg[0].size = 0;
+	while (fgets(buf, sizeof(buf), mesg_file) != NULL) {
+		int n = atoi(buf);
+		int i, s;
+		if (n > 0 && n <= MESSAGE_QUANTITY) {
 			for (i = 0; buf[i] && buf[i] != '\"'; ++i) {
 				continue;
 			}
@@ -103,10 +111,14 @@ read_mesg(char *argv_msgfile)
 				goto FMTERR;
 			}
 
-			for (i = 0; i < e - s + 1 && i < 79; ++i) {
+			for (i = 0; i < e - s + 1 && i < MAX_MESG_LINE_SIZE - 1;
+			    ++i) {
 				mesg[n][i] = buf[s + i];
+				umesg[n].string[i] = buf[s + i];
 			}
 			mesg[n][i] = '\0';
+			umesg[n].string[i] = '\0';
+			umesg[n].size = utf8size(umesg[n].string);
 		}
 	}
 	return 0;

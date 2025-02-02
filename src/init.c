@@ -18,6 +18,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "utf8.h"
+
 #include "display.h"
 #include "init.h"
 #include "invent.h"
@@ -333,7 +335,7 @@ do_opts(void)
 void
 set_opts(char *env)
 {
-	short not ;
+	short not;
 	char *ep, *p;
 	opt *op;
 	char optname[20];
@@ -367,7 +369,7 @@ set_opts(char *env)
 				continue;
 			}
 			if (op->bp) {
-				*(op->bp) = !not ;
+				*(op->bp) = !not;
 			}
 			if (op->cp && (*ep == '=' || *ep == ':')) {
 				env_get_value(op->cp, ep + 1, op->ab, op->nc);

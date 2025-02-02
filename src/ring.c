@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "utf8.h"
+
 #include "invent.h"
 #include "message.h"
 #include "move.h"

@@ -151,6 +151,12 @@ typedef unsigned char uchar;
 #define CALLED ((unsigned short)02)
 
 enum rogue_necessity_size { ROGUE_LINES = 24, ROGUE_COLUMNS = 80 };
+#define MAX_MESG_BUFFER_SIZE 320 // 合字を除く UTF8 の80文字分x4
+#define MAX_MESG_LINE_SIZE \
+	1280 // MAX_MESG_BUFFER_SIZE
+	     // を元にメッセージファイルの一行分の最大サイズを指定
+#define MESSAGE_QUANTITY \
+	493 // メッセージの数は 493 だが、既存は 507 が指定されている
 #define MAX_TITLE_LENGTH 30
 #define MAXSYLLABLES 40
 #define MAX_METAL 14
@@ -316,7 +322,13 @@ extern id id_armors[];
 extern object mon_tab[];
 extern object level_monsters;
 
-extern char mesg[][80];
+extern utf8_int8_t mesg[][MAX_MESG_BUFFER_SIZE];
+
+typedef struct utf8_string {
+	utf8_int8_t string[MAX_MESG_BUFFER_SIZE];
+	size_t size;
+} utf8_mesg;
+extern utf8_mesg umesg[];
 
 #define MONSTERS 26
 

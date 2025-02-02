@@ -14,6 +14,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include "utf8.h"
+
 #include "display.h"
 #include "hit.h"
 #include "message.h"

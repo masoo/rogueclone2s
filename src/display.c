@@ -7,6 +7,8 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include "utf8.h"
+
 #include "display.h"
 #include "machdep.h"
 #include "message.h"

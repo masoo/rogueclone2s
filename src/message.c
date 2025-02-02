@@ -15,6 +15,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "utf8.h"
+
 #include "display.h"
 #include "init.h"
 #include "machdep.h"

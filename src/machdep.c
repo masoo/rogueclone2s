@@ -25,6 +25,8 @@
 # include <windows.h>
 #endif /* HAVE_WINDOWS_H */
 
+#include "utf8.h"
+
 #include "init.h"
 #include "machdep.h"
 #include "rogue.h"
