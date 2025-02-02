@@ -255,7 +255,7 @@ get_room_number(int row, int col)
 int
 is_all_connected(void)
 {
-    short i, starting_room = 0;	/* Ì¤½é´ü²½ÊÑ¿ô¤Î·Ù¹ğ½üµî¤Î¤¿¤á 0 ¤Ç½é´ü²½ */
+    short i, starting_room = 0;	/* æœªåˆæœŸåŒ–å¤‰æ•°ã®è­¦å‘Šé™¤å»ã®ãŸã‚ 0 ã§åˆæœŸåŒ– */
 
     for (i = 0; i < MAXROOMS; i++) {
 	rooms_visited[i] = false;

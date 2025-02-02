@@ -1,9 +1,9 @@
 #ifndef MACHDEP_H
 #define MACHDEP_H
 
-/* POSIX �����ƥ�Υ����ʥ�̾ SIGQUIT, SIGHUP �ˤĤ���
- * ���Υޥ���̾�������Ϥ�¸�ߤ��ʤ����� C99 ��ǧ��Ƥ��륷���ʥ�̾
- * �˶����Ѵ�����Ȥ�����������ʲ����ˡ
+/* POSIX システムのシグナル名 SIGQUIT, SIGHUP について
+ * そのマクロ名が処理系に存在しない場合は C99 で認めているシグナル名
+ * に強制変換するという後ろ向きな解決方法
  */
 #if !defined( SIGQUIT )
 # define SIGQUIT SIGTERM
@@ -17,8 +17,8 @@
 # define assume_default_colors(to, from) init_pair(0, (to), (from))
 #endif
 
-/* ���Ѥδؿ���Ȥ�ʤ����Ȥǲ��� */
-//���Ȥǹͤ��ʤ���
+/* 使用の関数を使わないことで回避 */
+//あとで考えなおす
 #if !defined( HAVE_ATTR_GET )
 # define attr_get
 #endif

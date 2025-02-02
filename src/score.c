@@ -125,7 +125,7 @@ killed_by(object *monster, short other)
 	(void) strcat(buf, buf2);
 	(void) strcat(buf, mesg[181]);
 	lznum(buf, rogue.gold, 0);
-	strcat(buf, "¡£");
+	strcat(buf, "ã€‚");
 	message(buf, 0);
     }
     message("", 0);
@@ -303,7 +303,7 @@ void
 quit(bool from_intrpt)
 {
     char buf[128];
-    short i, orow = 0, ocol = 0;	/* ½é´ü²½¤µ¤ì¤º»È¤ï¤ì¤Æ¤¤¤ëÊÑ¿ô¤Î¤¿¤á 0 ¤òÂåÆþ */
+    short i, orow = 0, ocol = 0;	/* åˆæœŸåŒ–ã•ã‚Œãšä½¿ã‚ã‚Œã¦ã„ã‚‹å¤‰æ•°ã®ãŸã‚ 0 ã‚’ä»£å…¥ */
     bool mc = false;
 
     md_ignore_signals();
@@ -319,7 +319,7 @@ quit(bool from_intrpt)
 	}
     }
     check_message();
-    message("¥²¡¼¥à¤ò½ªÎ»¤·¤Æ¤è¤¤¤Î¤Ç¤¹¤«¡©", 1);
+    message("ã‚²ãƒ¼ãƒ ã‚’çµ‚äº†ã—ã¦ã‚ˆã„ã®ã§ã™ã‹ï¼Ÿ", 1);
     if (rgetchar() != 'y') {
 	md_heed_signals();
 	check_message();
@@ -481,7 +481,7 @@ insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
 	     short n, object *monster, int other)
 {
     short i;
-    char *p = NULL;		/* ½é´ü²½¤µ¤ì¤º»ÈÍÑ¤µ¤ì¤ë¼«Æ°ÊÑ¿ô¤ò½é´ü²½¤·¤Þ¤¹¡£ */
+    char *p = NULL;		/* åˆæœŸåŒ–ã•ã‚Œãšä½¿ç”¨ã•ã‚Œã‚‹è‡ªå‹•å¤‰æ•°ã‚’åˆæœŸåŒ–ã—ã¾ã™ã€‚ */
     char buf[82];
 
     if (n > 0) {
@@ -525,7 +525,7 @@ insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
 	(void) strcat(buf, m_names[monster->m_char - 'A']);
 	(void) strcat(buf, mesg[197]);
     }
-    strcat(buf, "¡£");
+    strcat(buf, "ã€‚");
     for (i = strlen(buf); i < 79; i++) {
 	buf[i] = ' ';
     }

@@ -102,7 +102,7 @@ get_zapped_monster(short dir, short *row, short *col)
 	    return 0;
 	}
 #if defined ( THROW_TUNNEL )
-	/* ÌÂÏ©¤Ç¼Ğ¤á¤Ë¥â¥Î¤òÅê¤²¤é¤ì¤Ê¤¤À©¸æ */
+	/* è¿·è·¯ã§æ–œã‚ã«ãƒ¢ãƒã‚’æŠ•ã’ã‚‰ã‚Œãªã„åˆ¶å¾¡ */
         if (dungeon[*row][*col] & TUNNEL) {
 	    if ((dir == 'y') && (!(dungeon[*row][*col+1] & TUNNEL) ||
 				 !(dungeon[*row+1][*col] & TUNNEL))) {
@@ -155,7 +155,7 @@ get_missiled_monster(short dir, short *row, short *col)
 	    return 0;
 	}
 #if defined ( THROW_TUNNEL )
-	/* ÌÂÏ©¤Ç¼Ğ¤á¤Ë¥â¥Î¤òÅê¤²¤é¤ì¤Ê¤¤À©¸æ */
+	/* è¿·è·¯ã§æ–œã‚ã«ãƒ¢ãƒã‚’æŠ•ã’ã‚‰ã‚Œãªã„åˆ¶å¾¡ */
         if (dungeon[*row][*col] & TUNNEL) {
 	    if ((dir == 'y') && (!(dungeon[*row][*col+1] & TUNNEL) ||
 				 !(dungeon[*row+1][*col] & TUNNEL))) {
@@ -307,22 +307,22 @@ wizardize(void)
 
     if (wizard) {
 	wizard = false;
-	message("¤â¤Ï¤ä¡¢ËâË¡»È¤¤¤Ç¤Ï¤Ê¤¤¡£", 0);
+	message("ã‚‚ã¯ã‚„ã€é­”æ³•ä½¿ã„ã§ã¯ãªã„ã€‚", 0);
     } else {
-	if (get_input_line("ËâË¡»È¤¤¤Î¹ç¸ÀÍÕ¤Ï¡©",
+	if (get_input_line("é­”æ³•ä½¿ã„ã®åˆè¨€è‘‰ã¯ï¼Ÿ",
 			   "", buf, "", 0, 0)) {
 	    (void) xxx(1);
 	    xxxx(buf, strlen(buf));
 	    if (!memcmp(buf, wiz_passwd, 11)) {
 		wizard = true;
 		score_only = true;
-		message("¤è¤¦¤³¤½¡¢ËâË¡»È¤¤¤è¡ª", 0);
+		message("ã‚ˆã†ã“ãã€é­”æ³•ä½¿ã„ã‚ˆï¼", 0);
 	    } else {
-		message("¤½¤ó¤Ê¹ç¸ÀÍÕ¡¢ÃÎ¤é¤Ê¤¤¤Í¡£", 0);
+		message("ãã‚“ãªåˆè¨€è‘‰ã€çŸ¥ã‚‰ãªã„ã­ã€‚", 0);
 	    }
 	}
     }
 #else /* not WIZARD */
-   message("ËâË¡»È¤¤¤ÏÉõ°õ¤µ¤ì¤Æ¤¤¤ë¡£", 0);
+   message("é­”æ³•ä½¿ã„ã¯å°å°ã•ã‚Œã¦ã„ã‚‹ã€‚", 0);
 #endif /* not WIZARD */
 }

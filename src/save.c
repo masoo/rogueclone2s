@@ -59,8 +59,8 @@ save_game(void)
 {
     char fname[64];
 
-    if (!get_input_line("¥»¡¼¥Ö¤¹¤ë¥Õ¥¡¥¤¥ëÌ¾¤Ï¡©", save_file, fname,
-			"¥²¡¼¥à¤Î¥»¡¼¥Ö¤òÃæ»ß¤·¤Ş¤·¤¿¡£", 0, 1)) {
+    if (!get_input_line("ã‚»ãƒ¼ãƒ–ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«åã¯ï¼Ÿ", save_file, fname,
+			"ã‚²ãƒ¼ãƒ ã®ã‚»ãƒ¼ãƒ–ã‚’ä¸­æ­¢ã—ã¾ã—ãŸã€‚", 0, 1)) {
 	return;
     }
     check_message();
@@ -89,7 +89,7 @@ save_into_file(char *sfile)
     }
     if (((fp = fopen(sfile, "wb")) == NULL) ||
 	((file_id = md_get_file_id(sfile)) == -1)) {
-	message("¥»¡¼¥Ö¥Õ¥¡¥¤¥ë¤Ë¥¢¥¯¥»¥¹¤Ç¤­¤Ş¤»¤ó¡£", 0);
+	message("ã‚»ãƒ¼ãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚¢ã‚¯ã‚»ã‚¹ã§ãã¾ã›ã‚“ã€‚", 0);
 	goto err_return;
     }
     md_ignore_signals();
@@ -150,7 +150,7 @@ err_return:
 void
 restore(char *fname)
 {
-    FILE *fp = { NULL };	/* Ì¤½é´ü²½ÊÑ¿ô¤Î»ÈÍÑ¤Î·Ù¹ğ½üµî¤Î¤¿¤á NULL ¤Ç½é´ü²½ */
+    FILE *fp = { NULL };	/* æœªåˆæœŸåŒ–å¤‰æ•°ã®ä½¿ç”¨ã®è­¦å‘Šé™¤å»ã®ãŸã‚ NULL ã§åˆæœŸåŒ– */
     struct rogue_time saved_time, mod_time;
     char buf[4];
     char tbuf[40];
@@ -162,10 +162,10 @@ restore(char *fname)
 
     if (((new_file_id = md_get_file_id(fname)) == -1) ||
 	((fp = fopen(fname, "rb")) == NULL)) {
-	clean_up("¥Õ¥¡¥¤¥ë¤¬¥ª¡¼¥×¥ó¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿¡£");
+	clean_up("ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ªãƒ¼ãƒ—ãƒ³ã§ãã¾ã›ã‚“ã§ã—ãŸã€‚");
     }
     if (md_link_count(fname) > 1) {
-	clean_up("¥Õ¥¡¥¤¥ë¤Ï¥ê¥ó¥¯¤µ¤ì¤Æ¤¤¤Ş¤¹¡£");
+	clean_up("ãƒ•ã‚¡ã‚¤ãƒ«ã¯ãƒªãƒ³ã‚¯ã•ã‚Œã¦ã„ã¾ã™ã€‚");
     }
     (void) xxx(1);
     r_read(fp, (char *) &detect_monster, sizeof(detect_monster));
@@ -176,7 +176,7 @@ restore(char *fname)
     (void) strcpy(tbuf, login_name);
     read_string(login_name, fp);
     if (strcmp(tbuf, login_name)) {
-	clean_up("¥»¡¼¥Ö¥Õ¥¡¥¤¥ë¤Î»ı¤Á¼ç¤¬°ã¤¤¤Ş¤¹¡£");
+	clean_up("ã‚»ãƒ¼ãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã®æŒã¡ä¸»ãŒé•ã„ã¾ã™ã€‚");
     }
 
     r_read(fp, (char *) &party_room, sizeof(party_room));
@@ -185,7 +185,7 @@ restore(char *fname)
     read_pack(&level_objects, fp, 0);
     r_read(fp, (char *) &saved_file_id, sizeof(saved_file_id));
     if (new_file_id != saved_file_id) {
-	clean_up("¤³¤ì¤Ï¸µ¤Î¥»¡¼¥Ö¥Õ¥¡¥¤¥ë¤Ç¤Ï¤¢¤ê¤Ş¤»¤ó¡£");
+	clean_up("ã“ã‚Œã¯å…ƒã®ã‚»ãƒ¼ãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚");
     }
     rw_dungeon(fp, 0);
     r_read(fp, (char *) &foods, sizeof(foods));
@@ -215,18 +215,18 @@ restore(char *fname)
 
     if (fread(buf, sizeof(char), 1, fp) > 0) {
 	clear();
-	clean_up("¥Õ¥¡¥¤¥ëÃæ¤Ë¤è¤±¤¤¤ÊÊ¸»ú¤¬¤¢¤ê¤Ş¤¹¡£");
+	clean_up("ãƒ•ã‚¡ã‚¤ãƒ«ä¸­ã«ã‚ˆã‘ã„ãªæ–‡å­—ãŒã‚ã‚Šã¾ã™ã€‚");
     }
 
     md_gfmt(fname, &mod_time);	/* get file modification time */
 
     if (has_been_touched(&saved_time, &mod_time)) {
 	clear();
-	clean_up("¥Õ¥¡¥¤¥ë¤¬ÊÑ¹¹¤µ¤ì¤Æ¤¤¤Ş¤¹¡£");
+	clean_up("ãƒ•ã‚¡ã‚¤ãƒ«ãŒå¤‰æ›´ã•ã‚Œã¦ã„ã¾ã™ã€‚");
     }
     fclose(fp);
     if ((!wizard) && !md_df(fname)) {
-	clean_up("¥Õ¥¡¥¤¥ë¤ò¾Ã¤¹¤³¤È¤¬¤Ç¤­¤Ş¤»¤ó¡£");
+	clean_up("ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¶ˆã™ã“ã¨ãŒã§ãã¾ã›ã‚“ã€‚");
     }
     msg_cleared = false;
     ring_stats(0);
@@ -278,7 +278,7 @@ read_pack(object *pack, FILE *fp, bool is_rogue)
 
 /*
  * rw_dungeon
- * ¥»¡¼¥Ö¥Ç¡¼¥¿¤«¤é¤Î¥À¥ó¥¸¥ç¥ó¾ğÊó¤ÎÊİÂ¸¤ÈÉü¸µ
+ * ã‚»ãƒ¼ãƒ–ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ã®ãƒ€ãƒ³ã‚¸ãƒ§ãƒ³æƒ…å ±ã®ä¿å­˜ã¨å¾©å…ƒ
  */
 void
 rw_dungeon(FILE *fp, bool rw)
@@ -286,7 +286,7 @@ rw_dungeon(FILE *fp, bool rw)
     short i, j;
     char buf[ROGUE_COLUMNS];
 
-    if (rw) {    // ½ñ¤­¹ş¤ß»ş¼Â¹Ô
+    if (rw) {    // æ›¸ãè¾¼ã¿æ™‚å®Ÿè¡Œ
 	for (i = 0; i < ROGUE_LINES; i++) {
 	    r_write(fp, (char *) dungeon[i], (ROGUE_COLUMNS * sizeof(dungeon[0][0])));
 	    for (j = 0; j < ROGUE_COLUMNS; j++) {
@@ -295,7 +295,7 @@ rw_dungeon(FILE *fp, bool rw)
 	    r_write(fp, buf, ROGUE_COLUMNS);
 	}
 	return;
-    } else {    // ÆÉ¤ß¹ş¤ß»ş¼Â¹Ô
+    } else {    // èª­ã¿è¾¼ã¿æ™‚å®Ÿè¡Œ
 	for (i = 0; i < ROGUE_LINES; i++) {
 	    r_read(fp, (char *) dungeon[i], (ROGUE_COLUMNS * sizeof(dungeon[0][0])));
 	    r_read(fp, buf, ROGUE_COLUMNS);
@@ -368,7 +368,7 @@ void
 r_read(FILE *fp, char *buf, int n)
 {
     if (fread(buf, sizeof(char), n, fp) != n) {
-	clean_up("¥Õ¥¡¥¤¥ë¤¬ÆÉ¤á¤Ş¤»¤ó¡£");
+	clean_up("ãƒ•ã‚¡ã‚¤ãƒ«ãŒèª­ã‚ã¾ã›ã‚“ã€‚");
     }
 }
 
@@ -377,7 +377,7 @@ r_write(FILE *fp, char *buf, int n)
 {
     if (!write_failed) {
 	if (fwrite(buf, sizeof(char), n, fp) != n) {
-	    message("¥Õ¥¡¥¤¥ë¤Ë½ñ¤±¤Ş¤»¤ó¡£", 0);
+	    message("ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ã‘ã¾ã›ã‚“ã€‚", 0);
 	    sound_bell();
 	    write_failed = 1;
 	}

@@ -1,17 +1,17 @@
-бб╟█╔█е╒ебедеы░ь═ў
+уААщЕНх╕ГуГХуВбуВдуГлф╕Ашжз
 
-└т╠└д╦ @ дЄ╔╒╡нд╖д┐дтд╬д╦д─ддд╞д╧б╓е╟б╝е┐╩м╬е╚╟еэб╝е░епеэб╝еєIIб╫д╚╩╤╣╣дмд╩дде╒ебедеыд╟д╣бг
+шкмцШОуБл @ уВТф╗ШшиШуБЧуБЯуВВуБоуБлуБдуБДуБжуБпуАМуГЗуГ╝уВ┐хИЖщЫвчЙИуГнуГ╝уВ░уВпуГнуГ╝уГ│IIуАНуБихдЙцЫ┤уБМуБкуБДуГХуВбуВдуГлуБзуБЩуАВ
 
-AUTHORS                   -- ├°║ю╝╘░ь═ўб╩AUTHORSб╦
-COPYING                   -- ╗╚═╤╡Ў┬·╜ёб╩LICENSEб╦
-ChangeLog                 -- ╩╤╣╣═·╬Є
-ChangeLog-0               -- rogueclone2 ║ю└о░╩┴░д╬╩╤╣╣═·╬Єд╬д▐д╚дс
-INSTALL                   -- едеєе╣е╚б╝еы╩¤╦б
-MANIFEST                  -- ╟█╔█е╒ебедеы░ь═ўб╩д│д╬е╒ебедеыб╦
+AUTHORS                   -- шСЧф╜ЬшАЕф╕Ашжзя╝ИAUTHORSя╝Й
+COPYING                   -- ф╜┐чФиши▒шл╛цЫ╕я╝ИLICENSEя╝Й
+ChangeLog                 -- хдЙцЫ┤х▒ецн┤
+ChangeLog-0               -- rogueclone2 ф╜ЬцИРф╗ехЙНуБохдЙцЫ┤х▒ецн┤уБоуБ╛уБиуВБ
+INSTALL                   -- уВдуГ│уВ╣уГИуГ╝уГлцЦ╣ц│Х
+MANIFEST                  -- щЕНх╕ГуГХуВбуВдуГлф╕Ашжзя╝ИуБУуБоуГХуВбуВдуГля╝Й
 Makefile.am
 Makefile.in
 NEWS                      -- NEWS
-README                    -- rogueclone2s д╬└т╠└
+README                    -- rogueclone2s уБошкмцШО
 TODO                      -- TODO
 aclocal.m4
 compile
@@ -23,61 +23,61 @@ install-sh
 missing
 doc/Makefile.am
 doc/Makefile.in
-doc/options.doc           --╡п╞░╗■еке╫е╖ечеєбв┤─╢неке╫е╖ечеєд╬└т╠└
-doc/rogue.doc             --еэб╝е░д╬═╖д╙╩¤д╦д─ддд╞д╬е╔енехесеєе╚
+doc/options.doc           --ш╡╖хЛХцЩВуВкуГЧуВ╖уГзуГ│уАБчТ░хвГуВкуГЧуВ╖уГзуГ│уБошкмцШО
+doc/rogue.doc             --уГнуГ╝уВ░уБощБКуБ│цЦ╣уБлуБдуБДуБжуБоуГЙуВнуГеуГбуГ│уГИ
 man/Makefile.am
 man/Makefile.in
-man/rogue.man             --man е╒ебедеы
+man/rogue.man             --man уГХуВбуВдуГл
 msg/Makefile.am
 msg/Makefile.in
-msg/mesg                  --@екеъе╕е╩еыд╬╞№╦▄╕ь╚╟еэб╝е░бжепеэб╝еєг▓д╬есе├е╗б╝е╕
-msg/mesg_E                --@екеъе╕е╩еыд╬▒╤╕ь╚╟еэб╝е░бжепеэб╝еєг▓д╬есе├е╗б╝е╕
+msg/mesg                  --@уВкуГкуВ╕уГКуГлуБоцЧецЬмшкЮчЙИуГнуГ╝уВ░уГ╗уВпуГнуГ╝уГ│я╝ТуБоуГбуГГуВ╗уГ╝уВ╕
+msg/mesg_E                --@уВкуГкуВ╕уГКуГлуБошЛ▒шкЮчЙИуГнуГ╝уВ░уГ╗уВпуГнуГ╝уГ│я╝ТуБоуГбуГГуВ╗уГ╝уВ╕
 src/Makefile.am
 src/Makefile.in
-src/display.c             -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/display.h             -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/hit.c                 -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/hit.h                 -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/init.c                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/init.h                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/invent.c              -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/invent.h              -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/level.c               -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/level.h               -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/machdep.c             -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/machdep.h             -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/main.c                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/main.h                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/message.c             -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/message.h             -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/monster.c             -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/monster.h             -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/move.c                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/move.h                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/object.c              -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/object.h              -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/pack.c                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/pack.h                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/play.c                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/play.h                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/random.c              -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/random.h              -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/ring.c                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/ring.h                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/rogue.h               -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/room.c                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/room.h                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/save.c                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/save.h                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/score.c               -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/score.h               -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/spechit.c             -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/spechit.h             -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/throw.c               -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/throw.h               -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/trap.c                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/trap.h                -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/use.c                 -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/use.h                 -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/zap.c                 -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
-src/zap.h                 -- rogueclone2s д╬е╜б╝е╣е╒ебедеы
+src/display.c             -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/display.h             -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/hit.c                 -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/hit.h                 -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/init.c                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/init.h                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/invent.c              -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/invent.h              -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/level.c               -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/level.h               -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/machdep.c             -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/machdep.h             -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/main.c                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/main.h                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/message.c             -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/message.h             -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/monster.c             -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/monster.h             -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/move.c                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/move.h                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/object.c              -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/object.h              -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/pack.c                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/pack.h                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/play.c                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/play.h                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/random.c              -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/random.h              -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/ring.c                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/ring.h                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/rogue.h               -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/room.c                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/room.h                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/save.c                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/save.h                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/score.c               -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/score.h               -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/spechit.c             -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/spechit.h             -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/throw.c               -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/throw.h               -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/trap.c                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/trap.h                -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/use.c                 -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/use.h                 -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/zap.c                 -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл
+src/zap.h                 -- rogueclone2s уБоуВ╜уГ╝уВ╣уГХуВбуВдуГл

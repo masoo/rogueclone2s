@@ -65,8 +65,8 @@ main(int argc, char *argv[])
 
 /*
  * read_mesg
- * ¥á¥Ã¥»¡¼¥¸¥Õ¥¡¥¤¥ëÆÉ¤ß¹ş¤ß´Ø¿ô
- * ÊÖ¤êÃÍ: À®¸ù:0, ¼ºÇÔ:1
+ * ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿é–¢æ•°
+ * è¿”ã‚Šå€¤: æˆåŠŸ:0, å¤±æ•—:1
  */
 int
 read_mesg(char *argv_msgfile)
@@ -112,7 +112,7 @@ read_mesg(char *argv_msgfile)
 
 /*
  * usage
- * »È¤¤Êı
+ * ä½¿ã„æ–¹
  */
 void
 usage()

@@ -30,7 +30,7 @@
 #include "init.h"
 
 /*
- * getlogin �ؿ���¸�ߤ��ʤ����ΤǤä������ؿ�
+ * getlogin 関数が存在しない時のでっちあげ関数
  */
 #if !defined( HAVE_GETLOGIN )
 char *
@@ -224,44 +224,44 @@ md_gln(void)
 {
     char *name;
 
-    /* �Ķ��ѿ� FIGHTER �����ꤵ��Ƥ���ʤ��ͥ��Ǽ������� */
+    /* 環境変数 FIGHTER が設定されているなら最優先で取得する */
     name = getenv("FIGHTER");
     if (name != NULL) {
         return name;
     }
 
-    /* �嵭��¸�ߤ��ʤ��ʤ� getlogin �ؿ���������̾��������� */
+    /* 上記が存在しないなら getlogin 関数ログイン名を取得する */
     name = getlogin();
     if (name != NULL) {
         return name;
     }
 
-    /* �嵭��¸�ߤ��ʤ��ʤ�Ķ��ѿ� USER ��������� */
+    /* 上記が存在しないなら環境変数 USER を取得する */
     name = getenv("USER");
     if (name != NULL) {
         return name;
     }
 
-    /* �嵭���Ƥ������Ǥ��ʤ��ʤ�� A FIGHTER �Ȥ��� */
+    /* 上記全てが取得できないならば A FIGHTER とする */
     return "A FIGHTER";
 }
 
 /*
  * md_ghome
- * getenv("HOME") �Υ�åѡ��ؿ�
+ * getenv("HOME") のラッパー関数
  */
 char *
 md_ghome(void)
 {
     char *home;
 
-    /* �Ķ��ѿ� HOME �����ꤵ��Ƥ���ʤ��ͥ��Ǽ������� */
+    /* 環境変数 HOME が設定されているなら最優先で取得する */
     home = getenv("HOME");
     if (home != NULL) {
 	return home;
     }
 
-    /* �嵭�Ķ��ѿ��������Ǥ��ʤ��ʤ�С������ȥǥ��쥯�ȥ��������� */
+    /* 上記環境変数が取得できないならば、カレントディレクトリを取得する */
     getcwd(home, ROGUE_PATH_MAX);
     return home;
 }
