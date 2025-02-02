@@ -24,4 +24,5 @@ rogue_SOURCES = \
 	throw.c throw.h \
 	trap.c trap.h \
 	use.c use.h \
+	utf8.h \
 	zap.c zap.h
