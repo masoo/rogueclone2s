@@ -10,33 +10,33 @@
  *
  */
 
-#include <stdio.h>
+#include <signal.h>
 #include <stdbool.h>
-#include <sys/types.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <sys/file.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <time.h>
-#include <signal.h>
-#include <stdlib.h>
 #include <unistd.h>
 
-#if defined( HAVE_WINDOWS_H )
-# include <windows.h>
+#if defined(HAVE_WINDOWS_H)
 # include <stdlib.h>
+# include <windows.h>
 #endif /* HAVE_WINDOWS_H */
 
-#include "rogue.h"
-#include "machdep.h"
 #include "init.h"
+#include "machdep.h"
+#include "rogue.h"
 
 /*
  * getlogin 関数が存在しない時のでっちあげ関数
  */
-#if !defined( HAVE_GETLOGIN )
+#if !defined(HAVE_GETLOGIN)
 char *
 getlogin(void)
 {
-    return NULL;
+	return NULL;
 }
 #endif /* HAVE_GETLOGIN */
 
@@ -59,10 +59,10 @@ getlogin(void)
 void
 md_heed_signals(void)
 {
-    void onintr(int);
-    signal(SIGINT, onintr);
-    signal(SIGQUIT, byebye);
-    signal(SIGHUP, error_save);
+	void onintr(int);
+	signal(SIGINT, onintr);
+	signal(SIGQUIT, byebye);
+	signal(SIGHUP, error_save);
 }
 
 /* md_ignore_signals():
@@ -80,9 +80,9 @@ md_heed_signals(void)
 void
 md_ignore_signals(void)
 {
-    signal(SIGQUIT, SIG_IGN);
-    signal(SIGINT, SIG_IGN);
-    signal(SIGHUP, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGHUP, SIG_IGN);
 }
 
 /* md_get_file_id():
@@ -99,12 +99,12 @@ md_ignore_signals(void)
 int
 md_get_file_id(char *fname)
 {
-    struct stat sbuf;
+	struct stat sbuf;
 
-    if (stat(fname, &sbuf)) {
-	return -1;
-    }
-    return ((int) sbuf.st_ino);
+	if (stat(fname, &sbuf)) {
+		return -1;
+	}
+	return ((int)sbuf.st_ino);
 }
 
 /* md_link_count():
@@ -118,10 +118,10 @@ md_get_file_id(char *fname)
 int
 md_link_count(char *fname)
 {
-    struct stat sbuf;
+	struct stat sbuf;
 
-    stat(fname, &sbuf);
-    return ((int) sbuf.st_nlink);
+	stat(fname, &sbuf);
+	return ((int)sbuf.st_nlink);
 }
 
 /* md_gct(): (Get Current Time)
@@ -135,24 +135,24 @@ md_link_count(char *fname)
  * system doesn't provide all of the time units requested here, then you
  * can provide only those that it does, and return zeros for the others.
  * If you cannot provide good time values, then users may be able to copy
- * saved-game files and play them.  
+ * saved-game files and play them.
  */
 
 void
-md_gct(struct rogue_time *rt_buf)
+md_gct(rogue_time *rt_buf)
 {
-    struct tm *t;
-    time_t seconds;
+	struct tm *t;
+	time_t seconds;
 
-    time(&seconds);
-    t = localtime(&seconds);
+	time(&seconds);
+	t = localtime(&seconds);
 
-    rt_buf->year = t->tm_year;
-    rt_buf->month = t->tm_mon + 1;
-    rt_buf->day = t->tm_mday;
-    rt_buf->hour = t->tm_hour;
-    rt_buf->minute = t->tm_min;
-    rt_buf->second = t->tm_sec;
+	rt_buf->year = t->tm_year;
+	rt_buf->month = t->tm_mon + 1;
+	rt_buf->day = t->tm_mday;
+	rt_buf->hour = t->tm_hour;
+	rt_buf->minute = t->tm_min;
+	rt_buf->second = t->tm_sec;
 }
 
 /* md_gfmt: (Get File Modification Time)
@@ -166,28 +166,28 @@ md_gct(struct rogue_time *rt_buf)
  * exactly the same here.
  * Or if md_gct() is implemented correctly, but your system does not provide
  * file modification dates, you may return some date far in the past so
- * that the program will never know that a saved-game file being modified.  
+ * that the program will never know that a saved-game file being modified.
  * You may also do this if you wish to be able to restore games from
  * saved-games that have been modified.
  */
 
 void
-md_gfmt(char *fname, struct rogue_time *rt_buf)
+md_gfmt(char *fname, rogue_time *rt_buf)
 {
-    struct stat sbuf;
-    time_t seconds;
-    struct tm *t;
+	struct stat sbuf;
+	time_t seconds;
+	struct tm *t;
 
-    stat(fname, &sbuf);
-    seconds = (long) sbuf.st_mtime;
-    t = localtime(&seconds);
+	stat(fname, &sbuf);
+	seconds = (long)sbuf.st_mtime;
+	t = localtime(&seconds);
 
-    rt_buf->year = t->tm_year;
-    rt_buf->month = t->tm_mon + 1;
-    rt_buf->day = t->tm_mday;
-    rt_buf->hour = t->tm_hour;
-    rt_buf->minute = t->tm_min;
-    rt_buf->second = t->tm_sec;
+	rt_buf->year = t->tm_year;
+	rt_buf->month = t->tm_mon + 1;
+	rt_buf->day = t->tm_mday;
+	rt_buf->hour = t->tm_hour;
+	rt_buf->minute = t->tm_min;
+	rt_buf->second = t->tm_sec;
 }
 
 /* md_df: (Delete File)
@@ -204,10 +204,10 @@ md_gfmt(char *fname, struct rogue_time *rt_buf)
 bool
 md_df(char *fname)
 {
-    if (unlink(fname)) {
-	return false;
-    }
-    return true;
+	if (unlink(fname)) {
+		return false;
+	}
+	return true;
 }
 
 /* md_gln: (Get login name)
@@ -222,28 +222,28 @@ md_df(char *fname)
 char *
 md_gln(void)
 {
-    char *name;
+	char *name;
 
-    /* 環境変数 FIGHTER が設定されているなら最優先で取得する */
-    name = getenv("FIGHTER");
-    if (name != NULL) {
-        return name;
-    }
+	/* 環境変数 FIGHTER が設定されているなら最優先で取得する */
+	name = getenv("FIGHTER");
+	if (name != NULL) {
+		return name;
+	}
 
-    /* 上記が存在しないなら getlogin 関数ログイン名を取得する */
-    name = getlogin();
-    if (name != NULL) {
-        return name;
-    }
+	/* 上記が存在しないなら getlogin 関数ログイン名を取得する */
+	name = getlogin();
+	if (name != NULL) {
+		return name;
+	}
 
-    /* 上記が存在しないなら環境変数 USER を取得する */
-    name = getenv("USER");
-    if (name != NULL) {
-        return name;
-    }
+	/* 上記が存在しないなら環境変数 USER を取得する */
+	name = getenv("USER");
+	if (name != NULL) {
+		return name;
+	}
 
-    /* 上記全てが取得できないならば A FIGHTER とする */
-    return "A FIGHTER";
+	/* 上記全てが取得できないならば A FIGHTER とする */
+	return "A FIGHTER";
 }
 
 /*
@@ -253,17 +253,17 @@ md_gln(void)
 char *
 md_ghome(void)
 {
-    char *home;
+	char *home;
 
-    /* 環境変数 HOME が設定されているなら最優先で取得する */
-    home = getenv("HOME");
-    if (home != NULL) {
+	/* 環境変数 HOME が設定されているなら最優先で取得する */
+	home = getenv("HOME");
+	if (home != NULL) {
+		return home;
+	}
+
+	/* 上記環境変数が取得できないならば、カレントディレクトリを取得する */
+	getcwd(home, ROGUE_PATH_MAX);
 	return home;
-    }
-
-    /* 上記環境変数が取得できないならば、カレントディレクトリを取得する */
-    getcwd(home, ROGUE_PATH_MAX);
-    return home;
 }
 
 /* md_malloc()
@@ -277,9 +277,9 @@ md_ghome(void)
 char *
 md_malloc(int n)
 {
-    void *malloc();
+	void *malloc();
 
-    return malloc(n);
+	return malloc(n);
 }
 
 /* md_gseed() (Get Seed)
@@ -293,7 +293,7 @@ md_malloc(int n)
  * You need to find some single random integer, such as:
  *   process id.
  *   current time (minutes + seconds) returned from md_gct(), if implemented.
- *   
+ *
  * It will not help to return "get_rand()" or "rand()" or the return value of
  * any pseudo-RNG.  If you don't have a random number, you can just return 1,
  * but this means your games will ALWAYS start the same way, and will play
@@ -303,7 +303,7 @@ md_malloc(int n)
 int
 md_gseed(void)
 {
-    return (int)time(NULL);
+	return (int)time(NULL);
 }
 
 /* md_exit():
@@ -316,7 +316,7 @@ md_gseed(void)
 void
 md_exit(int status)
 {
-    if (org_dir && *org_dir)
-	chdir(org_dir);
-    exit(status);
+	if (org_dir && *org_dir)
+		chdir(org_dir);
+	exit(status);
 }

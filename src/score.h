@@ -1,13 +1,15 @@
 #ifndef SCORE_H
 #define SCORE_H
 
+typedef struct obj object;
+
 extern void killed_by(object *monster, short other);
 extern void win(void);
 extern void mvaddbanner(int row, int col, int *ban);
 extern void quit(bool from_intrpt);
 extern void put_scores(object *monster, short other);
 extern void insert_score(char scores[][82], char n_names[][30], char *n_name,
-			 short rank, short n, object *monster, int other);
+    short rank, short n, object *monster, int other);
 extern int is_vowel(short ch);
 extern void sell_pack(void);
 extern int get_value(object *obj);

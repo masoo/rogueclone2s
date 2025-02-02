@@ -1,6 +1,8 @@
 #ifndef PACK_H
 #define PACK_H
 
+typedef struct obj object;
+
 extern object *add_to_pack(object *obj, object *pack, int condense);
 extern void take_from_pack(object *obj, object *pack);
 extern object *pick_up(int row, int col, short *status);

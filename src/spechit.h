@@ -1,6 +1,8 @@
 #ifndef SPECHIT_H
 #define SPECHIT_H
 
+typedef struct obj object;
+
 extern void special_hit(object *monster);
 extern void rust(object *monster);
 extern void freeze(object *monster);

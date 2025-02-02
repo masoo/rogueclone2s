@@ -1,6 +1,8 @@
 #ifndef RING_H
 #define RING_H
 
+typedef struct obj object;
+
 extern void put_on_ring(void);
 extern void do_put_on(object *ring, bool on_left);
 extern void remove_ring(void);

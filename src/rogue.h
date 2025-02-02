@@ -13,39 +13,39 @@
 #ifndef ROGUE_H
 #define ROGUE_H
 
-#if defined( HAVE_CONFIG_H )
+#if defined(HAVE_CONFIG_H)
 # include "config.h"
 #endif /* HAVE_CONFIG_H */
 
 #if 0
-#if !defined( ORIGINAL )
+# if !defined(ORIGINAL)
 typedef unsigned char uchar;
-#define char uchar
-#endif /* not ORIGINAL */
+#  define char uchar
+# endif /* not ORIGINAL */
 #endif
 
-#define NOTHING  ((unsigned short)     0)
-#define OBJECT   ((unsigned short)    01)
-#define MONSTER  ((unsigned short)    02)
-#define STAIRS   ((unsigned short)    04)
-#define HORWALL  ((unsigned short)   010)
-#define VERTWALL ((unsigned short)   020)
-#define DOOR     ((unsigned short)   040)
-#define FLOOR    ((unsigned short)  0100)
-#define TUNNEL   ((unsigned short)  0200)
-#define TRAP     ((unsigned short)  0400)
-#define HIDDEN   ((unsigned short) 01000)
+#define NOTHING ((unsigned short)0)
+#define OBJECT ((unsigned short)01)
+#define MONSTER ((unsigned short)02)
+#define STAIRS ((unsigned short)04)
+#define HORWALL ((unsigned short)010)
+#define VERTWALL ((unsigned short)020)
+#define DOOR ((unsigned short)040)
+#define FLOOR ((unsigned short)0100)
+#define TUNNEL ((unsigned short)0200)
+#define TRAP ((unsigned short)0400)
+#define HIDDEN ((unsigned short)01000)
 
-#define GOLD        ((unsigned short)   01)
-#define FOOD        ((unsigned short)   02)
-#define ARMOR       ((unsigned short)   04)
-#define WEAPON      ((unsigned short)  010)
-#define SCROL       ((unsigned short)  020)
-#define POTION      ((unsigned short)  040)
-#define WAND        ((unsigned short) 0100)
-#define RING        ((unsigned short) 0200)
-#define AMULET      ((unsigned short) 0400)
-#define ALL_OBJECTS ((unsigned short) 0777)
+#define GOLD ((unsigned short)01)
+#define FOOD ((unsigned short)02)
+#define ARMOR ((unsigned short)04)
+#define WEAPON ((unsigned short)010)
+#define SCROL ((unsigned short)020)
+#define POTION ((unsigned short)040)
+#define WAND ((unsigned short)0100)
+#define RING ((unsigned short)0200)
+#define AMULET ((unsigned short)0400)
+#define ALL_OBJECTS ((unsigned short)0777)
 
 #define LEATHER 0
 #define RINGMAIL 1
@@ -126,13 +126,13 @@ typedef unsigned char uchar;
 #define RATION 0
 #define FRUIT 1
 
-#define NOT_USED       ((unsigned short)   0)
-#define BEING_WIELDED  ((unsigned short)  01)
-#define BEING_WORN     ((unsigned short)  02)
-#define ON_LEFT_HAND   ((unsigned short)  04)
-#define ON_RIGHT_HAND  ((unsigned short) 010)
-#define ON_EITHER_HAND ((unsigned short) 014)
-#define BEING_USED     ((unsigned short) 017)
+#define NOT_USED ((unsigned short)0)
+#define BEING_WIELDED ((unsigned short)01)
+#define BEING_WORN ((unsigned short)02)
+#define ON_LEFT_HAND ((unsigned short)04)
+#define ON_RIGHT_HAND ((unsigned short)010)
+#define ON_EITHER_HAND ((unsigned short)014)
+#define BEING_USED ((unsigned short)017)
 
 #define NO_TRAP -1
 #define TRAP_DOOR 0
@@ -146,14 +146,11 @@ typedef unsigned char uchar;
 #define STEALTH_FACTOR 3
 #define R_TELE_PERCENT 8
 
-#define UNIDENTIFIED ((unsigned short) 00)	/* MUST BE ZERO! */
-#define IDENTIFIED   ((unsigned short) 01)
-#define CALLED       ((unsigned short) 02)
+#define UNIDENTIFIED ((unsigned short)00) /* MUST BE ZERO! */
+#define IDENTIFIED ((unsigned short)01)
+#define CALLED ((unsigned short)02)
 
-enum rogue_necessity_size {
-    ROGUE_LINES = 24,
-    ROGUE_COLUMNS = 80
-};
+enum rogue_necessity_size { ROGUE_LINES = 24, ROGUE_COLUMNS = 80 };
 #define MAX_TITLE_LENGTH 30
 #define MAXSYLLABLES 40
 #define MAX_METAL 14
@@ -163,16 +160,15 @@ enum rogue_necessity_size {
 #define GOLD_PERCENT 46
 
 enum rogue_system_size {
-    ROGUE_PATH_MAX = 4096 /* 取得できる最大パス長を限定する */
+	ROGUE_PATH_MAX = 4096 /* 取得できる最大パス長を限定する */
 };
 
-struct id
-{
-    short value;
-    char *title;
-    char *real;
-    unsigned short id_status;
-};
+typedef struct sid {
+	short value;
+	char *title;
+	char *real;
+	unsigned short id_status;
+} id;
 
 /* The following #defines provide more meaningful names for some of the
  * struct object fields that are used for monsters.  This, since each monster
@@ -195,68 +191,64 @@ struct id
 #define disguise what_is
 #define next_monster next_object
 
-struct obj
-{				/* comment is monster meaning */
-    unsigned long m_flags;	/* monster flags */
-    char *damage;		/* damage it does */
-    short quantity;		/* hit points to kill */
-    short ichar;		/* 'A' is for aquatar */
-    short kill_exp;		/* exp for killing it */
-    short is_protected;		/* level starts */
-    short is_cursed;		/* level ends */
-    short class;		/* chance of hitting you */
-    short identified;		/* 'F' damage, 1,2,3... */
-    unsigned short which_kind;	/* item carry/drop % */
-    short o_row, o_col, o;	/* o is how many times stuck at o_row, o_col */
-    short row, col;		/* current row, col */
-    short d_enchant;		/* room char when detect_monster */
-    short quiver;		/* monster slowed toggle */
-    short trow, tcol;		/* target row, col */
-    short hit_enchant;		/* how many moves is confused */
-    unsigned short what_is;	/* imitator's charactor (?!%: */
-    short picked_up;		/* sleep from wand of sleep */
-    unsigned short in_use_flags;
-    struct obj *next_object;	/* next monster */
+struct obj {                       /* comment is monster meaning */
+	unsigned long m_flags;     /* monster flags */
+	char *damage;              /* damage it does */
+	short quantity;            /* hit points to kill */
+	short ichar;               /* 'A' is for aquatar */
+	short kill_exp;            /* exp for killing it */
+	short is_protected;        /* level starts */
+	short is_cursed;           /* level ends */
+	short class;               /* chance of hitting you */
+	short identified;          /* 'F' damage, 1,2,3... */
+	unsigned short which_kind; /* item carry/drop % */
+	short o_row, o_col, o;  /* o is how many times stuck at o_row, o_col */
+	short row, col;         /* current row, col */
+	short d_enchant;        /* room char when detect_monster */
+	short quiver;           /* monster slowed toggle */
+	short trow, tcol;       /* target row, col */
+	short hit_enchant;      /* how many moves is confused */
+	unsigned short what_is; /* imitator's charactor (?!%: */
+	short picked_up;        /* sleep from wand of sleep */
+	unsigned short in_use_flags;
+	struct obj *next_object; /* next monster */
 };
 
 typedef struct obj object;
 
 #define INIT_HP 12
 
-struct fight
-{
-    object *armor;
-    object *weapon;
-    object *left_ring, *right_ring;
-    short hp_current;
-    short hp_max;
-    short str_current;
-    short str_max;
-    object pack;
-    long gold;
-    short exp;
-    long exp_points;
-    short row, col;
-    short fchar;
-    short moves_left;
+struct fight {
+	object *armor;
+	object *weapon;
+	object *left_ring, *right_ring;
+	short hp_current;
+	short hp_max;
+	short str_current;
+	short str_max;
+	object pack;
+	long gold;
+	short exp;
+	long exp_points;
+	short row, col;
+	short fchar;
+	short moves_left;
 };
 
 typedef struct fight fighter;
 
-struct dr
-{
-    short oth_room;
-    short oth_row, oth_col;
-    short door_row, door_col;
+struct dr {
+	short oth_room;
+	short oth_row, oth_col;
+	short door_row, door_col;
 };
 
 typedef struct dr door;
 
-struct rm
-{
-    char bottom_row, right_col, left_col, top_row;
-    door doors[4];
-    unsigned short is_room;
+struct rm {
+	char bottom_row, right_col, left_col, top_row;
+	door doors[4];
+	unsigned short is_room;
 };
 
 typedef struct rm room;
@@ -266,15 +258,15 @@ typedef struct rm room;
 
 #define NO_ROOM -1
 
-#define PASSAGE -3		/* cur_room value */
+#define PASSAGE -3 /* cur_room value */
 
 #define AMULET_LEVEL 26
 
-#define R_NOTHING ((unsigned short) 01)
-#define R_ROOM    ((unsigned short) 02)
-#define R_MAZE    ((unsigned short) 04)
-#define R_DEADEND ((unsigned short) 010)
-#define R_CROSS   ((unsigned short) 020)
+#define R_NOTHING ((unsigned short)01)
+#define R_ROOM ((unsigned short)02)
+#define R_MAZE ((unsigned short)04)
+#define R_DEADEND ((unsigned short)010)
+#define R_CROSS ((unsigned short)020)
 
 #define MAX_EXP_LEVEL 21
 #define MAX_EXP 10000000L
@@ -294,16 +286,15 @@ typedef struct rm room;
 #define STAT_LABEL 0200
 #define STAT_ALL 0377
 
-#define PARTY_TIME 10		/* one party somewhere in each 10 level span */
+#define PARTY_TIME 10 /* one party somewhere in each 10 level span */
 
-#define MAX_TRAPS 10		/* maximum traps per level */
+#define MAX_TRAPS 10 /* maximum traps per level */
 
 #define HIDE_PERCENT 12
 
-struct tr
-{
-    short trap_type;
-    short trap_row, trap_col;
+struct tr {
+	short trap_type;
+	short trap_row, trap_col;
 };
 
 typedef struct tr trap;
@@ -315,12 +306,12 @@ extern unsigned short dungeon[ROGUE_LINES][ROGUE_COLUMNS];
 extern object level_objects;
 extern char descs[ROGUE_LINES][ROGUE_COLUMNS];
 
-extern struct id id_scrolls[];
-extern struct id id_potions[];
-extern struct id id_wands[];
-extern struct id id_rings[];
-extern struct id id_weapons[];
-extern struct id id_armors[];
+extern id id_scrolls[];
+extern id id_potions[];
+extern id id_wands[];
+extern id id_rings[];
+extern id id_weapons[];
+extern id id_armors[];
 
 extern object mon_tab[];
 extern object level_monsters;
@@ -329,35 +320,37 @@ extern char mesg[][80];
 
 #define MONSTERS 26
 
-#define HASTED                 01L
-#define SLOWED                 02L
-#define INVISIBLE              04L
-#define ASLEEP                010L
-#define WAKENS                020L
-#define WANDERS               040L
-#define FLIES                0100L
-#define FLITS                0200L
-#define CAN_FLIT             0400L	/* can, but usually doesn't, flit */
-#define CONFUSED            01000L
-#define RUSTS               02000L
-#define HOLDS               04000L
-#define FREEZES            010000L
-#define STEALS_GOLD        020000L
-#define STEALS_ITEM        040000L
-#define STINGS            0100000L
-#define DRAINS_LIFE       0200000L
-#define DROPS_LEVEL       0400000L
-#define SEEKS_GOLD       01000000L
-#define FREEZING_ROGUE   02000000L
-#define RUST_VANISHED    04000000L
-#define CONFUSES        010000000L
-#define IMITATES        020000000L
-#define FLAMES          040000000L
-#define STATIONARY     0100000000L	/* damage will be 1,2,3,... */
-#define NAPPING        0200000000L	/* can't wake up for a while */
-#define ALREADY_MOVED  0400000000L
+#define HASTED 01L
+#define SLOWED 02L
+#define INVISIBLE 04L
+#define ASLEEP 010L
+#define WAKENS 020L
+#define WANDERS 040L
+#define FLIES 0100L
+#define FLITS 0200L
+#define CAN_FLIT 0400L /* can, but usually doesn't, flit */
+#define CONFUSED 01000L
+#define RUSTS 02000L
+#define HOLDS 04000L
+#define FREEZES 010000L
+#define STEALS_GOLD 020000L
+#define STEALS_ITEM 040000L
+#define STINGS 0100000L
+#define DRAINS_LIFE 0200000L
+#define DROPS_LEVEL 0400000L
+#define SEEKS_GOLD 01000000L
+#define FREEZING_ROGUE 02000000L
+#define RUST_VANISHED 04000000L
+#define CONFUSES 010000000L
+#define IMITATES 020000000L
+#define FLAMES 040000000L
+#define STATIONARY 0100000000L /* damage will be 1,2,3,... */
+#define NAPPING 0200000000L    /* can't wake up for a while */
+#define ALREADY_MOVED 0400000000L
 
-#define SPECIAL_HIT (RUSTS|HOLDS|FREEZES|STEALS_GOLD|STEALS_ITEM|STINGS|DRAINS_LIFE|DROPS_LEVEL)
+#define SPECIAL_HIT                                                     \
+	(RUSTS | HOLDS | FREEZES | STEALS_GOLD | STEALS_ITEM | STINGS | \
+	    DRAINS_LIFE | DROPS_LEVEL)
 
 #define WAKE_PERCENT 45
 #define FLIT_PERCENT 33
@@ -401,23 +394,21 @@ extern char mesg[][80];
 /* external routine declarations.
  */
 
-struct rogue_time
-{
-    short year;		/* >= 1987 */
-    short month;	/* 1 - 12 */
-    short day;		/* 1 - 31 */
-    short hour;		/* 0 - 23 */
-    short minute;	/* 0 - 59 */
-    short second;	/* 0 - 59 */
-};
+typedef struct srogue_time {
+	short year;   /* >= 1987 */
+	short month;  /* 1 - 12 */
+	short day;    /* 1 - 31 */
+	short hour;   /* 0 - 23 */
+	short minute; /* 0 - 59 */
+	short second; /* 0 - 59 */
+} rogue_time;
 
-typedef struct sopt
-{
-    char *name;		/* option name */
-    bool *bp;	/* boolean ptr */
-    char **cp;		/* string ptr */
-    bool ab;		/* add blank */
-    bool nc;		/* no colon */
+typedef struct sopt {
+	char *name; /* option name */
+	bool *bp;   /* boolean ptr */
+	char **cp;  /* string ptr */
+	bool ab;    /* add blank */
+	bool nc;    /* no colon */
 } opt;
 extern opt envopt[];
 extern char *optdesc[];
@@ -426,17 +417,16 @@ extern char org_dir[], *game_dir;
 #undef getchar
 #undef putchar
 #undef putc
-#define	getchar() fgetc(stdin)
-#define	putchar(c) fputc(c, stdout)
-#define	putc(c, fp) fputc(c, fp)
+#define getchar() fgetc(stdin)
+#define putchar(c) fputc(c, stdout)
+#define putc(c, fp) fputc(c, fp)
 
-
-#define RWHITE	 8
-#define RRED	 9
-#define RGREEN	 10
-#define RYELLOW	 11
-#define RBLUE	 12
+#define RWHITE 8
+#define RRED 9
+#define RGREEN 10
+#define RYELLOW 11
+#define RBLUE 12
 #define RMAGENTA 13
-#define RCYAN	 14
+#define RCYAN 14
 
 #endif /* not ROGUE_H */

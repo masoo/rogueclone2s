@@ -1,6 +1,8 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
+typedef struct obj object;
+
 extern void put_mons(void);
 extern object *gr_monster(object *monster, int mn);
 extern void mv_mons(void);

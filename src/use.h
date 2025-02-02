@@ -1,6 +1,8 @@
 #ifndef USE_H
 #define USE_H
 
+typedef struct obj object;
+
 extern void quaff(void);
 extern void read_scroll(void);
 extern void vanish(object *obj, short rm, object *pack);

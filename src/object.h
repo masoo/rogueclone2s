@@ -1,6 +1,8 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
+typedef struct obj object;
+
 extern void put_objects(void);
 extern void put_gold(void);
 extern void plant_gold(short row, short col, bool is_maze);

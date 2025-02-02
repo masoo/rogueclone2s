@@ -1,6 +1,8 @@
 #ifndef ROOM_H
 #define ROOM_H
 
+typedef struct obj object;
+
 extern void light_up_room(int rn);
 extern void light_passage(int row, int col);
 extern void darken_room(short rn);
