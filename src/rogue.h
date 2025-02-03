@@ -80,7 +80,7 @@ typedef unsigned char uchar;
 #define CREATE_MONSTER 9
 #define AGGRAVATE_MONSTER 10
 #define MAGIC_MAPPING 11
-#define SCROLS 12
+#define SCROLS 12 // 12 種類の巻物
 
 #define INCREASE_STRENGTH 0
 #define RESTORE_STRENGTH 1
@@ -164,6 +164,8 @@ enum rogue_necessity_size { ROGUE_LINES = 24, ROGUE_COLUMNS = 80 };
 #define GEMS 14
 
 #define GOLD_PERCENT 46
+
+#define MAX_SCROLL_NAME_LENGTH 120 // 合字を除く UTF8 の30文字分x4
 
 enum rogue_system_size {
 	ROGUE_PATH_MAX = 4096 /* 取得できる最大パス長を限定する */
@@ -297,6 +299,10 @@ typedef struct rm room;
 #define MAX_TRAPS 10 /* maximum traps per level */
 
 #define HIDE_PERCENT 12
+
+#define MAX_POTION_QUANTITY 14 // 14 種類の水薬
+#define MAX_WEAPON_QUANTITY 10 // 10 種類の武器
+#define MAX_RING_QUANTITY 11   // 11 種類の指輪
 
 struct tr {
 	short trap_type;

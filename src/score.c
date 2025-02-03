@@ -104,7 +104,7 @@ killed_by(object *monster, short other)
 		center(12, buf);
 		center(13, buf2);
 		strcpy(buf, mesg[180]);
-		lznum(buf + 2, rogue.gold, 0);
+		znum(buf + 2, rogue.gold, 0);
 		center(10, buf);
 		*buf = 0;
 		znum(buf, rt.year + 1900, 0);
@@ -114,7 +114,7 @@ killed_by(object *monster, short other)
 	} else {
 		(void)strcat(buf, buf2);
 		(void)strcat(buf, mesg[181]);
-		lznum(buf, rogue.gold, 0);
+		znum(buf, rogue.gold, 0);
 		strcat(buf, "。");
 		message(buf, 0);
 	}

@@ -152,26 +152,36 @@ mix_colors(void)
 	}
 }
 
+/*
+ * make_scroll_titles
+ * 巻き物の不確定名を作成する
+ */
 void
 make_scroll_titles(void)
 {
-	short i, j, n, len;
-	short sylls, s;
+	utf8_int8_t char_left_bracket[] = u8"「";
+	int char_left_bracket_size = utf8size(char_left_bracket);
+	utf8_int8_t char_right_bracket[] = u8"」";
 
-	for (i = 0; i < SCROLS; i++) {
-		sylls = get_rand(2, 5);
-		(void)strcpy(id_scrolls[i].title, "「");
-		len = 2;
-		for (j = 0; j < sylls; j++) {
-			s = get_rand(1, (MAXSYLLABLES - 1));
-			n = strlen(syllables[s]);
-			if (len + n - 1 >= MAX_TITLE_LENGTH - 2) {
+	for (int i = 0; i < SCROLS; i++) {
+		int scroll_name_length = MAX_SCROLL_NAME_LENGTH;
+		int sylls = get_rand(2, 5);
+		utf8ncpy(id_scrolls[i].title, char_left_bracket,
+		    char_left_bracket_size);
+		scroll_name_length -= (char_left_bracket_size - 1);
+		for (int j = 0; j < sylls; j++) {
+			int s = get_rand(0, (MAXSYLLABLES - 1));
+			int n = utf8size(syllables[s]);
+			int len = utf8size(id_scrolls[i].title);
+			if ((len - 1) + (n - 1) >= scroll_name_length - 1) {
 				break;
 			}
-			(void)strcat(id_scrolls[i].title, syllables[s]);
-			len += n;
+			utf8ncat(id_scrolls[i].title, syllables[s],
+			    scroll_name_length);
+			scroll_name_length -= (n - 1);
 		}
-		(void)strcpy(id_scrolls[i].title + (len - 1), "」");
+		utf8ncat(id_scrolls[i].title, char_right_bracket,
+		    scroll_name_length);
 	}
 }
 
@@ -594,9 +604,13 @@ nextpage:
 	}
 }
 
-static char *_num[10] = {"０", "１", "２", "３", "４", "５", "６", "７", "８",
-	"９"};
+static const utf8_int8_t *_num[10] = {"０", "１", "２", "３", "４", "５", "６",
+	"７", "８", "９"};
 
+/*
+ * znum
+ * 数値から日本語の数字の文字列を生成する
+ */
 void
 znum(char *buf, int n, int plus)
 {
@@ -606,31 +620,22 @@ znum(char *buf, int n, int plus)
 		buf++;
 	}
 	if (plus && n >= 0) {
-		strcpy(buf, "＋");
-		buf += 2;
+		utf8_int8_t char_plus[] = u8"＋";
+		int char_size = utf8size(char_plus);
+		utf8ncpy(buf, char_plus, char_size);
+		buf += (char_size - 1);
 	}
 	sprintf(s, "%d", n);
+	utf8_int8_t char_minus[] = u8"－";
 	for (p = s; *p; p++) {
-		strcpy(buf, (*p == '-') ? "－" : _num[*p - '0']);
-		buf += 2;
-	}
-}
-
-void
-lznum(char *buf, long n, int plus)
-{
-	char s[13], *p;
-
-	while (*buf) {
-		buf++;
-	}
-	if (plus && n >= 0L) {
-		strcpy(buf, "＋");
-		buf += 2;
-	}
-	sprintf(s, "%ld", n);
-	for (p = s; *p; p++) {
-		strcpy(buf, (*p == '-') ? "－" : _num[*p - '0']);
-		buf += 2;
+		if (*p == '-') {
+			int char_size = utf8size(char_minus);
+			utf8ncpy(buf, char_minus, char_size);
+			buf += (char_size - 1);
+		} else {
+			int char_size = utf8size(_num[*p - '0']);
+			utf8ncpy(buf, _num[*p - '0'], char_size);
+			buf += (char_size - 1);
+		}
 	}
 }

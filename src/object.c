@@ -56,7 +56,10 @@ char *po_color[14] = {mesg[334], mesg[335], mesg[336], mesg[337], mesg[338],
 	mesg[339], mesg[340], mesg[341], mesg[342], mesg[343], mesg[344],
 	mesg[345], mesg[346], mesg[347]};
 
-char po_title[14][34], sc_title[12][34], wa_title[10][34], ri_title[11][34];
+utf8_int8_t po_title[MAX_POTION_QUANTITY][MAX_MESG_BUFFER_SIZE],
+    sc_title[SCROLS][MAX_MESG_BUFFER_SIZE],
+    wa_title[MAX_WEAPON_QUANTITY][MAX_MESG_BUFFER_SIZE],
+    ri_title[MAX_RING_QUANTITY][MAX_MESG_BUFFER_SIZE];
 
 id id_potions[POTIONS] = {
 	{100,  po_title[0], mesg[348], 0},

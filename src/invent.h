@@ -14,6 +14,5 @@ extern id *get_id_table(object *obj);
 extern void inv_armor_weapon(bool is_weapon);
 extern void discovered(void);
 extern void znum(char *buf, int n, int plus);
-extern void lznum(char *buf, long n, int plus);
 
 #endif /* not INVENT_H */
