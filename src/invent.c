@@ -34,16 +34,16 @@
 
 bool is_wood[WANDS];
 
-char *wand_materials[WAND_MATERIALS] = {mesg[410], mesg[411], mesg[412],
+utf8_int8_t *wand_materials[WAND_MATERIALS] = {mesg[410], mesg[411], mesg[412],
 	mesg[413], mesg[414], mesg[415], mesg[416], mesg[417], mesg[418],
 	mesg[419], mesg[420], mesg[421], mesg[422], mesg[423], mesg[424],
 	mesg[425], mesg[426], mesg[427], mesg[428], mesg[429], mesg[430],
 	mesg[431], mesg[432], mesg[433], mesg[434], mesg[435], mesg[436],
 	mesg[437], mesg[438], mesg[439]};
 
-char *gems[GEMS] = {mesg[440], mesg[441], mesg[442], mesg[443], mesg[444],
-	mesg[445], mesg[446], mesg[447], mesg[448], mesg[449], mesg[450],
-	mesg[451], mesg[452], mesg[453]};
+utf8_int8_t *gems[GEMS] = {mesg[440], mesg[441], mesg[442], mesg[443],
+	mesg[444], mesg[445], mesg[446], mesg[447], mesg[448], mesg[449],
+	mesg[450], mesg[451], mesg[452], mesg[453]};
 
 char *syllables[MAXSYLLABLES] = {mesg[454], mesg[455], mesg[456], mesg[457],
 	mesg[458], mesg[459], mesg[460], mesg[461], mesg[462], mesg[463],
@@ -357,37 +357,42 @@ ANA:
 	(void)strcat(desc, p);
 }
 
+/*
+ * get_wand_and_ring_materials
+ * 杖と指輪の不確定名を作成する
+ */
 void
 get_wand_and_ring_materials(void)
 {
-	short i, j;
-	char *p;
+	utf8_int8_t *p;
 	bool used[WAND_MATERIALS];
 
-	for (i = 0; i < WAND_MATERIALS; i++) {
+	for (int i = 0; i < WAND_MATERIALS; i++) {
 		used[i] = false;
 	}
-	for (i = 0; i < WANDS; i++) {
+	for (int i = 0; i < WANDS; i++) {
+		int j;
 		do {
 			j = get_rand(0, WAND_MATERIALS - 1);
 		} while (used[j]);
 		used[j] = true;
 		p = id_wands[i].title;
-		(void)strcpy(p, wand_materials[j]);
-		(void)strcat(p, mesg[39]);
+		utf8cpy(p, wand_materials[j]);
+		utf8cat(p, mesg[39]);
 		is_wood[i] = (j > MAX_METAL);
 	}
-	for (i = 0; i < GEMS; i++) {
+	for (int i = 0; i < GEMS; i++) {
 		used[i] = false;
 	}
-	for (i = 0; i < RINGS; i++) {
+	for (int i = 0; i < RINGS; i++) {
+		int j;
 		do {
 			j = get_rand(0, GEMS - 1);
 		} while (used[j]);
 		used[j] = true;
 		p = id_rings[i].title;
-		(void)strcpy(p, gems[j]);
-		(void)strcat(p, mesg[40]);
+		utf8cpy(p, gems[j]);
+		utf8cat(p, mesg[40]);
 	}
 }
 
