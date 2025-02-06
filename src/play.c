@@ -318,10 +318,10 @@ play_level(void)
 	}
 }
 
-char *help_message[] = {mesg[116], mesg[117], mesg[118], mesg[119], mesg[120],
-	mesg[121], mesg[122], mesg[123], mesg[124], mesg[125], mesg[126],
-	mesg[127], mesg[128], mesg[129], mesg[130], mesg[131], mesg[132],
-	mesg[133], mesg[134], mesg[135], mesg[136], mesg[137], "",
+utf8_int8_t *help_message[] = {mesg[116], mesg[117], mesg[118], mesg[119],
+	mesg[120], mesg[121], mesg[122], mesg[123], mesg[124], mesg[125],
+	mesg[126], mesg[127], mesg[128], mesg[129], mesg[130], mesg[131],
+	mesg[132], mesg[133], mesg[134], mesg[135], mesg[136], mesg[137], "",
 	"＝スペースを押してください＝", (char *)0};
 
 /*
@@ -331,20 +331,16 @@ char *help_message[] = {mesg[116], mesg[117], mesg[118], mesg[119], mesg[120],
 void
 help(void)
 {
-	int lines, columns;
-	int n;
-	char disp_message[ROGUE_COLUMNS + 1];
-
 	/* 現在の画面を保存する */
-	for (lines = 0; lines < ROGUE_LINES; lines++) {
-		for (columns = 0; columns < ROGUE_COLUMNS; columns++) {
+	for (int lines = 1; lines < ROGUE_LINES - 1; lines++) {
+		for (int columns = 0; columns < ROGUE_COLUMNS; columns++) {
 			descs[lines][columns] = mvinch_rogue(lines, columns);
 		}
 	}
 
 	/* ヘルプメッセージを表示する */
 	clear();
-	for (n = 0; help_message[n]; n++) {
+	for (int n = 0; help_message[n]; n++) {
 		mvaddstr_rogue(n, 0, help_message[n]);
 		clrtoeol();
 	}
@@ -352,20 +348,16 @@ help(void)
 	wait_for_ack();
 
 	/* 保持した画面を復帰させる */
-	for (lines = 0; lines < ROGUE_LINES; lines++) {
-		move(lines, 0);
-		if (lines > 0 && lines < ROGUE_LINES - 1) {
-			for (columns = 0; columns < ROGUE_COLUMNS; columns++) {
-				addch_rogue(descs[lines][columns]);
-			}
-		} else {
-			/* メッセージデータの最後に末端記号を付加する */
-			strncpy(disp_message, descs[lines], ROGUE_COLUMNS);
-			disp_message[ROGUE_COLUMNS] = '\0';
-
-			addstr_rogue(disp_message);
+	move(0, 0);
+	clrtoeol();
+	for (int lines = 1; lines < ROGUE_LINES - 1; lines++) {
+		for (int columns = 0; columns < ROGUE_COLUMNS; columns++) {
+			mvaddch_rogue(lines, columns, descs[lines][columns]);
 		}
 	}
+	move(ROGUE_LINES - 1, 0);
+	clrtoeol();
+	print_stats(STAT_ALL);
 	refresh();
 }
 
