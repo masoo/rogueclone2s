@@ -135,20 +135,28 @@ nextpage:
 	}
 }
 
+/*
+ * mix_colors
+ * 水薬の色をランダムに入れ替える
+ */
 void
 mix_colors(void)
 {
-	short i, j;
-	char *t;
+	utf8_int8_t *p;
+	bool used[POTIONS];
 	extern char *po_color[];
 
-	for (i = 0; i < POTIONS; i++) {
-		strcpy(id_potions[i].title, po_color[i]); /* by Yahsa */
-		/*		id_potions[i].title = po_color[i];*/
+	for (int i = 0; i < POTIONS; i++) {
+		used[i] = false;
 	}
-	for (i = 0; i < POTIONS; i++) {
-		j = get_rand(i, POTIONS - 1);
-		swap_string(id_potions[i].title, id_potions[j].title);
+	for (int i = 0; i < POTIONS; i++) {
+		int j;
+		do {
+			j = get_rand(0, POTIONS - 1);
+		} while (used[j]);
+		used[j] = true;
+		p = id_potions[i].title;
+		strcpy(id_potions[i].title, po_color[j]);
 	}
 }
 

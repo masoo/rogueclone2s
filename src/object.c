@@ -52,9 +52,9 @@ fighter rogue = {
 	1250     /* moves */
 };
 
-char *po_color[14] = {mesg[334], mesg[335], mesg[336], mesg[337], mesg[338],
-	mesg[339], mesg[340], mesg[341], mesg[342], mesg[343], mesg[344],
-	mesg[345], mesg[346], mesg[347]};
+utf8_int8_t *po_color[POTIONS] = {mesg[334], mesg[335], mesg[336], mesg[337],
+	mesg[338], mesg[339], mesg[340], mesg[341], mesg[342], mesg[343],
+	mesg[344], mesg[345], mesg[346], mesg[347]};
 
 utf8_int8_t po_title[MAX_POTION_QUANTITY][MAX_MESG_BUFFER_SIZE],
     sc_title[SCROLS][MAX_MESG_BUFFER_SIZE],
