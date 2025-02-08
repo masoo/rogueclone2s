@@ -36,16 +36,16 @@ typedef unsigned char uchar;
 #define TRAP ((unsigned short)0400)
 #define HIDDEN ((unsigned short)01000)
 
-#define GOLD ((unsigned short)01)
-#define FOOD ((unsigned short)02)
-#define ARMOR ((unsigned short)04)
-#define WEAPON ((unsigned short)010)
-#define SCROL ((unsigned short)020)
-#define POTION ((unsigned short)040)
-#define WAND ((unsigned short)0100)
-#define RING ((unsigned short)0200)
-#define AMULET ((unsigned short)0400)
-#define ALL_OBJECTS ((unsigned short)0777)
+#define GOLD ((uint8_t)01)
+#define FOOD ((uint8_t)02)
+#define ARMOR ((uint8_t)04)
+#define WEAPON ((uint8_t)010)
+#define SCROL ((uint8_t)020)
+#define POTION ((uint8_t)040)
+#define WAND ((uint8_t)0100)
+#define RING ((uint8_t)0200)
+#define AMULET ((uint8_t)0400)
+#define ALL_OBJECTS ((uint8_t)0777)
 
 #define LEATHER 0
 #define RINGMAIL 1

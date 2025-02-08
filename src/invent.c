@@ -90,7 +90,7 @@ nextpage:
 		}
 		obj = obj->next_object;
 	}
-	(void)strcpy(descs[i++], msg);
+	(void)utf8cpy(descs[i++], msg);
 
 	if (i == 0) {
 		return;
