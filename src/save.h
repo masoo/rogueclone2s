@@ -18,5 +18,7 @@ extern void rw_rooms(FILE *fp, bool rw);
 extern void r_read(FILE *fp, char *buf, int n);
 extern void r_write(FILE *fp, char *buf, int n);
 extern bool has_been_touched(rogue_time *saved_time, rogue_time *mod_time);
+extern void write_obj(object *obj, FILE *fp);
+extern void read_obj(object *obj, FILE *fp);
 
 #endif /* not SAVE_H */

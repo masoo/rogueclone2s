@@ -199,26 +199,26 @@ typedef struct sid {
 #define disguise what_is
 #define next_monster next_object
 
-struct obj {                       /* comment is monster meaning */
-	unsigned long m_flags;     /* monster flags */
-	char *damage;              /* damage it does */
-	short quantity;            /* hit points to kill */
-	short ichar;               /* 'A' is for aquatar */
-	short kill_exp;            /* exp for killing it */
-	short is_protected;        /* level starts */
-	short is_cursed;           /* level ends */
-	short class;               /* chance of hitting you */
-	short identified;          /* 'F' damage, 1,2,3... */
-	unsigned short which_kind; /* item carry/drop % */
-	short o_row, o_col, o;  /* o is how many times stuck at o_row, o_col */
-	short row, col;         /* current row, col */
-	short d_enchant;        /* room char when detect_monster */
-	short quiver;           /* monster slowed toggle */
-	short trow, tcol;       /* target row, col */
-	short hit_enchant;      /* how many moves is confused */
-	unsigned short what_is; /* imitator's charactor (?!%: */
-	short picked_up;        /* sleep from wand of sleep */
-	unsigned short in_use_flags;
+struct obj {                    /* comment is monster meaning */
+	uint32_t m_flags;       /* monster flags */
+	utf8_int8_t *damage;    /* damage it does */
+	int8_t quantity;        /* hit points to kill */
+	int8_t ichar;           /* 'A' is for aquatar */
+	int8_t kill_exp;        /* exp for killing it */
+	int8_t is_protected;    /* level starts */
+	int8_t is_cursed;       /* level ends */
+	int8_t class;           /* chance of hitting you */
+	int8_t identified;      /* 'F' damage, 1,2,3... */
+	uint8_t which_kind;     /* item carry/drop % */
+	int8_t o_row, o_col, o; /* o is how many times stuck at o_row, o_col */
+	int8_t row, col;        /* current row, col */
+	int8_t d_enchant;       /* room char when detect_monster */
+	int8_t quiver;          /* monster slowed toggle */
+	int8_t trow, tcol;      /* target row, col */
+	int8_t hit_enchant;     /* how many moves is confused */
+	uint8_t what_is;        /* imitator's charactor (?!%: */
+	int8_t picked_up;       /* sleep from wand of sleep */
+	uint8_t in_use_flags;
 	struct obj *next_object; /* next monster */
 };
 

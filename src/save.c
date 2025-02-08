@@ -238,31 +238,38 @@ restore(char *fname)
 	}
 }
 
+/*
+ * write_pack
+ * 全objectのパックの情報をファイルに書き込む
+ */
 void
 write_pack(object *pack, FILE *fp)
 {
-	object t;
-
 	while ((pack = pack->next_object)) {
-		r_write(fp, (char *)pack, sizeof(object));
+		write_obj(pack, fp);
 	}
+	object t;
 	t.ichar = t.what_is = 0;
-	r_write(fp, (char *)&t, sizeof(object));
+	write_obj(&t, fp);
 }
 
+/*
+ * read_pack
+ * 全objectのパックの情報をファイルから読み込む
+ */
 void
 read_pack(object *pack, FILE *fp, bool is_rogue)
 {
-	object read_obj, *new_obj;
+	object r_obj, *new_obj;
 
 	for (;;) {
-		r_read(fp, (char *)&read_obj, sizeof(object));
-		if (read_obj.ichar == 0) {
+		read_obj(&r_obj, fp);
+		if (r_obj.ichar == 0) {
 			pack->next_object = (object *)0;
 			break;
 		}
 		new_obj = alloc_object();
-		*new_obj = read_obj;
+		*new_obj = r_obj;
 		if (is_rogue) {
 			if (new_obj->in_use_flags & BEING_WORN) {
 				do_wear(new_obj);
@@ -408,4 +415,78 @@ has_been_touched(rogue_time *saved_time, rogue_time *mod_time)
 		}
 	}
 	return false;
+}
+
+/*
+ * write_obj
+ * オブジェクトの情報をファイルに書き込む
+ */
+void
+write_obj(object *obj, FILE *fp)
+{
+	fwrite(&obj->m_flags, sizeof(obj->m_flags), 1, fp);
+
+	int32_t damage_size = utf8size(obj->damage);
+	fwrite(&damage_size, sizeof(damage_size), 1, fp);
+	fwrite(obj->damage, sizeof(utf8_int8_t), damage_size, fp);
+
+	fwrite(&obj->quantity, sizeof(obj->quantity), 1, fp);
+	fwrite(&obj->ichar, sizeof(obj->ichar), 1, fp);
+	fwrite(&obj->kill_exp, sizeof(obj->kill_exp), 1, fp);
+	fwrite(&obj->is_protected, sizeof(obj->is_protected), 1, fp);
+	fwrite(&obj->is_cursed, sizeof(obj->is_cursed), 1, fp);
+	fwrite(&obj->class, sizeof(obj->class), 1, fp);
+	fwrite(&obj->identified, sizeof(obj->identified), 1, fp);
+	fwrite(&obj->which_kind, sizeof(obj->which_kind), 1, fp);
+	fwrite(&obj->o_row, sizeof(obj->o_row), 1, fp);
+	fwrite(&obj->o_col, sizeof(obj->o_col), 1, fp);
+	fwrite(&obj->o, sizeof(obj->o), 1, fp);
+	fwrite(&obj->row, sizeof(obj->row), 1, fp);
+	fwrite(&obj->col, sizeof(obj->col), 1, fp);
+	fwrite(&obj->d_enchant, sizeof(obj->d_enchant), 1, fp);
+	fwrite(&obj->quiver, sizeof(obj->quiver), 1, fp);
+	fwrite(&obj->trow, sizeof(obj->trow), 1, fp);
+	fwrite(&obj->tcol, sizeof(obj->tcol), 1, fp);
+	fwrite(&obj->hit_enchant, sizeof(obj->hit_enchant), 1, fp);
+	fwrite(&obj->what_is, sizeof(obj->what_is), 1, fp);
+	fwrite(&obj->picked_up, sizeof(obj->picked_up), 1, fp);
+	fwrite(&obj->in_use_flags, sizeof(obj->in_use_flags), 1, fp);
+}
+
+/*
+ * read_obj
+ * オブジェクトの情報をファイルから読み込む
+ */
+void
+read_obj(object *obj, FILE *fp)
+{
+	fread(&obj->m_flags, sizeof(obj->m_flags), 1, fp);
+
+	int32_t damage_size = 0;
+	fread(&damage_size, sizeof(damage_size), 1, fp);
+	obj->damage = malloc(damage_size * sizeof(utf8_int8_t));
+	fread(obj->damage, sizeof(utf8_int8_t), damage_size, fp);
+
+	fread(&obj->quantity, sizeof(obj->quantity), 1, fp);
+	fread(&obj->ichar, sizeof(obj->ichar), 1, fp);
+	fread(&obj->kill_exp, sizeof(obj->kill_exp), 1, fp);
+	fread(&obj->is_protected, sizeof(obj->is_protected), 1, fp);
+	fread(&obj->is_cursed, sizeof(obj->is_cursed), 1, fp);
+	fread(&obj->class, sizeof(obj->class), 1, fp);
+	fread(&obj->identified, sizeof(obj->identified), 1, fp);
+	fread(&obj->which_kind, sizeof(obj->which_kind), 1, fp);
+	fread(&obj->o_row, sizeof(obj->o_row), 1, fp);
+	fread(&obj->o_col, sizeof(obj->o_col), 1, fp);
+	fread(&obj->o, sizeof(obj->o), 1, fp);
+	fread(&obj->row, sizeof(obj->row), 1, fp);
+	fread(&obj->col, sizeof(obj->col), 1, fp);
+	fread(&obj->d_enchant, sizeof(obj->d_enchant), 1, fp);
+	fread(&obj->quiver, sizeof(obj->quiver), 1, fp);
+	fread(&obj->trow, sizeof(obj->trow), 1, fp);
+	fread(&obj->tcol, sizeof(obj->tcol), 1, fp);
+	fread(&obj->hit_enchant, sizeof(obj->hit_enchant), 1, fp);
+	fread(&obj->what_is, sizeof(obj->what_is), 1, fp);
+	fread(&obj->picked_up, sizeof(obj->picked_up), 1, fp);
+	fread(&obj->in_use_flags, sizeof(obj->in_use_flags), 1, fp);
+	obj->next_object = NULL;
 }
