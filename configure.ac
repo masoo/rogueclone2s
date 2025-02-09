@@ -14,6 +14,9 @@ AC_PROG_CC
 AC_CHECK_LIB([ncursesw], [initscr])
 AC_CHECK_LIB([kernel32], [_sleep])
 
+# Checks for required header files.
+AC_CHECK_HEADERS([curses.h], [], [AC_MSG_ERROR([curses.h is required but not found.])])
+
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h sgtty.h stdlib.h stdint.h string.h strings.h sys/file.h sys/time.h termio.h unistd.h windows.h])
 AC_CHECK_HEADER_STDBOOL
