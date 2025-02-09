@@ -1,5 +1,10 @@
 　NEWS
 
+* Release 7
+	Release 6 との差異
+	* utf8 対応
+	* Haiku OS への対応
+
 * Release 6
 	Release 5 との差異
 	* Windows 対応

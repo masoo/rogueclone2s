@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.71])
-AC_INIT([rogueclone2s],[6.0],[https://github.com/masoo/rogueclone2s])
+AC_INIT([rogueclone2s],[7.0-preview1],[https://github.com/masoo/rogueclone2s])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])

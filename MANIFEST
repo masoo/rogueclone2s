@@ -79,5 +79,6 @@ src/trap.c                -- rogueclone2s のソースファイル
 src/trap.h                -- rogueclone2s のソースファイル
 src/use.c                 -- rogueclone2s のソースファイル
 src/use.h                 -- rogueclone2s のソースファイル
+src/utf8.h                -- https://github.com/sheredom/utf8.h の utf8 ライブラリ
 src/zap.c                 -- rogueclone2s のソースファイル
 src/zap.h                 -- rogueclone2s のソースファイル
