@@ -83,7 +83,7 @@ nextpage:
 			*p++ = Protected(obj) ? '}' : ')';
 			*p++ = ' ';
 			get_desc(obj, p, 0);
-			if ((n = strlen(descs[i])) > maxlen) {
+			if ((n = utf8_display_width(descs[i])) > maxlen) {
 				maxlen = n;
 			}
 			i++;
@@ -281,16 +281,11 @@ get_desc(object *obj, char *desc, bool capitalized)
 		case WAND:
 		case RING:
 			p = id_table[obj->which_kind].title;
-#if defined(EUC)
-			if (*desc && *p >= ' ' && !(0x80 & *p)) {
+			/* ASCII文字で始まる場合はスペースを挿入する */
+			if (*desc && *p >= ' ' &&
+			    !((unsigned char)*p & 0x80)) {
 				(void)strcat(desc, " ");
 			}
-#else  /* not EUC(Shift JIS) */
-			if (*desc && (*p >= ' ' && *p <= '~' ||
-					 *p >= '\240' && *p < '\340')) {
-				(void)strcat(desc, " ");
-			}
-#endif /* not EUC */
 			(void)strcat(desc, p);
 			(void)strcat(desc, mesg[34]);
 			(void)strcat(desc, item_name);
@@ -563,7 +558,7 @@ nextpage:
 			(void)strcat(p, dp->sub);
 			(void)strcat(p, dp->name);
 		}
-		if ((n = strlen(p)) > maxlen) {
+		if ((n = utf8_display_width(p)) > maxlen) {
 			maxlen = n;
 		}
 		i++;

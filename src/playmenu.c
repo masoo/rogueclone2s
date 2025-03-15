@@ -56,16 +56,6 @@ mac macs[] = {
 /*
  * Color constant
  */
-#define NONE 0 /* dummy */
-#define WHITE 1
-#define GREEN 2
-#define YELLOW 3
-#define MAGENTA 4
-#define CYAN 5
-#define RGREEN 6
-#define RYELLOW 7
-#define RMAGENTA 8
-#define RCYAN 9
 #define NCOLORS 10
 
 char *colorstr[2][NCOLORS] = {
@@ -87,12 +77,12 @@ char *colorstr[2][NCOLORS] = {
 #define BOTR 6
 
 char *linechar[][7] = {
-	{    "  ",      " ",      " ",     "  ",      " ",     "  ",      " "},
-	{   "━",    "┃",    "┃",    "┏",    "┓",    "┗",    "┛"},
+	{"  ",  " ",  " ", "  ",  " ", "  ",  " "},
+	{ "━",  "┃",  "┃",  "┏",  "┓",  "┗",  "┛"},
 	{"��", "��", "��", "��", "��", "��", "��"}
 };
 
-int linecolor[] = {RGREEN, GREEN, GREEN};
+int linecolor[] = {GREEN_REVERSE, GREEN, GREEN};
 
 char curon[10], curoff[10], initstr[20], termstr[20];
 char **linec;
@@ -358,21 +348,21 @@ typedef struct _ctable {
 stable menu[NCOMMANDS + 1] = {
 	/*	      cmd,      msg,     name,      saved, hidden,    y,      x
 	 */
-	{  CMDPLAY, "０．",                pname[0], NO,  NO,     playy, playx1},
-	{  CMDPLAY, "１．",                pname[1], NO,  NO, playy + 2, playx1},
-	{  CMDPLAY, "２．",                pname[2], NO,  NO, playy + 4, playx1},
-	{  CMDPLAY, "３．",                pname[3], NO,  NO, playy + 6, playx1},
-	{  CMDPLAY, "４．",                pname[4], NO,  NO, playy + 8, playx1},
-	{  CMDPLAY, "５．",                pname[5], NO,  NO,     playy, playx2},
-	{  CMDPLAY, "６．",                pname[6], NO,  NO, playy + 2, playx2},
-	{  CMDPLAY, "７．",                pname[7], NO,  NO, playy + 4, playx2},
-	{  CMDPLAY, "８．",                pname[8], NO,  NO, playy + 6, playx2},
-	{  CMDPLAY, "９．",                pname[9], NO,  NO, playy + 8, playx2},
-	{ CMDSCORE, "Ｓ．",    "スコアを見る", NO,  NO,     menuy,  menux},
+	{  CMDPLAY, "０．",         pname[0], NO,  NO,     playy, playx1},
+	{  CMDPLAY, "１．",         pname[1], NO,  NO, playy + 2, playx1},
+	{  CMDPLAY, "２．",         pname[2], NO,  NO, playy + 4, playx1},
+	{  CMDPLAY, "３．",         pname[3], NO,  NO, playy + 6, playx1},
+	{  CMDPLAY, "４．",         pname[4], NO,  NO, playy + 8, playx1},
+	{  CMDPLAY, "５．",         pname[5], NO,  NO,     playy, playx2},
+	{  CMDPLAY, "６．",         pname[6], NO,  NO, playy + 2, playx2},
+	{  CMDPLAY, "７．",         pname[7], NO,  NO, playy + 4, playx2},
+	{  CMDPLAY, "８．",         pname[8], NO,  NO, playy + 6, playx2},
+	{  CMDPLAY, "９．",         pname[9], NO,  NO, playy + 8, playx2},
+	{ CMDSCORE, "Ｓ．",   "スコアを見る", NO,  NO,     menuy,  menux},
 	{   CMDADD, "Ａ．", "プレイヤー登録", NO,  NO, menuy + 2,  menux},
 	{CMDCHANGE, "Ｃ．", "プレイヤー変更", NO,  NO, menuy + 4,  menux},
 	{CMDDELETE, "Ｄ．", "プレイヤー削除", NO,  NO, menuy + 6,  menux},
-	{  CMDEXIT, "Ｅ．",                "終了", NO,  NO, menuy + 8,  menux},
+	{  CMDEXIT, "Ｅ．",           "終了", NO,  NO, menuy + 8,  menux},
 	{ CMDCOUNT, "？．", "プレイ回数表示", NO, YES,         0,      0}
 };
 
@@ -453,7 +443,9 @@ reverse(n, sw) int n, sw;
 	i = NAMELEN - strlen(p->name) + 2;
 	move(p->y, p->x - 2);
 	if (sw) { /* (sw == ON || sw == HIGH) */
-		color((sw == HIGH) ? RMAGENTA : (p->saved) ? RCYAN : RYELLOW);
+		color((sw == HIGH) ? MAGENTA_REVERSE
+		      : (p->saved) ? CYAN_REVERSE
+				   : YELLOW_REVERSE);
 		xputs("  ");
 		xputs(p->msg);
 		xputs(p->name);
@@ -702,7 +694,7 @@ pselect(init, mno, status) int init, mno, status;
 
 fillup(len) register int len;
 {
-	color(RGREEN);
+	color(GREEN_REVERSE);
 	xputch(' ');
 	color(WHITE);
 	len++;

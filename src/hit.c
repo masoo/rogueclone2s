@@ -31,9 +31,9 @@
 #include "score.h"
 #include "spechit.h"
 
-extern char *nick_name;
+extern utf8_int8_t *nick_name;
 object *fight_monster = 0;
-char hit_message[80] = "";
+utf8_int8_t hit_message[MAX_MESG_BUFFER_SIZE] = "";
 
 extern short halluc, blind, cur_level;
 extern short add_strength, ring_exp, r_rings;
@@ -43,7 +43,7 @@ void
 mon_hit(object *monster, char *other, bool flame)
 {
 	short damage, hit_chance;
-	char *mn;
+	utf8_int8_t *mn;
 	long minus;
 
 	if (fight_monster && (monster != fight_monster)) {
@@ -70,16 +70,29 @@ mon_hit(object *monster, char *other, bool flame)
 
 	if (!rand_percent(hit_chance)) {
 		if (!fight_monster) {
-			sprintf(hit_message + strlen(hit_message), mesg[18],
-			    (other ? other : mn));
+			utf8_int8_t tmp_message[MAX_MESG_BUFFER_SIZE];
+			int written =
+			    snprintf(tmp_message, MAX_MESG_BUFFER_SIZE,
+				mesg[18], (other ? other : mn));
+			if (written < 0 || written >= MAX_MESG_BUFFER_SIZE) {
+				tmp_message[MAX_MESG_BUFFER_SIZE - 1] = 0;
+			}
+			utf8ncat(hit_message, tmp_message,
+			    MAX_MESG_BUFFER_SIZE);
 			message(hit_message, 1);
 			hit_message[0] = 0;
 		}
 		return;
 	}
 	if (!fight_monster) {
-		sprintf(hit_message + strlen(hit_message), mesg[19],
-		    (other ? other : mn), (other ? mesg[20] : mesg[21]));
+		utf8_int8_t tmp_message[MAX_MESG_BUFFER_SIZE];
+		int written =
+		    snprintf(tmp_message, MAX_MESG_BUFFER_SIZE, mesg[19],
+			(other ? other : mn), (other ? mesg[20] : mesg[21]));
+		if (written < 0 || written >= MAX_MESG_BUFFER_SIZE) {
+			tmp_message[MAX_MESG_BUFFER_SIZE - 1] = 0;
+		}
+		utf8ncat(hit_message, tmp_message, MAX_MESG_BUFFER_SIZE);
 		message(hit_message, 1);
 		hit_message[0] = 0;
 	}
@@ -130,7 +143,13 @@ rogue_hit(object *monster, bool force_hit)
 		}
 		if (!rand_percent(hit_chance)) {
 			if (!fight_monster) {
-				sprintf(hit_message, mesg[22], nick_name);
+				int written = snprintf(hit_message,
+				    MAX_MESG_BUFFER_SIZE, mesg[22], nick_name);
+				if (written < 0 ||
+				    written >= MAX_MESG_BUFFER_SIZE) {
+					hit_message[MAX_MESG_BUFFER_SIZE - 1] =
+					    0;
+				}
 			}
 			goto RET;
 		}
@@ -140,7 +159,13 @@ rogue_hit(object *monster, bool force_hit)
 		}
 		if (mon_damage(monster, damage)) { /* still alive? */
 			if (!fight_monster) {
-				sprintf(hit_message, mesg[23], nick_name);
+				int written = snprintf(hit_message,
+				    MAX_MESG_BUFFER_SIZE, mesg[23], nick_name);
+				if (written < 0 ||
+				    written >= MAX_MESG_BUFFER_SIZE) {
+					hit_message[MAX_MESG_BUFFER_SIZE - 1] =
+					    0;
+				}
 			}
 		}
 	RET:

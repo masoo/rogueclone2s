@@ -166,6 +166,7 @@ enum rogue_necessity_size { ROGUE_LINES = 24, ROGUE_COLUMNS = 80 };
 #define GOLD_PERCENT 46
 
 #define MAX_SCROLL_NAME_LENGTH 120 // 合字を除く UTF8 の30文字分x4
+#define MAX_USER_NAME_LENGTH 120
 
 enum rogue_system_size {
 	ROGUE_PATH_MAX = 4096 /* 取得できる最大パス長を限定する */
@@ -438,13 +439,5 @@ extern char org_dir[], *game_dir;
 #define getchar() fgetc(stdin)
 #define putchar(c) fputc(c, stdout)
 #define putc(c, fp) fputc(c, fp)
-
-#define RWHITE 8
-#define RRED 9
-#define RGREEN 10
-#define RYELLOW 11
-#define RBLUE 12
-#define RMAGENTA 13
-#define RCYAN 14
 
 #endif /* not ROGUE_H */

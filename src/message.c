@@ -16,6 +16,7 @@
 #include <string.h>
 
 #include "utf8.h"
+#include "wcwidth.h"
 
 #include "display.h"
 #include "init.h"
@@ -59,7 +60,7 @@ message(char *msg, bool intrpt)
 	addch_rogue(' ');
 	refresh();
 	msg_cleared = false;
-	msg_col = strlen(msg);
+	msg_col = utf8_display_width(msg);
 
 	cant_int = false;
 	if (did_int) {
@@ -126,12 +127,14 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 {
 	short ch;
 	short i = 0, n = 0;
-	short k;
-	char kanji[MAX_TITLE_LENGTH];
+	short cp_bytes[MAX_TITLE_LENGTH]; /* 各コードポイントのバイト数 */
+	short cp_width[MAX_TITLE_LENGTH]; /* 各コードポイントの表示幅 */
+	short ncp = 0;                    /* 入力済みコードポイント数 */
+	short display_col = 0;            /* 現在の表示カラム位置 */
 
 	if (is_msg) {
 		message(prompt, 0);
-		n = strlen(prompt) + 1;
+		n = utf8_display_width(prompt) + 1;
 	} else {
 		mvaddstr_rogue(row, col, prompt);
 	}
@@ -140,29 +143,24 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 		mvaddstr_rogue(row, col + n, insert);
 		(void)strcpy(buf, insert);
 		i = strlen(insert);
-		k = 0;
+		/* 既存テキストのコードポイント情報を記録する */
+		ncp = 0;
+		display_col = 0;
+		short k = 0;
 		while (k < i) {
-			ch = insert[k];
-#if defined(EUC)
-			if (ch & 0x80) { /* for EUC code by Yasha */
-				kanji[k] = kanji[k + 1] = 1;
-				k += 2;
-			} else {
-				kanji[k] = 0;
-				k++;
-			}
-#else  /* not EUC */
-			if (ch >= 0x81 && ch <= 0x9f ||
-			    ch >= 0xe0 && ch <= 0xfc) {
-				kanji[k] = kanji[k + 1] = 1;
-				k += 2;
-			} else {
-				kanji[k] = 0;
-				k++;
-			}
-#endif /* not EUC */
+			size_t cpsize = utf8codepointcalcsize(&buf[k]);
+			utf8_int32_t cp;
+			utf8codepoint(&buf[k], &cp);
+			int w = (cp < 0x80) ? 1 : wcwidth((wchar_t)cp);
+			if (w < 0)
+				w = 0;
+			cp_bytes[ncp] = (short)cpsize;
+			cp_width[ncp] = (short)w;
+			display_col += w;
+			ncp++;
+			k += cpsize;
 		}
-		move(row, col + n + i);
+		move(row, col + n + display_col);
 		refresh();
 	}
 	for (;;) {
@@ -175,51 +173,72 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 		if (ch == '\r' || ch == '\n' || ch == CANCEL) {
 			break;
 		}
-		if ((ch == '\b') && (i > 0)) {
-			i -= kanji[i - 1] ? 2 : 1;
+		if ((ch == '\b') && (ncp > 0)) {
+			ncp--;
+			i -= cp_bytes[ncp];
+			display_col -= cp_width[ncp];
 			if (do_echo) {
-				mvaddstr_rogue(row, col + n + i, "  ");
-				move(row, col + n + i);
+				mvaddstr_rogue(row, col + n + display_col,
+				    cp_width[ncp] == 2 ? "  " : " ");
+				move(row, col + n + display_col);
 			}
-		} else if (
-#if defined(EUC)
-		    (ch >= ' ' && !(ch & 0x80)) && (i < MAX_TITLE_LENGTH - 2)
-#else  /* Shift JIS */
-		    (ch >= ' ' && ch <= '~' || ch >= 0xa0 && ch <= 0xde) &&
-		    (i < MAX_TITLE_LENGTH - 2)
-#endif /* not EUC */
-		) {
+		} else if (ch >= ' ' && ch < 0x80 &&
+		    i < MAX_TITLE_LENGTH - 2) {
+			/* ASCII 印字可能文字 */
 			if ((ch != ' ') || (i > 0)) {
 				buf[i] = ch;
-				kanji[i] = 0;
+				cp_bytes[ncp] = 1;
+				cp_width[ncp] = 1;
+				ncp++;
+				display_col++;
 				if (do_echo) {
 					addch(ch);
 				}
 				i++;
 			}
-		} else if (
-#if defined(EUC)
-		    (ch & 0x80) && (i < MAX_TITLE_LENGTH - 3)
-#else  /* Shift JIS */
-		    (ch >= 0x81 && ch <= 0x9f || ch >= 0xe0 && ch <= 0xfc) &&
-		    (i < MAX_TITLE_LENGTH - 3)
-#endif /* not EUC */
-		) {
+		} else if ((ch & 0xC0) == 0xC0 &&
+		    i < MAX_TITLE_LENGTH - 5) {
+			/* UTF-8 マルチバイト文字の先頭バイト */
+			size_t expected;
+			if ((ch & 0xF8) == 0xF0)
+				expected = 4;
+			else if ((ch & 0xF0) == 0xE0)
+				expected = 3;
+			else
+				expected = 2;
+
 			buf[i] = ch;
-			buf[i + 1] = rgetchar();
-			kanji[i] = kanji[i + 1] = 1;
-			if (do_echo) {
-				addch_rogue(buf[i]);
-				addch_rogue(buf[i + 1]);
+			for (size_t b = 1; b < expected; b++) {
+				buf[i + b] = rgetchar();
 			}
-			i += 2;
+
+			utf8_int32_t cp;
+			utf8codepoint(&buf[i], &cp);
+			int w = wcwidth((wchar_t)cp);
+			if (w < 0)
+				w = 0;
+			cp_bytes[ncp] = (short)expected;
+			cp_width[ncp] = (short)w;
+			ncp++;
+			display_col += w;
+
+			if (do_echo) {
+				char tmp[5];
+				memcpy(tmp, &buf[i], expected);
+				tmp[expected] = '\0';
+				addstr(tmp);
+			}
+			i += expected;
 		}
 		refresh();
 	}
 	if (is_msg) {
 		check_message();
 	}
-	while ((i > 0) && (buf[i - 1] == ' ') && (kanji[i - 1] == 0)) {
+	/* 末尾のスペースを除去する */
+	while ((ncp > 0) && (buf[i - 1] == ' ') &&
+	    (cp_bytes[ncp - 1] == 1)) {
+		ncp--;
 		i--;
 	}
 	if (add_blank) {

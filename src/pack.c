@@ -416,17 +416,10 @@ call_it(void)
 	if (get_input_line(mesg[111], "", buf, id_table[obj->which_kind].title,
 		0, 1)) {
 		ch = *buf;
-#if defined(EUC)
-		if (ch >= ' ' && !(ch & 0x80)) { /* by Yasha */
-			/* alphabet or kana character; append 1 blank */
+		/* ASCII文字で始まる場合はスペースを追記する */
+		if (ch >= ' ' && !((unsigned char)ch & 0x80)) {
 			(void)strcat(buf, " ");
 		}
-#else  /* not EUC */
-		if (ch >= ' ' && ch <= '~' || ch >= 0xa0 && ch <= 0xde) {
-			/* alphabet or kana character; append 1 blank */
-			(void)strcat(buf, " ");
-		}
-#endif /* not EUC */
 		id_table[obj->which_kind].id_status = CALLED;
 		(void)strcpy(id_table[obj->which_kind].title, buf);
 	}

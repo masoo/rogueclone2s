@@ -140,3 +140,5 @@ Makefile
 /src/rogue
 # configure script
 config.h
+
+CLAUDE.md

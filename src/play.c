@@ -411,7 +411,7 @@ options(void)
 	char optbuf[BUFSIZ];
 
 	/* 現在の画面を保存する */
-	for (lines = 0; lines < ROGUE_LINES; lines++) {
+	for (lines = 1; lines < ROGUE_LINES - 1; lines++) {
 		for (columns = 0; columns < ROGUE_COLUMNS; columns++) {
 			descs[lines][columns] = mvinch_rogue(lines, columns);
 		}
@@ -435,7 +435,7 @@ options(void)
 			}
 			addstr_rogue(cbuf[n]);
 		}
-		pos[n] = strlen(optdesc[n]) + strlen(envopt[n].name) + 7;
+		pos[n] = utf8_display_width(optdesc[n]) + strlen(envopt[n].name) + 7;
 	}
 
 	/* オプションの設定 */
@@ -445,7 +445,7 @@ options(void)
 		if (envopt[i].bp) {
 			move(i, pos[i] + 2);
 		} else {
-			move(i, pos[i] + strlen(cbuf[i]) + 2);
+			move(i, pos[i] + utf8_display_width(cbuf[i]) + 2);
 		}
 		refresh();
 		ch = rgetchar();
@@ -518,21 +518,16 @@ options(void)
 
 	init_color_attr();
 
-	for (lines = 0; lines < ROGUE_LINES; lines++) {
-		move(lines, 0);
+	move(0, 0);
+	clrtoeol();
+	for (lines = 1; lines < ROGUE_LINES - 1; lines++) {
 		for (columns = 0; columns < ROGUE_COLUMNS; columns++) {
-			if (lines == ROGUE_LINES - 1 &&
-			    columns == ROGUE_COLUMNS - 1) {
-				continue;
-			}
-			if (lines < MIN_ROW || lines >= ROGUE_LINES - 1) {
-				addch_rogue(
-				    (unsigned char)descs[lines][columns]);
-			} else {
-				addch_rogue(descs[lines][columns]);
-			}
+			mvaddch_rogue(lines, columns,
+			    descs[lines][columns]);
 		}
 	}
+	move(ROGUE_LINES - 1, 0);
+	clrtoeol();
 	print_stats(STAT_ALL);
 
 	refresh();

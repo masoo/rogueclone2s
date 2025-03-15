@@ -35,14 +35,15 @@
 #include "save.h"
 #include "score.h"
 
-char login_name[30];
-char *nick_name = "";
+utf8_int8_t login_name[MAX_USER_NAME_LENGTH];
+utf8_int8_t *nick_name = "";
 char *rest_file = 0;
 bool cant_int = false, did_int = false, score_only = false, init_curses = false;
 bool save_is_interactive = true;
 bool show_skull = true;
 bool ask_quit = true;
-bool pass_go = true, do_restore = false;
+bool pass_go = true;
+bool do_restore = false;
 char org_dir[64], *game_dir = "";
 bool use_color = true;
 char *error_file = "rogue.esave";
@@ -55,7 +56,7 @@ extern bool jump;
 int
 init(int argc, char *argv[])
 {
-	char *pn;
+	utf8_int8_t *pn;
 	int seed;
 	WINDOW *main_window;
 
@@ -189,6 +190,7 @@ start_window(void)
 #if !defined(BAD_NONL)
 	nonl();
 #endif /* Not BAD_NONL */
+	curs_set(0);	/* カーソルを非表示にする */
 }
 
 void
@@ -401,43 +403,13 @@ env_get_value(char **s, char *e, bool add_blank, bool no_colon)
 	t = e;
 
 	while ((*e) && (*e != ',')) {
-#if defined(EUC)
-		/* EUC のマルチバイト文字は読み飛ばす */
-		if (*e & 0x80) {
-			if ((*e >= '\xA1' && *e <= '\xFE') &&
-			    (*(e + 1) >= '\xA1' && *(e + 1) <= '\xFE')) {
-				/* 漢字 */
-				e += 2;
-				i += 2;
-			} else if ((*e == '\x8E') &&
-				   ((*(e + 1) >= '\xA0') &&
-				       (*(e + 1) <= '\xDF'))) {
-				/* 半角カナ */
-				e += 2;
-				i += 2;
-			} else if ((*e == '\x8F') &&
-				   ((*(e + 1) >= '\xA1') &&
-				       (*(e + 1) <= '\xFE')) &&
-				   ((*(e + 2) >= '\xA1') &&
-				       (*(e + 2) <= '\xFE'))) {
-				/* 補助漢字 */
-				e += 3;
-				i += 3;
-			} else {
-				/* その他の領域 */
-				e += 1;
-				i += 1;
-			}
+		/* UTF-8 のマルチバイト文字は読み飛ばす */
+		if ((unsigned char)*e & 0x80) {
+			size_t cpsize = utf8codepointcalcsize(e);
+			e += cpsize;
+			i += cpsize;
 			continue;
 		}
-#else  /* not EUC */
-		/* Shift JIS のマルチバイト文字は読み飛ばす */
-		if (*e > '\200' && *e < '\240' || *e >= '\340' && *e < '\360') {
-			e += 2;
-			i += 2;
-			continue;
-		}
-#endif /* not EUC */
 		if (*e == ':' && no_colon) {
 			*e = ';'; /* ':' reserved for score file purposes */
 		}

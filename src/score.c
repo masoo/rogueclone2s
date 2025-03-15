@@ -285,7 +285,7 @@ mvaddbanner(int row, int col, int *ban)
 {
 	int i;
 # if defined(COLOR)
-	int rev = ' ' | (RGREEN << 8);
+	int rev = ' ' | (GREEN_REVERSE << 8);
 # endif /* COLOR */
 
 	move(row, col);
@@ -657,17 +657,9 @@ name_cmp(char *s1, char *s2)
 	int r;
 
 	while (s1[i] != ':') {
-		r = (unsigned char)s1[i];
-# if defined(EUC)
-		if (r & 0x80) {
-			i++;
-		}
-# else  /* Shift JIS */
-		if (r > 0x80 && r < 0xa0 || r >= 0xe0 && r < 0xf0) {
-			i++;
-		}
-# endif /* not EUC */
-		i++;
+		/* UTF-8 コードポイント単位でスキップする */
+		size_t cpsize = utf8codepointcalcsize(&s1[i]);
+		i += cpsize;
 	}
 	s1[i] = 0;
 	r = strcmp(s1, s2);
@@ -739,7 +731,7 @@ center(short row, char *buf)
 {
 	short margin;
 
-	margin = ((ROGUE_COLUMNS - strlen(buf)) / 2);
+	margin = ((ROGUE_COLUMNS - utf8_display_width(buf)) / 2);
 	mvaddstr_rogue(row, margin, buf);
 }
 

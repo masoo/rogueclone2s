@@ -741,7 +741,7 @@ list_object(object *obj, short max)
 		sprintf(descs[i], " %c) %s%s", i + 'a', id[i].real,
 		    name_of(obj));
 #endif
-		if ((n = strlen(descs[i])) > maxlen) {
+		if ((n = utf8_display_width(descs[i])) > maxlen) {
 			maxlen = n;
 		}
 	}

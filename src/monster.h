@@ -15,7 +15,7 @@ extern void move_mon_to(object *monster, short row, short col);
 extern int mon_can_go(object *monster, short row, short col);
 extern void wake_up(object *monster);
 extern void wake_room(short rn, bool entering, short row, short col);
-extern char *mon_name(object *monster);
+extern utf8_int8_t *mon_name(object *monster);
 extern int rogue_is_around(short row, short col);
 extern void wanderer(void);
 extern void show_monsters(void);

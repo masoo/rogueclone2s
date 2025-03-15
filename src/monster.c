@@ -32,7 +32,7 @@
 object level_monsters;
 bool mon_disappeared;
 
-char *m_names[] = {mesg[307], mesg[308], mesg[309], mesg[310], mesg[311],
+utf8_int8_t *m_names[] = {mesg[307], mesg[308], mesg[309], mesg[310], mesg[311],
 	mesg[312], mesg[313], mesg[314], mesg[315], mesg[316], mesg[317],
 	mesg[318], mesg[319], mesg[320], mesg[321], mesg[322], mesg[323],
 	mesg[324], mesg[325], mesg[326], mesg[327], mesg[328], mesg[329],
@@ -525,7 +525,7 @@ wake_room(short rn, bool entering, short row, short col)
 	}
 }
 
-char *
+utf8_int8_t *
 mon_name(object *monster)
 {
 	short ch;

@@ -8,40 +8,15 @@
 #include <string.h>
 
 #include "utf8.h"
+#include "wcwidth.h"
 
 #include "display.h"
 #include "machdep.h"
 #include "message.h"
 #include "rogue.h"
 
-/*
- * Ncurses Colors
- */
-enum rogue_colors {
-	WHITE = 1,
-	RED = 2,
-	GREEN = 3,
-	YELLOW = 4,
-	BLUE = 5,
-	MAGENTA = 6,
-	CYAN = 7,
-	WHITE_REVERSE = 8,
-	RED_REVERSE = 9,
-	GREEN_REVERSE = 10,
-	YELLOW_REVERSE = 11,
-	BLUE_REVERSE = 12,
-	MAGENTA_REVERSE = 13,
-	CYAN_REVERSE = 14
-};
-#define RWHITE 8
-#define RRED 9
-#define RGREEN 10
-#define RYELLOW 11
-#define RBLUE 12
-#define RMAGENTA 13
-#define RCYAN 14
 static int ch_attr[256];
-char *color_str = "cbmyg";
+utf8_int8_t *color_str = "cbmyg";
 extern bool use_color;
 
 /*
@@ -53,7 +28,7 @@ init_color_attr(void)
 {
 	char *chx, chy, *chz;
 	int i, j, k;
-	char color_type[] = "wrgybmcWRGYBMC";
+	utf8_int8_t color_type[] = "wrgybmcWRGYBMC";
 	int colormap_list[5];
 
 #if defined(COLOR)
@@ -143,42 +118,42 @@ init_color_attr(void)
 
 	/* 文字のカラーマップの作成 */
 	for (chx = "-|#+"; *chx; chx++) {
-		get_colorpair_number((signed)*chx, colormap_list[0]);
+		set_colorpair_number((signed)*chx, colormap_list[0]);
 	}
-	get_colorpair_number((signed)'.', colormap_list[1]);
+	set_colorpair_number((signed)'.', colormap_list[1]);
 	for (chy = 'A'; chy <= 'Z'; chy++) {
-		get_colorpair_number((signed)chy, colormap_list[2]);
+		set_colorpair_number((signed)chy, colormap_list[2]);
 	}
 	for (chz = "%!?/=)]^*:,"; *chz; chz++) {
-		get_colorpair_number((signed)*chz, colormap_list[3]);
+		set_colorpair_number((signed)*chz, colormap_list[3]);
 	}
-	get_colorpair_number(rogue.fchar, colormap_list[4]);
+	set_colorpair_number(rogue.fchar, colormap_list[4]);
 
 	if (!use_color) {
 		for (k = 0; k < 128; k++) {
-			get_colorpair_number(k, 0);
+			set_colorpair_number(k, 0);
 		}
 	}
 }
 
 /*
- * put_color_pair
+ * get_colorpair_number
  * 指定の文字のカラーペア番号を出力する
  */
 int
-put_colorpair_number(char ch)
+get_colorpair_number(utf8_int8_t ch)
 {
-	return ch_attr[(signed)ch];
+	return ch_attr[ch];
 }
 
 /*
- * get_color_pair
+ * set_colorpair_number
  * 指定の文字列のカラーペア番号を入力する
  */
 void
-get_colorpair_number(char ch, int num)
+set_colorpair_number(utf8_int8_t ch, int num)
 {
-	ch_attr[(signed)ch] = num;
+	ch_attr[ch] = num;
 }
 
 /*
@@ -190,7 +165,7 @@ int
 addch_rogue(const chtype ch)
 {
 #if defined(COLOR)
-	attrset(COLOR_PAIR(put_colorpair_number(ch)));
+	attrset(COLOR_PAIR(get_colorpair_number(ch)));
 #endif /* COLOR */
 	return addch(ch);
 }
@@ -204,7 +179,7 @@ int
 mvaddch_rogue(int y, int x, const chtype ch)
 {
 #if defined(COLOR)
-	attrset(COLOR_PAIR(put_colorpair_number(ch)));
+	attrset(COLOR_PAIR(get_colorpair_number(ch)));
 #endif /* COLOR */
 	return mvaddch(y, x, ch);
 }
@@ -263,4 +238,25 @@ mvinch_rogue(int y, int x)
 #else  /* not COLOR */
 	return mvinch(y, x);
 #endif /* not COLOR */
+}
+
+/*
+ * utf8_display_width
+ * UTF-8 文字列の表示幅（カラム数）を計算する
+ */
+int
+utf8_display_width(const char *str)
+{
+	int width = 0;
+	utf8_int32_t cp;
+
+	while (*str) {
+		str = (const char *)utf8codepoint(str, &cp);
+		if (cp == 0)
+			break;
+		int w = wcwidth((wchar_t)cp);
+		if (w > 0)
+			width += w;
+	}
+	return width;
 }

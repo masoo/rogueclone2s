@@ -47,7 +47,6 @@ if test "$enable_color" != "no"; then
 fi
 
 # Define constants
-AC_DEFINE([EUC], , [Define if you have the 'EUC'])
 AC_DEFINE([TOPSCO], , [Define if you have the 'TOPSCO'])
 AC_DEFINE([THROW_TUNNEL], , [Define if you have the 'THROW_TUNNEL'])
 
