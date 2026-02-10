@@ -208,7 +208,7 @@ mvaddstr_rogue(int y, int x, const char *str)
 {
 #if defined(COLOR)
 	attr_t attr_stats;
-	int color_stats;
+	short color_stats;
 
 	attr_get(&attr_stats, &color_stats, NULL);
 	if (attr_stats & A_REVERSE) {

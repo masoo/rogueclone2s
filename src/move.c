@@ -517,7 +517,7 @@ rest(int count)
 int
 gr_dir(void)
 {
-	return (*("jklhyubn" + get_rand(1, 8) - 1));
+	return ("jklhyubn"[get_rand(1, 8) - 1]);
 }
 
 void

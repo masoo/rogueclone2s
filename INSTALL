@@ -25,26 +25,28 @@ make install でインストールされる標準のインストール先ディ�
 トリ以下に格納されます。
 
 
-※MinGW でコンパイルする場合
-MinGW で Windows用のバイナリファイルを作成する場合は、コンパイルの方法が異なり
-ます。まず、 src/Makefile.am のファイル中に "-DEUC \" と表示されている行があり
-ますので、その行を削除します。次に、以下のコマンドを実行します。実行すると
-configure スクリプトが生成されます。
+※MSYS2 (MinGW) でコンパイルする場合
+MSYS2 の MINGW64 環境で Windows用のバイナリファイルを作成できます。
+まず、MSYS2 (https://www.msys2.org/) をインストールし、MINGW64 シェルを起動し
+ます。次に、必要なパッケージをインストールします。
 
-% autoscan ; aclocal ; autoconf ; autoheader ; automake --add-missing
+% pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-ncurses \
+    mingw-w64-x86_64-autotools mingw-w64-x86_64-pkgconf \
+    autoconf automake make
 
-続いて、CFLAGS の環境変数を設定します。
+以下を実行してビルドします。
 
-% export CFLAGS="-O2 --input-charset=euc-jp --exec-charset=cp932"
-
-最後に、以下を実行します。
-
+% autoreconf -i
 % ./configure
 % make
 
-src/rogue.exe が実行ファイルとなります。実行には Shift-JIS 形式のメッセージフ
-ァイルが必要になります。この配布物にあるメッセージファイル（ msg/mesg）は
-EUC-JP 形式なので、Shift-JIS に変換して使用しましょう。
+src/rogue.exe が実行ファイルとなります。実行にはメッセージファイルと依存 DLL
+が必要です。以下のように必要なファイルを集めてください。
+
+% mkdir -p dist
+% cp src/rogue.exe dist/
+% ldd src/rogue.exe | grep mingw | awk '{print $3}' | xargs -I{} cp {} dist/
+% cp msg/mesg msg/mesg_E dist/
 
 
 以上。

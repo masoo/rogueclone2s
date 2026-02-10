@@ -79,8 +79,9 @@ save_into_file(char *sfile)
 	char *hptr;
 	rogue_time rt_buf;
 
-	if (org_dir && *org_dir) {
-		chdir(org_dir);
+	if (*org_dir) {
+		if (chdir(org_dir) == -1)
+			clean_up("ディレクトリを変更できません。");
 	}
 	if (sfile[0] == '~') {
 		if ((hptr = md_ghome())) {
@@ -144,7 +145,8 @@ save_into_file(char *sfile)
 
 err_return:;
 	if (game_dir && *game_dir) {
-		chdir(game_dir);
+		if (chdir(game_dir) == -1)
+			clean_up("ディレクトリを変更できません。");
 	}
 }
 
@@ -158,8 +160,9 @@ restore(char *fname)
 	char tbuf[40];
 	int new_file_id, saved_file_id;
 
-	if (org_dir && *org_dir) {
-		chdir(org_dir);
+	if (*org_dir) {
+		if (chdir(org_dir) == -1)
+			clean_up("ディレクトリを変更できません。");
 	}
 
 	if (((new_file_id = md_get_file_id(fname)) == -1) ||
@@ -234,7 +237,8 @@ restore(char *fname)
 	ring_stats(0);
 
 	if (game_dir && *game_dir) {
-		chdir(game_dir);
+		if (chdir(game_dir) == -1)
+			clean_up("ディレクトリを変更できません。");
 	}
 }
 
@@ -250,6 +254,7 @@ write_pack(object *pack, FILE *fp)
 	}
 	object t;
 	t.ichar = t.what_is = 0;
+	t.damage = "";
 	write_obj(&t, fp);
 }
 
@@ -424,33 +429,33 @@ has_been_touched(rogue_time *saved_time, rogue_time *mod_time)
 void
 write_obj(object *obj, FILE *fp)
 {
-	fwrite(&obj->m_flags, sizeof(obj->m_flags), 1, fp);
+	r_write(fp, (char *)&obj->m_flags, sizeof(obj->m_flags));
 
 	int32_t damage_size = utf8size(obj->damage);
-	fwrite(&damage_size, sizeof(damage_size), 1, fp);
-	fwrite(obj->damage, sizeof(utf8_int8_t), damage_size, fp);
+	r_write(fp, (char *)&damage_size, sizeof(damage_size));
+	r_write(fp, (char *)obj->damage, damage_size * sizeof(utf8_int8_t));
 
-	fwrite(&obj->quantity, sizeof(obj->quantity), 1, fp);
-	fwrite(&obj->ichar, sizeof(obj->ichar), 1, fp);
-	fwrite(&obj->kill_exp, sizeof(obj->kill_exp), 1, fp);
-	fwrite(&obj->is_protected, sizeof(obj->is_protected), 1, fp);
-	fwrite(&obj->is_cursed, sizeof(obj->is_cursed), 1, fp);
-	fwrite(&obj->class, sizeof(obj->class), 1, fp);
-	fwrite(&obj->identified, sizeof(obj->identified), 1, fp);
-	fwrite(&obj->which_kind, sizeof(obj->which_kind), 1, fp);
-	fwrite(&obj->o_row, sizeof(obj->o_row), 1, fp);
-	fwrite(&obj->o_col, sizeof(obj->o_col), 1, fp);
-	fwrite(&obj->o, sizeof(obj->o), 1, fp);
-	fwrite(&obj->row, sizeof(obj->row), 1, fp);
-	fwrite(&obj->col, sizeof(obj->col), 1, fp);
-	fwrite(&obj->d_enchant, sizeof(obj->d_enchant), 1, fp);
-	fwrite(&obj->quiver, sizeof(obj->quiver), 1, fp);
-	fwrite(&obj->trow, sizeof(obj->trow), 1, fp);
-	fwrite(&obj->tcol, sizeof(obj->tcol), 1, fp);
-	fwrite(&obj->hit_enchant, sizeof(obj->hit_enchant), 1, fp);
-	fwrite(&obj->what_is, sizeof(obj->what_is), 1, fp);
-	fwrite(&obj->picked_up, sizeof(obj->picked_up), 1, fp);
-	fwrite(&obj->in_use_flags, sizeof(obj->in_use_flags), 1, fp);
+	r_write(fp, (char *)&obj->quantity, sizeof(obj->quantity));
+	r_write(fp, (char *)&obj->ichar, sizeof(obj->ichar));
+	r_write(fp, (char *)&obj->kill_exp, sizeof(obj->kill_exp));
+	r_write(fp, (char *)&obj->is_protected, sizeof(obj->is_protected));
+	r_write(fp, (char *)&obj->is_cursed, sizeof(obj->is_cursed));
+	r_write(fp, (char *)&obj->class, sizeof(obj->class));
+	r_write(fp, (char *)&obj->identified, sizeof(obj->identified));
+	r_write(fp, (char *)&obj->which_kind, sizeof(obj->which_kind));
+	r_write(fp, (char *)&obj->o_row, sizeof(obj->o_row));
+	r_write(fp, (char *)&obj->o_col, sizeof(obj->o_col));
+	r_write(fp, (char *)&obj->o, sizeof(obj->o));
+	r_write(fp, (char *)&obj->row, sizeof(obj->row));
+	r_write(fp, (char *)&obj->col, sizeof(obj->col));
+	r_write(fp, (char *)&obj->d_enchant, sizeof(obj->d_enchant));
+	r_write(fp, (char *)&obj->quiver, sizeof(obj->quiver));
+	r_write(fp, (char *)&obj->trow, sizeof(obj->trow));
+	r_write(fp, (char *)&obj->tcol, sizeof(obj->tcol));
+	r_write(fp, (char *)&obj->hit_enchant, sizeof(obj->hit_enchant));
+	r_write(fp, (char *)&obj->what_is, sizeof(obj->what_is));
+	r_write(fp, (char *)&obj->picked_up, sizeof(obj->picked_up));
+	r_write(fp, (char *)&obj->in_use_flags, sizeof(obj->in_use_flags));
 }
 
 /*
@@ -460,33 +465,33 @@ write_obj(object *obj, FILE *fp)
 void
 read_obj(object *obj, FILE *fp)
 {
-	fread(&obj->m_flags, sizeof(obj->m_flags), 1, fp);
+	r_read(fp, (char *)&obj->m_flags, sizeof(obj->m_flags));
 
 	int32_t damage_size = 0;
-	fread(&damage_size, sizeof(damage_size), 1, fp);
+	r_read(fp, (char *)&damage_size, sizeof(damage_size));
 	obj->damage = malloc(damage_size * sizeof(utf8_int8_t));
-	fread(obj->damage, sizeof(utf8_int8_t), damage_size, fp);
+	r_read(fp, (char *)obj->damage, damage_size * sizeof(utf8_int8_t));
 
-	fread(&obj->quantity, sizeof(obj->quantity), 1, fp);
-	fread(&obj->ichar, sizeof(obj->ichar), 1, fp);
-	fread(&obj->kill_exp, sizeof(obj->kill_exp), 1, fp);
-	fread(&obj->is_protected, sizeof(obj->is_protected), 1, fp);
-	fread(&obj->is_cursed, sizeof(obj->is_cursed), 1, fp);
-	fread(&obj->class, sizeof(obj->class), 1, fp);
-	fread(&obj->identified, sizeof(obj->identified), 1, fp);
-	fread(&obj->which_kind, sizeof(obj->which_kind), 1, fp);
-	fread(&obj->o_row, sizeof(obj->o_row), 1, fp);
-	fread(&obj->o_col, sizeof(obj->o_col), 1, fp);
-	fread(&obj->o, sizeof(obj->o), 1, fp);
-	fread(&obj->row, sizeof(obj->row), 1, fp);
-	fread(&obj->col, sizeof(obj->col), 1, fp);
-	fread(&obj->d_enchant, sizeof(obj->d_enchant), 1, fp);
-	fread(&obj->quiver, sizeof(obj->quiver), 1, fp);
-	fread(&obj->trow, sizeof(obj->trow), 1, fp);
-	fread(&obj->tcol, sizeof(obj->tcol), 1, fp);
-	fread(&obj->hit_enchant, sizeof(obj->hit_enchant), 1, fp);
-	fread(&obj->what_is, sizeof(obj->what_is), 1, fp);
-	fread(&obj->picked_up, sizeof(obj->picked_up), 1, fp);
-	fread(&obj->in_use_flags, sizeof(obj->in_use_flags), 1, fp);
+	r_read(fp, (char *)&obj->quantity, sizeof(obj->quantity));
+	r_read(fp, (char *)&obj->ichar, sizeof(obj->ichar));
+	r_read(fp, (char *)&obj->kill_exp, sizeof(obj->kill_exp));
+	r_read(fp, (char *)&obj->is_protected, sizeof(obj->is_protected));
+	r_read(fp, (char *)&obj->is_cursed, sizeof(obj->is_cursed));
+	r_read(fp, (char *)&obj->class, sizeof(obj->class));
+	r_read(fp, (char *)&obj->identified, sizeof(obj->identified));
+	r_read(fp, (char *)&obj->which_kind, sizeof(obj->which_kind));
+	r_read(fp, (char *)&obj->o_row, sizeof(obj->o_row));
+	r_read(fp, (char *)&obj->o_col, sizeof(obj->o_col));
+	r_read(fp, (char *)&obj->o, sizeof(obj->o));
+	r_read(fp, (char *)&obj->row, sizeof(obj->row));
+	r_read(fp, (char *)&obj->col, sizeof(obj->col));
+	r_read(fp, (char *)&obj->d_enchant, sizeof(obj->d_enchant));
+	r_read(fp, (char *)&obj->quiver, sizeof(obj->quiver));
+	r_read(fp, (char *)&obj->trow, sizeof(obj->trow));
+	r_read(fp, (char *)&obj->tcol, sizeof(obj->tcol));
+	r_read(fp, (char *)&obj->hit_enchant, sizeof(obj->hit_enchant));
+	r_read(fp, (char *)&obj->what_is, sizeof(obj->what_is));
+	r_read(fp, (char *)&obj->picked_up, sizeof(obj->picked_up));
+	r_read(fp, (char *)&obj->in_use_flags, sizeof(obj->in_use_flags));
 	obj->next_object = NULL;
 }

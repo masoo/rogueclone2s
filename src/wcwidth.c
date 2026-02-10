@@ -15,6 +15,12 @@
  * https://github.com/termux/termux-packages/tree/master/packages/libandroid-support
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#ifndef HAVE_WCWIDTH
+
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -541,3 +547,5 @@ int wcwidth(wchar_t ucs) {
 
         return intable(WIDE_EASTASIAN, sizeof(WIDE_EASTASIAN)/sizeof(struct width_interval), ucs) ? 2 : 1;
 }
+
+#endif /* !HAVE_WCWIDTH */

@@ -587,15 +587,12 @@ confuse(void)
 void
 unconfuse(void)
 {
-	char msg[80];
-
 	confused = 0;
 	if (halluc) {
-		sprintf(msg, mesg[276]);
+		message(mesg[276], 1);
 	} else {
-		sprintf(msg, mesg[277]);
+		message(mesg[277], 1);
 	}
-	message(msg, 1);
 }
 
 void

@@ -2,38 +2,41 @@
 
 説明に @ を付記したものについては「データ分離版ローグクローンII」と変更がないファイルです。
 
+.clang-format             -- clang-format 設定ファイル
+.github/workflows/ci.yml  -- GitHub Actions CI 設定
+.gitignore                -- gitignore 設定
 AUTHORS                   -- 著作者一覧（AUTHORS）
 COPYING                   -- 使用許諾書（LICENSE）
 ChangeLog                 -- 変更履歴
 ChangeLog-0               -- rogueclone2 作成以前の変更履歴のまとめ
 INSTALL                   -- インストール方法
 MANIFEST                  -- 配布ファイル一覧（このファイル）
-Makefile.am
-Makefile.in
+Makefile.am               -- Automake ビルド定義
+Makefile.in               -- Automake 生成ファイル
 NEWS                      -- NEWS
 README                    -- rogueclone2s の説明
 TODO                      -- TODO
-aclocal.m4
-compile
-config.h.in
-configure
-configure.ac
-depcomp
-install-sh
-missing
-doc/Makefile.am
-doc/Makefile.in
+aclocal.m4                -- Autoconf マクロ定義
+compile                   -- Autotools 補助スクリプト
+config.h.in               -- Autoconf 生成ヘッダテンプレート
+configure                 -- Autoconf 生成 configure スクリプト
+configure.ac              -- Autoconf ビルド設定
+depcomp                   -- Autotools 補助スクリプト
+install-sh                -- Autotools 補助スクリプト
+missing                   -- Autotools 補助スクリプト
+doc/Makefile.am           -- Automake ビルド定義
+doc/Makefile.in           -- Automake 生成ファイル
 doc/options.doc           --起動時オプション、環境オプションの説明
 doc/rogue.doc             --ローグの遊び方についてのドキュメント
-man/Makefile.am
-man/Makefile.in
+man/Makefile.am           -- Automake ビルド定義
+man/Makefile.in           -- Automake 生成ファイル
 man/rogue.man             --man ファイル
-msg/Makefile.am
-msg/Makefile.in
+msg/Makefile.am           -- Automake ビルド定義
+msg/Makefile.in           -- Automake 生成ファイル
 msg/mesg                  --@オリジナルの日本語版ローグ・クローン２のメッセージ
 msg/mesg_E                --@オリジナルの英語版ローグ・クローン２のメッセージ
-src/Makefile.am
-src/Makefile.in
+src/Makefile.am           -- Automake ビルド定義
+src/Makefile.in           -- Automake 生成ファイル
 src/display.c             -- rogueclone2s のソースファイル
 src/display.h             -- rogueclone2s のソースファイル
 src/hit.c                 -- rogueclone2s のソースファイル
@@ -60,6 +63,7 @@ src/pack.c                -- rogueclone2s のソースファイル
 src/pack.h                -- rogueclone2s のソースファイル
 src/play.c                -- rogueclone2s のソースファイル
 src/play.h                -- rogueclone2s のソースファイル
+src/playmenu.c            -- rogueclone2s のソースファイル（レガシー）
 src/random.c              -- rogueclone2s のソースファイル
 src/random.h              -- rogueclone2s のソースファイル
 src/ring.c                -- rogueclone2s のソースファイル
@@ -80,5 +84,7 @@ src/trap.h                -- rogueclone2s のソースファイル
 src/use.c                 -- rogueclone2s のソースファイル
 src/use.h                 -- rogueclone2s のソースファイル
 src/utf8.h                -- https://github.com/sheredom/utf8.h の utf8 ライブラリ
+src/wcwidth.c             -- https://github.com/termux/wcwidth の外部ライブラリ
+src/wcwidth.h             -- https://github.com/termux/wcwidth の外部ライブラリ
 src/zap.c                 -- rogueclone2s のソースファイル
 src/zap.h                 -- rogueclone2s のソースファイル

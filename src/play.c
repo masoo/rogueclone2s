@@ -545,15 +545,18 @@ doshell(void)
 	refresh();
 	stop_window();
 	if (*org_dir) {
-		chdir(org_dir);
+		if (chdir(org_dir) == -1)
+			clean_up("ディレクトリを変更できません。");
 	}
 	md_ignore_signals();
-	printf(mesg[157]);
+	printf("%s", mesg[157]);
 	printf("\r\n");
-	system(cmd);
+	if (system(cmd) == -1)
+		printf("シェルを起動できませんでした\r\n");
 	md_heed_signals();
 	if (game_dir && *game_dir) {
-		chdir(game_dir);
+		if (chdir(game_dir) == -1)
+			clean_up("ディレクトリを変更できません。");
 	}
 	start_window();
 	wrefresh(curscr);

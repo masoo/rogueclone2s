@@ -1,3 +1,6 @@
+2026-02-11	FUNABARA Masao
+	* 内部処理の UTF-8 化の修正
+
 2025-02-09  FUNABARA Masao
 	* ファイルの文字エンコーディングを UTF-8 に変更
 	* 内部処理の UTF-8 化

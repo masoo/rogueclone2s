@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.71])
-AC_INIT([rogueclone2s],[7.0-preview1],[https://github.com/masoo/rogueclone2s])
+AC_INIT([rogueclone2s],[7.0],[https://github.com/masoo/rogueclone2s])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -10,12 +10,31 @@ AC_CONFIG_HEADERS([config.h])
 # Checks for programs.
 AC_PROG_CC
 
+# Detect host platform.
+AC_CANONICAL_HOST
+
 # Checks for libraries.
-AC_CHECK_LIB([ncursesw], [initscr])
+AS_CASE([$host_os],
+  [haiku*], [AC_CHECK_LIB([ncurses], [initscr])],
+  [AC_CHECK_LIB([ncursesw], [initscr])])
+AC_CHECK_LIB([tinfow], [cbreak], [], [AC_CHECK_LIB([tinfo], [cbreak])])
 AC_CHECK_LIB([kernel32], [_sleep])
 
+# MSYS2/MINGW64: curses.h が ncursesw/ サブディレクトリにあるため
+# ncursesw6-config でインクルードパスを取得
+AS_CASE([$host_os],
+  [msys*|mingw*], [
+    AC_PATH_PROG([NCURSESW_CONFIG], [ncursesw6-config], [no])
+    AS_IF([test "x$NCURSESW_CONFIG" != "xno"],
+      [CURSES_CFLAGS=`$NCURSESW_CONFIG --cflags`])
+  ])
+AC_SUBST([CURSES_CFLAGS])
+
 # Checks for required header files.
+save_CPPFLAGS="$CPPFLAGS"
+CPPFLAGS="$CPPFLAGS $CURSES_CFLAGS"
 AC_CHECK_HEADERS([curses.h], [], [AC_MSG_ERROR([curses.h is required but not found.])])
+CPPFLAGS="$save_CPPFLAGS"
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h sgtty.h stdlib.h stdint.h string.h strings.h sys/file.h sys/time.h termio.h unistd.h windows.h])
@@ -26,6 +45,7 @@ AC_C_CONST
 AC_STRUCT_TM
 AC_TYPE_SIZE_T
 AC_TYPE_INT8_T
+AC_TYPE_INT16_T
 AC_TYPE_INT32_T
 AC_TYPE_UINT8_T
 AC_TYPE_UINT32_T
@@ -35,7 +55,8 @@ AC_PROG_GCC_TRADITIONAL
 AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
 AC_FUNC_STAT
-AC_CHECK_FUNCS([assume_default_colors attr_get chdir getcwd getenv getlogin memset putenv setenv setlocale sleep strchr])
+AC_CHECK_FUNCS([assume_default_colors attr_get chdir getcwd getenv getlogin memset putenv setenv setlocale sleep strchr wcwidth])
+AC_CHECK_DECLS([getlogin], [], [], [#include <unistd.h>])
 
 # Configuration options
 AC_ARG_ENABLE([color],

@@ -1,5 +1,7 @@
 bin_PROGRAMS = rogue
 
+rogue_CFLAGS = $(CURSES_CFLAGS)
+
 rogue_SOURCES = \
 	rogue.h \
 	display.c display.h \
@@ -25,4 +27,5 @@ rogue_SOURCES = \
 	trap.c trap.h \
 	use.c use.h \
 	utf8.h \
+	wcwidth.c wcwidth.h \
 	zap.c zap.h

@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libncurses-dev
+
+      - name: Build
+        run: autoreconf -i && ./configure && make
+
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-ncurses
+            mingw-w64-ucrt-x86_64-autotools
+            mingw-w64-ucrt-x86_64-pkgconf
+            autoconf
+            automake
+            make
+
+      - name: Build
+        run: autoreconf -i && ./configure && make
+
+      - name: Collect artifacts
+        run: |
+          mkdir -p dist
+          cp src/rogue.exe dist/
+          ldd src/rogue.exe | grep ucrt64 | awk '{print $3}' | xargs -I{} cp {} dist/
+          cp msg/mesg msg/mesg_E dist/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rogue-windows-x86_64
+          path: dist/
+
+  build-freebsd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build on FreeBSD
+        uses: vmactions/freebsd-vm@v1
+        with:
+          usesh: true
+          prepare: pkg install -y autoconf automake
+          run: autoreconf -i && ./configure && make
+
+  build-haiku:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build on Haiku
+        uses: cross-platform-actions/action@v0.32.0
+        with:
+          operating_system: haiku
+          version: "r1beta5"
+          run: |
+            pkgman install -y ncurses6_devel autoconf automake make cmd:gcc
+            autoreconf -i && ./configure && make
+            mkdir -p dist
+            cp src/rogue dist/
+            cp msg/mesg msg/mesg_E dist/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rogue-haiku-x86_64
+          path: dist/

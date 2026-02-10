@@ -203,9 +203,9 @@ typedef struct sid {
 struct obj {                    /* comment is monster meaning */
 	uint32_t m_flags;       /* monster flags */
 	utf8_int8_t *damage;    /* damage it does */
-	int8_t quantity;        /* hit points to kill */
+	int16_t quantity;       /* hit points to kill */
 	int8_t ichar;           /* 'A' is for aquatar */
-	int8_t kill_exp;        /* exp for killing it */
+	int16_t kill_exp;       /* exp for killing it */
 	int8_t is_protected;    /* level starts */
 	int8_t is_cursed;       /* level ends */
 	int8_t class;           /* chance of hitting you */

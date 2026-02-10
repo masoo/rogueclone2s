@@ -25,7 +25,8 @@ typedef struct srogue_time rogue_time;
 // # define attr_get
 // #endif
 
-#if !defined(HAVE_GETLOGIN)
+
+#if defined(HAVE_GETLOGIN) && !HAVE_DECL_GETLOGIN
 extern char *getlogin(void);
 #endif
 
@@ -46,5 +47,6 @@ extern char *md_malloc(int n);
 extern int md_gseed(void);
 extern void md_exit(int status);
 extern char *md_ghome(void);
+extern void md_setup_console(void);
 
 #endif /* not MACHDEP_H */

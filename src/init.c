@@ -12,7 +12,6 @@
 
 #include <curses.h>
 #include <getopt.h>
-#include <locale.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,7 +59,9 @@ init(int argc, char *argv[])
 	int seed;
 	WINDOW *main_window;
 
-	getcwd(org_dir, 64);
+	if (getcwd(org_dir, sizeof(org_dir)) == NULL) {
+		org_dir[0] = '\0';
+	}
 	do_args(argc, argv);
 	do_opts();
 
@@ -74,7 +75,7 @@ init(int argc, char *argv[])
 	}
 
 	/* init curses */
-	setlocale(LC_ALL, "");
+	md_setup_console();
 	main_window = initscr();
 	if (main_window == NULL) {
 		return 1;
@@ -175,7 +176,7 @@ clean_up(char *estr)
 		}
 		endwin();
 		printf("\r\n");
-		printf(estr);
+		printf("%s", estr);
 		printf("\r\n");
 	}
 	md_exit(0);
@@ -386,7 +387,8 @@ set_opts(char *env)
 	}
 
 	if (game_dir && *game_dir) {
-		chdir(game_dir);
+		if (chdir(game_dir) == -1)
+			clean_up("ディレクトリを変更できません。");
 	}
 }
 

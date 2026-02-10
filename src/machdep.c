@@ -10,10 +10,16 @@
  *
  */
 
+#if defined(HAVE_CONFIG_H)
+# include "config.h"
+#endif
+
+#include <locale.h>
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/file.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -31,16 +37,58 @@
 #include "machdep.h"
 #include "rogue.h"
 
+
 /*
- * getlogin 関数が存在しない時のでっちあげ関数
+ * md_setup_console():
+ *
+ * コンソールのロケールを UTF-8 に設定する。
+ * Windows ではコンソールのコードページも UTF-8 に変更する。
  */
-#if !defined(HAVE_GETLOGIN)
-char *
-getlogin(void)
+void
+md_setup_console(void)
 {
-	return NULL;
+#if defined(HAVE_WINDOWS_H)
+	SetConsoleOutputCP(CP_UTF8);
+	SetConsoleCP(CP_UTF8);
+#endif
+	/* 環境変数からロケール設定。UTF-8 の場合のみ採用 */
+	{
+		char *loc = setlocale(LC_ALL, "");
+		if (loc != NULL &&
+		    (strstr(loc, "UTF-8") != NULL ||
+		     strstr(loc, "utf8") != NULL)) {
+			return;
+		}
+	}
+	/* UTF-8 ロケールのフォールバック */
+	if (setlocale(LC_ALL, "C.UTF-8") != NULL) {
+		return;
+	}
+#if defined(HAVE_WINDOWS_H)
+	/* UCRT 環境用フォールバック */
+	if (setlocale(LC_ALL, ".UTF-8") != NULL) {
+		return;
+	}
+	/*
+	 * 上記すべて失敗した場合（MinGW/msvcrt など）:
+	 * ncursesw は LANG 環境変数から直接 UTF-8 を検出できるため、
+	 * UTF-8 を示す環境変数がなければ設定しておく。
+	 */
+	{
+		const char *lc;
+		lc = getenv("LC_ALL");
+		if (lc == NULL)
+			lc = getenv("LC_CTYPE");
+		if (lc == NULL)
+			lc = getenv("LANG");
+		if (lc == NULL ||
+		    (strstr(lc, "UTF-8") == NULL &&
+		     strstr(lc, "utf8") == NULL))
+			putenv("LANG=C.UTF-8");
+	}
+	setlocale(LC_ALL, "");
+#endif
 }
-#endif /* HAVE_GETLOGIN */
 
 /* md_heed_signals():
  *
@@ -233,10 +281,12 @@ md_gln(void)
 	}
 
 	/* 上記が存在しないなら getlogin 関数ログイン名を取得する */
+#if defined(HAVE_GETLOGIN)
 	name = getlogin();
 	if (name != NULL) {
 		return name;
 	}
+#endif
 
 	/* 上記が存在しないなら環境変数 USER を取得する */
 	name = getenv("USER");
@@ -255,6 +305,7 @@ md_gln(void)
 char *
 md_ghome(void)
 {
+	static char buf[ROGUE_PATH_MAX];
 	char *home;
 
 	/* 環境変数 HOME が設定されているなら最優先で取得する */
@@ -264,8 +315,10 @@ md_ghome(void)
 	}
 
 	/* 上記環境変数が取得できないならば、カレントディレクトリを取得する */
-	getcwd(home, ROGUE_PATH_MAX);
-	return home;
+	if (getcwd(buf, sizeof(buf)) != NULL) {
+		return buf;
+	}
+	return NULL;
 }
 
 /* md_malloc()
@@ -279,8 +332,6 @@ md_ghome(void)
 char *
 md_malloc(int n)
 {
-	void *malloc();
-
 	return malloc(n);
 }
 
@@ -318,7 +369,9 @@ md_gseed(void)
 void
 md_exit(int status)
 {
-	if (org_dir && *org_dir)
-		chdir(org_dir);
+	if (*org_dir) {
+		if (chdir(org_dir) == -1)
+			clean_up("ディレクトリを変更できません。");
+	}
 	exit(status);
 }
