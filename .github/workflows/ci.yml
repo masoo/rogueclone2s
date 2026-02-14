@@ -41,6 +41,10 @@ jobs:
       - name: Build
         run: autoreconf -i && ./configure && make
 
+      - name: Get version
+        id: version
+        run: echo "version=$(sed -n 's/^AC_INIT(\[rogueclone2s\],\[\([^]]*\)\].*/\1/p' configure.ac)" >> "$GITHUB_OUTPUT"
+
       - name: Collect artifacts
         run: |
           mkdir -p dist
@@ -50,7 +54,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: rogue-windows-x86_64
+          name: rogueclone2s-${{ steps.version.outputs.version }}-windows-x86_64
           path: dist/
 
   build-freebsd:
@@ -70,6 +74,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Get version
+        id: version
+        run: echo "version=$(sed -n 's/^AC_INIT(\[rogueclone2s\],\[\([^]]*\)\].*/\1/p' configure.ac)" >> "$GITHUB_OUTPUT"
+
       - name: Build on Haiku
         uses: cross-platform-actions/action@v0.32.0
         with:
@@ -84,5 +92,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: rogue-haiku-x86_64
+          name: rogueclone2s-${{ steps.version.outputs.version }}-haiku-x86_64
           path: dist/
