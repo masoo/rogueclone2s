@@ -8,13 +8,13 @@
 1	"Message English version"
 持ち物の種類
 2	"food "		"食糧"
-3	"scroll%s "	"巻き物"
-4	"potion%s "	"水薬"
+3	"scroll "	"巻き物"
+4	"potion "	"水薬"
 5	"wand "		"つえ"
 6	"staff "	""
 7	"armor "	"よろい"
 8	"ring "		"指輪"
-9	"amlet "	"魔除け"
+9	"amulet "	"魔除け"
 file: main.c
 10	"Hello %s, welcome to the Dungeons of Doom..." "やあ、%s。 運命の洞窟へようこそ..."
 
@@ -54,13 +54,13 @@ inventory()
 26	"Your pack is empty"		"持ちものは、１つも持っていない。"
 get_desc()
 27	"The Amulet of Yendor "		"イェンダーの魔除け"
-28	"%d pieces of gold"		"個の金塊"
-29	"%d "	(よろい以外のもの)	"本の"
-30	"%d rations of "		"袋の"	(食糧)
-31	"Some "	(１袋のとき)	"個の"	(こけもも)
-32	"some "	(１袋のとき)	"つの"	(その他の持ちもの)
-33	"titled "			"という"	(巻き物)
-34	"called "  (discoverd()では使われない) "と呼ぶ"	(巻き物、水薬、杖、指輪) (discoverd() でも)
+28	" pieces of gold"		"個の金塊"
+29	" "	(よろい以外のもの)	"本の"
+30	" rations of "		"袋の"	(食糧)
+31	" "	(１袋のとき)	"個の"	(こけもも)
+32	" "	(１袋のとき)	"つの"	(その他の持ちもの)
+33	" "			"という"	(巻き物)
+34	" "  (discoverd()では使われない) "と呼ぶ"	(巻き物、水薬、杖、指輪) (discoverd() でも)
 35	"(weapon in hand)"	"（使っている）"	(武器を)
 36	"(being worn)"		"（着ている）"	(よろいを)
 37	"(on left hand)"	"（左手）"	(指輪)
@@ -88,7 +88,7 @@ check_up()
 51	"Your way is magically blocked"	"階段は何者かの手によってふさがれている。"
 52	"You feel a wrenching sensation in your gut"	"胃袋をねじ切られるような気分がした。"
 add_exp()
-53	"Welcome to level %d"	英語のときは %d	"レベル%sへようこそ。"
+53	"Welcome to level %s"	英語のときも %s	"レベル%sへようこそ。"
 show_average_hp()
 54	"R-Hp: %d.%02d, E-Hp: %d.%02d (!: %d, V: %d)"	"基本上昇率: %d.%02d, 実効上昇率: %d.%02d (!: %d, V: %d)"
 
@@ -119,7 +119,7 @@ one_move_rogue()
 67	"You are being held"	"怪物につかまえられて、逃げられない。"
 68	"You are still stuck in the bear trap"	"熊のわなが、なかなかはずれない。"
 69	""	(英語では無意味)	"を手に入れた。"
-70	"Moved onto "			"の上にいる。"
+70	" is here."			"の上にいる。"
 check_hunger()
 71	"Hungry"	"空腹"	(4バイトまで、英語では6文字まで）
 72	"Hungry"	"空腹になってきた。"
@@ -152,18 +152,18 @@ drop()
 89	"You have nothing to drop"	"落とす物を持っていない。"
 90	"Drop what?"			"落とす物は？"
 91	"No such item."			"それは持っていない。"
-92	"Dropped "			"を落とした。"
+92	" dropped."			"を落とした。"
 pack_letter()
 93	"Nothing appropriate"		"それは１つも持っていない。"
 take_off()
-94	"Was wearing "		"を脱いだ。"
+94	" taken off."		"を脱いだ。"
 95	"Not wearing any"	"よろいを着ていない。"
 wear()
 96	"You're already wearing some"	"他のよろいを着ている。"
 97	"Wear what?"			"どのよろいを？"
 98	"No such item."			"それは持っていない。"
 99	"You can't wear that"		"それはよろいではない。"
-100	"Wearing "			"を身につけた。"
+100	" put on."			"を身につけた。"
 wield()
 101	"Wield what?"		"どの武器を？"
 102	"No such item."		"それは持っていない。"
@@ -171,7 +171,7 @@ wield()
 104	"armor"			"よろい"
 105	"rings"			"指輪"
 106	"In use"		"その武器はもう使っている。"
-107	"Wielding "		"に持ちかえた。"
+107	" wielded."		"に持ちかえた。"
 call_it()
 108	"Call what?"	"呼び名をつけるものは？"
 109	"No such item."	"それは持っていない。"
@@ -188,7 +188,7 @@ toplevel
 ヘルプメッセージ
 116	"?		print help			>   go down a staircase"
 117	"/		identify object			<   go up a staircase"
-118	"h, j, k, l	left, down, up, left		.   rest for a turn"
+118	"h, j, k, l	left, down, up, right		.   rest for a turn"
 119	"y, u, b, n	move diagonally			,   pick something up"
 120	"<SHIFT><dir>	run that way			s   search trap/secret door"
 121	"<CTRL><dir>	run till adjacent		i   inventory"
@@ -213,21 +213,22 @@ toplevel
 138	"You"
 139	"floor of a room"
 140	"wall of a room"
-141	"wall of a room", "door"
-142	"passage"
-143	"staircase"
-144	"secret trap"
-145	"a pile or pot of gold"
-146	"food ration"
-147	"an armor"
-148	"a weapon"
-149	"a scroll"
+141	"wall of a room"
+142	"door"
+143	"passage"
+144	"staircase"
+145	"secret trap"
+146	"a pile or pot of gold"
+147	"food ration"
+148	"an armor"
+149	"a weapon"
+150	"a scroll"
 151	"a potion"
 152	"a wand or a staff"
 153	"a ring"
 154	"the Amulet of Yendor"
 
-155	"Which character?	"どんな文字ですか？"
+155	"Which character?"	"どんな文字ですか？"
 
 dosshell()
 MS-DOS, HUMAN
@@ -248,29 +249,29 @@ put_on_ring()
 164	"That ring is already being worn""その指輪はもう手にはめている。"
 165	"There's already a ring on that hand""そちらの手にはもう指輪をしている。"
 do_put_on()
-166	"Removed "	"をはずした。"
+166	" removed."	"をはずした。"
 inv_rings()
 167	"Not wearing any rings"	"指輪ははめていない。"
 
 file: score.c
 killed_by()
 	"  この長さが最大  "
-168	"Died of"	"寒さにより"	to 172	(英語では ... of/from)
-169	"Died of"	"飢えにより"	to 173
-170	"Killed by a"	"毒矢により"	to 174
+168	"Died of "	"寒さにより"	to 172	(英語では ... of/from)
+169	"Died of "	"飢えにより"	to 173
+170	"Killed by a "	"毒矢により"	to 174
 171	"Quit"		"逃亡により"	to 175
 172	"hypothermia"	"死す"
 173	"starvation"	"死す"
 174	"dart"		"死す"
 175	""		"行方不明"
 
-176	"killed by a"	"と戦いて死す"
+176	" killed you"	"と戦いて死す"
 
 177	" REST "	"安らかに"
 178	"  IN  "	"眠れ"
 179	"PEACE "	""	(日本語では未使用)
-180	"%ld Au" (英語)		"＄" (日本語)
-181	" with %ld gold"	"。  所持金は＄"
+180	"$ " (英語、2バイト)	"＄" (日本語)
+181	", gold: "	"。  所持金は＄"
 
 182	"     Congratulations,  you have made it to the light of day!   "
 183	"You have joined the elite ranks of those who have escaped the  "
@@ -284,14 +285,14 @@ put_scores()
 188	"Rank   Score   Name"	"順位   得点    名前"
 insert_score()
 189	"with Amulet"	"魔除けを手に、"
-190	" on level %d "		"地下"
-191	""	(英語では無意味)"階にて"
+190	" on level "		"地下"
+191	", "	(レベル番号と死因の区切り)"階にて"
 192	"died of hypothermia"	"寒さにより死す"
 193	"died of starvation"	"飢えにより死す"
 194	"killed by a dart"	"毒矢により死す"
 195	"quit"			"逃亡す"
 196	"a total winner"	"運命の洞窟より生きて帰りたる勇者"
-197	"killed by "		"と戦いて死す"
+197	" killed you"		"と戦いて死す"
 sell_pack()
 198	"Value      Item"	" 価格      持ちもの"
 sf_error()
@@ -307,7 +308,7 @@ freeze()
 steal_gold()
 204	"Your purse feels lighter"	"金塊を盗まれた！"
 steal_item()
-205	"She stole "	"を盗まれた！"
+205	" was stolen!"	"を盗まれた！"
 check_imitator()
 206	"Wait, that's a %s!"	"おっと、こいつは%sだ！"
 sting()
@@ -372,7 +373,7 @@ read_scroll()
 246	"No such item."		"それは持っていない。"
 247	"You can't read that"	"それは巻き物ではない。"
 248	"You hear a maniacal laughter in the distance"	"遠くから、狂ったような笑い声が聞こえてくる。"
-249	"Your %sglow%s %sfor a moment"	"手に持った%sが、ほんの少し%s輝きに包まれた。"
+249	"Your %sglows %sfor a moment"	"手に持った%sが、ほんの少し%s輝きに包まれた。"
 250	"Your hands tingle""何だか、手がむずむずする。"	(武器を持っていない時)
 251	"Your armor glows %sfor a moment"	"着ているよろいが、ほんの少し%s輝きに包まれた。"
 252	"Your skin crawls" "何だか、体がむずむずする。"	(よろいを着ていない時)
