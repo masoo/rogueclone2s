@@ -190,8 +190,8 @@ start_window(void)
 	noecho();
 #if !defined(BAD_NONL)
 	nonl();
-#endif /* Not BAD_NONL */
-	curs_set(0);	/* カーソルを非表示にする */
+#endif               /* Not BAD_NONL */
+	curs_set(0); /* カーソルを非表示にする */
 }
 
 void
@@ -340,7 +340,7 @@ do_opts(void)
 void
 set_opts(char *env)
 {
-	short not;
+	short not ;
 	char *ep, *p;
 	opt *op;
 	char optname[20];
@@ -374,7 +374,7 @@ set_opts(char *env)
 				continue;
 			}
 			if (op->bp) {
-				*(op->bp) = !not;
+				*(op->bp) = !not ;
 			}
 			if (op->cp && (*ep == '=' || *ep == ':')) {
 				env_get_value(op->cp, ep + 1, op->ab, op->nc);

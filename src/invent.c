@@ -282,8 +282,7 @@ get_desc(object *obj, char *desc, bool capitalized)
 		case RING:
 			p = id_table[obj->which_kind].title;
 			/* ASCII文字で始まる場合はスペースを挿入する */
-			if (*desc && *p >= ' ' &&
-			    !((unsigned char)*p & 0x80)) {
+			if (*desc && *p >= ' ' && !((unsigned char)*p & 0x80)) {
 				(void)strcat(desc, " ");
 			}
 			(void)strcat(desc, p);

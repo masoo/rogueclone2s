@@ -37,7 +37,6 @@
 #include "machdep.h"
 #include "rogue.h"
 
-
 /*
  * md_setup_console():
  *
@@ -54,9 +53,8 @@ md_setup_console(void)
 	/* 環境変数からロケール設定。UTF-8 の場合のみ採用 */
 	{
 		char *loc = setlocale(LC_ALL, "");
-		if (loc != NULL &&
-		    (strstr(loc, "UTF-8") != NULL ||
-		     strstr(loc, "utf8") != NULL)) {
+		if (loc != NULL && (strstr(loc, "UTF-8") != NULL ||
+				       strstr(loc, "utf8") != NULL)) {
 			return;
 		}
 	}
@@ -82,8 +80,7 @@ md_setup_console(void)
 		if (lc == NULL)
 			lc = getenv("LANG");
 		if (lc == NULL ||
-		    (strstr(lc, "UTF-8") == NULL &&
-		     strstr(lc, "utf8") == NULL))
+		    (strstr(lc, "UTF-8") == NULL && strstr(lc, "utf8") == NULL))
 			putenv("LANG=C.UTF-8");
 	}
 	setlocale(LC_ALL, "");

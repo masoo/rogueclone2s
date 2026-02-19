@@ -39,7 +39,7 @@ light_up_room(int rn)
 	if (!blind) {
 		for (i = rooms[rn].top_row; i <= rooms[rn].bottom_row; i++) {
 			for (j = rooms[rn].left_col; j <= rooms[rn].right_col;
-			    j++) {
+			     j++) {
 				if (dungeon[i][j] & MONSTER) {
 					object *monster;
 
@@ -400,7 +400,7 @@ dr_course(object *monster, bool entering, short row, short col)
 		/* look for door to dead end */
 		for (i = rooms[rn].top_row; i <= rooms[rn].bottom_row; i++) {
 			for (j = rooms[rn].left_col; j <= rooms[rn].right_col;
-			    j++) {
+			     j++) {
 				if ((i != monster->row) &&
 				    (j != monster->col) &&
 				    (dungeon[i][j] & DOOR)) {

@@ -25,7 +25,6 @@ typedef struct srogue_time rogue_time;
 // # define attr_get
 // #endif
 
-
 #if defined(HAVE_GETLOGIN) && !HAVE_DECL_GETLOGIN
 extern char *getlogin(void);
 #endif

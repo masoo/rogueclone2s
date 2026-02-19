@@ -435,7 +435,8 @@ options(void)
 			}
 			addstr_rogue(cbuf[n]);
 		}
-		pos[n] = utf8_display_width(optdesc[n]) + strlen(envopt[n].name) + 7;
+		pos[n] =
+		    utf8_display_width(optdesc[n]) + strlen(envopt[n].name) + 7;
 	}
 
 	/* オプションの設定 */
@@ -522,8 +523,7 @@ options(void)
 	clrtoeol();
 	for (lines = 1; lines < ROGUE_LINES - 1; lines++) {
 		for (columns = 0; columns < ROGUE_COLUMNS; columns++) {
-			mvaddch_rogue(lines, columns,
-			    descs[lines][columns]);
+			mvaddch_rogue(lines, columns, descs[lines][columns]);
 		}
 	}
 	move(ROGUE_LINES - 1, 0);

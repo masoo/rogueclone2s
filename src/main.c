@@ -13,6 +13,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "utf8.h"
 
@@ -68,8 +69,78 @@ main(int argc, char *argv[])
 }
 
 /*
+ * skip_ws
+ * 空白文字をスキップする
+ */
+static const char *
+skip_ws(const char *p)
+{
+	while (*p == ' ' || *p == '\t')
+		p++;
+	return p;
+}
+
+/*
+ * parse_quoted_string
+ * "..." 形式の文字列を解析し、エスケープ処理を行う
+ * 返り値: 成功時は消費バイト数、失敗時は -1
+ */
+static int
+parse_quoted_string(const char *p, char *out, int maxlen)
+{
+	const char *start = p;
+	int i = 0;
+
+	if (*p != '"')
+		return -1;
+	p++;
+
+	while (*p && *p != '"') {
+		if (*p == '\\') {
+			p++;
+			switch (*p) {
+			case '"':
+				if (i < maxlen - 1)
+					out[i++] = '"';
+				break;
+			case '\\':
+				if (i < maxlen - 1)
+					out[i++] = '\\';
+				break;
+			case 'n':
+				if (i < maxlen - 1)
+					out[i++] = '\n';
+				break;
+			case 't':
+				if (i < maxlen - 1)
+					out[i++] = '\t';
+				break;
+			case '\0':
+				goto err;
+			default:
+				if (i < maxlen - 1)
+					out[i++] = *p;
+				break;
+			}
+		} else {
+			if (i < maxlen - 1)
+				out[i++] = *p;
+		}
+		p++;
+	}
+
+	if (*p != '"')
+		goto err;
+
+	out[i] = '\0';
+	return (int)(p + 1 - start);
+err:
+	return -1;
+}
+
+/*
  * read_mesg
- * メッセージファイル読み込み関数
+ * メッセージファイル読み込み関数 (TOML サブセット形式)
  * 返り値: 成功:0, 失敗:1
  */
 int
@@ -77,7 +148,6 @@ read_mesg(char *argv_msgfile)
 {
 	FILE *mesg_file;
 	utf8_int8_t buf[MAX_MESG_LINE_SIZE];
-	int e;
 
 	if ((mesg_file = fopen(argv_msgfile, "r")) == NULL) {
 		fprintf(stderr, "Cannot open message file '%s'\n",
@@ -87,40 +157,68 @@ read_mesg(char *argv_msgfile)
 
 	umesg[0].string[0] = '\0';
 	umesg[0].size = 0;
-	while (fgets(buf, sizeof(buf), mesg_file) != NULL) {
-		int n = atoi(buf);
-		int i, s;
-		if (n > 0 && n <= MESSAGE_QUANTITY) {
-			for (i = 0; buf[i] && buf[i] != '\"'; ++i) {
-				continue;
-			}
-			if (buf[i]) {
-				s = i + 1;
-			} else {
-			FMTERR:
-				fprintf(stderr, "Illegal format '%s'\n",
-				    argv_msgfile);
-				return 1;
-			}
-			for (i = s; buf[i] && buf[i] != '\"'; ++i) {
-				continue;
-			}
-			if (buf[i]) {
-				e = i - 1;
-			} else {
-				goto FMTERR;
-			}
 
-			for (i = 0; i < e - s + 1 && i < MAX_MESG_LINE_SIZE - 1;
-			    ++i) {
-				mesg[n][i] = buf[s + i];
-				umesg[n].string[i] = buf[s + i];
-			}
-			mesg[n][i] = '\0';
-			umesg[n].string[i] = '\0';
-			umesg[n].size = utf8size(umesg[n].string);
+	while (fgets(buf, sizeof(buf), mesg_file) != NULL) {
+		const char *p;
+		char *nl;
+		int n;
+
+		/* 末尾の改行/CRを除去 */
+		nl = buf + strlen(buf);
+		while (nl > buf && (nl[-1] == '\n' || nl[-1] == '\r'))
+			*--nl = '\0';
+
+		/* 先頭の空白をスキップ */
+		p = skip_ws(buf);
+
+		/* 空行・コメント・セクションヘッダはスキップ */
+		if (*p == '\0' || *p == '#' || *p == '[')
+			continue;
+
+		/* 番号をパース */
+		if (*p < '0' || *p > '9') {
+			fprintf(stderr, "Illegal format in '%s': %s\n",
+			    argv_msgfile, buf);
+			fclose(mesg_file);
+			return 1;
 		}
+
+		n = 0;
+		while (*p >= '0' && *p <= '9')
+			n = n * 10 + (*p++ - '0');
+
+		if (n <= 0 || n > MESSAGE_QUANTITY) {
+			fprintf(stderr,
+			    "Message number %d out of range in '%s'\n", n,
+			    argv_msgfile);
+			fclose(mesg_file);
+			return 1;
+		}
+
+		/* '=' を確認 */
+		p = skip_ws(p);
+		if (*p != '=') {
+			fprintf(stderr, "Expected '=' in '%s': %s\n",
+			    argv_msgfile, buf);
+			fclose(mesg_file);
+			return 1;
+		}
+		p++;
+		p = skip_ws(p);
+
+		/* "..." を解析 */
+		if (parse_quoted_string(p, mesg[n], MAX_MESG_BUFFER_SIZE) < 0) {
+			fprintf(stderr, "Illegal string in '%s': %s\n",
+			    argv_msgfile, buf);
+			fclose(mesg_file);
+			return 1;
+		}
+
+		strcpy(umesg[n].string, mesg[n]);
+		umesg[n].size = utf8size(umesg[n].string);
 	}
+
+	fclose(mesg_file);
 	return 0;
 }
 

@@ -129,8 +129,8 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 	short i = 0, n = 0;
 	short cp_bytes[MAX_TITLE_LENGTH]; /* 各コードポイントのバイト数 */
 	short cp_width[MAX_TITLE_LENGTH]; /* 各コードポイントの表示幅 */
-	short ncp = 0;                    /* 入力済みコードポイント数 */
-	short display_col = 0;            /* 現在の表示カラム位置 */
+	short ncp = 0;         /* 入力済みコードポイント数 */
+	short display_col = 0; /* 現在の表示カラム位置 */
 
 	if (is_msg) {
 		message(prompt, 0);
@@ -182,8 +182,7 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 				    cp_width[ncp] == 2 ? "  " : " ");
 				move(row, col + n + display_col);
 			}
-		} else if (ch >= ' ' && ch < 0x80 &&
-		    i < MAX_TITLE_LENGTH - 2) {
+		} else if (ch >= ' ' && ch < 0x80 && i < MAX_TITLE_LENGTH - 2) {
 			/* ASCII 印字可能文字 */
 			if ((ch != ' ') || (i > 0)) {
 				buf[i] = ch;
@@ -196,8 +195,7 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 				}
 				i++;
 			}
-		} else if ((ch & 0xC0) == 0xC0 &&
-		    i < MAX_TITLE_LENGTH - 5) {
+		} else if ((ch & 0xC0) == 0xC0 && i < MAX_TITLE_LENGTH - 5) {
 			/* UTF-8 マルチバイト文字の先頭バイト */
 			size_t expected;
 			if ((ch & 0xF8) == 0xF0)
@@ -236,8 +234,7 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 		check_message();
 	}
 	/* 末尾のスペースを除去する */
-	while ((ncp > 0) && (buf[i - 1] == ' ') &&
-	    (cp_bytes[ncp - 1] == 1)) {
+	while ((ncp > 0) && (buf[i - 1] == ' ') && (cp_bytes[ncp - 1] == 1)) {
 		ncp--;
 		i--;
 	}

@@ -559,9 +559,9 @@ go_blind(void)
 	}
 	if (cur_room >= 0) {
 		for (i = rooms[cur_room].top_row + 1;
-		    i < rooms[cur_room].bottom_row; i++) {
+		     i < rooms[cur_room].bottom_row; i++) {
 			for (j = rooms[cur_room].left_col + 1;
-			    j < rooms[cur_room].right_col; j++) {
+			     j < rooms[cur_room].right_col; j++) {
 				mvaddch_rogue(i, j, ' ');
 			}
 		}
