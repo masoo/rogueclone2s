@@ -35,6 +35,10 @@ bool r_teleport, r_see_invisible, sustain_strength, maintain_armor;
 extern char *curse_message;
 extern bool wizard;
 
+/*
+ * put_on_ring
+ * 指輪を装備する
+ */
 void
 put_on_ring(void)
 {
@@ -87,16 +91,18 @@ put_on_ring(void)
 	do_put_on(ring, (ch == 'l') ? 1 : 0);
 	ring_stats(1);
 	check_message();
-	get_desc(ring, desc, 1);
+	get_desc(ring, desc, sizeof(desc), 1);
 	message(desc, 0);
 	(void)reg_move();
 }
 
 /*
+ * do_put_on
+ * 指輪の装備状態を設定する
+ *
  * Do not call ring_stats() from within do_put_on().  It will cause
  * serious problems when do_put_on() is called from read_pack() in restore().
  */
-
 void
 do_put_on(object *ring, bool on_left)
 {
@@ -109,6 +115,10 @@ do_put_on(object *ring, bool on_left)
 	}
 }
 
+/*
+ * remove_ring
+ * 指輪を外す
+ */
 void
 remove_ring(void)
 {
@@ -152,7 +162,7 @@ remove_ring(void)
 			message(curse_message, 0);
 		} else {
 			un_put_on(ring);
-			get_desc(ring, buf, 0);
+			get_desc(ring, buf, sizeof(buf), 0);
 			(void)strcat(buf, mesg[166]);
 			message(buf, 0);
 			(void)reg_move();
@@ -160,6 +170,10 @@ remove_ring(void)
 	}
 }
 
+/*
+ * un_put_on
+ * 指輪の装備状態を解除する
+ */
 void
 un_put_on(object *ring)
 {
@@ -175,6 +189,10 @@ un_put_on(object *ring)
 	ring_stats(1);
 }
 
+/*
+ * gr_ring
+ * ランダムな指輪を生成する
+ */
 void
 gr_ring(object *ring, bool assign_wk)
 {
@@ -216,6 +234,10 @@ gr_ring(object *ring, bool assign_wk)
 	}
 }
 
+/*
+ * inv_rings
+ * 装備中の指輪の情報を表示する
+ */
 void
 inv_rings(void)
 {
@@ -225,17 +247,17 @@ inv_rings(void)
 		message(mesg[167], 0);
 	} else {
 		if (rogue.left_ring) {
-			get_desc(rogue.left_ring, buf, 1);
+			get_desc(rogue.left_ring, buf, sizeof(buf), 1);
 			message(buf, 0);
 		}
 		if (rogue.right_ring) {
-			get_desc(rogue.right_ring, buf, 1);
+			get_desc(rogue.right_ring, buf, sizeof(buf), 1);
 			message(buf, 0);
 		}
 	}
 #if defined(ORIGINAL)
 	if (wizard) {
-		sprintf(buf,
+		snprintf(buf, sizeof(buf),
 		    "ste %d, r_r %d, e_r %d, r_t %d, s_s %d, a_s %d, reg %d, "
 		    "r_e %d, s_i %d, m_a %d, aus %d",
 		    stealthy, r_rings, e_rings, r_teleport, sustain_strength,
@@ -246,6 +268,10 @@ inv_rings(void)
 #endif /* ORIGINAL */
 }
 
+/*
+ * ring_stats
+ * 指輪の効果を再計算する
+ */
 void
 ring_stats(bool pr)
 {

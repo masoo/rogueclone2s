@@ -92,6 +92,10 @@ extern short blind, halluc, haste_self;
 extern bool detect_monster, see_invisible, r_see_invisible;
 extern short stealthy;
 
+/*
+ * put_mons
+ * フロアにモンスターを配置する
+ */
 void
 put_mons(void)
 {
@@ -112,6 +116,10 @@ put_mons(void)
 	}
 }
 
+/*
+ * gr_monster
+ * モンスターを生成する
+ */
 object *
 gr_monster(object *monster, int mn)
 {
@@ -137,6 +145,10 @@ gr_monster(object *monster, int mn)
 	return monster;
 }
 
+/*
+ * mv_mons
+ * 全モンスターを移動させる
+ */
 void
 mv_mons(void)
 {
@@ -181,6 +193,10 @@ mv_mons(void)
 	}
 }
 
+/*
+ * party_monsters
+ * パーティルームにモンスター群を配置する
+ */
 void
 party_monsters(int rn, int n)
 {
@@ -221,6 +237,10 @@ party_monsters(int rn, int n)
 	}
 }
 
+/*
+ * gmc_row_col
+ * 指定座標のモンスター表示文字を返す
+ */
 int
 gmc_row_col(int row, int col)
 {
@@ -231,6 +251,10 @@ gmc_row_col(int row, int col)
 	return '&'; /* BUG if this ever happens */
 }
 
+/*
+ * gmc
+ * モンスターの表示文字を返す
+ */
 int
 gmc(object *monster)
 {
@@ -245,6 +269,10 @@ gmc(object *monster)
 	return monster->m_char;
 }
 
+/*
+ * mv_monster
+ * モンスターを1体移動させる
+ */
 void
 mv_monster(object *monster, short row, short col)
 {
@@ -386,6 +414,10 @@ O:
 	}
 }
 
+/*
+ * mtry
+ * モンスターの移動を試みる
+ */
 int
 mtry(object *monster, short row, short col)
 {
@@ -396,6 +428,10 @@ mtry(object *monster, short row, short col)
 	return 0;
 }
 
+/*
+ * move_mon_to
+ * モンスターを指定位置に移動する
+ */
 void
 move_mon_to(object *monster, short row, short col)
 {
@@ -445,6 +481,10 @@ move_mon_to(object *monster, short row, short col)
 	}
 }
 
+/*
+ * mon_can_go
+ * モンスターが指定位置に移動可能か判定する
+ */
 int
 mon_can_go(object *monster, short row, short col)
 {
@@ -483,6 +523,10 @@ mon_can_go(object *monster, short row, short col)
 	return 1;
 }
 
+/*
+ * wake_up
+ * モンスターを起こす
+ */
 void
 wake_up(object *monster)
 {
@@ -491,6 +535,10 @@ wake_up(object *monster)
 	}
 }
 
+/*
+ * wake_room
+ * 部屋内のモンスターを起こす
+ */
 void
 wake_room(short rn, bool entering, short row, short col)
 {
@@ -525,6 +573,10 @@ wake_room(short rn, bool entering, short row, short col)
 	}
 }
 
+/*
+ * mon_name
+ * モンスターの名前を返す
+ */
 utf8_int8_t *
 mon_name(object *monster)
 {
@@ -539,10 +591,14 @@ mon_name(object *monster)
 		ch = get_rand('A', 'Z') - 'A';
 		return m_names[ch];
 	}
-	ch = monster->m_char - 'A';
+	ch = mon_index(monster->m_char);
 	return m_names[ch];
 }
 
+/*
+ * rogue_is_around
+ * プレイヤーが指定位置の周囲にいるか判定する
+ */
 int
 rogue_is_around(short row, short col)
 {
@@ -554,6 +610,10 @@ rogue_is_around(short row, short col)
 	return ((rdif >= -1) && (rdif <= 1) && (cdif >= -1) && (cdif <= 1));
 }
 
+/*
+ * wanderer
+ * 徘徊モンスターを生成する
+ */
 void
 wanderer(void)
 {
@@ -586,6 +646,10 @@ wanderer(void)
 	}
 }
 
+/*
+ * show_monsters
+ * 全モンスターの位置を表示する
+ */
 void
 show_monsters(void)
 {
@@ -608,6 +672,10 @@ show_monsters(void)
 	}
 }
 
+/*
+ * create_monster
+ * プレイヤー周囲にモンスターを生成する
+ */
 void
 create_monster(void)
 {
@@ -647,6 +715,10 @@ create_monster(void)
 	}
 }
 
+/*
+ * put_m_at
+ * モンスターを指定座標に設置する
+ */
 void
 put_m_at(short row, short col, object *monster)
 {
@@ -658,6 +730,10 @@ put_m_at(short row, short col, object *monster)
 	aim_monster(monster);
 }
 
+/*
+ * aim_monster
+ * モンスターの移動目標を設定する
+ */
 void
 aim_monster(object *monster)
 {
@@ -676,6 +752,10 @@ aim_monster(object *monster)
 	}
 }
 
+/*
+ * rogue_can_see
+ * プレイヤーが指定座標を視認できるか判定する
+ */
 int
 rogue_can_see(int row, int col)
 {
@@ -684,6 +764,10 @@ rogue_can_see(int row, int col)
 			      rogue_is_around(row, col)));
 }
 
+/*
+ * move_confused
+ * 混乱したモンスターを移動させる
+ */
 int
 move_confused(object *monster)
 {
@@ -714,6 +798,10 @@ move_confused(object *monster)
 	return 0;
 }
 
+/*
+ * flit
+ * モンスターをランダムに飛び回らせる
+ */
 int
 flit(object *monster)
 {
@@ -740,6 +828,10 @@ flit(object *monster)
 	return 1;
 }
 
+/*
+ * gr_obj_char
+ * ランダムなアイテム表示文字を返す
+ */
 int
 gr_obj_char(void)
 {
@@ -751,6 +843,10 @@ gr_obj_char(void)
 	return rs[r];
 }
 
+/*
+ * no_room_for_monster
+ * 部屋にモンスターの空きがないか判定する
+ */
 int
 no_room_for_monster(int rn)
 {
@@ -766,6 +862,10 @@ no_room_for_monster(int rn)
 	return 1;
 }
 
+/*
+ * aggravate
+ * 全モンスターを覚醒させる
+ */
 void
 aggravate(void)
 {
@@ -785,6 +885,10 @@ aggravate(void)
 	}
 }
 
+/*
+ * mon_sees
+ * モンスターが指定座標を視認できるか判定する
+ */
 bool
 mon_sees(object *monster, int row, int col)
 {
@@ -804,6 +908,10 @@ mon_sees(object *monster, int row, int col)
 	    bool)((rdif >= -1) && (rdif <= 1) && (cdif >= -1) && (cdif <= 1));
 }
 
+/*
+ * mv_aquatars
+ * アクアターを移動させる
+ */
 void
 mv_aquatars(void)
 {

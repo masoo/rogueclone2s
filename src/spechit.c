@@ -43,6 +43,7 @@ extern bool mon_disappeared;
 extern bool sustain_strength, maintain_armor;
 extern char *you_can_move_again;
 
+/* special_hit: モンスターの特殊攻撃を処理する */
 void
 special_hit(object *monster)
 {
@@ -74,6 +75,7 @@ special_hit(object *monster)
 	}
 }
 
+/* rust: プレイヤーの鎧を錆びさせる */
 void
 rust(object *monster)
 {
@@ -93,6 +95,7 @@ rust(object *monster)
 	}
 }
 
+/* freeze: モンスターの冷気攻撃でプレイヤーを凍結させる */
 void
 freeze(object *monster)
 {
@@ -125,6 +128,7 @@ freeze(object *monster)
 	}
 }
 
+/* steal_gold: モンスターがプレイヤーの金を盗んで消える */
 void
 steal_gold(object *monster)
 {
@@ -145,6 +149,7 @@ steal_gold(object *monster)
 	disappear(monster);
 }
 
+/* steal_item: モンスターがプレイヤーのアイテムを盗んで消える */
 void
 steal_item(object *monster)
 {
@@ -204,7 +209,7 @@ adornment:
 		t = obj->quantity;
 		obj->quantity = 1;
 	}
-	get_desc(obj, desc, 0);
+	get_desc(obj, desc, sizeof(desc), 0);
 	(void)strcat(desc, mesg[205]);
 	message(desc, 0);
 
@@ -215,6 +220,7 @@ DSPR:
 	disappear(monster);
 }
 
+/* disappear: モンスターをフロアから除去する */
 void
 disappear(object *monster)
 {
@@ -232,6 +238,7 @@ disappear(object *monster)
 	mon_disappeared = true;
 }
 
+/* cough_up: モンスター死亡時にアイテムをドロップする */
 void
 cough_up(object *monster)
 {
@@ -276,6 +283,7 @@ cough_up(object *monster)
 	free_object(obj);
 }
 
+/* try_to_cough: 指定位置にアイテムを配置できるか試みる */
 int
 try_to_cough(short row, short col, object *obj)
 {
@@ -295,6 +303,7 @@ try_to_cough(short row, short col, object *obj)
 	return 0;
 }
 
+/* seek_gold: モンスターが部屋内の金を探して移動する */
 int
 seek_gold(object *monster)
 {
@@ -328,6 +337,7 @@ seek_gold(object *monster)
 	return 0;
 }
 
+/* gold_at: 指定位置に金があるか判定する */
 int
 gold_at(short row, short col)
 {
@@ -342,12 +352,14 @@ gold_at(short row, short col)
 	return 0;
 }
 
+/* check_gold_seeker: モンスターの金探索フラグを解除する */
 void
 check_gold_seeker(object *monster)
 {
 	monster->m_flags &= (~SEEKS_GOLD);
 }
 
+/* check_imitator: モンスターが擬態中か判定し、正体を現す */
 int
 check_imitator(object *monster)
 {
@@ -359,7 +371,8 @@ check_imitator(object *monster)
 			mvaddch_rogue(monster->row, monster->col,
 			    get_dungeon_char(monster->row, monster->col));
 			check_message();
-			sprintf(msg, mesg[206], mon_name(monster));
+			snprintf(msg, sizeof(msg), mesg[206],
+			    mon_name(monster));
 			message(msg, 1);
 		}
 		return 1;
@@ -367,6 +380,7 @@ check_imitator(object *monster)
 	return 0;
 }
 
+/* imitating: 指定位置に擬態モンスターがいるか判定する */
 int
 imitating(short row, short col)
 {
@@ -382,6 +396,7 @@ imitating(short row, short col)
 	return 0;
 }
 
+/* sting: モンスターの毒針攻撃でプレイヤーの筋力を下げる */
 void
 sting(object *monster)
 {
@@ -397,13 +412,14 @@ sting(object *monster)
 		sting_chance -= (6 * ((rogue.exp + ring_exp) - 8));
 	}
 	if (rand_percent(sting_chance)) {
-		sprintf(msg, mesg[207], mon_name(monster));
+		snprintf(msg, sizeof(msg), mesg[207], mon_name(monster));
 		message(msg, 0);
 		rogue.str_current--;
 		print_stats(STAT_STRENGTH);
 	}
 }
 
+/* drop_level: プレイヤーの経験レベルを下げる */
 void
 drop_level(void)
 {
@@ -424,6 +440,7 @@ drop_level(void)
 	add_exp(1, 0);
 }
 
+/* drain_life: プレイヤーのHPと筋力を吸い取る */
 void
 drain_life(void)
 {
@@ -454,6 +471,7 @@ drain_life(void)
 	print_stats((STAT_STRENGTH | STAT_HP));
 }
 
+/* m_confuse: モンスターの凝視でプレイヤーを混乱させる */
 int
 m_confuse(object *monster)
 {
@@ -469,7 +487,7 @@ m_confuse(object *monster)
 	}
 	if (rand_percent(55)) {
 		monster->m_flags &= (~CONFUSES);
-		sprintf(msg, mesg[209], mon_name(monster));
+		snprintf(msg, sizeof(msg), mesg[209], mon_name(monster));
 		message(msg, 1);
 		confuse();
 		return 1;
@@ -477,6 +495,7 @@ m_confuse(object *monster)
 	return 0;
 }
 
+/* flame_broil: ドラゴンの炎攻撃を処理する */
 int
 flame_broil(object *monster)
 {
@@ -561,6 +580,7 @@ flame_broil(object *monster)
 	return 1;
 }
 
+/* get_closer: 目標座標に1マス近づく */
 void
 get_closer(short *row, short *col, short trow, short tcol)
 {

@@ -36,6 +36,7 @@ extern short cur_room;
 extern char *curse_message;
 extern char hit_message[];
 
+/* throw: プレイヤーがアイテムを投げる処理 */
 void throw(void)
 {
 	short wch;
@@ -93,6 +94,7 @@ void throw(void)
 	vanish(weapon, 1, &rogue.pack);
 }
 
+/* throw_at_monster: 投げた武器のモンスターへの命中判定とダメージ処理 */
 int
 throw_at_monster(object *monster, object *weapon)
 {
@@ -115,14 +117,14 @@ throw_at_monster(object *monster, object *weapon)
 	}
 	t = weapon->quantity;
 	weapon->quantity = 1;
-	sprintf(hit_message, mesg[212], name_of(weapon));
+	snprintf(hit_message, MAX_MESG_BUFFER_SIZE, mesg[212], name_of(weapon));
 	weapon->quantity = t;
 
 	if (!rand_percent(hit_chance)) {
-		(void)strcat(hit_message, mesg[213]);
+		(void)utf8ncat(hit_message, mesg[213], MAX_MESG_BUFFER_SIZE);
 		return 0;
 	}
-	(void)strcat(hit_message, mesg[214]);
+	(void)utf8ncat(hit_message, mesg[214], MAX_MESG_BUFFER_SIZE);
 	if ((weapon->what_is == WAND) && rand_percent(75)) {
 		zap_monster(monster, weapon->which_kind);
 #if !defined(ORIGINAL)
@@ -135,6 +137,7 @@ throw_at_monster(object *monster, object *weapon)
 	return 1;
 }
 
+/* get_thrown_at_monster: 投擲の軌道を追跡し命中するモンスターを返す */
 object *
 get_thrown_at_monster(object *obj, short dir, short *row, short *col)
 {
@@ -211,6 +214,7 @@ get_thrown_at_monster(object *obj, short dir, short *row, short *col)
 	return 0;
 }
 
+/* flop_weapon: 投げた武器が外れた時に床に落とす */
 void
 flop_weapon(object *weapon, short row, short col)
 {
@@ -265,12 +269,13 @@ flop_weapon(object *weapon, short row, short col)
 
 		t = weapon->quantity;
 		weapon->quantity = 1;
-		sprintf(msg, mesg[215], name_of(weapon));
+		snprintf(msg, sizeof(msg), mesg[215], name_of(weapon));
 		weapon->quantity = t;
 		message(msg, 0);
 	}
 }
 
+/* rand_around: 周囲8方向からランダムな順序で座標を返す */
 void
 rand_around(short i, short *r, short *c)
 {
@@ -303,13 +308,14 @@ rand_around(short i, short *r, short *c)
 	*c = col + ca[j];
 }
 
+/* potion_monster: モンスターにポーションを当てた時の効果を処理する */
 #if !defined(ORIGINAL)
 void
 potion_monster(object *monster, unsigned short kind)
 {
 	short maxhp;
 
-	maxhp = mon_tab[monster->m_char - 'A'].hp_to_kill;
+	maxhp = mon_tab[mon_index(monster->m_char)].hp_to_kill;
 
 	switch (kind) {
 	case RESTORE_STRENGTH:

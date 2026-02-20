@@ -56,6 +56,10 @@ extern short m_moves;
 
 extern bool msg_cleared;
 
+/*
+ * save_game
+ * ゲームのセーブを行う
+ */
 void
 save_game(void)
 {
@@ -70,12 +74,16 @@ save_game(void)
 	save_into_file(fname);
 }
 
+/*
+ * save_into_file
+ * 指定ファイルにゲーム状態を書き出す
+ */
 void
 save_into_file(char *sfile)
 {
 	FILE *fp;
 	int file_id;
-	char name_buffer[80];
+	char name_buffer[ROGUE_PATH_MAX];
 	char *hptr;
 	rogue_time rt_buf;
 
@@ -85,8 +93,8 @@ save_into_file(char *sfile)
 	}
 	if (sfile[0] == '~') {
 		if ((hptr = md_ghome())) {
-			(void)strcpy(name_buffer, hptr);
-			(void)strcat(name_buffer, sfile + 1);
+			(void)snprintf(name_buffer, sizeof(name_buffer), "%s%s",
+			    hptr, sfile + 1);
 			sfile = name_buffer;
 		}
 	}
@@ -150,6 +158,10 @@ err_return:;
 	}
 }
 
+/*
+ * restore
+ * セーブファイルからゲーム状態を復元する
+ */
 void
 restore(char *fname)
 {
@@ -331,6 +343,10 @@ rw_dungeon(FILE *fp, bool rw)
 	}
 }
 
+/*
+ * rw_id
+ * 識別テーブルの読み書きを行う
+ */
 void
 rw_id(id id_table[], FILE *fp, int n, bool wr)
 {
@@ -352,6 +368,10 @@ rw_id(id id_table[], FILE *fp, int n, bool wr)
 	}
 }
 
+/*
+ * write_string
+ * 文字列をファイルに書き込む
+ */
 void
 write_string(char *s, FILE *fp)
 {
@@ -363,6 +383,10 @@ write_string(char *s, FILE *fp)
 	r_write(fp, s, n);
 }
 
+/*
+ * read_string
+ * 文字列をファイルから読み込む
+ */
 void
 read_string(char *s, FILE *fp)
 {
@@ -373,6 +397,10 @@ read_string(char *s, FILE *fp)
 	xxxx(s, n);
 }
 
+/*
+ * rw_rooms
+ * 部屋情報の読み書きを行う
+ */
 void
 rw_rooms(FILE *fp, bool rw)
 {
@@ -384,6 +412,10 @@ rw_rooms(FILE *fp, bool rw)
 	}
 }
 
+/*
+ * r_read
+ * ファイルからバッファに読み込む
+ */
 void
 r_read(FILE *fp, char *buf, int n)
 {
@@ -392,6 +424,10 @@ r_read(FILE *fp, char *buf, int n)
 	}
 }
 
+/*
+ * r_write
+ * バッファの内容をファイルに書き込む
+ */
 void
 r_write(FILE *fp, char *buf, int n)
 {
@@ -404,6 +440,10 @@ r_write(FILE *fp, char *buf, int n)
 	}
 }
 
+/*
+ * has_been_touched
+ * セーブファイルが改竄されていないか判定する
+ */
 bool
 has_been_touched(rogue_time *saved_time, rogue_time *mod_time)
 {

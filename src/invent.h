@@ -7,7 +7,8 @@ typedef struct sid id;
 extern void inventory(object *pack, unsigned short maskd);
 extern void mix_colors(void);
 extern void make_scroll_titles(void);
-extern void get_desc(object *obj, char *desc, bool capitalized);
+extern void get_desc(object *obj, char *desc, size_t desc_size,
+    bool capitalized);
 extern void get_wand_and_ring_materials(void);
 extern void single_inv(short ichar);
 extern id *get_id_table(object *obj);

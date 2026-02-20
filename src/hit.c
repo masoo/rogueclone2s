@@ -303,7 +303,8 @@ mon_damage(object *monster, int damage)
 		fight_monster = 0;
 		cough_up(monster);
 		mn = mon_name(monster);
-		sprintf(hit_message + strlen(hit_message), mesg[24], mn);
+		snprintf(hit_message + strlen(hit_message),
+		    sizeof(hit_message) - strlen(hit_message), mesg[24], mn);
 		message(hit_message, 1);
 		hit_message[0] = 0;
 		add_exp(monster->kill_exp, 1);

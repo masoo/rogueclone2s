@@ -57,7 +57,7 @@ main(int argc, char *argv[])
 		put_player(party_room);
 		print_stats(STAT_ALL);
 		if (first) {
-			sprintf(buf, mesg[10], nick_name);
+			snprintf(buf, sizeof(buf), mesg[10], nick_name);
 			message(buf, 0);
 		}
 	PL:
@@ -162,9 +162,21 @@ read_mesg(char *argv_msgfile)
 		const char *p;
 		char *nl;
 		int n;
+		size_t buflen;
+
+		/* 行が長すぎる場合は残りを読み飛ばす */
+		buflen = strlen(buf);
+		if (buflen == sizeof(buf) - 1 && buf[sizeof(buf) - 2] != '\n') {
+			fprintf(stderr, "Line too long in '%s', skipping\n",
+			    argv_msgfile);
+			int c;
+			while ((c = fgetc(mesg_file)) != '\n' && c != EOF)
+				;
+			continue;
+		}
 
 		/* 末尾の改行/CRを除去 */
-		nl = buf + strlen(buf);
+		nl = buf + buflen;
 		while (nl > buf && (nl[-1] == '\n' || nl[-1] == '\r'))
 			*--nl = '\0';
 
@@ -184,8 +196,11 @@ read_mesg(char *argv_msgfile)
 		}
 
 		n = 0;
-		while (*p >= '0' && *p <= '9')
+		while (*p >= '0' && *p <= '9') {
+			if (n > MESSAGE_QUANTITY)
+				break;
 			n = n * 10 + (*p++ - '0');
+		}
 
 		if (n <= 0 || n > MESSAGE_QUANTITY) {
 			fprintf(stderr,
@@ -214,7 +229,8 @@ read_mesg(char *argv_msgfile)
 			return 1;
 		}
 
-		strcpy(umesg[n].string, mesg[n]);
+		strncpy(umesg[n].string, mesg[n], MAX_MESG_BUFFER_SIZE - 1);
+		umesg[n].string[MAX_MESG_BUFFER_SIZE - 1] = '\0';
 		umesg[n].size = utf8size(umesg[n].string);
 	}
 

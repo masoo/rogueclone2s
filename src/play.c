@@ -50,7 +50,13 @@ char *unknown_command = mesg[115];
 extern short party_room, bear_trap;
 extern char hit_message[];
 extern bool wizard, trap_door;
+extern char *error_file;
+extern bool save_is_interactive;
 
+/*
+ * play_level
+ * ゲームのメインループを実行する
+ */
 void
 play_level(void)
 {
@@ -59,6 +65,11 @@ play_level(void)
 
 	cmd = '.';
 	for (;;) {
+		if (error_save_requested) {
+			save_is_interactive = false;
+			save_into_file(error_file);
+			clean_up("");
+		}
 		interrupted = false;
 		if (hit_message[0]) {
 			message(hit_message, 1);
@@ -366,11 +377,15 @@ static char *o_names[] = {mesg[138], mesg[139], mesg[140], mesg[141], mesg[142],
 	mesg[143], mesg[144], mesg[145], mesg[146], mesg[147], mesg[148],
 	mesg[149], mesg[150], mesg[151], mesg[152], mesg[153], mesg[154]};
 
+/*
+ * identify
+ * 画面上の記号を識別する
+ */
 void
 identify(void)
 {
 	short ch, n;
-	char *p, buf[80];
+	char *p, buf[MAX_MESG_BUFFER_SIZE];
 
 	message(mesg[155], 0);
 
@@ -391,7 +406,7 @@ again:
 		sound_bell();
 		goto again;
 	}
-	sprintf(buf, "'%c': %s", ch, p);
+	snprintf(buf, sizeof(buf), "'%c': %s", ch, p);
 	message(buf, 0);
 }
 
@@ -428,7 +443,8 @@ options(void)
 			bbuf[n] = *(envopt[n].bp);
 			addstr_rogue(bbuf[n] ? "Yes" : "No");
 		} else {
-			strcpy(cbuf[n], *(envopt[n].cp));
+			strncpy(cbuf[n], *(envopt[n].cp), MAX_TITLE_LENGTH - 1);
+			cbuf[n][MAX_TITLE_LENGTH - 1] = '\0';
 			if (envopt[n].ab) {
 				i = strlen(cbuf[n]);
 				cbuf[n][i - 1] = 0;
@@ -487,7 +503,8 @@ options(void)
 			if (j < 0) {
 				break;
 			}
-			strcpy(cbuf[i], optbuf);
+			strncpy(cbuf[i], optbuf, MAX_TITLE_LENGTH - 1);
+			cbuf[i][MAX_TITLE_LENGTH - 1] = '\0';
 			i++;
 		}
 	}
@@ -533,6 +550,10 @@ options(void)
 	refresh();
 }
 
+/*
+ * doshell
+ * シェルに一時的に抜ける
+ */
 void
 doshell(void)
 {

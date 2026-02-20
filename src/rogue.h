@@ -158,6 +158,7 @@ enum rogue_necessity_size { ROGUE_LINES = 24, ROGUE_COLUMNS = 80 };
 #define MESSAGE_QUANTITY \
 	493 // メッセージの数は 493 だが、既存は 507 が指定されている
 #define MAX_TITLE_LENGTH 30
+#define HUNGER_STR_SIZE 16
 #define MAXSYLLABLES 40
 #define MAX_METAL 14
 #define WAND_MATERIALS 30
@@ -338,6 +339,15 @@ typedef struct utf8_string {
 extern utf8_mesg umesg[];
 
 #define MONSTERS 26
+
+static inline int
+mon_index(int ch)
+{
+	int idx = ch - 'A';
+	if (idx < 0 || idx >= MONSTERS)
+		idx = 0;
+	return idx;
+}
 
 #define HASTED 01L
 #define SLOWED 02L

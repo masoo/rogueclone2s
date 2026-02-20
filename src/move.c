@@ -49,6 +49,10 @@ extern char hunger_str[];
 extern bool being_held, interrupted, r_teleport;
 extern bool pass_go;
 
+/*
+ * one_move_rogue
+ * プレイヤーを1マス移動させる
+ */
 int
 one_move_rogue(short dirch, short pickup)
 {
@@ -130,7 +134,7 @@ one_move_rogue(short dirch, short pickup)
 		}
 		if (pickup && !levitate) {
 			if ((obj = pick_up(row, col, &status))) {
-				get_desc(obj, desc, 1);
+				get_desc(obj, desc, sizeof(desc), 1);
 				if (obj->what_is == GOLD) {
 					free_object(obj);
 					strcat(desc, mesg[69]);
@@ -144,7 +148,7 @@ one_move_rogue(short dirch, short pickup)
 		} else {
 		MOVE_ON:
 			obj = object_at(&level_objects, row, col);
-			get_desc(obj, desc, 0);
+			get_desc(obj, desc, sizeof(desc), 0);
 			(void)strcat(desc, mesg[70]);
 			goto NOT_IN_PACK;
 		}
@@ -173,6 +177,10 @@ MVED:
 	return ((confused ? STOPPED_ON_SOMETHING : MOVED));
 }
 
+/*
+ * multiple_move_rogue
+ * プレイヤーを連続移動させる
+ */
 void
 multiple_move_rogue(int dirch)
 {
@@ -261,6 +269,10 @@ multiple_move_rogue(int dirch)
 	}
 }
 
+/*
+ * is_passable
+ * 指定位置が通行可能か判定する
+ */
 int
 is_passable(int row, int col)
 {
@@ -275,6 +287,10 @@ is_passable(int row, int col)
 	    int)(dungeon[row][col] & (FLOOR | TUNNEL | DOOR | STAIRS | TRAP));
 }
 
+/*
+ * next_to_something
+ * 周囲に注目すべきものがあるか判定する
+ */
 int
 next_to_something(int drow, int dcol)
 {
@@ -336,6 +352,10 @@ next_to_something(int drow, int dcol)
 	return 0;
 }
 
+/*
+ * can_move
+ * 2点間の移動が可能か判定する
+ */
 int
 can_move(int row1, int col1, int row2, int col2)
 {
@@ -352,6 +372,10 @@ can_move(int row1, int col1, int row2, int col2)
 	return 1;
 }
 
+/*
+ * move_onto
+ * 方向指定でアイテムを拾わず移動する
+ */
 void
 move_onto(void)
 {
@@ -363,12 +387,20 @@ move_onto(void)
 	}
 }
 
+/*
+ * is_direction
+ * 入力が方向キーか判定する
+ */
 bool
 is_direction(int c)
 {
 	return (bool)((strchr("hjklbyun\033", c) != (char *)0) ? true : false);
 }
 
+/*
+ * check_hunger
+ * 空腹状態を確認し処理する
+ */
 bool
 check_hunger(bool messages_only)
 {
@@ -377,18 +409,22 @@ check_hunger(bool messages_only)
 	static short move_left_cou = 0; /* Yasha */
 
 	if (rogue.moves_left == HUNGRY) {
-		(void)strcpy(hunger_str, mesg[71]);
+		(void)strncpy(hunger_str, mesg[71], HUNGER_STR_SIZE - 1);
+		hunger_str[HUNGER_STR_SIZE - 1] = '\0';
 		message(mesg[72], 0);
 		print_stats(STAT_HUNGER);
 	}
 	if (rogue.moves_left == WEAK) {
-		(void)strcpy(hunger_str, mesg[73]);
+		(void)strncpy(hunger_str, mesg[73], HUNGER_STR_SIZE - 1);
+		hunger_str[HUNGER_STR_SIZE - 1] = '\0';
 		message(mesg[74], 1);
 		print_stats(STAT_HUNGER);
 	}
 	if (rogue.moves_left <= FAINT) {
 		if (rogue.moves_left == FAINT) {
-			(void)strcpy(hunger_str, mesg[75]);
+			(void)strncpy(hunger_str, mesg[75],
+			    HUNGER_STR_SIZE - 1);
+			hunger_str[HUNGER_STR_SIZE - 1] = '\0';
 			message(mesg[76], 1);
 			print_stats(STAT_HUNGER);
 		}
@@ -442,6 +478,10 @@ check_hunger(bool messages_only)
 	return fainted;
 }
 
+/*
+ * reg_move
+ * 1ターン分の定期処理を行う
+ */
 bool
 reg_move(void)
 {
@@ -499,6 +539,10 @@ reg_move(void)
 	return fainted;
 }
 
+/*
+ * rest
+ * 指定ターン数休憩する
+ */
 void
 rest(int count)
 {
@@ -514,12 +558,20 @@ rest(int count)
 	}
 }
 
+/*
+ * gr_dir
+ * ランダムな方向を返す
+ */
 int
 gr_dir(void)
 {
 	return ("jklhyubn"[get_rand(1, 8) - 1]);
 }
 
+/*
+ * heal
+ * 自然回復の処理を行う
+ */
 void
 heal(void)
 {

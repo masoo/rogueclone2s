@@ -1,6 +1,9 @@
 #ifndef INIT_H
 #define INIT_H
 
+#include <signal.h>
+
+extern volatile sig_atomic_t error_save_requested;
 extern int init(int argc, char *argv[]);
 extern void player_init(void);
 extern void clean_up(char *estr);

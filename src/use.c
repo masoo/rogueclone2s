@@ -51,6 +51,7 @@ extern bool being_held;
 extern char *fruit, *you_can_move_again;
 extern bool sustain_strength;
 
+/* quaff: ポーションを飲んで効果を発動する */
 void
 quaff(void)
 {
@@ -145,7 +146,7 @@ quaff(void)
 		}
 		break;
 	case SEE_INVISIBLE:
-		sprintf(buf, mesg[244], fruit);
+		snprintf(buf, sizeof(buf), mesg[244], fruit);
 		message(buf, 0);
 		if (blind) {
 			unblind();
@@ -165,6 +166,7 @@ quaff(void)
 	vanish(obj, 1, &rogue.pack);
 }
 
+/* read_scroll: 巻物を読んで効果を発動する */
 void
 read_scroll(void)
 {
@@ -195,8 +197,8 @@ read_scroll(void)
 	case ENCH_WEAPON:
 		if (rogue.weapon) {
 			if (rogue.weapon->what_is == WEAPON) {
-				sprintf(msg, mesg[249], name_of(rogue.weapon),
-				    get_ench_color());
+				snprintf(msg, sizeof(msg), mesg[249],
+				    name_of(rogue.weapon), get_ench_color());
 				message(msg, 0);
 				if (coin_toss()) {
 					rogue.weapon->hit_enchant++;
@@ -211,7 +213,7 @@ read_scroll(void)
 		break;
 	case ENCH_ARMOR:
 		if (rogue.armor) {
-			sprintf(msg, mesg[251], get_ench_color());
+			snprintf(msg, sizeof(msg), mesg[251], get_ench_color());
 			message(msg, 0);
 			rogue.armor->d_enchant++;
 			rogue.armor->is_cursed = 0;
@@ -267,9 +269,7 @@ read_scroll(void)
 	vanish(obj, (obj->which_kind != SLEEP), &rogue.pack);
 }
 
-/* vanish() does NOT handle a quiver of weapons with more than one
-   arrow (or whatever) in the quiver.  It will only decrement the count.
-*/
+/* vanish: 使用したアイテムを消費し、数量を減らすか除去する */
 void
 vanish(object *obj, short rm, object *pack)
 {
@@ -291,6 +291,7 @@ vanish(object *obj, short rm, object *pack)
 	}
 }
 
+/* potion_heal: 回復ポーションによるHP回復と状態異常解除 */
 void
 potion_heal(int extra)
 {
@@ -337,6 +338,7 @@ potion_heal(int extra)
 	}
 }
 
+/* idntfy: 識別の巻物でアイテムを鑑定する */
 void
 idntfy(void)
 {
@@ -360,10 +362,11 @@ AGAIN:
 		id_table = get_id_table(obj);
 		id_table[obj->which_kind].id_status = IDENTIFIED;
 	}
-	get_desc(obj, desc, 1);
+	get_desc(obj, desc, sizeof(desc), 1);
 	message(desc, 0);
 }
 
+/* eat: 食料を食べて満腹度を回復する */
 void
 eat(void)
 {
@@ -392,7 +395,7 @@ eat(void)
 			} else
 				message(mesg[266], 0);
 		} else {
-			sprintf(buf, mesg[267], fruit);
+			snprintf(buf, sizeof(buf), mesg[267], fruit);
 			message(buf, 0);
 		}
 	} else {
@@ -408,6 +411,7 @@ eat(void)
 	vanish(obj, 1, &rogue.pack);
 }
 
+/* hold_monster: 周囲のモンスターを金縛りにする */
 void
 hold_monster(void)
 {
@@ -441,6 +445,7 @@ hold_monster(void)
 	}
 }
 
+/* tele: プレイヤーをランダムな部屋にテレポートさせる */
 void
 tele(void)
 {
@@ -455,6 +460,7 @@ tele(void)
 	bear_trap = 0;
 }
 
+/* hallucinate: 幻覚状態で画面上のアイテムとモンスターをランダム表示する */
 void
 hallucinate(void)
 {
@@ -488,6 +494,7 @@ hallucinate(void)
 	}
 }
 
+/* unhallucinate: 幻覚状態を解除する */
 void
 unhallucinate(void)
 {
@@ -496,6 +503,7 @@ unhallucinate(void)
 	message(mesg[272], 1);
 }
 
+/* unblind: 盲目状態を解除して視界を回復する */
 void
 unblind(void)
 {
@@ -510,6 +518,7 @@ unblind(void)
 	}
 }
 
+/* relight: 現在の部屋または通路を再描画する */
 void
 relight(void)
 {
@@ -521,6 +530,7 @@ relight(void)
 	mvaddch_rogue(rogue.row, rogue.col, rogue.fchar);
 }
 
+/* take_a_nap: 睡眠の巻物でプレイヤーを一時的に行動不能にする */
 void
 take_a_nap(void)
 {
@@ -536,6 +546,7 @@ take_a_nap(void)
 	message(you_can_move_again, 0);
 }
 
+/* go_blind: プレイヤーを盲目状態にして画面を消す */
 void
 go_blind(void)
 {
@@ -569,6 +580,7 @@ go_blind(void)
 	mvaddch_rogue(rogue.row, rogue.col, rogue.fchar);
 }
 
+/* get_ench_color: エンチャント時の光の色を返す（幻覚時はランダム） */
 char *
 get_ench_color(void)
 {
@@ -578,12 +590,14 @@ get_ench_color(void)
 	return (mesg[275]);
 }
 
+/* confuse: プレイヤーを混乱状態にする */
 void
 confuse(void)
 {
 	confused += get_rand(12, 22);
 }
 
+/* unconfuse: 混乱状態を解除する */
 void
 unconfuse(void)
 {
@@ -595,6 +609,7 @@ unconfuse(void)
 	}
 }
 
+/* uncurse_all: パック内の全アイテムの呪いを解除する */
 void
 uncurse_all(void)
 {

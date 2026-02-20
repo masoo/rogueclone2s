@@ -28,6 +28,10 @@
 
 char *curse_message = mesg[85];
 
+/*
+ * add_to_pack
+ * オブジェクトをパックに追加する
+ */
 object *
 add_to_pack(object *obj, object *pack, int condense)
 {
@@ -54,6 +58,10 @@ add_to_pack(object *obj, object *pack, int condense)
 	return obj;
 }
 
+/*
+ * take_from_pack
+ * オブジェクトをパックから取り出す
+ */
 void
 take_from_pack(object *obj, object *pack)
 {
@@ -63,6 +71,10 @@ take_from_pack(object *obj, object *pack)
 	pack->next_object = pack->next_object->next_object;
 }
 
+/*
+ * pick_up
+ * 床のアイテムを拾う
+ */
 object *
 pick_up(int row, int col, short *status)
 {
@@ -101,6 +113,10 @@ pick_up(int row, int col, short *status)
 	return obj;
 }
 
+/*
+ * drop
+ * 持ち物を床に置く
+ */
 void
 drop(void)
 {
@@ -158,12 +174,16 @@ drop(void)
 		take_from_pack(obj, &rogue.pack);
 	}
 	place_at(obj, rogue.row, rogue.col);
-	get_desc(obj, desc, 0);
+	get_desc(obj, desc, sizeof(desc), 0);
 	(void)strcat(desc, mesg[92]);
 	message(desc, 0);
 	(void)reg_move();
 }
 
+/*
+ * check_duplicate
+ * パック内の重複アイテムを確認する
+ */
 object *
 check_duplicate(object *obj, object *pack)
 {
@@ -197,6 +217,10 @@ check_duplicate(object *obj, object *pack)
 	return 0;
 }
 
+/*
+ * next_avail_ichar
+ * 次の空き識別文字を返す
+ */
 int
 next_avail_ichar(void)
 {
@@ -220,6 +244,10 @@ next_avail_ichar(void)
 	return '?';
 }
 
+/*
+ * wait_for_ack
+ * スペースキーの入力を待つ
+ */
 void
 wait_for_ack(void)
 {
@@ -227,6 +255,10 @@ wait_for_ack(void)
 		;
 }
 
+/*
+ * pack_letter
+ * 持ち物の選択入力を受け付ける
+ */
 int
 pack_letter(char *prompt, unsigned short mask)
 {
@@ -262,6 +294,10 @@ pack_letter(char *prompt, unsigned short mask)
 	return ch;
 }
 
+/*
+ * take_off
+ * 防具を脱ぐ
+ */
 void
 take_off(void)
 {
@@ -275,7 +311,7 @@ take_off(void)
 			mv_aquatars();
 			obj = rogue.armor;
 			unwear(rogue.armor);
-			get_desc(obj, desc, 0);
+			get_desc(obj, desc, sizeof(desc), 0);
 			(void)strcat(desc, mesg[94]);
 			message(desc, 0);
 			print_stats(STAT_ARMOR);
@@ -286,6 +322,10 @@ take_off(void)
 	}
 }
 
+/*
+ * wear
+ * 防具を着る
+ */
 void
 wear(void)
 {
@@ -311,7 +351,7 @@ wear(void)
 		return;
 	}
 	obj->identified = 1;
-	get_desc(obj, desc, 0);
+	get_desc(obj, desc, sizeof(desc), 0);
 	(void)strcat(desc, mesg[100]);
 	message(desc, 0);
 	do_wear(obj);
@@ -319,6 +359,10 @@ wear(void)
 	(void)reg_move();
 }
 
+/*
+ * unwear
+ * 防具の装備状態を解除する
+ */
 void
 unwear(object *obj)
 {
@@ -328,6 +372,10 @@ unwear(object *obj)
 	rogue.armor = (object *)0;
 }
 
+/*
+ * do_wear
+ * 防具の装備状態を設定する
+ */
 void
 do_wear(object *obj)
 {
@@ -336,6 +384,10 @@ do_wear(object *obj)
 	obj->identified = 1;
 }
 
+/*
+ * wield
+ * 武器を装備する
+ */
 void
 wield(void)
 {
@@ -357,7 +409,7 @@ wield(void)
 		return;
 	}
 	if (obj->what_is & (ARMOR | RING)) {
-		sprintf(desc, mesg[103],
+		snprintf(desc, sizeof(desc), mesg[103],
 		    ((obj->what_is == ARMOR) ? mesg[104] : mesg[105]));
 		message(desc, 0);
 		return;
@@ -366,7 +418,7 @@ wield(void)
 		message(mesg[106], 0);
 	} else {
 		unwield(rogue.weapon);
-		get_desc(obj, desc, 0);
+		get_desc(obj, desc, sizeof(desc), 0);
 		(void)strcat(desc, mesg[107]);
 		message(desc, 0);
 		do_wield(obj);
@@ -374,6 +426,10 @@ wield(void)
 	}
 }
 
+/*
+ * do_wield
+ * 武器の装備状態を設定する
+ */
 void
 do_wield(object *obj)
 {
@@ -381,6 +437,10 @@ do_wield(object *obj)
 	obj->in_use_flags |= BEING_WIELDED;
 }
 
+/*
+ * unwield
+ * 武器の装備状態を解除する
+ */
 void
 unwield(object *obj)
 {
@@ -390,6 +450,10 @@ unwield(object *obj)
 	rogue.weapon = (object *)0;
 }
 
+/*
+ * call_it
+ * アイテムに名前を付ける
+ */
 void
 call_it(void)
 {
@@ -421,10 +485,16 @@ call_it(void)
 			(void)strcat(buf, " ");
 		}
 		id_table[obj->which_kind].id_status = CALLED;
-		(void)strcpy(id_table[obj->which_kind].title, buf);
+		(void)strncpy(id_table[obj->which_kind].title, buf,
+		    MAX_TITLE_LENGTH - 1);
+		id_table[obj->which_kind].title[MAX_TITLE_LENGTH - 1] = '\0';
 	}
 }
 
+/*
+ * pack_count
+ * パック内のアイテム数を返す
+ */
 int
 pack_count(object *new_obj)
 {
@@ -452,6 +522,10 @@ pack_count(object *new_obj)
 	return (count);
 }
 
+/*
+ * mask_pack
+ * パック内に指定種別のアイテムがあるか判定する
+ */
 bool
 mask_pack(object *pack, unsigned short mask)
 {
@@ -464,6 +538,10 @@ mask_pack(object *pack, unsigned short mask)
 	return false;
 }
 
+/*
+ * is_pack_letter
+ * 入力がパック操作文字か判定する
+ */
 int
 is_pack_letter(short *c, unsigned short *mask)
 {
@@ -500,12 +578,20 @@ found:
 	return 1;
 }
 
+/*
+ * has_amulet
+ * 魔除けを所持しているか判定する
+ */
 int
 has_amulet(void)
 {
 	return (mask_pack(&rogue.pack, AMULET));
 }
 
+/*
+ * kick_into_pack
+ * 足元のアイテムを拾う
+ */
 void
 kick_into_pack(void)
 {
@@ -523,7 +609,7 @@ kick_into_pack(void)
 			return;
 		}
 		if ((obj = pick_up(rogue.row, rogue.col, &stat))) {
-			get_desc(obj, desc, 1);
+			get_desc(obj, desc, sizeof(desc), 1);
 			(void)strcat(desc, mesg[114]);
 			if (obj->what_is == GOLD) {
 				message(desc, 0);

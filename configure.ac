@@ -42,6 +42,7 @@ AC_CHECK_HEADER_STDBOOL
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
+AC_C_INLINE
 AC_STRUCT_TM
 AC_TYPE_SIZE_T
 AC_TYPE_INT8_T
@@ -55,7 +56,7 @@ AC_PROG_GCC_TRADITIONAL
 AC_FUNC_MALLOC
 AC_FUNC_MEMCMP
 AC_FUNC_STAT
-AC_CHECK_FUNCS([assume_default_colors attr_get chdir getcwd getenv getlogin memset putenv setenv setlocale sleep strchr wcwidth])
+AC_CHECK_FUNCS([assume_default_colors attr_get chdir getcwd getenv getlogin memset putenv setenv setlocale sleep strchr strstr wcwidth])
 AC_CHECK_DECLS([getlogin], [], [], [#include <unistd.h>])
 
 # Configuration options
@@ -65,6 +66,14 @@ AC_ARG_ENABLE([color],
 
 if test "$enable_color" != "no"; then
   AC_DEFINE([COLOR], , [Define if you have the 'COLOR'])
+fi
+
+AC_ARG_ENABLE([original],
+              AS_HELP_STRING([--enable-original],
+                             [use original English messages (default no)]), ,)
+
+if test "$enable_original" = "yes"; then
+  AC_DEFINE([ORIGINAL], , [Define to use original English messages])
 fi
 
 # Define constants

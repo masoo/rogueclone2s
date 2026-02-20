@@ -29,15 +29,19 @@
 
 #define CTRL(c) ((c) & 037)
 
-char msg_line[ROGUE_COLUMNS] = "";
+char msg_line[MAX_MESG_BUFFER_SIZE] = "";
 short msg_col = 0;
 bool msg_cleared = true;
-char hunger_str[8] = "";
+char hunger_str[HUNGER_STR_SIZE] = "";
 
 extern bool cant_int, did_int, interrupted, save_is_interactive;
 extern short add_strength;
 extern short cur_level;
 
+/*
+ * message
+ * メッセージ行にメッセージを表示する
+ */
 void
 message(char *msg, bool intrpt)
 {
@@ -55,7 +59,8 @@ message(char *msg, bool intrpt)
 		wait_for_ack();
 		check_message();
 	}
-	(void)strcpy(msg_line, msg);
+	(void)strncpy(msg_line, msg, sizeof(msg_line) - 1);
+	msg_line[sizeof(msg_line) - 1] = '\0';
 	mvaddstr_rogue(MIN_ROW - 1, 0, msg);
 	addch_rogue(' ');
 	refresh();
@@ -71,6 +76,10 @@ message(char *msg, bool intrpt)
 	}
 }
 
+/*
+ * remessage
+ * 直前のメッセージを再表示する
+ */
 void
 remessage(void)
 {
@@ -79,6 +88,10 @@ remessage(void)
 	}
 }
 
+/*
+ * check_message
+ * メッセージ行をクリアする
+ */
 void
 check_message(void)
 {
@@ -91,6 +104,10 @@ check_message(void)
 	msg_cleared = true;
 }
 
+/*
+ * get_direction
+ * 移動方向の入力を取得する
+ */
 int
 get_direction(void)
 {
@@ -104,6 +121,10 @@ get_direction(void)
 	return dir;
 }
 
+/*
+ * get_input_line
+ * メッセージ行で文字列入力を受け付ける
+ */
 int
 get_input_line(char *prompt, char *insert, char *buf, char *if_cancelled,
     bool add_blank, bool do_echo)
@@ -115,12 +136,20 @@ get_input_line(char *prompt, char *insert, char *buf, char *if_cancelled,
 	return ((n < 0) ? 0 : n);
 }
 
+/*
+ * input_line
+ * 指定位置で文字列入力を受け付ける
+ */
 int
 input_line(int row, int col, char *insert, char *buf, int ch)
 {
 	return do_input_line(0, row, col, "", insert, buf, "", 0, 1, ch);
 }
 
+/*
+ * do_input_line
+ * 文字列入力の共通処理を行う
+ */
 int
 do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
     char *buf, char *if_cancelled, bool add_blank, bool do_echo, int first_ch)
@@ -252,6 +281,10 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 	return i;
 }
 
+/*
+ * rgetchar
+ * キー入力を取得する
+ */
 int
 rgetchar(void)
 {
@@ -277,12 +310,16 @@ rgetchar(void)
 	}
 }
 
+// clang-format off
 /*
-Level: 99 Gold: 999999 Hp: 999(999) Str: 99(99) Arm: 99 Exp: 21/10000000 Hungry
-階: 99 金塊: 999999 体力: 999(999) 強さ: 99(99) 守備: 99 経験: 21/10000000 空腹
-0    5    1    5    2    5    3    5    4    5    5    5    6    5    7    5
-*/
-
+ * print_stats
+ * ステータス行を表示する
+ *
+ * Level: 99 Gold: 999999 Hp: 999(999) Str: 99(99) Arm: 99 Exp: 21/10000000 Hungry
+ * 階: 99 金塊: 999999 体力: 999(999) 強さ: 99(99) 守備: 99 経験: 21/10000000 空腹
+ * 0    5    1    5    2    5    3    5    4    5    5    5    6    5    7    5
+ */
+// clang-format on
 void
 print_stats(int stat_mask)
 {
@@ -297,7 +334,7 @@ print_stats(int stat_mask)
 			mvaddstr_rogue(row, 0, mesg[56]);
 		}
 		/* max level taken care of in make_level() */
-		sprintf(buf, "%d", cur_level);
+		snprintf(buf, sizeof(buf), "%d", cur_level);
 		mvaddstr_rogue(row, 4, buf);
 		pad(buf, 2);
 	}
@@ -308,7 +345,7 @@ print_stats(int stat_mask)
 			}
 			mvaddstr_rogue(row, 7, mesg[57]);
 		}
-		sprintf(buf, "%ld", rogue.gold);
+		snprintf(buf, sizeof(buf), "%ld", rogue.gold);
 		mvaddstr_rogue(row, 13, buf);
 		pad(buf, 6);
 	}
@@ -320,7 +357,8 @@ print_stats(int stat_mask)
 				rogue.hp_max = MAX_HP;
 			}
 		}
-		sprintf(buf, "%d(%d)", rogue.hp_current, rogue.hp_max);
+		snprintf(buf, sizeof(buf), "%d(%d)", rogue.hp_current,
+		    rogue.hp_max);
 		mvaddstr_rogue(row, 26, buf);
 		pad(buf, 8);
 	}
@@ -332,8 +370,8 @@ print_stats(int stat_mask)
 			rogue.str_current -= (rogue.str_max - MAX_STRENGTH);
 			rogue.str_max = MAX_STRENGTH;
 		}
-		sprintf(buf, "%d(%d)", (rogue.str_current + add_strength),
-		    rogue.str_max);
+		snprintf(buf, sizeof(buf), "%d(%d)",
+		    (rogue.str_current + add_strength), rogue.str_max);
 		mvaddstr_rogue(row, 41, buf);
 		pad(buf, 6);
 	}
@@ -344,7 +382,7 @@ print_stats(int stat_mask)
 		if (rogue.armor && (rogue.armor->d_enchant > MAX_ARMOR)) {
 			rogue.armor->d_enchant = MAX_ARMOR;
 		}
-		sprintf(buf, "%d", get_armor_class(rogue.armor));
+		snprintf(buf, sizeof(buf), "%d", get_armor_class(rogue.armor));
 		mvaddstr_rogue(row, 54, buf);
 		pad(buf, 2);
 	}
@@ -353,7 +391,8 @@ print_stats(int stat_mask)
 			mvaddstr_rogue(row, 57, mesg[61]);
 		}
 		/*  Max exp taken care of in add_exp() */
-		sprintf(buf, "%d/%ld", rogue.exp, rogue.exp_points);
+		snprintf(buf, sizeof(buf), "%d/%ld", rogue.exp,
+		    rogue.exp_points);
 		mvaddstr_rogue(row, 63, buf);
 		pad(buf, 11);
 	}
@@ -364,6 +403,10 @@ print_stats(int stat_mask)
 	refresh();
 }
 
+/*
+ * pad
+ * 指定幅まで空白で埋める
+ */
 void
 pad(char *s, short n)
 {
@@ -374,6 +417,10 @@ pad(char *s, short n)
 	}
 }
 
+/*
+ * save_screen
+ * 画面内容をファイルに保存する
+ */
 void
 save_screen(void)
 {
@@ -403,6 +450,10 @@ save_screen(void)
 	}
 }
 
+/*
+ * sound_bell
+ * ベル音を鳴らす
+ */
 void
 sound_bell(void)
 {
@@ -410,12 +461,20 @@ sound_bell(void)
 	fflush(stdout);
 }
 
+/*
+ * is_digit
+ * 文字が数字かどうか判定する
+ */
 bool
 is_digit(short ch)
 {
 	return (bool)((ch >= '0') && (ch <= '9'));
 }
 
+/*
+ * r_index
+ * 文字列中の文字位置を検索する
+ */
 int
 r_index(char *str, int ch, bool last)
 {

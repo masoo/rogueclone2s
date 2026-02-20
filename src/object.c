@@ -145,6 +145,10 @@ extern short party_room;
 extern char *error_file;
 extern bool is_wood[];
 
+/*
+ * put_objects
+ * フロアにアイテムを配置する
+ */
 void
 put_objects(void)
 {
@@ -169,6 +173,10 @@ put_objects(void)
 	put_gold();
 }
 
+/*
+ * put_gold
+ * 各部屋に金塊を配置する
+ */
 void
 put_gold(void)
 {
@@ -199,6 +207,10 @@ put_gold(void)
 	}
 }
 
+/*
+ * plant_gold
+ * 指定位置に金塊を生成する
+ */
 void
 plant_gold(short row, short col, bool is_maze)
 {
@@ -216,6 +228,10 @@ plant_gold(short row, short col, bool is_maze)
 	(void)add_to_pack(obj, &level_objects, 0);
 }
 
+/*
+ * place_at
+ * オブジェクトを指定位置に配置する
+ */
 void
 place_at(object *obj, int row, int col)
 {
@@ -225,6 +241,10 @@ place_at(object *obj, int row, int col)
 	(void)add_to_pack(obj, &level_objects, 0);
 }
 
+/*
+ * object_at
+ * 指定座標のオブジェクトを返す
+ */
 object *
 object_at(object *pack, short row, short col)
 {
@@ -238,6 +258,10 @@ object_at(object *pack, short row, short col)
 	return obj;
 }
 
+/*
+ * get_letter_object
+ * 指定文字に対応する持ち物を返す
+ */
 object *
 get_letter_object(int ch)
 {
@@ -251,6 +275,10 @@ get_letter_object(int ch)
 	return obj;
 }
 
+/*
+ * free_stuff
+ * オブジェクトリストを全て解放する
+ */
 void
 free_stuff(object *objlist)
 {
@@ -263,6 +291,10 @@ free_stuff(object *objlist)
 	}
 }
 
+/*
+ * name_of
+ * オブジェクトの名前を返す
+ */
 char *
 name_of(object *obj)
 {
@@ -284,6 +316,10 @@ name_of(object *obj)
 	return mesg[80];
 }
 
+/*
+ * gr_object
+ * ランダムなアイテムを生成する
+ */
 object *
 gr_object(void)
 {
@@ -323,6 +359,10 @@ gr_object(void)
 	return obj;
 }
 
+/*
+ * gr_what_is
+ * ランダムなアイテム種別を返す
+ */
 unsigned short
 gr_what_is(void)
 {
@@ -340,6 +380,10 @@ gr_what_is(void)
 	}
 }
 
+/*
+ * gr_scroll
+ * ランダムな巻き物を生成する
+ */
 void
 gr_scroll(object *obj)
 {
@@ -358,6 +402,10 @@ gr_scroll(object *obj)
 	}
 }
 
+/*
+ * gr_potion
+ * ランダムな水薬を生成する
+ */
 void
 gr_potion(object *obj)
 {
@@ -376,6 +424,10 @@ gr_potion(object *obj)
 	}
 }
 
+/*
+ * gr_weapon
+ * ランダムな武器を生成する
+ */
 void
 gr_weapon(object *obj, int assign_wk)
 {
@@ -419,6 +471,10 @@ gr_weapon(object *obj, int assign_wk)
 	obj->damage = da[obj->which_kind];
 }
 
+/*
+ * gr_armor
+ * ランダムな防具を生成する
+ */
 void
 gr_armor(object *obj, int assign_wk)
 { /* by Yasha */
@@ -446,6 +502,10 @@ gr_armor(object *obj, int assign_wk)
 	}
 }
 
+/*
+ * gr_wand
+ * ランダムな杖を生成する
+ */
 void
 gr_wand(object *obj)
 {
@@ -460,6 +520,10 @@ gr_wand(object *obj)
 	}
 }
 
+/*
+ * get_food
+ * 食料を生成する
+ */
 void
 get_food(object *obj, bool force_ration)
 {
@@ -472,6 +536,10 @@ get_food(object *obj, bool force_ration)
 	}
 }
 
+/*
+ * put_stairs
+ * フロアに階段を配置する
+ */
 void
 put_stairs(void)
 {
@@ -481,6 +549,10 @@ put_stairs(void)
 	dungeon[row][col] |= STAIRS;
 }
 
+/*
+ * get_armor_class
+ * 防具の防御力を返す
+ */
 int
 get_armor_class(object *obj)
 {
@@ -490,6 +562,10 @@ get_armor_class(object *obj)
 	return (0);
 }
 
+/*
+ * alloc_object
+ * オブジェクトを割り当てる
+ */
 object *
 alloc_object(void)
 {
@@ -511,6 +587,10 @@ alloc_object(void)
 	return obj;
 }
 
+/*
+ * free_object
+ * オブジェクトをフリーリストに返す
+ */
 void
 free_object(object *obj)
 {
@@ -518,6 +598,10 @@ free_object(object *obj)
 	free_list = obj;
 }
 
+/*
+ * make_party
+ * パーティルームを生成する
+ */
 void
 make_party(void)
 {
@@ -531,6 +615,10 @@ make_party(void)
 	}
 }
 
+/*
+ * show_objects
+ * 全アイテムの位置を表示する
+ */
 void
 show_objects(void)
 {
@@ -570,6 +658,10 @@ show_objects(void)
 	}
 }
 
+/*
+ * put_amulet
+ * イェンダーの魔除けを配置する
+ */
 void
 put_amulet(void)
 {
@@ -580,6 +672,10 @@ put_amulet(void)
 	rand_place(obj);
 }
 
+/*
+ * rand_place
+ * オブジェクトをランダムに配置する
+ */
 void
 rand_place(object *obj)
 {
@@ -589,6 +685,10 @@ rand_place(object *obj)
 	place_at(obj, row, col);
 }
 
+/*
+ * new_object_for_wizard
+ * ウィザードモードでアイテムを生成する
+ */
 void
 new_object_for_wizard(void)
 {
@@ -648,7 +748,7 @@ new_object_for_wizard(void)
 	}
 	if ((ch != ',') && (ch != ':')) {
 		/*		sprintf(buf, mesg[83], name_of(obj));*/
-		sprintf(buf, mesg[83],
+		snprintf(buf, sizeof(buf), mesg[83],
 		    (obj->what_is == WEAPON) /* by Yasha */
 			? mesg[84]
 			: name_of(obj)); /* by Yasha */
@@ -686,11 +786,15 @@ new_object_for_wizard(void)
 			gr_weapon(obj, 0);           /* by Yasha */
 		}
 	}
-	get_desc(obj, buf, 1);
+	get_desc(obj, buf, sizeof(buf), 1);
 	message(buf, 0);
 	(void)add_to_pack(obj, &rogue.pack, 1);
 }
 
+/*
+ * list_object
+ * アイテム種別の一覧を表示する
+ */
 void
 list_object(object *obj, short max)
 {
@@ -734,18 +838,18 @@ list_object(object *obj, short max)
 	maxlen = len;
 	for (i = 0; i <= max; i++) {
 #if 1 /* by Yasha */
-		sprintf(descs[i], " %c) %s%s", i + 'a',
+		snprintf(descs[i], sizeof(descs[i]), " %c) %s%s", i + 'a',
 		    weapon_or_armor ? id[i].title : id[i].real,
 		    weapon_or_armor ? "" : name_of(obj));
 #else
-		sprintf(descs[i], " %c) %s%s", i + 'a', id[i].real,
-		    name_of(obj));
+		snprintf(descs[i], sizeof(descs[i]), " %c) %s%s", i + 'a',
+		    id[i].real, name_of(obj));
 #endif
 		if ((n = utf8_display_width(descs[i])) > maxlen) {
 			maxlen = n;
 		}
 	}
-	(void)strcpy(descs[i++], msg);
+	(void)snprintf(descs[i++], sizeof(descs[0]), "%s", msg);
 
 	col = ROGUE_COLUMNS - (maxlen + 2);
 	for (row = 0; row < i; row++) {
@@ -777,6 +881,10 @@ list_object(object *obj, short max)
 #endif /* not COLOR */
 }
 
+/*
+ * next_party
+ * 次のパーティルーム出現階を返す
+ */
 int
 next_party(void)
 {

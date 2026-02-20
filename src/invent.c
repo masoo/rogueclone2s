@@ -57,6 +57,10 @@ extern bool wizard;
 
 char descs[ROGUE_LINES][ROGUE_COLUMNS]; /* multi-purpose screen saver */
 
+/*
+ * inventory
+ * 持ち物一覧を表示する
+ */
 void
 inventory(object *pack, unsigned short mask)
 {
@@ -82,7 +86,7 @@ nextpage:
 			*p++ = obj->ichar;
 			*p++ = Protected(obj) ? '}' : ')';
 			*p++ = ' ';
-			get_desc(obj, p, 0);
+			get_desc(obj, p, ROGUE_COLUMNS - 4, 0);
 			if ((n = utf8_display_width(descs[i])) > maxlen) {
 				maxlen = n;
 			}
@@ -156,7 +160,8 @@ mix_colors(void)
 		} while (used[j]);
 		used[j] = true;
 		p = id_potions[i].title;
-		strcpy(id_potions[i].title, po_color[j]);
+		strncpy(id_potions[i].title, po_color[j], MAX_TITLE_LENGTH - 1);
+		id_potions[i].title[MAX_TITLE_LENGTH - 1] = '\0';
 	}
 }
 
@@ -193,36 +198,46 @@ make_scroll_titles(void)
 	}
 }
 
+/*
+ * get_desc
+ * アイテムの説明文を生成する
+ */
 void
-get_desc(object *obj, char *desc, bool capitalized)
+get_desc(object *obj, char *desc, size_t desc_size, bool capitalized)
 {
 	char *item_name, *p;
 	id *id_table;
 	char more_info[32];
 	short i;
 
+	if (desc_size == 0)
+		return;
 	*desc = 0;
 	if (obj->what_is == AMULET) {
-		(void)strcpy(desc, mesg[27]);
+		(void)snprintf(desc, desc_size, "%s", mesg[27]);
 		return;
 	}
 	item_name = name_of(obj);
 	if (obj->what_is == GOLD) {
 		znum(desc, obj->quantity, 0);
-		strcat(desc, mesg[28]);
+		snprintf(desc + strlen(desc), desc_size - strlen(desc), "%s",
+		    mesg[28]);
 		return;
 	}
 	if (obj->what_is == WEAPON && obj->quantity > 1) {
 		znum(desc, obj->quantity, 0);
-		strcat(desc, mesg[29]);
+		snprintf(desc + strlen(desc), desc_size - strlen(desc), "%s",
+		    mesg[29]);
 	} else if (obj->what_is == FOOD) {
 		znum(desc, obj->quantity, 0);
-		strcat(desc, (obj->which_kind == RATION) ? mesg[30] : mesg[31]);
-		(void)strcat(desc, item_name);
+		snprintf(desc + strlen(desc), desc_size - strlen(desc), "%s%s",
+		    (obj->which_kind == RATION) ? mesg[30] : mesg[31],
+		    item_name);
 		goto ANA;
 	} else if (obj->what_is != ARMOR && obj->quantity > 1) {
 		znum(desc, obj->quantity, 0);
-		strcat(desc, mesg[32]);
+		snprintf(desc + strlen(desc), desc_size - strlen(desc), "%s",
+		    mesg[32]);
 	}
 	id_table = get_id_table(obj);
 
@@ -238,13 +253,13 @@ get_desc(object *obj, char *desc, bool capitalized)
 	CHECK:
 		switch (obj->what_is) {
 		case SCROL:
-			(void)strcat(desc, id_table[obj->which_kind].title);
-			(void)strcat(desc, mesg[33]);
-			(void)strcat(desc, item_name);
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "%s%s%s", id_table[obj->which_kind].title, mesg[33],
+			    item_name);
 			break;
 		case POTION:
-			(void)strcat(desc, id_table[obj->which_kind].title);
-			(void)strcat(desc, item_name);
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "%s%s", id_table[obj->which_kind].title, item_name);
 			break;
 		case WAND:
 		case RING:
@@ -256,20 +271,22 @@ get_desc(object *obj, char *desc, bool capitalized)
 			if (id_table[obj->which_kind].id_status == CALLED) {
 				goto CALL;
 			}
-			(void)strcat(desc, id_table[obj->which_kind].title);
-			(void)strcat(desc, item_name);
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "%s%s", id_table[obj->which_kind].title, item_name);
 			break;
 		case ARMOR:
 			if (obj->identified) {
 				goto ID;
 			}
-			(void)strcpy(desc, id_table[obj->which_kind].title);
+			(void)snprintf(desc, desc_size, "%s",
+			    id_table[obj->which_kind].title);
 			break;
 		case WEAPON:
 			if (obj->identified) {
 				goto ID;
 			}
-			(void)strcat(desc, name_of(obj));
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "%s", name_of(obj));
 			break;
 		}
 		break;
@@ -283,11 +300,11 @@ get_desc(object *obj, char *desc, bool capitalized)
 			p = id_table[obj->which_kind].title;
 			/* ASCII文字で始まる場合はスペースを挿入する */
 			if (*desc && *p >= ' ' && !((unsigned char)*p & 0x80)) {
-				(void)strcat(desc, " ");
+				snprintf(desc + strlen(desc),
+				    desc_size - strlen(desc), " ");
 			}
-			(void)strcat(desc, p);
-			(void)strcat(desc, mesg[34]);
-			(void)strcat(desc, item_name);
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "%s%s%s", p, mesg[34], item_name);
 			break;
 		}
 		break;
@@ -296,49 +313,57 @@ get_desc(object *obj, char *desc, bool capitalized)
 		switch (obj->what_is) {
 		case SCROL:
 		case POTION:
-			(void)strcat(desc, id_table[obj->which_kind].real);
-			(void)strcat(desc, item_name);
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "%s%s", id_table[obj->which_kind].real, item_name);
 			break;
 		case RING:
-			(void)strcat(desc, id_table[obj->which_kind].real);
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "%s", id_table[obj->which_kind].real);
 			if (wizard || obj->identified) {
 				if ((obj->which_kind == DEXTERITY) ||
 				    (obj->which_kind == ADD_STRENGTH)) {
 					strcpy(more_info, "（");
 					znum(more_info, obj->class, 1);
 					strcat(more_info, "）");
-					(void)strcat(desc, more_info);
+					snprintf(desc + strlen(desc),
+					    desc_size - strlen(desc), "%s",
+					    more_info);
 				}
 			}
-			(void)strcat(desc, item_name);
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "%s", item_name);
 			break;
 		case WAND:
-			(void)strcat(desc, id_table[obj->which_kind].real);
-			(void)strcat(desc, item_name);
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "%s%s", id_table[obj->which_kind].real, item_name);
 			if (wizard || obj->identified) {
 				strcpy(more_info, "［");
 				znum(more_info, obj->class, 0);
 				strcat(more_info, "］");
-				(void)strcat(desc, more_info);
+				snprintf(desc + strlen(desc),
+				    desc_size - strlen(desc), "%s", more_info);
 			}
 			break;
 		case ARMOR:
-			strcpy(desc, "（");
-			znum(desc, obj->d_enchant, 1);
-			strcat(desc, "）");
-			(void)strcat(desc, id_table[obj->which_kind].title);
+			snprintf(desc, desc_size, "（");
+			znum(desc + strlen(desc), obj->d_enchant, 1);
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "）%s", id_table[obj->which_kind].title);
 			strcpy(more_info, "［");
 			znum(more_info, get_armor_class(obj), 0);
 			strcat(more_info, "］");
-			(void)strcat(desc, more_info);
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "%s", more_info);
 			break;
 		case WEAPON:
-			strcat(desc, "（");
-			znum(desc, obj->hit_enchant, 1);
-			strcat(desc, "，");
-			znum(desc, obj->d_enchant, 1);
-			strcat(desc, "）");
-			(void)strcat(desc, name_of(obj));
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "（");
+			znum(desc + strlen(desc), obj->hit_enchant, 1);
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "，");
+			znum(desc + strlen(desc), obj->d_enchant, 1);
+			snprintf(desc + strlen(desc), desc_size - strlen(desc),
+			    "）%s", name_of(obj));
 			break;
 		}
 		break;
@@ -356,7 +381,7 @@ ANA:
 	} else {
 		p = "";
 	}
-	(void)strcat(desc, p);
+	snprintf(desc + strlen(desc), desc_size - strlen(desc), "%s", p);
 }
 
 /*
@@ -398,6 +423,10 @@ get_wand_and_ring_materials(void)
 	}
 }
 
+/*
+ * single_inv
+ * 指定した持ち物の説明を表示する
+ */
 void
 single_inv(short ichar)
 {
@@ -419,10 +448,14 @@ single_inv(short ichar)
 	*p++ = ch;
 	*p++ = ((obj->what_is & ARMOR) && obj->is_protected) ? '}' : ')';
 	*p++ = ' ';
-	get_desc(obj, p, 1);
+	get_desc(obj, p, ROGUE_COLUMNS - 3, 1);
 	message(desc, 0);
 }
 
+/*
+ * get_id_table
+ * アイテム種別に対応する識別テーブルを返す
+ */
 id *
 get_id_table(object *obj)
 {
@@ -443,6 +476,10 @@ get_id_table(object *obj)
 	return ((id *)0);
 }
 
+/*
+ * inv_armor_weapon
+ * 装備中の武器または防具の情報を表示する
+ */
 void
 inv_armor_weapon(bool is_weapon)
 {
@@ -480,6 +517,10 @@ struct dobj {
         {0}
 };
 
+/*
+ * discovered
+ * 識別済みアイテムの一覧を表示する
+ */
 void
 discovered(void)
 {
@@ -548,14 +589,12 @@ nextpage:
 	while (dp < enddp && i < ROGUE_LINES - 2) {
 		p = descs[i];
 		if (dp->type == 0) {
-			(void)strcpy(p, "");
+			p[0] = '\0';
 		} else if (dp->no < 0) {
-			(void)sprintf(p, mesg[47], dp->name);
+			(void)snprintf(p, ROGUE_COLUMNS, mesg[47], dp->name);
 		} else {
-			(void)strcpy(p, "  ");
-			(void)strcat(p, dp->real);
-			(void)strcat(p, dp->sub);
-			(void)strcat(p, dp->name);
+			(void)snprintf(p, ROGUE_COLUMNS, "  %s%s%s", dp->real,
+			    dp->sub, dp->name);
 		}
 		if ((n = utf8_display_width(p)) > maxlen) {
 			maxlen = n;
@@ -571,7 +610,7 @@ nextpage:
 		return;
 	}
 
-	strcpy(descs[i++], msg);
+	snprintf(descs[i++], ROGUE_COLUMNS, "%s", msg);
 	col = ROGUE_COLUMNS - (maxlen + 2);
 	for (row = 0; row < i; row++) {
 		if (row > 0) {

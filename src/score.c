@@ -38,14 +38,18 @@ extern short cur_level, max_level;
 extern bool score_only, show_skull, msg_cleared;
 extern char *byebye_string, *nick_name;
 
+/*
+ * killed_by
+ * プレイヤーの死亡処理を行い結果を表示する
+ */
 #if !defined(ORIGINAL)
 void
 killed_by(object *monster, short other)
 {
 	int i;
 	char *p, *q;
-	char buf[80];
-	char buf2[20];
+	char buf[MAX_MESG_BUFFER_SIZE];
+	char buf2[MAX_MESG_BUFFER_SIZE];
 	rogue_time rt;
 	static char xpos[] = {ROGUE_COLUMNS / 2 - 5, ROGUE_COLUMNS / 2 - 6,
 		ROGUE_COLUMNS / 2 - 7, ROGUE_COLUMNS / 2 - 8,
@@ -76,11 +80,11 @@ killed_by(object *monster, short other)
 		p = os1[other];
 		q = os2[other];
 	} else {
-		p = m_names[monster->m_char - 'A'];
+		p = m_names[mon_index(monster->m_char)];
 		q = mesg[176];
 	}
-	(void)strcpy(buf, p);
-	(void)strcpy(buf2, q);
+	(void)snprintf(buf, sizeof(buf), "%s", p);
+	(void)snprintf(buf2, sizeof(buf2), "%s", q);
 
 	if (show_skull && other != QUIT) {
 		md_gct(&rt);
@@ -112,10 +116,10 @@ killed_by(object *monster, short other)
 		check_message();
 		message("", 0);
 	} else {
-		(void)strcat(buf, buf2);
-		(void)strcat(buf, mesg[181]);
-		znum(buf, rogue.gold, 0);
-		strcat(buf, "。");
+		int off = snprintf(buf, sizeof(buf), "%s%s%s", p, q, mesg[181]);
+		if (off > 0 && (size_t)off < sizeof(buf))
+			znum(buf + strlen(buf), rogue.gold, 0);
+		snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "。");
 		message(buf, 0);
 	}
 	message("", 0);
@@ -126,7 +130,7 @@ void
 killed_by(object *monster, short other)
 {
 	char *p;
-	char buf[80];
+	char buf[256];
 
 	md_ignore_signals();
 
@@ -149,18 +153,14 @@ killed_by(object *monster, short other)
 			p = "quit";
 			break;
 		}
-		(void)strcpy(buf, p);
+		(void)snprintf(buf, sizeof(buf), "%s", p);
 	} else {
-		(void)strcpy(buf, "killed by ");
-		if (is_vowel(m_names[monster->m_char - 'A'][0])) {
-			(void)strcat(buf, "an ");
-		} else {
-			(void)strcat(buf, "a ");
-		}
-		(void)strcat(buf, m_names[monster->m_char - 'A']);
+		int idx = mon_index(monster->m_char);
+		(void)snprintf(buf, sizeof(buf), "killed by %s%s",
+		    is_vowel(m_names[idx][0]) ? "an " : "a ", m_names[idx]);
 	}
-	(void)strcat(buf, " with ");
-	sprintf(buf + strlen(buf), "%ld gold", rogue.gold);
+	snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), " with %ld gold",
+	    rogue.gold);
 	if ((!other) && show_skull) {
 		clear();
 		mvaddstr_rogue(4, 32, "__---------__");
@@ -189,6 +189,10 @@ killed_by(object *monster, short other)
 }
 #endif /* ORIGINAL */
 
+/*
+ * win
+ * ゲームクリア時の処理を行う
+ */
 void
 win(void)
 {
@@ -279,6 +283,10 @@ win(void)
 	put_scores((object *)0, WIN);
 }
 
+/*
+ * mvaddbanner
+ * 勝利バナーの1行を描画する
+ */
 #if !defined(ORIGINAL)
 void
 mvaddbanner(int row, int col, int *ban)
@@ -303,6 +311,10 @@ mvaddbanner(int row, int col, int *ban)
 }
 #endif /* not ORIGINAL */
 
+/*
+ * quit
+ * ゲームの終了確認を行う
+ */
 void
 quit(bool from_intrpt)
 {
@@ -345,6 +357,10 @@ quit(bool from_intrpt)
 	killed_by((object *)0, QUIT);
 }
 
+/*
+ * put_scores
+ * スコアファイルの読み書きとランキング表示を行う
+ */
 void
 put_scores(object *monster, short other)
 {
@@ -353,25 +369,20 @@ put_scores(object *monster, short other)
 	short found_pos;
 #endif /* not TOPSCO */
 	char scores[10][82], n_names[10][30];
-	char *p, buf[100], file[100];
+	char *p, buf[ROGUE_PATH_MAX], file[ROGUE_PATH_MAX];
 	FILE *fp;
 
 	fp = NULL;
 	if ((!game_dir || !*game_dir) && (p = md_ghome()) != NULL) {
-		p = strcpy(file, p);
-		while (*p) {
-			p++;
-		}
-		if (p[-1] != '/') {
-			*p++ = '/';
-		}
-		strcpy(p, score_file);
+		size_t hlen = strlen(p);
+		const char *slash = (hlen > 0 && p[hlen - 1] != '/') ? "/" : "";
+		snprintf(file, sizeof(file), "%s%s%s", p, slash, score_file);
 		if ((fp = fopen(file, "rb+")) == NULL) {
 			fp = fopen(file, "wb+");
 		}
 	}
 	if (fp == NULL) {
-		strcpy(file, score_file);
+		snprintf(file, sizeof(file), "%s", score_file);
 		if ((fp = fopen(file, "rb+")) == NULL) {
 			fp = fopen(file, "wb+");
 		}
@@ -482,13 +493,17 @@ put_scores(object *monster, short other)
 	clean_up("");
 }
 
+/*
+ * insert_score
+ * スコアをランキングの指定位置に挿入する
+ */
 void
 insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
     short n, object *monster, int other)
 {
 	short i;
 	char *p = NULL; /* 初期化されず使用される自動変数を初期化します。 */
-	char buf[82];
+	char buf[MAX_MESG_BUFFER_SIZE];
 
 	if (n > 0) {
 		for (i = n; i > rank; i--) {
@@ -498,15 +513,19 @@ insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
 			}
 		}
 	}
-	sprintf(buf, " %2d   %6ld   %s: ", rank + 1, rogue.gold, login_name);
+	snprintf(buf, sizeof(buf), " %2d   %6ld   %s: ", rank + 1, rogue.gold,
+	    login_name);
 
 	if (other != WIN) {
 		if (has_amulet()) {
-			(void)strcat(buf, mesg[189]);
+			snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
+			    "%s", mesg[189]);
 		}
-		strcat(buf, mesg[190]);
-		znum(buf, cur_level, 0);
-		strcat(buf, mesg[191]);
+		snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%s",
+		    mesg[190]);
+		znum(buf + strlen(buf), cur_level, 0);
+		snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%s",
+		    mesg[191]);
 	}
 	if (other) {
 		switch (other) {
@@ -526,20 +545,25 @@ insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
 			p = mesg[196];
 			break;
 		}
-		(void)strcat(buf, p);
+		snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%s", p);
 	} else {
-		(void)strcat(buf, m_names[monster->m_char - 'A']);
-		(void)strcat(buf, mesg[197]);
+		snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%s%s",
+		    m_names[mon_index(monster->m_char)], mesg[197]);
 	}
-	strcat(buf, "。");
+	snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "。");
 	for (i = strlen(buf); i < 79; i++) {
 		buf[i] = ' ';
 	}
 	buf[79] = 0;
 	(void)strcpy(scores[rank], buf);
-	(void)strcpy(n_names[rank], n_name);
+	(void)strncpy(n_names[rank], n_name, 29);
+	n_names[rank][29] = '\0';
 }
 
+/*
+ * is_vowel
+ * 文字が母音かどうか判定する
+ */
 int
 is_vowel(short ch)
 {
@@ -547,12 +571,16 @@ is_vowel(short ch)
 		(ch == 'u'));
 }
 
+/*
+ * sell_pack
+ * 所持品を売却しゴールドに換算する
+ */
 void
 sell_pack(void)
 {
 	object *obj;
 	short row = 2, val;
-	char buf[80];
+	char buf[256];
 
 	obj = rogue.pack.next_object;
 
@@ -566,8 +594,8 @@ sell_pack(void)
 			rogue.gold += val;
 
 			if (row < ROGUE_LINES) {
-				sprintf(buf, "%5d      ", val);
-				get_desc(obj, buf + 11, 1);
+				snprintf(buf, sizeof(buf), "%5d      ", val);
+				get_desc(obj, buf + 11, sizeof(buf) - 11, 1);
 				mvaddstr_rogue(row++, 0, buf);
 			}
 		}
@@ -580,6 +608,10 @@ sell_pack(void)
 	message("", 0);
 }
 
+/*
+ * get_value
+ * アイテムの売却価格を算出する
+ */
 int
 get_value(object *obj)
 {
@@ -627,6 +659,10 @@ get_value(object *obj)
 	return val;
 }
 
+/*
+ * id_all
+ * 全アイテムを識別済みにする
+ */
 void
 id_all(void)
 {
@@ -649,6 +685,10 @@ id_all(void)
 	}
 }
 
+/*
+ * name_cmp
+ * スコアエントリのログイン名を比較する
+ */
 #if !defined(TOPSCO)
 void
 name_cmp(char *s1, char *s2)
@@ -668,6 +708,10 @@ name_cmp(char *s1, char *s2)
 }
 #endif /* TOPSCO */
 
+/*
+ * xxxx
+ * バッファを擬似乱数で暗号化・復号する
+ */
 void
 xxxx(char *buf, short n)
 {
@@ -684,6 +728,10 @@ xxxx(char *buf, short n)
 	}
 }
 
+/*
+ * xxx
+ * スコア暗号化用の擬似乱数を生成する
+ */
 long
 xxx(bool st)
 {
@@ -701,31 +749,38 @@ xxx(bool st)
 	return r;
 }
 
+/*
+ * nickize
+ * スコア行のログイン名をニックネームに置換する
+ */
 void
 nickize(char *buf, char *score, char *n_name)
 {
 	short i = 15, j;
 
 	if (!n_name[0]) {
-		(void)strcpy(buf, score);
+		(void)snprintf(buf, 80, "%s", score);
 		return;
 	}
 	(void)strncpy(buf, score, 16);
 
-	while (score[i] != ':') {
+	while (i < 80 && score[i] != ':') {
 		i++;
 	}
 
-	(void)strcpy(buf + 15, n_name);
-	j = strlen(buf);
-
-	while (score[i]) {
+	j = 15;
+	j += snprintf(buf + j, 80 - j, "%s", n_name);
+	while (score[i] && j < 79) {
 		buf[j++] = score[i++];
 	}
 	buf[j] = 0;
 	buf[79] = 0;
 }
 
+/*
+ * center
+ * 文字列を画面中央に表示する
+ */
 void
 center(short row, char *buf)
 {
@@ -735,6 +790,10 @@ center(short row, char *buf)
 	mvaddstr_rogue(row, margin, buf);
 }
 
+/*
+ * sf_error
+ * スコアファイルのエラーを処理し終了する
+ */
 void
 sf_error(void)
 {

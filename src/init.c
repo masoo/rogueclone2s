@@ -12,6 +12,7 @@
 
 #include <curses.h>
 #include <getopt.h>
+#include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,12 +47,17 @@ bool do_restore = false;
 char org_dir[64], *game_dir = "";
 bool use_color = true;
 char *error_file = "rogue.esave";
+volatile sig_atomic_t error_save_requested = 0;
 
 extern char *fruit;
 extern char *save_file;
 extern short party_room, party_counter;
 extern bool jump;
 
+/*
+ * init
+ * ゲームの初期化処理を行う
+ */
 int
 init(int argc, char *argv[])
 {
@@ -115,6 +121,10 @@ init(int argc, char *argv[])
 	return 0;
 }
 
+/*
+ * player_init
+ * プレイヤーの初期装備を設定する
+ */
 void
 player_init(void)
 {
@@ -164,6 +174,10 @@ player_init(void)
 	(void)add_to_pack(obj, &rogue.pack, 1);
 }
 
+/*
+ * clean_up
+ * 画面を復元しゲームを終了する
+ */
 void
 clean_up(char *estr)
 {
@@ -182,6 +196,10 @@ clean_up(char *estr)
 	md_exit(0);
 }
 
+/*
+ * start_window
+ * curses のウィンドウ設定を行う
+ */
 void
 start_window(void)
 {
@@ -194,12 +212,20 @@ start_window(void)
 	curs_set(0); /* カーソルを非表示にする */
 }
 
+/*
+ * stop_window
+ * curses のウィンドウを終了する
+ */
 void
 stop_window(void)
 {
 	endwin();
 }
 
+/*
+ * byebye
+ * SIGHUP シグナルのハンドラ
+ */
 void
 byebye(int sig)
 {
@@ -212,6 +238,10 @@ byebye(int sig)
 	md_heed_signals();
 }
 
+/*
+ * onintr
+ * SIGINT シグナルのハンドラ
+ */
 void
 onintr(int sig)
 {
@@ -225,14 +255,20 @@ onintr(int sig)
 	md_heed_signals();
 }
 
+/*
+ * error_save
+ * SIGQUIT/SIGILL 等のシグナルで緊急セーブを要求する
+ */
 void
 error_save(int sig)
 {
-	save_is_interactive = false;
-	save_into_file(error_file);
-	clean_up("");
+	error_save_requested = 1;
 }
 
+/*
+ * do_args
+ * コマンドライン引数を解析する
+ */
 void
 do_args(int argc, char *argv[])
 {
@@ -322,12 +358,15 @@ do_opts(void)
 	char envbuf[BUFSIZ];
 
 	strcpy(envname, "ROGUEOPT?");
+	int envoff = 0;
 	envbuf[0] = 0;
 	for (p = "S123456789"; *p; p++) {
 		envname[8] = *p;
 		if ((ep = getenv(envname))) {
-			strcat(envbuf, ",");
-			strcat(envbuf, ep);
+			envoff += snprintf(envbuf + envoff,
+			    sizeof(envbuf) - envoff, ",%s", ep);
+			if (envoff >= (int)sizeof(envbuf) - 1)
+				break;
 		}
 	}
 	set_opts(envbuf);
