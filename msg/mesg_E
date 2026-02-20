@@ -575,3 +575,15 @@
 491 = "swerr "
 492 = "mihln "
 493 = "poxi "
+
+# メニュー
+[menu]
+494 = "Rogue Clone II"
+495 = "New Game"
+496 = "Restore Saved Game"
+497 = "View Scores"
+498 = "Quit"
+499 = "J, K to select, Space to confirm"
+500 = "No save data found"
+501 = "That key does nothing, try another."
+502 = "Still nothing! Stop pressing that!"

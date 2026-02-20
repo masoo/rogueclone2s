@@ -29,3 +29,7 @@ rogue_SOURCES = \
 	utf8.h \
 	wcwidth.c wcwidth.h \
 	zap.c zap.h
+
+if ENABLE_MENU
+rogue_SOURCES += playmenu.c playmenu.h
+endif

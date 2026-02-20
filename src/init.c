@@ -71,6 +71,20 @@ init(int argc, char *argv[])
 	do_args(argc, argv);
 	do_opts();
 
+	/* save_file が未設定ならデフォルトを設定 */
+	if (!save_file || !*save_file) {
+		char *home = md_ghome();
+		if (home) {
+			static char default_save[ROGUE_PATH_MAX];
+			size_t hlen = strlen(home);
+			const char *slash =
+			    (hlen > 0 && home[hlen - 1] != '/') ? "/" : "";
+			snprintf(default_save, sizeof(default_save),
+			    "%s%s.rogue.save", home, slash);
+			save_file = default_save;
+		}
+	}
+
 	pn = md_gln();
 	if ((!pn) || (strlen(pn) >= 30)) {
 		clean_up(mesg[13]);

@@ -332,8 +332,13 @@ rw_dungeon(FILE *fp, bool rw)
 
 			if (i < ROGUE_LINES - 1) {
 				for (j = 0; j < ROGUE_COLUMNS; j++) {
-					mvaddch_rogue(i, j,
-					    (unsigned char)buf[j]);
+					if (i < MIN_ROW) {
+						mvaddch(i, j,
+						    (unsigned char)buf[j]);
+					} else {
+						mvaddch_rogue(i, j,
+						    (unsigned char)buf[j]);
+					}
 				}
 			} else {
 				print_stats(STAT_ALL);

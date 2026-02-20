@@ -155,8 +155,7 @@ enum rogue_necessity_size { ROGUE_LINES = 24, ROGUE_COLUMNS = 80 };
 #define MAX_MESG_LINE_SIZE \
 	1280 // MAX_MESG_BUFFER_SIZE
 	     // を元にメッセージファイルの一行分の最大サイズを指定
-#define MESSAGE_QUANTITY \
-	493 // メッセージの数は 493 だが、既存は 507 が指定されている
+#define MESSAGE_QUANTITY 502 // メッセージの数
 #define MAX_TITLE_LENGTH 30
 #define HUNGER_STR_SIZE 16
 #define MAXSYLLABLES 40

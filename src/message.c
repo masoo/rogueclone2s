@@ -202,7 +202,7 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 		if (ch == '\r' || ch == '\n' || ch == CANCEL) {
 			break;
 		}
-		if ((ch == '\b') && (ncp > 0)) {
+		if ((ch == '\b' || ch == 0x7f) && (ncp > 0)) {
 			ncp--;
 			i -= cp_bytes[ncp];
 			display_col -= cp_width[ncp];
@@ -211,7 +211,7 @@ do_input_line(bool is_msg, int row, int col, char *prompt, char *insert,
 				    cp_width[ncp] == 2 ? "  " : " ");
 				move(row, col + n + display_col);
 			}
-		} else if (ch >= ' ' && ch < 0x80 && i < MAX_TITLE_LENGTH - 2) {
+		} else if (ch >= ' ' && ch < 0x7f && i < MAX_TITLE_LENGTH - 2) {
 			/* ASCII 印字可能文字 */
 			if ((ch != ' ') || (i > 0)) {
 				buf[i] = ch;

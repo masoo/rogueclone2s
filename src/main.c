@@ -26,10 +26,17 @@
 #include "play.h"
 #include "random.h"
 #include "rogue.h"
+#if defined(MENU)
+# include "playmenu.h"
+#endif
+#include "save.h"
+#include "score.h"
 #include "trap.h"
 
 extern short party_room;
 extern char *nick_name;
+extern char *save_file;
+extern bool score_only;
 static char *progname;
 utf8_int8_t mesg[MESSAGE_QUANTITY + 1]
 		[MAX_MESG_BUFFER_SIZE]; /* for separation */
@@ -46,6 +53,26 @@ main(int argc, char *argv[])
 	if (init(argc, argv)) { /* restored game */
 		goto PL;
 	}
+
+#if defined(MENU)
+	switch (show_menu()) {
+	case MENU_RESTORE:
+		restore(save_file);
+		goto PL;
+	case MENU_SCORE:
+		score_only = true;
+		message("", 0); /* by Yasha */
+		put_scores((object *)0, 0);
+		/* put_scores calls clean_up and exits */
+		break;
+	case MENU_QUIT:
+		clean_up("");
+		break;
+	case MENU_NEW_GAME:
+	default:
+		break;
+	}
+#endif
 
 	for (;;) {
 		clear_level();

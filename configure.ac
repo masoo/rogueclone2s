@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.71])
-AC_INIT([rogueclone2s],[7.1],[https://github.com/masoo/rogueclone2s])
+AC_INIT([rogueclone2s],[8.0],[https://github.com/masoo/rogueclone2s])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -75,6 +75,15 @@ AC_ARG_ENABLE([original],
 if test "$enable_original" = "yes"; then
   AC_DEFINE([ORIGINAL], , [Define to use original English messages])
 fi
+
+AC_ARG_ENABLE([menu],
+              AS_HELP_STRING([--enable-menu],
+                             [show startup menu (default no)]), ,)
+
+if test "$enable_menu" = "yes"; then
+  AC_DEFINE([MENU], , [Define to show startup menu])
+fi
+AM_CONDITIONAL([ENABLE_MENU], [test "$enable_menu" = "yes"])
 
 # Define constants
 AC_DEFINE([TOPSCO], , [Define if you have the 'TOPSCO'])
