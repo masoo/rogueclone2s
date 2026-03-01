@@ -1,4 +1,10 @@
 　NEWS
+* Release 8.0
+	Release 7.1 との差異
+	* メニューファイルを復元
+	* メッセージファイルを toml 形式に変更
+	* セーブファイルをリファクタリング
+	* ISO C17 への準拠
 
 * Release 7.1
 	Release 7 との差異
