@@ -63,7 +63,7 @@ src/pack.c                -- rogueclone2s のソースファイル
 src/pack.h                -- rogueclone2s のソースファイル
 src/play.c                -- rogueclone2s のソースファイル
 src/play.h                -- rogueclone2s のソースファイル
-src/playmenu.c            -- rogueclone2s のソースファイル（レガシー）
+src/playmenu.c            -- rogueclone2s のソースファイル
 src/random.c              -- rogueclone2s のソースファイル
 src/random.h              -- rogueclone2s のソースファイル
 src/ring.c                -- rogueclone2s のソースファイル

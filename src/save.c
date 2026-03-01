@@ -204,7 +204,7 @@ read_int32(FILE *fp)
 	uint8_t buf[4];
 	r_read(fp, (char *)buf, 4);
 	uint32_t u = (uint32_t)buf[0] | ((uint32_t)buf[1] << 8) |
-	    ((uint32_t)buf[2] << 16) | ((uint32_t)buf[3] << 24);
+		     ((uint32_t)buf[2] << 16) | ((uint32_t)buf[3] << 24);
 	int32_t val;
 	memcpy(&val, &u, 4);
 	return val;
@@ -216,7 +216,7 @@ read_uint32(FILE *fp)
 	uint8_t buf[4];
 	r_read(fp, (char *)buf, 4);
 	return (uint32_t)buf[0] | ((uint32_t)buf[1] << 8) |
-	    ((uint32_t)buf[2] << 16) | ((uint32_t)buf[3] << 24);
+	       ((uint32_t)buf[2] << 16) | ((uint32_t)buf[3] << 24);
 }
 
 /* 構造体のフィールド別シリアライズ */
@@ -698,8 +698,7 @@ rw_rooms(FILE *fp, bool rw)
 	short i;
 
 	for (i = 0; i < MAXROOMS; i++) {
-		rw ? write_room(fp, &rooms[i])
-		   : read_room(fp, &rooms[i]);
+		rw ? write_room(fp, &rooms[i]) : read_room(fp, &rooms[i]);
 	}
 }
 
