@@ -10,7 +10,7 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y libncurses-dev
@@ -24,9 +24,9 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: msys2/setup-msys2@v2
+      - uses: msys2/setup-msys2@4f806de0a5a7294ffabaff804b38a9b435a73bda # v2.30.0
         with:
           msystem: UCRT64
           install: >-
@@ -52,7 +52,7 @@ jobs:
           ldd src/rogue.exe | grep ucrt64 | awk '{print $3}' | xargs -I{} cp {} dist/
           cp msg/mesg msg/mesg_E dist/
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: rogueclone2s-${{ steps.version.outputs.version }}-windows-x86_64
           path: dist/
@@ -60,10 +60,10 @@ jobs:
   build-freebsd:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Build on FreeBSD
-        uses: vmactions/freebsd-vm@v1
+        uses: vmactions/freebsd-vm@4807432c7cab1c3f97688665332c0b932062d31f # v1.4.3
         with:
           usesh: true
           prepare: pkg install -y autoconf automake
@@ -72,14 +72,14 @@ jobs:
   build-haiku:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Get version
         id: version
         run: echo "version=$(sed -n 's/^AC_INIT(\[rogueclone2s\],\[\([^]]*\)\].*/\1/p' configure.ac)" >> "$GITHUB_OUTPUT"
 
       - name: Build on Haiku
-        uses: cross-platform-actions/action@v0.32.0
+        uses: cross-platform-actions/action@492b0c80085400348c599edace11141a4ee73524 # v0.32.0
         with:
           operating_system: haiku
           version: "r1beta5"
@@ -90,7 +90,7 @@ jobs:
             cp src/rogue dist/
             cp msg/mesg msg/mesg_E dist/
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: rogueclone2s-${{ steps.version.outputs.version }}-haiku-x86_64
           path: dist/
