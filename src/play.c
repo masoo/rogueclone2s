@@ -19,7 +19,6 @@
 
 #include "utf8.h"
 
-#include "config.h"
 #include "display.h"
 #include "hit.h"
 #include "init.h"

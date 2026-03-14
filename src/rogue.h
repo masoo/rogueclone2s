@@ -13,10 +13,6 @@
 #ifndef ROGUE_H
 #define ROGUE_H
 
-#if defined(HAVE_CONFIG_H)
-# include "config.h"
-#endif /* HAVE_CONFIG_H */
-
 #if 0
 # if !defined(ORIGINAL)
 typedef unsigned char uchar;

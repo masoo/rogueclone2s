@@ -1,6 +1,6 @@
 bin_PROGRAMS = rogue
 
-rogue_CFLAGS = $(CURSES_CFLAGS)
+rogue_CFLAGS = -include $(top_builddir)/config.h $(CURSES_CFLAGS)
 
 rogue_SOURCES = \
 	rogue.h \
