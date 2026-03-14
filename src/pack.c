@@ -613,16 +613,13 @@ kick_into_pack(void)
 		}
 		if ((obj = pick_up(rogue.row, rogue.col, &stat))) {
 			get_desc(obj, desc, sizeof(desc), 1);
-			snprintf(desc + strlen(desc),
-			    sizeof(desc) - strlen(desc), "%s", mesg[114]);
 			if (obj->what_is == GOLD) {
-				message(desc, 0);
+				messagenf(sizeof(desc), 0, "%s%s", desc,
+				    mesg[114]);
 				free_object(obj);
 			} else {
-				snprintf(desc + strlen(desc),
-				    sizeof(desc) - strlen(desc), "(%c)",
-				    obj->ichar);
-				message(desc, 0);
+				messagenf(sizeof(desc), 0, "%s%s(%c)", desc,
+				    mesg[114], obj->ichar);
 			}
 		}
 		if (obj || (!stat)) {

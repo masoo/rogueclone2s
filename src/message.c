@@ -11,15 +11,12 @@
  */
 
 #include <curses.h>
+#include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "utf8.h"
-#ifndef __BEGIN_DECLS
-#define __BEGIN_DECLS
-#define __END_DECLS
-#endif
 #include "wcwidth.h"
 
 #include "display.h"
@@ -78,6 +75,22 @@ message(char *msg, bool intrpt)
 		    0); /* 「0」に意味はないが警告除去のために値を入れる。onintr関数を見直す必要がある。
 			 */
 	}
+}
+
+/*
+ * messagenf
+ * フォーマット文字列からメッセージを組み立てて表示する
+ */
+void
+messagenf(size_t size, bool intrpt, const char *fmt, ...)
+{
+	char buf[size];
+	va_list ap;
+
+	va_start(ap, fmt);
+	vsnprintf(buf, size, fmt, ap);
+	va_end(ap);
+	message(buf, intrpt);
 }
 
 /*

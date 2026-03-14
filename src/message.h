@@ -2,6 +2,7 @@
 #define MESSAGE_H
 
 extern void message(char *msg, bool intrpt);
+extern void messagenf(size_t size, bool intrpt, const char *fmt, ...);
 extern void remessage(void);
 extern void check_message(void);
 extern int get_direction(void);

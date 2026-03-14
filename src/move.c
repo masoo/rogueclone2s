@@ -136,10 +136,11 @@ one_move_rogue(short dirch, short pickup)
 				get_desc(obj, desc, sizeof(desc), 1);
 				if (obj->what_is == GOLD) {
 					free_object(obj);
-					snprintf(desc + strlen(desc),
-					    sizeof(desc) - strlen(desc), "%s",
+					messagenf(sizeof(desc), 1, "%s%s", desc,
 					    mesg[69]);
-					goto NOT_IN_PACK;
+				} else {
+					messagenf(sizeof(desc), 1, "%s%s(%c)",
+					    desc, mesg[69], obj->ichar);
 				}
 			} else if (!status) {
 				goto MVED;
@@ -150,14 +151,8 @@ one_move_rogue(short dirch, short pickup)
 		MOVE_ON:
 			obj = object_at(&level_objects, row, col);
 			get_desc(obj, desc, sizeof(desc), 0);
-			snprintf(desc + strlen(desc),
-			    sizeof(desc) - strlen(desc), "%s", mesg[70]);
-			goto NOT_IN_PACK;
+			messagenf(sizeof(desc), 1, "%s%s", desc, mesg[70]);
 		}
-		snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc),
-		    "%s(%c)", mesg[69], obj->ichar);
-	NOT_IN_PACK:
-		message(desc, 1);
 		(void)reg_move();
 		return (STOPPED_ON_SOMETHING);
 	}

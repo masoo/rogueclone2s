@@ -7,6 +7,17 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
+AH_BOTTOM([/* Provide __BEGIN_DECLS/__END_DECLS if not defined by sys/cdefs.h */
+#ifndef __BEGIN_DECLS
+# ifdef __cplusplus
+#  define __BEGIN_DECLS extern "C" {
+#  define __END_DECLS }
+# else
+#  define __BEGIN_DECLS
+#  define __END_DECLS
+# endif
+#endif])
+
 # Checks for programs.
 AC_PROG_CC
 
