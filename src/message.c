@@ -21,6 +21,7 @@
 
 #include "display.h"
 #include "init.h"
+#include "invent.h"
 #include "machdep.h"
 #include "message.h"
 #include "move.h"
@@ -90,6 +91,19 @@ messagenf(size_t size, bool intrpt, const char *fmt, ...)
 	va_start(ap, fmt);
 	vsnprintf(buf, size, fmt, ap);
 	va_end(ap);
+	message(buf, intrpt);
+}
+
+/*
+ * message_desc
+ * オブジェクトの説明文に接尾辞を付けてメッセージ表示する
+ */
+void
+message_desc(object *obj, const char *suffix, bool intrpt)
+{
+	char buf[MAX_MESG_BUFFER_SIZE];
+	get_desc(obj, buf, sizeof(buf), 0);
+	snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%s", suffix);
 	message(buf, intrpt);
 }
 

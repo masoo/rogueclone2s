@@ -122,7 +122,6 @@ drop(void)
 {
 	object *obj, *new;
 	short ch;
-	char desc[MAX_MESG_BUFFER_SIZE];
 
 	if (dungeon[rogue.row][rogue.col] & (OBJECT | STAIRS | TRAP)) {
 		message(mesg[88], 0);
@@ -174,10 +173,7 @@ drop(void)
 		take_from_pack(obj, &rogue.pack);
 	}
 	place_at(obj, rogue.row, rogue.col);
-	get_desc(obj, desc, sizeof(desc), 0);
-	snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc), "%s",
-	    mesg[92]);
-	message(desc, 0);
+	message_desc(obj, mesg[92], 0);
 	(void)reg_move();
 }
 
@@ -302,7 +298,6 @@ pack_letter(char *prompt, unsigned short mask)
 void
 take_off(void)
 {
-	char desc[MAX_MESG_BUFFER_SIZE];
 	object *obj;
 
 	if (rogue.armor) {
@@ -312,10 +307,7 @@ take_off(void)
 			mv_aquatars();
 			obj = rogue.armor;
 			unwear(rogue.armor);
-			get_desc(obj, desc, sizeof(desc), 0);
-			snprintf(desc + strlen(desc),
-			    sizeof(desc) - strlen(desc), "%s", mesg[94]);
-			message(desc, 0);
+			message_desc(obj, mesg[94], 0);
 			print_stats(STAT_ARMOR);
 			(void)reg_move();
 		}
@@ -333,7 +325,6 @@ wear(void)
 {
 	short ch;
 	object *obj;
-	char desc[MAX_MESG_BUFFER_SIZE];
 
 	if (rogue.armor) {
 		message(mesg[96], 0);
@@ -353,10 +344,7 @@ wear(void)
 		return;
 	}
 	obj->identified = 1;
-	get_desc(obj, desc, sizeof(desc), 0);
-	snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc), "%s",
-	    mesg[100]);
-	message(desc, 0);
+	message_desc(obj, mesg[100], 0);
 	do_wear(obj);
 	print_stats(STAT_ARMOR);
 	(void)reg_move();
@@ -396,7 +384,6 @@ wield(void)
 {
 	short ch;
 	object *obj;
-	char desc[MAX_MESG_BUFFER_SIZE];
 
 	if (rogue.weapon && rogue.weapon->is_cursed) {
 		message(curse_message, 0);
@@ -412,19 +399,15 @@ wield(void)
 		return;
 	}
 	if (obj->what_is & (ARMOR | RING)) {
-		snprintf(desc, sizeof(desc), mesg[103],
+		messagenf(MAX_MESG_BUFFER_SIZE, 0, mesg[103],
 		    ((obj->what_is == ARMOR) ? mesg[104] : mesg[105]));
-		message(desc, 0);
 		return;
 	}
 	if (obj->in_use_flags & BEING_WIELDED) {
 		message(mesg[106], 0);
 	} else {
 		unwield(rogue.weapon);
-		get_desc(obj, desc, sizeof(desc), 0);
-		snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc), "%s",
-		    mesg[107]);
-		message(desc, 0);
+		message_desc(obj, mesg[107], 0);
 		do_wield(obj);
 		(void)reg_move();
 	}

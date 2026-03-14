@@ -124,7 +124,6 @@ remove_ring(void)
 {
 	bool left = false, right = false;
 	short ch;
-	char buf[MAX_MESG_BUFFER_SIZE];
 	object *ring;
 
 	if (r_rings == 0) {
@@ -162,10 +161,7 @@ remove_ring(void)
 			message(curse_message, 0);
 		} else {
 			un_put_on(ring);
-			get_desc(ring, buf, sizeof(buf), 0);
-			snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-			    "%s", mesg[166]);
-			message(buf, 0);
+			message_desc(ring, mesg[166], 0);
 			(void)reg_move();
 		}
 	}
@@ -258,13 +254,12 @@ inv_rings(void)
 	}
 #if defined(ORIGINAL)
 	if (wizard) {
-		snprintf(buf, sizeof(buf),
+		messagenf(sizeof(buf), 0,
 		    "ste %d, r_r %d, e_r %d, r_t %d, s_s %d, a_s %d, reg %d, "
 		    "r_e %d, s_i %d, m_a %d, aus %d",
 		    stealthy, r_rings, e_rings, r_teleport, sustain_strength,
 		    add_strength, regeneration, ring_exp, r_see_invisible,
 		    maintain_armor, auto_search);
-		message(buf, 0);
 	}
 #endif /* ORIGINAL */
 }

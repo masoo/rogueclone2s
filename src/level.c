@@ -735,7 +735,6 @@ check_up(void)
 void
 add_exp(int e, bool promotion)
 {
-	char mbuf[40];
 	short new_exp;
 	short i, hp;
 	char bf[8];
@@ -750,8 +749,7 @@ add_exp(int e, bool promotion)
 		for (i = rogue.exp + 1; i <= new_exp; i++) {
 			bf[0] = '\0';
 			znum(bf, i, 0);
-			snprintf(mbuf, sizeof(mbuf), mesg[53], bf);
-			message(mbuf, 0);
+			messagenf(40, 0, mesg[53], bf);
 			if (promotion) {
 				hp = hp_raise();
 				rogue.hp_current += hp;
@@ -790,7 +788,6 @@ hp_raise(void)
 void
 show_average_hp(void)
 {
-	char mbuf[80];
 	long real_average;
 	long effective_average;
 
@@ -802,10 +799,9 @@ show_average_hp(void)
 		effective_average =
 		    (rogue.hp_max - INIT_HP) * 100L / (rogue.exp - 1);
 	}
-	snprintf(mbuf, sizeof(mbuf), mesg[54], (int)(real_average / 100L),
+	messagenf(80, 0, mesg[54], (int)(real_average / 100L),
 	    (int)(real_average % 100L), (int)(effective_average / 100L),
 	    (int)(effective_average % 100L), extra_hp, less_hp);
-	message(mbuf, 0);
 }
 
 void

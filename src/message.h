@@ -1,8 +1,11 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
+typedef struct obj object;
+
 extern void message(char *msg, bool intrpt);
 extern void messagenf(size_t size, bool intrpt, const char *fmt, ...);
+extern void message_desc(object *obj, const char *suffix, bool intrpt);
 extern void remessage(void);
 extern void check_message(void);
 extern int get_direction(void);

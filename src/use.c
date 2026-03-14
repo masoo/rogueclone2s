@@ -56,7 +56,6 @@ void
 quaff(void)
 {
 	short ch;
-	char buf[80];
 	object *obj;
 
 	ch = pack_letter(mesg[231], POTION);
@@ -146,8 +145,7 @@ quaff(void)
 		}
 		break;
 	case SEE_INVISIBLE:
-		snprintf(buf, sizeof(buf), mesg[244], fruit);
-		message(buf, 0);
+		messagenf(80, 0, mesg[244], fruit);
 		if (blind) {
 			unblind();
 		}
@@ -172,7 +170,6 @@ read_scroll(void)
 {
 	short ch;
 	object *obj;
-	char msg[ROGUE_COLUMNS];
 
 	ch = pack_letter(mesg[245], SCROL);
 
@@ -197,9 +194,8 @@ read_scroll(void)
 	case ENCH_WEAPON:
 		if (rogue.weapon) {
 			if (rogue.weapon->what_is == WEAPON) {
-				snprintf(msg, sizeof(msg), mesg[249],
+				messagenf(ROGUE_COLUMNS, 0, mesg[249],
 				    name_of(rogue.weapon), get_ench_color());
-				message(msg, 0);
 				if (coin_toss()) {
 					rogue.weapon->hit_enchant++;
 				} else {
@@ -213,8 +209,8 @@ read_scroll(void)
 		break;
 	case ENCH_ARMOR:
 		if (rogue.armor) {
-			snprintf(msg, sizeof(msg), mesg[251], get_ench_color());
-			message(msg, 0);
+			messagenf(ROGUE_COLUMNS, 0, mesg[251],
+			    get_ench_color());
 			rogue.armor->d_enchant++;
 			rogue.armor->is_cursed = 0;
 			print_stats(STAT_ARMOR);
@@ -373,7 +369,6 @@ eat(void)
 	short ch;
 	short moves;
 	object *obj;
-	char buf[70];
 
 	ch = pack_letter(mesg[262], FOOD);
 	if (ch == CANCEL) {
@@ -395,8 +390,7 @@ eat(void)
 			} else
 				message(mesg[266], 0);
 		} else {
-			snprintf(buf, sizeof(buf), mesg[267], fruit);
-			message(buf, 0);
+			messagenf(70, 0, mesg[267], fruit);
 		}
 	} else {
 		moves = get_rand(700, 900);

@@ -220,7 +220,6 @@ flop_weapon(object *weapon, short row, short col)
 {
 	object *new_weapon, *monster;
 	short i = 0;
-	char msg[80];
 	bool found = false;
 	short mch, dch;
 	unsigned short mon;
@@ -269,9 +268,8 @@ flop_weapon(object *weapon, short row, short col)
 
 		t = weapon->quantity;
 		weapon->quantity = 1;
-		snprintf(msg, sizeof(msg), mesg[215], name_of(weapon));
+		messagenf(80, 0, mesg[215], name_of(weapon));
 		weapon->quantity = t;
-		message(msg, 0);
 	}
 }
 

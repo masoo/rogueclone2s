@@ -84,8 +84,7 @@ main(int argc, char *argv[])
 		put_player(party_room);
 		print_stats(STAT_ALL);
 		if (first) {
-			snprintf(buf, sizeof(buf), mesg[10], nick_name);
-			message(buf, 0);
+			messagenf(sizeof(buf), 0, mesg[10], nick_name);
 		}
 	PL:
 		first = 0;

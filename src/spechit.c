@@ -156,7 +156,6 @@ steal_item(object *monster)
 	object *obj;
 	short i, n,
 	    t = 0; /* 未初期化変数の使用の警告のための初期化。 0 を代入 */
-	char desc[MAX_MESG_BUFFER_SIZE];
 	bool has_something = false;
 
 	if (rand_percent(15)) {
@@ -209,10 +208,7 @@ adornment:
 		t = obj->quantity;
 		obj->quantity = 1;
 	}
-	get_desc(obj, desc, sizeof(desc), 0);
-	snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc), "%s",
-	    mesg[205]);
-	message(desc, 0);
+	message_desc(obj, mesg[205], 0);
 
 	obj->quantity = ((obj->what_is != WEAPON) ? t : 1);
 
@@ -364,17 +360,13 @@ check_gold_seeker(object *monster)
 int
 check_imitator(object *monster)
 {
-	char msg[80];
-
 	if (monster->m_flags & IMITATES) {
 		wake_up(monster);
 		if (!blind) {
 			mvaddch_rogue(monster->row, monster->col,
 			    get_dungeon_char(monster->row, monster->col));
 			check_message();
-			snprintf(msg, sizeof(msg), mesg[206],
-			    mon_name(monster));
-			message(msg, 1);
+			messagenf(80, 1, mesg[206], mon_name(monster));
 		}
 		return 1;
 	}
@@ -402,7 +394,6 @@ void
 sting(object *monster)
 {
 	short sting_chance = 35;
-	char msg[80];
 
 	if ((rogue.str_current <= 3) || sustain_strength) {
 		return;
@@ -413,8 +404,7 @@ sting(object *monster)
 		sting_chance -= (6 * ((rogue.exp + ring_exp) - 8));
 	}
 	if (rand_percent(sting_chance)) {
-		snprintf(msg, sizeof(msg), mesg[207], mon_name(monster));
-		message(msg, 0);
+		messagenf(80, 0, mesg[207], mon_name(monster));
 		rogue.str_current--;
 		print_stats(STAT_STRENGTH);
 	}
@@ -476,8 +466,6 @@ drain_life(void)
 int
 m_confuse(object *monster)
 {
-	char msg[80];
-
 	if (!rogue_can_see(monster->row, monster->col)) {
 		return 0;
 	}
@@ -488,8 +476,7 @@ m_confuse(object *monster)
 	}
 	if (rand_percent(55)) {
 		monster->m_flags &= (~CONFUSES);
-		snprintf(msg, sizeof(msg), mesg[209], mon_name(monster));
-		message(msg, 1);
+		messagenf(80, 1, mesg[209], mon_name(monster));
 		confuse();
 		return 1;
 	}
