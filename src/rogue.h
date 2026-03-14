@@ -151,6 +151,7 @@ typedef unsigned char uchar;
 #define CALLED ((unsigned short)02)
 
 enum rogue_necessity_size { ROGUE_LINES = 24, ROGUE_COLUMNS = 80 };
+#define SCORE_ENTRY_SIZE 256 // スコアエントリの最大バイト数（UTF-8対応）
 #define MAX_MESG_BUFFER_SIZE 320 // 合字を除く UTF8 の80文字分x4
 #define MAX_MESG_LINE_SIZE \
 	1280 // MAX_MESG_BUFFER_SIZE

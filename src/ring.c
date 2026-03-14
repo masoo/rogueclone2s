@@ -164,7 +164,7 @@ remove_ring(void)
 			un_put_on(ring);
 			get_desc(ring, buf, sizeof(buf), 0);
 			snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-		    "%s", mesg[166]);
+			    "%s", mesg[166]);
 			message(buf, 0);
 			(void)reg_move();
 		}

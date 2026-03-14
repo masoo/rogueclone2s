@@ -137,8 +137,8 @@ one_move_rogue(short dirch, short pickup)
 				if (obj->what_is == GOLD) {
 					free_object(obj);
 					snprintf(desc + strlen(desc),
-					    sizeof(desc) - strlen(desc),
-					    "%s", mesg[69]);
+					    sizeof(desc) - strlen(desc), "%s",
+					    mesg[69]);
 					goto NOT_IN_PACK;
 				}
 			} else if (!status) {

@@ -17,6 +17,11 @@
 #include <string.h>
 
 #include "utf8.h"
+#ifndef __BEGIN_DECLS
+# define __BEGIN_DECLS
+# define __END_DECLS
+#endif
+#include "wcwidth.h"
 
 #include "display.h"
 #include "hit.h"
@@ -368,7 +373,7 @@ put_scores(object *monster, short other)
 #if !defined(TOPSCO)
 	short found_pos;
 #endif /* not TOPSCO */
-	char scores[10][82], n_names[10][30];
+	char scores[10][SCORE_ENTRY_SIZE], n_names[10][30];
 	char *p, buf[ROGUE_PATH_MAX], file[ROGUE_PATH_MAX];
 	FILE *fp;
 
@@ -393,13 +398,14 @@ put_scores(object *monster, short other)
 	}
 	(void)xxx(1);
 	for (i = 0; i < 10; i++) {
-		if ((n = fread(scores[i], sizeof(char), 80, fp)) == 0) {
+		if ((n = fread(scores[i], sizeof(char), SCORE_ENTRY_SIZE - 2,
+			 fp)) == 0) {
 			break;
 		}
-		if (n < 80) {
+		if (n < SCORE_ENTRY_SIZE - 2) {
 			sf_error();
 		}
-		xxxx(scores[i], 80);
+		xxxx(scores[i], SCORE_ENTRY_SIZE - 2);
 		if ((n = fread(n_names[i], sizeof(char), 30, fp)) < 30) {
 			sf_error();
 		}
@@ -482,8 +488,9 @@ put_scores(object *monster, short other)
 		}
 		(void)xxx(1);
 		for (i = 0; i < ne; i++) {
-			xxxx(scores[i], 80);
-			fwrite(scores[i], sizeof(char), 80, fp);
+			xxxx(scores[i], SCORE_ENTRY_SIZE - 2);
+			fwrite(scores[i], sizeof(char), SCORE_ENTRY_SIZE - 2,
+			    fp);
 			xxxx(n_names[i], 30);
 			fwrite(n_names[i], sizeof(char), 30, fp);
 		}
@@ -498,8 +505,8 @@ put_scores(object *monster, short other)
  * スコアをランキングの指定位置に挿入する
  */
 void
-insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
-    short n, object *monster, int other)
+insert_score(char scores[][SCORE_ENTRY_SIZE], char n_names[][30], char *n_name,
+    short rank, short n, object *monster, int other)
 {
 	short i;
 	char *p = NULL; /* 初期化されず使用される自動変数を初期化します。 */
@@ -551,11 +558,35 @@ insert_score(char scores[][82], char n_names[][30], char *n_name, short rank,
 		    m_names[mon_index(monster->m_char)], mesg[197]);
 	}
 	snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "。");
-	for (i = strlen(buf); i < 79; i++) {
-		buf[i] = ' ';
+	/* 表示幅79カラムに切り詰め、残りをスペースで埋める */
+	{
+		int dw = utf8_display_width(buf);
+		if (dw > 79) {
+			/* 表示幅79に収まる位置でUTF-8を壊さず切り詰める */
+			int w = 0;
+			size_t pos = 0;
+			size_t len = strlen(buf);
+			while (pos < len) {
+				utf8_int32_t cp;
+				utf8_int8_t *next = utf8codepoint(
+				    (utf8_int8_t *)buf + pos, &cp);
+				int cw = wcwidth(cp);
+				if (cw < 0)
+					cw = 0;
+				if (w + cw > 79)
+					break;
+				w += cw;
+				pos = next - (utf8_int8_t *)buf;
+			}
+			buf[pos] = 0;
+			dw = w;
+		}
+		for (i = strlen(buf); dw < 79; i++, dw++) {
+			buf[i] = ' ';
+		}
+		buf[i] = 0;
 	}
-	buf[79] = 0;
-	(void)strcpy(scores[rank], buf);
+	(void)snprintf(scores[rank], SCORE_ENTRY_SIZE, "%s", buf);
 	(void)strncpy(n_names[rank], n_name, 29);
 	n_names[rank][29] = '\0';
 }
@@ -759,22 +790,21 @@ nickize(char *buf, char *score, char *n_name)
 	short i = 15, j;
 
 	if (!n_name[0]) {
-		(void)snprintf(buf, 80, "%s", score);
+		(void)snprintf(buf, SCORE_ENTRY_SIZE, "%s", score);
 		return;
 	}
 	(void)strncpy(buf, score, 16);
 
-	while (i < 80 && score[i] != ':') {
+	while (score[i] && score[i] != ':') {
 		i++;
 	}
 
 	j = 15;
-	j += snprintf(buf + j, 80 - j, "%s", n_name);
-	while (score[i] && j < 79) {
+	j += snprintf(buf + j, SCORE_ENTRY_SIZE - j, "%s", n_name);
+	while (score[i] && j < SCORE_ENTRY_SIZE - 1) {
 		buf[j++] = score[i++];
 	}
 	buf[j] = 0;
-	buf[79] = 0;
 }
 
 /*

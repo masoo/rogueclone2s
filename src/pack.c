@@ -313,8 +313,8 @@ take_off(void)
 			obj = rogue.armor;
 			unwear(rogue.armor);
 			get_desc(obj, desc, sizeof(desc), 0);
-			snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc),
-		    "%s", mesg[94]);
+			snprintf(desc + strlen(desc),
+			    sizeof(desc) - strlen(desc), "%s", mesg[94]);
 			message(desc, 0);
 			print_stats(STAT_ARMOR);
 			(void)reg_move();
@@ -422,8 +422,8 @@ wield(void)
 	} else {
 		unwield(rogue.weapon);
 		get_desc(obj, desc, sizeof(desc), 0);
-		snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc),
-		    "%s", mesg[107]);
+		snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc), "%s",
+		    mesg[107]);
 		message(desc, 0);
 		do_wield(obj);
 		(void)reg_move();
