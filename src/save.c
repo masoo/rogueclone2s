@@ -770,7 +770,13 @@ read_obj(object *obj, FILE *fp)
 	obj->m_flags = read_uint32(fp);
 
 	int32_t damage_size = read_int32(fp);
+	if (damage_size <= 0 || damage_size > 256) {
+		clean_up("セーブファイルが壊れています。");
+	}
 	obj->damage = malloc(damage_size * sizeof(utf8_int8_t));
+	if (obj->damage == NULL) {
+		clean_up("メモリを確保できません。");
+	}
 	r_read(fp, (char *)obj->damage, damage_size * sizeof(utf8_int8_t));
 
 	obj->quantity = read_int16(fp);
