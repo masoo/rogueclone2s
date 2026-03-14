@@ -345,7 +345,7 @@ idntfy(void)
 	short ch;
 	object *obj;
 	id *id_table;
-	char desc[ROGUE_COLUMNS];
+	char desc[MAX_MESG_BUFFER_SIZE];
 AGAIN:
 	ch = pack_letter(mesg[260], ALL_OBJECTS);
 	if (ch == CANCEL) {

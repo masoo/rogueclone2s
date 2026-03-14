@@ -433,7 +433,7 @@ single_inv(short ichar)
 	short ch;
 	char *p;
 	object *obj;
-	char desc[ROGUE_COLUMNS];
+	char desc[MAX_MESG_BUFFER_SIZE];
 
 	ch = ichar ? ichar : pack_letter(mesg[41], ALL_OBJECTS);
 

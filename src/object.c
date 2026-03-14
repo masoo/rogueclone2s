@@ -694,7 +694,7 @@ new_object_for_wizard(void)
 {
 	short ch, max = 0; /* 未初期化変数の使用の Warning の対策で 0 を不可 */
 	object *obj;
-	char buf[80];
+	char buf[MAX_MESG_BUFFER_SIZE];
 
 	if (pack_count((object *)0) >= MAX_PACK_COUNT) {
 		message(mesg[81], 0);

@@ -122,7 +122,7 @@ drop(void)
 {
 	object *obj, *new;
 	short ch;
-	char desc[ROGUE_COLUMNS];
+	char desc[MAX_MESG_BUFFER_SIZE];
 
 	if (dungeon[rogue.row][rogue.col] & (OBJECT | STAIRS | TRAP)) {
 		message(mesg[88], 0);
@@ -175,7 +175,8 @@ drop(void)
 	}
 	place_at(obj, rogue.row, rogue.col);
 	get_desc(obj, desc, sizeof(desc), 0);
-	(void)strcat(desc, mesg[92]);
+	snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc), "%s",
+	    mesg[92]);
 	message(desc, 0);
 	(void)reg_move();
 }
@@ -301,7 +302,7 @@ pack_letter(char *prompt, unsigned short mask)
 void
 take_off(void)
 {
-	char desc[ROGUE_COLUMNS];
+	char desc[MAX_MESG_BUFFER_SIZE];
 	object *obj;
 
 	if (rogue.armor) {
@@ -312,7 +313,8 @@ take_off(void)
 			obj = rogue.armor;
 			unwear(rogue.armor);
 			get_desc(obj, desc, sizeof(desc), 0);
-			(void)strcat(desc, mesg[94]);
+			snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc),
+		    "%s", mesg[94]);
 			message(desc, 0);
 			print_stats(STAT_ARMOR);
 			(void)reg_move();
@@ -331,7 +333,7 @@ wear(void)
 {
 	short ch;
 	object *obj;
-	char desc[ROGUE_COLUMNS];
+	char desc[MAX_MESG_BUFFER_SIZE];
 
 	if (rogue.armor) {
 		message(mesg[96], 0);
@@ -352,7 +354,8 @@ wear(void)
 	}
 	obj->identified = 1;
 	get_desc(obj, desc, sizeof(desc), 0);
-	(void)strcat(desc, mesg[100]);
+	snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc), "%s",
+	    mesg[100]);
 	message(desc, 0);
 	do_wear(obj);
 	print_stats(STAT_ARMOR);
@@ -393,7 +396,7 @@ wield(void)
 {
 	short ch;
 	object *obj;
-	char desc[ROGUE_COLUMNS];
+	char desc[MAX_MESG_BUFFER_SIZE];
 
 	if (rogue.weapon && rogue.weapon->is_cursed) {
 		message(curse_message, 0);
@@ -419,7 +422,8 @@ wield(void)
 	} else {
 		unwield(rogue.weapon);
 		get_desc(obj, desc, sizeof(desc), 0);
-		(void)strcat(desc, mesg[107]);
+		snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc),
+		    "%s", mesg[107]);
 		message(desc, 0);
 		do_wield(obj);
 		(void)reg_move();
@@ -596,8 +600,7 @@ void
 kick_into_pack(void)
 {
 	object *obj;
-	char *p;
-	char desc[ROGUE_COLUMNS];
+	char desc[MAX_MESG_BUFFER_SIZE];
 	short stat;
 	extern short levitate;
 
@@ -610,16 +613,15 @@ kick_into_pack(void)
 		}
 		if ((obj = pick_up(rogue.row, rogue.col, &stat))) {
 			get_desc(obj, desc, sizeof(desc), 1);
-			(void)strcat(desc, mesg[114]);
+			snprintf(desc + strlen(desc),
+			    sizeof(desc) - strlen(desc), "%s", mesg[114]);
 			if (obj->what_is == GOLD) {
 				message(desc, 0);
 				free_object(obj);
 			} else {
-				p = desc + strlen(desc);
-				*p++ = '(';
-				*p++ = obj->ichar;
-				*p++ = ')';
-				*p = 0;
+				snprintf(desc + strlen(desc),
+				    sizeof(desc) - strlen(desc), "(%c)",
+				    obj->ichar);
 				message(desc, 0);
 			}
 		}

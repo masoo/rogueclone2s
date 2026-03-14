@@ -58,9 +58,8 @@ one_move_rogue(short dirch, short pickup)
 {
 	short row, col;
 	short r, c;
-	char *p;
 	object *obj;
-	char desc[ROGUE_COLUMNS];
+	char desc[MAX_MESG_BUFFER_SIZE];
 	short status;
 
 	r = rogue.row;
@@ -137,7 +136,9 @@ one_move_rogue(short dirch, short pickup)
 				get_desc(obj, desc, sizeof(desc), 1);
 				if (obj->what_is == GOLD) {
 					free_object(obj);
-					strcat(desc, mesg[69]);
+					snprintf(desc + strlen(desc),
+					    sizeof(desc) - strlen(desc),
+					    "%s", mesg[69]);
 					goto NOT_IN_PACK;
 				}
 			} else if (!status) {
@@ -149,15 +150,12 @@ one_move_rogue(short dirch, short pickup)
 		MOVE_ON:
 			obj = object_at(&level_objects, row, col);
 			get_desc(obj, desc, sizeof(desc), 0);
-			(void)strcat(desc, mesg[70]);
+			snprintf(desc + strlen(desc),
+			    sizeof(desc) - strlen(desc), "%s", mesg[70]);
 			goto NOT_IN_PACK;
 		}
-		strcat(desc, mesg[69]);
-		p = desc + strlen(desc);
-		*p++ = '(';
-		*p++ = obj->ichar;
-		*p++ = ')';
-		*p = 0;
+		snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc),
+		    "%s(%c)", mesg[69], obj->ichar);
 	NOT_IN_PACK:
 		message(desc, 1);
 		(void)reg_move();

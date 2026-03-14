@@ -43,7 +43,7 @@ void
 put_on_ring(void)
 {
 	short ch;
-	char desc[ROGUE_COLUMNS];
+	char desc[MAX_MESG_BUFFER_SIZE];
 	object *ring;
 
 	if (r_rings == 2) {
@@ -124,7 +124,7 @@ remove_ring(void)
 {
 	bool left = false, right = false;
 	short ch;
-	char buf[ROGUE_COLUMNS];
+	char buf[MAX_MESG_BUFFER_SIZE];
 	object *ring;
 
 	if (r_rings == 0) {
@@ -163,7 +163,8 @@ remove_ring(void)
 		} else {
 			un_put_on(ring);
 			get_desc(ring, buf, sizeof(buf), 0);
-			(void)strcat(buf, mesg[166]);
+			snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
+		    "%s", mesg[166]);
 			message(buf, 0);
 			(void)reg_move();
 		}
@@ -241,7 +242,7 @@ gr_ring(object *ring, bool assign_wk)
 void
 inv_rings(void)
 {
-	char buf[ROGUE_COLUMNS];
+	char buf[MAX_MESG_BUFFER_SIZE];
 
 	if (r_rings == 0) {
 		message(mesg[167], 0);

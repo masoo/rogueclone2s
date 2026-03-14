@@ -156,7 +156,7 @@ steal_item(object *monster)
 	object *obj;
 	short i, n,
 	    t = 0; /* 未初期化変数の使用の警告のための初期化。 0 を代入 */
-	char desc[80];
+	char desc[MAX_MESG_BUFFER_SIZE];
 	bool has_something = false;
 
 	if (rand_percent(15)) {
@@ -210,7 +210,8 @@ adornment:
 		obj->quantity = 1;
 	}
 	get_desc(obj, desc, sizeof(desc), 0);
-	(void)strcat(desc, mesg[205]);
+	snprintf(desc + strlen(desc), sizeof(desc) - strlen(desc), "%s",
+	    mesg[205]);
 	message(desc, 0);
 
 	obj->quantity = ((obj->what_is != WEAPON) ? t : 1);
