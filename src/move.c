@@ -123,7 +123,7 @@ one_move_rogue(short dirch, short pickup)
 	mvaddch_rogue(row, col, rogue.fchar);
 
 	if (!jump) {
-		refresh();
+		refresh_rogue();
 	}
 	rogue.row = row;
 	rogue.col = col;

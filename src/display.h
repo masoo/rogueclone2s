@@ -18,7 +18,9 @@ enum rogue_colors {
 	YELLOW_REVERSE = 11,
 	BLUE_REVERSE = 12,
 	MAGENTA_REVERSE = 13,
-	CYAN_REVERSE = 14
+	CYAN_REVERSE = 14,
+	/* sixel でスプライトを描くセル用。黒地に黒で文字を見えなくする。 */
+	SIXEL_HIDDEN = 15
 };
 
 extern void init_color_attr(void);
@@ -29,6 +31,7 @@ extern int mvaddch_rogue(int y, int x, const chtype ch);
 extern int addstr_rogue(const char *str);
 extern int mvaddstr_rogue(int y, int x, const char *str);
 extern chtype mvinch_rogue(int y, int x);
+extern int refresh_rogue(void);
 
 extern int utf8_display_width(const char *str);
 

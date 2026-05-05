@@ -22,6 +22,8 @@ rogue_SOURCES = \
 	room.c room.h \
 	save.c save.h \
 	score.c score.h \
+	sixel.c sixel.h \
+	monster_pixmap.h \
 	spechit.c spechit.h \
 	throw.c throw.h \
 	trap.c trap.h \

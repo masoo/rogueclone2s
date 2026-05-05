@@ -97,6 +97,14 @@ if test "$enable_menu" = "yes"; then
 fi
 AM_CONDITIONAL([ENABLE_MENU], [test "$enable_menu" = "yes"])
 
+AC_ARG_ENABLE([sixel],
+              AS_HELP_STRING([--enable-sixel],
+                             [enable sixel monster graphics (default no)]), ,)
+
+if test "$enable_sixel" = "yes"; then
+  AC_DEFINE([SIXEL], , [Define to enable sixel monster graphics])
+fi
+
 # Define constants
 AC_DEFINE([TOPSCO], , [Define if you have the 'TOPSCO'])
 AC_DEFINE([THROW_TUNNEL], , [Define if you have the 'THROW_TUNNEL'])

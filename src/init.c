@@ -34,6 +34,7 @@
 #include "rogue.h"
 #include "save.h"
 #include "score.h"
+#include "sixel.h"
 
 utf8_int8_t login_name[MAX_USER_NAME_LENGTH];
 utf8_int8_t *nick_name = "";
@@ -109,6 +110,8 @@ init(int argc, char *argv[])
 	start_window();
 	init_curses = true;
 	md_heed_signals();
+
+	(void)sixel_init();
 
 	if (score_only) {
 		message("", 0); /* by Yasha */
@@ -197,6 +200,7 @@ clean_up(char *estr)
 {
 	if (save_is_interactive) {
 		if (init_curses) {
+			sixel_shutdown();
 			move(ROGUE_LINES - 1, 0);
 			clrtoeol();
 			refresh();

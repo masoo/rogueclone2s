@@ -14,6 +14,7 @@
 #include "machdep.h"
 #include "message.h"
 #include "rogue.h"
+#include "sixel.h"
 
 static int ch_attr[256];
 utf8_int8_t *color_str = "cbmyg";
@@ -56,6 +57,7 @@ init_color_attr(void)
 		init_pair(BLUE_REVERSE, COLOR_BLACK, COLOR_BLUE);
 		init_pair(MAGENTA_REVERSE, COLOR_BLACK, COLOR_MAGENTA);
 		init_pair(CYAN_REVERSE, COLOR_BLACK, COLOR_CYAN);
+		init_pair(SIXEL_HIDDEN, COLOR_BLACK, COLOR_BLACK);
 
 		/* フラグを OFF にする */
 		first_init = false;
@@ -178,10 +180,57 @@ addch_rogue(const chtype ch)
 int
 mvaddch_rogue(int y, int x, const chtype ch)
 {
+	int ret;
 #if defined(COLOR)
 	attrset(COLOR_PAIR(get_colorpair_number(ch)));
 #endif /* COLOR */
-	return mvaddch(y, x, ch);
+#if defined(SIXEL) && defined(COLOR)
+	/* sixel でスプライトを描くセルは、ncurses 側の文字を黒地に黒で描いて
+	 * 見えなくする。refresh() を流してから sixel を送出するまでの一瞬、
+	 * 素の '@' や 'B' がちらついて見えるのを防ぐため。 */
+	if (sixel_supported() && sixel_has_sprite((int)(ch & A_CHARTEXT))) {
+		attrset(COLOR_PAIR(SIXEL_HIDDEN));
+	}
+#endif /* SIXEL && COLOR */
+	ret = mvaddch(y, x, ch);
+#if defined(SIXEL)
+	if (sixel_supported()) {
+		chtype text = ch & A_CHARTEXT;
+		if (text >= 'A' && text <= 'Z') {
+			sixel_mark_cell(y, x, (int)text);
+		} else {
+			sixel_clear_cell(y, x);
+		}
+	}
+#endif /* SIXEL */
+	return ret;
+}
+
+/*
+ * refresh_rogue
+ * refresh のラッパー関数
+ * curses の refresh 後に sixel オーバーレイを送出する。
+ * sixel 出力でカーソル位置がずれないよう、ncurses の論理位置に戻す。
+ */
+int
+refresh_rogue(void)
+{
+#if defined(SIXEL)
+	if (sixel_supported()) {
+		int saved_y, saved_x;
+		int ret;
+
+		getyx(stdscr, saved_y, saved_x);
+		ret = refresh();
+		sixel_overlay_flush();
+		/* sixel 出力でカーソルが画像の右下/下に移動している可能性が
+		 * あるので、ncurses が想定する位置に戻して整合を取る。 */
+		fprintf(stdout, "\x1b[%d;%dH", saved_y + 1, saved_x + 1);
+		fflush(stdout);
+		return ret;
+	}
+#endif /* SIXEL */
+	return refresh();
 }
 
 /*

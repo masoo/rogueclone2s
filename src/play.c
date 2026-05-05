@@ -79,7 +79,7 @@ play_level(void)
 			return;
 		}
 		move(rogue.row, rogue.col);
-		refresh();
+		refresh_rogue();
 
 		oldcmd = cmd;
 		ch = cmd = rgetchar();
@@ -225,7 +225,7 @@ play_level(void)
 		case '8':
 		case '9':
 			move(rogue.row, rogue.col);
-			refresh();
+			refresh_rogue();
 			do {
 				if (count < 100) {
 					count = (10 * count) + (ch - '0');
