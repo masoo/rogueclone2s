@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: msys2/setup-msys2@4f806de0a5a7294ffabaff804b38a9b435a73bda # v2.30.0
+      - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2.33.0
         with:
           msystem: UCRT64
           install: >-
@@ -78,17 +78,20 @@ jobs:
         id: version
         run: echo "version=$(sed -n 's/^AC_INIT(\[rogueclone2s\],\[\([^]]*\)\].*/\1/p' configure.ac)" >> "$GITHUB_OUTPUT"
 
-      - name: Build on Haiku
-        uses: cross-platform-actions/action@492b0c80085400348c599edace11141a4ee73524 # v0.32.0
+      - name: Start Haiku VM
+        uses: cross-platform-actions/action@e0b9770014ba65d5e0815f15b74031c3a635f641 # v1.6.0
         with:
           operating_system: haiku
-          version: "r1beta5"
-          run: |
-            pkgman install -y ncurses6_devel autoconf automake make cmd:gcc
-            autoreconf -i && ./configure && make
-            mkdir -p dist
-            cp src/rogue dist/
-            cp msg/mesg msg/mesg_E dist/
+          version: "r1beta6"
+
+      - name: Build on Haiku
+        shell: cpa.sh {0}
+        run: |
+          pkgman install -y ncurses6_devel autoconf automake make cmd:gcc
+          autoreconf -i && ./configure && make
+          mkdir -p dist
+          cp src/rogue dist/
+          cp msg/mesg msg/mesg_E dist/
 
       - uses: actions/upload-artifact@v7
         with:
