@@ -34,3 +34,15 @@ Stothr)はプログラムのソースを配布するにあたり、
 します。
 
 
+-----
+同梱している次のファイルは、上記とは別のライセンスに従います。それぞれのライセ
+ンスと著作権表示はファイルの先頭に記載しています。
+
+src/wcwidth.c
+    MIT License
+    https://github.com/termux/wcwidth (Fredrik Fornwall) を元に、表を
+    https://github.com/jquast/wcwidth (Jeff Quast) のものに置き換えています。
+
+src/utf8.h
+    The Unlicense (パブリックドメイン相当)
+    https://github.com/sheredom/utf8.h
