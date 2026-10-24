@@ -211,7 +211,7 @@ utf8pbrk(const utf8_int8_t *str, const utf8_int8_t *accept);
 
 /* Find the last match of the utf8 codepoint chr in the utf8 string src. */
 utf8_constexpr14 utf8_nonnull utf8_pure utf8_int8_t *
-utf8rchr(const utf8_int8_t *src, int chr);
+utf8rchr(const utf8_int8_t *src, utf8_int32_t chr);
 
 /* Number of bytes in the utf8 string str,
  * including the null terminating byte. */
@@ -261,11 +261,17 @@ utf8codepoint(const utf8_int8_t *utf8_restrict str,
               utf8_int32_t *utf8_restrict out_codepoint);
 
 /* Calculates the size of the next utf8 codepoint in str. */
-utf8_constexpr14 utf8_nonnull size_t
+utf8_constexpr14 utf8_nonnull utf8_pure size_t
 utf8codepointcalcsize(const utf8_int8_t *str);
 
 /* Returns the size of the given codepoint in bytes. */
-utf8_constexpr14 size_t utf8codepointsize(utf8_int32_t chr);
+utf8_constexpr14 utf8_pure size_t utf8codepointsize(utf8_int32_t chr);
+
+/* Returns the number of terminal columns the given codepoint occupies when
+ * printed with a fixed-width font: 0 for zero-width codepoints (the null
+ * codepoint and combining marks), 2 for wide (double-width) codepoints, 1 for
+ * ordinary codepoints, and -1 for non-printable control codepoints. */
+utf8_constexpr14 utf8_pure int utf8codepointvisualwidth(utf8_int32_t chr);
 
 /* Write a codepoint to the given string, and return the address to the next
  * place after the written codepoint. Pass how many bytes left in the buffer to
@@ -275,22 +281,26 @@ utf8_nonnull utf8_weak utf8_int8_t *
 utf8catcodepoint(utf8_int8_t *str, utf8_int32_t chr, size_t n);
 
 /* Returns 1 if the given character is lowercase, or 0 if it is not. */
-utf8_constexpr14 int utf8islower(utf8_int32_t chr);
+utf8_constexpr14 utf8_pure int utf8islower(utf8_int32_t chr);
 
 /* Returns 1 if the given character is uppercase, or 0 if it is not. */
-utf8_constexpr14 int utf8isupper(utf8_int32_t chr);
+utf8_constexpr14 utf8_pure int utf8isupper(utf8_int32_t chr);
 
-/* Transform the given string into all lowercase codepoints. */
+/* Transform the given string into all lowercase codepoints in place. This
+ * function does not allocate memory. All currently supported case mappings
+ * preserve the number of bytes in the encoded string. */
 utf8_nonnull utf8_weak void utf8lwr(utf8_int8_t *utf8_restrict str);
 
-/* Transform the given string into all uppercase codepoints. */
+/* Transform the given string into all uppercase codepoints in place. This
+ * function does not allocate memory. All currently supported case mappings
+ * preserve the number of bytes in the encoded string. */
 utf8_nonnull utf8_weak void utf8upr(utf8_int8_t *utf8_restrict str);
 
 /* Make a codepoint lower case if possible. */
-utf8_constexpr14 utf8_int32_t utf8lwrcodepoint(utf8_int32_t cp);
+utf8_constexpr14 utf8_pure utf8_int32_t utf8lwrcodepoint(utf8_int32_t cp);
 
 /* Make a codepoint upper case if possible. */
-utf8_constexpr14 utf8_int32_t utf8uprcodepoint(utf8_int32_t cp);
+utf8_constexpr14 utf8_pure utf8_int32_t utf8uprcodepoint(utf8_int32_t cp);
 
 /* Sets out_codepoint to the current utf8 codepoint in str, and returns the
  * address of the previous utf8 codepoint before the current one in str. */
@@ -412,9 +422,9 @@ utf8_constexpr14_impl utf8_int8_t *utf8chr(const utf8_int8_t *src,
 utf8_constexpr14_impl int utf8cmp(const utf8_int8_t *src1,
                                   const utf8_int8_t *src2) {
   while (('\0' != *src1) || ('\0' != *src2)) {
-    if (*src1 < *src2) {
+    if ((unsigned char)*src1 < (unsigned char)*src2) {
       return -1;
-    } else if (*src1 > *src2) {
+    } else if ((unsigned char)*src1 > (unsigned char)*src2) {
       return 1;
     }
 
@@ -548,18 +558,28 @@ utf8_constexpr14_impl size_t utf8nlen(const utf8_int8_t *str, size_t n) {
   size_t length = 0;
 
   while ((size_t)(str - t) < n && '\0' != *str) {
+    size_t cp_len = 1;
     if (0xf0 == (0xf8 & *str)) {
       /* 4-byte utf8 code point (began with 0b11110xxx) */
-      str += 4;
+      cp_len = 4;
     } else if (0xe0 == (0xf0 & *str)) {
       /* 3-byte utf8 code point (began with 0b1110xxxx) */
-      str += 3;
+      cp_len = 3;
     } else if (0xc0 == (0xe0 & *str)) {
       /* 2-byte utf8 code point (began with 0b110xxxxx) */
-      str += 2;
+      cp_len = 2;
     } else { /* if (0x00 == (0x80 & *s)) { */
       /* 1-byte ascii (began with 0b0xxxxxxx) */
+      cp_len = 1;
+    }
+
+    /* Do not advance past the NUL or the n-byte limit. */
+    do {
       str += 1;
+    } while (--cp_len && (size_t)(str - t) < n && '\0' != *str);
+
+    if (cp_len && (size_t)(str - t) == n) {
+      break;
     }
 
     /* no matter the bytes we marched s forward by, it was
@@ -567,9 +587,6 @@ utf8_constexpr14_impl size_t utf8nlen(const utf8_int8_t *str, size_t n) {
     length++;
   }
 
-  if ((size_t)(str - t) > n) {
-    length--;
-  }
   return length;
 }
 
@@ -671,9 +688,9 @@ utf8_int8_t *utf8ncat(utf8_int8_t *utf8_restrict dst,
 utf8_constexpr14_impl int utf8ncmp(const utf8_int8_t *src1,
                                    const utf8_int8_t *src2, size_t n) {
   while ((0 != n--) && (('\0' != *src1) || ('\0' != *src2))) {
-    if (*src1 < *src2) {
+    if ((unsigned char)*src1 < (unsigned char)*src2) {
       return -1;
-    } else if (*src1 > *src2) {
+    } else if ((unsigned char)*src1 > (unsigned char)*src2) {
       return 1;
     }
 
@@ -769,7 +786,7 @@ utf8_int8_t *utf8ndup_ex(const utf8_int8_t *src, size_t n,
   return c;
 }
 
-utf8_constexpr14_impl utf8_int8_t *utf8rchr(const utf8_int8_t *src, int chr) {
+utf8_constexpr14_impl utf8_int8_t *utf8rchr(const utf8_int8_t *src, utf8_int32_t chr) {
 
   utf8_int8_t *match = utf8_null;
   utf8_int8_t c[5] = {'\0', '\0', '\0', '\0', '\0'};
@@ -781,22 +798,22 @@ utf8_constexpr14_impl utf8_int8_t *utf8rchr(const utf8_int8_t *src, int chr) {
       src++;
     }
     return (utf8_int8_t *)src;
-  } else if (0 == ((int)0xffffff80 & chr)) {
+  } else if (0 == ((utf8_int32_t)0xffffff80 & chr)) {
     /* 1-byte/7-bit ascii
      * (0b0xxxxxxx) */
     c[0] = (utf8_int8_t)chr;
-  } else if (0 == ((int)0xfffff800 & chr)) {
+  } else if (0 == ((utf8_int32_t)0xfffff800 & chr)) {
     /* 2-byte/11-bit utf8 code point
      * (0b110xxxxx 0b10xxxxxx) */
     c[0] = (utf8_int8_t)(0xc0 | (utf8_int8_t)(chr >> 6));
     c[1] = (utf8_int8_t)(0x80 | (utf8_int8_t)(chr & 0x3f));
-  } else if (0 == ((int)0xffff0000 & chr)) {
+  } else if (0 == ((utf8_int32_t)0xffff0000 & chr)) {
     /* 3-byte/16-bit utf8 code point
      * (0b1110xxxx 0b10xxxxxx 0b10xxxxxx) */
     c[0] = (utf8_int8_t)(0xe0 | (utf8_int8_t)(chr >> 12));
     c[1] = (utf8_int8_t)(0x80 | (utf8_int8_t)((chr >> 6) & 0x3f));
     c[2] = (utf8_int8_t)(0x80 | (utf8_int8_t)(chr & 0x3f));
-  } else { /* if (0 == ((int)0xffe00000 & chr)) { */
+  } else { /* if (0 == ((utf8_int32_t)0xffe00000 & chr)) { */
     /* 4-byte/21-bit utf8 code point
      * (0b11110xxx 0b10xxxxxx 0b10xxxxxx 0b10xxxxxx) */
     c[0] = (utf8_int8_t)(0xf0 | (utf8_int8_t)(chr >> 18));
@@ -1077,6 +1094,12 @@ utf8_constexpr14_impl utf8_int8_t *utf8nvalid(const utf8_int8_t *str,
         return (utf8_int8_t *)str;
       }
 
+      /* ensure that the codepoint is not above U+10FFFF */
+      if (((0x07 & str[0]) > 4) ||
+          ((4 == (0x07 & str[0])) && (0 != (0x30 & str[1])))) {
+        return (utf8_int8_t *)str;
+      }
+
       /* 4-byte utf8 code point (began with 0b11110xxx) */
       str += 4;
     } else if (0xe0 == (0xf0 & *str)) {
@@ -1100,6 +1123,11 @@ utf8_constexpr14_impl utf8_int8_t *utf8nvalid(const utf8_int8_t *str,
        * codepoint were not 0, as then we could have used
        * one of the smaller encodings */
       if ((0 == (0x0f & str[0])) && (0 == (0x20 & str[1]))) {
+        return (utf8_int8_t *)str;
+      }
+
+      /* ensure that the codepoint is not a surrogate (U+D800..U+DFFF) */
+      if ((0x0d == (0x0f & str[0])) && (0 != (0x20 & str[1]))) {
         return (utf8_int8_t *)str;
       }
 
@@ -1165,7 +1193,15 @@ int utf8makevalid(utf8_int8_t *str, const utf8_int32_t replacement) {
       }
 
       /* 4-byte utf8 code point (began with 0b11110xxx) */
-      read = utf8codepoint(read, &codepoint);
+      (void)utf8codepoint(read, &codepoint);
+      if ((codepoint > 0x10ffff) ||
+          ((codepoint >= 0xd800) && (codepoint <= 0xdfff))) {
+        /* Invalid scalar values cannot be repaired by re-encoding them. */
+        *write++ = r;
+        read++;
+        continue;
+      }
+      read += 4;
       write = utf8catcodepoint(write, codepoint, 4);
     } else if (0xe0 == (0xf0 & *read)) {
       /* ensure each of the 2 following bytes in this 3-byte
@@ -1177,7 +1213,14 @@ int utf8makevalid(utf8_int8_t *str, const utf8_int32_t replacement) {
       }
 
       /* 3-byte utf8 code point (began with 0b1110xxxx) */
-      read = utf8codepoint(read, &codepoint);
+      (void)utf8codepoint(read, &codepoint);
+      if ((codepoint >= 0xd800) && (codepoint <= 0xdfff)) {
+        /* UTF-16 surrogate code points are not valid Unicode scalars. */
+        *write++ = r;
+        read++;
+        continue;
+      }
+      read += 3;
       write = utf8catcodepoint(write, codepoint, 3);
     } else if (0xc0 == (0xe0 & *read)) {
       /* ensure the 1 following byte in this 2-byte
@@ -1211,27 +1254,30 @@ int utf8makevalid(utf8_int8_t *str, const utf8_int32_t replacement) {
 utf8_constexpr14_impl utf8_int8_t *
 utf8codepoint(const utf8_int8_t *utf8_restrict str,
               utf8_int32_t *utf8_restrict out_codepoint) {
+  size_t n = 1, i = 1;
+  utf8_int32_t cp = (utf8_int32_t)str[0];
+
   if (0xf0 == (0xf8 & str[0])) {
     /* 4 byte utf8 codepoint */
-    *out_codepoint = ((0x07 & str[0]) << 18) | ((0x3f & str[1]) << 12) |
-                     ((0x3f & str[2]) << 6) | (0x3f & str[3]);
-    str += 4;
+    n = 4;
+    cp = 0x07 & str[0];
   } else if (0xe0 == (0xf0 & str[0])) {
     /* 3 byte utf8 codepoint */
-    *out_codepoint =
-        ((0x0f & str[0]) << 12) | ((0x3f & str[1]) << 6) | (0x3f & str[2]);
-    str += 3;
+    n = 3;
+    cp = 0x0f & str[0];
   } else if (0xc0 == (0xe0 & str[0])) {
     /* 2 byte utf8 codepoint */
-    *out_codepoint = ((0x1f & str[0]) << 6) | (0x3f & str[1]);
-    str += 2;
-  } else {
-    /* 1 byte utf8 codepoint otherwise */
-    *out_codepoint = str[0];
-    str += 1;
+    n = 2;
+    cp = 0x1f & str[0];
   }
 
-  return (utf8_int8_t *)str;
+  /* Stop at the NUL if the sequence is truncated. */
+  for (i = 1; i < n && '\0' != str[i]; i++) {
+    cp = (cp << 6) | (0x3f & str[i]);
+  }
+
+  *out_codepoint = cp;
+  return (utf8_int8_t *)(str + i);
 }
 
 utf8_constexpr14_impl size_t utf8codepointcalcsize(const utf8_int8_t *str) {
@@ -1260,6 +1306,140 @@ utf8_constexpr14_impl size_t utf8codepointsize(utf8_int32_t chr) {
   } else { /* if (0 == ((int)0xffe00000 & chr)) { */
     return 4;
   }
+}
+
+utf8_constexpr14_impl int utf8codepointvisualwidth(utf8_int32_t chr) {
+  /* The null codepoint takes up no visual space. */
+  if (0 == chr) {
+    return 0;
+  }
+
+  /* C0 and C1 control codepoints have no printable representation. */
+  if ((chr < 0x20) || ((0x7f <= chr) && (chr < 0xa0))) {
+    return -1;
+  }
+
+  /* Zero-width combining marks and format codepoints. The ranges follow the
+   * widely used wcwidth() tables and cover Unicode general categories Mn, Me
+   * and Cf that do not advance the cursor. */
+  if (((0x0300 <= chr) && (0x036f >= chr)) ||
+      ((0x0483 <= chr) && (0x0486 >= chr)) ||
+      ((0x0488 <= chr) && (0x0489 >= chr)) ||
+      ((0x0591 <= chr) && (0x05bd >= chr)) || (0x05bf == chr) ||
+      ((0x05c1 <= chr) && (0x05c2 >= chr)) ||
+      ((0x05c4 <= chr) && (0x05c5 >= chr)) || (0x05c7 == chr) ||
+      ((0x0600 <= chr) && (0x0603 >= chr)) ||
+      ((0x0610 <= chr) && (0x0615 >= chr)) ||
+      ((0x064b <= chr) && (0x065e >= chr)) || (0x0670 == chr) ||
+      ((0x06d6 <= chr) && (0x06e4 >= chr)) ||
+      ((0x06e7 <= chr) && (0x06e8 >= chr)) ||
+      ((0x06ea <= chr) && (0x06ed >= chr)) || (0x070f == chr) ||
+      (0x0711 == chr) || ((0x0730 <= chr) && (0x074a >= chr)) ||
+      ((0x07a6 <= chr) && (0x07b0 >= chr)) ||
+      ((0x07eb <= chr) && (0x07f3 >= chr)) ||
+      ((0x0901 <= chr) && (0x0902 >= chr)) || (0x093c == chr) ||
+      ((0x0941 <= chr) && (0x0948 >= chr)) || (0x094d == chr) ||
+      ((0x0951 <= chr) && (0x0954 >= chr)) ||
+      ((0x0962 <= chr) && (0x0963 >= chr)) || (0x0981 == chr) ||
+      (0x09bc == chr) || ((0x09c1 <= chr) && (0x09c4 >= chr)) ||
+      (0x09cd == chr) || ((0x09e2 <= chr) && (0x09e3 >= chr)) ||
+      ((0x0a01 <= chr) && (0x0a02 >= chr)) || (0x0a3c == chr) ||
+      ((0x0a41 <= chr) && (0x0a42 >= chr)) ||
+      ((0x0a47 <= chr) && (0x0a48 >= chr)) ||
+      ((0x0a4b <= chr) && (0x0a4d >= chr)) ||
+      ((0x0a70 <= chr) && (0x0a71 >= chr)) ||
+      ((0x0a81 <= chr) && (0x0a82 >= chr)) || (0x0abc == chr) ||
+      ((0x0ac1 <= chr) && (0x0ac5 >= chr)) ||
+      ((0x0ac7 <= chr) && (0x0ac8 >= chr)) || (0x0acd == chr) ||
+      ((0x0ae2 <= chr) && (0x0ae3 >= chr)) || (0x0b01 == chr) ||
+      (0x0b3c == chr) || (0x0b3f == chr) ||
+      ((0x0b41 <= chr) && (0x0b43 >= chr)) || (0x0b4d == chr) ||
+      (0x0b56 == chr) || (0x0b82 == chr) || (0x0bc0 == chr) ||
+      (0x0bcd == chr) || ((0x0c3e <= chr) && (0x0c40 >= chr)) ||
+      ((0x0c46 <= chr) && (0x0c48 >= chr)) ||
+      ((0x0c4a <= chr) && (0x0c4d >= chr)) ||
+      ((0x0c55 <= chr) && (0x0c56 >= chr)) || (0x0cbc == chr) ||
+      (0x0cbf == chr) || (0x0cc6 == chr) ||
+      ((0x0ccc <= chr) && (0x0ccd >= chr)) ||
+      ((0x0ce2 <= chr) && (0x0ce3 >= chr)) ||
+      ((0x0d41 <= chr) && (0x0d43 >= chr)) || (0x0d4d == chr) ||
+      (0x0dca == chr) || ((0x0dd2 <= chr) && (0x0dd4 >= chr)) ||
+      (0x0dd6 == chr) || (0x0e31 == chr) ||
+      ((0x0e34 <= chr) && (0x0e3a >= chr)) ||
+      ((0x0e47 <= chr) && (0x0e4e >= chr)) || (0x0eb1 == chr) ||
+      ((0x0eb4 <= chr) && (0x0eb9 >= chr)) ||
+      ((0x0ebb <= chr) && (0x0ebc >= chr)) ||
+      ((0x0ec8 <= chr) && (0x0ecd >= chr)) ||
+      ((0x0f18 <= chr) && (0x0f19 >= chr)) || (0x0f35 == chr) ||
+      (0x0f37 == chr) || (0x0f39 == chr) ||
+      ((0x0f71 <= chr) && (0x0f7e >= chr)) ||
+      ((0x0f80 <= chr) && (0x0f84 >= chr)) ||
+      ((0x0f86 <= chr) && (0x0f87 >= chr)) ||
+      ((0x0f90 <= chr) && (0x0f97 >= chr)) ||
+      ((0x0f99 <= chr) && (0x0fbc >= chr)) || (0x0fc6 == chr) ||
+      ((0x102d <= chr) && (0x1030 >= chr)) || (0x1032 == chr) ||
+      ((0x1036 <= chr) && (0x1037 >= chr)) || (0x1039 == chr) ||
+      ((0x1058 <= chr) && (0x1059 >= chr)) ||
+      ((0x1160 <= chr) && (0x11ff >= chr)) || (0x135f == chr) ||
+      ((0x1712 <= chr) && (0x1714 >= chr)) ||
+      ((0x1732 <= chr) && (0x1734 >= chr)) ||
+      ((0x1752 <= chr) && (0x1753 >= chr)) ||
+      ((0x1772 <= chr) && (0x1773 >= chr)) ||
+      ((0x17b4 <= chr) && (0x17b5 >= chr)) ||
+      ((0x17b7 <= chr) && (0x17bd >= chr)) || (0x17c6 == chr) ||
+      ((0x17c9 <= chr) && (0x17d3 >= chr)) || (0x17dd == chr) ||
+      ((0x180b <= chr) && (0x180d >= chr)) || (0x18a9 == chr) ||
+      ((0x1920 <= chr) && (0x1922 >= chr)) ||
+      ((0x1927 <= chr) && (0x1928 >= chr)) || (0x1932 == chr) ||
+      ((0x1939 <= chr) && (0x193b >= chr)) ||
+      ((0x1a17 <= chr) && (0x1a18 >= chr)) ||
+      ((0x1b00 <= chr) && (0x1b03 >= chr)) || (0x1b34 == chr) ||
+      ((0x1b36 <= chr) && (0x1b3a >= chr)) || (0x1b3c == chr) ||
+      (0x1b42 == chr) || ((0x1b6b <= chr) && (0x1b73 >= chr)) ||
+      ((0x1dc0 <= chr) && (0x1dca >= chr)) ||
+      ((0x1dfe <= chr) && (0x1dff >= chr)) ||
+      ((0x200b <= chr) && (0x200f >= chr)) ||
+      ((0x202a <= chr) && (0x202e >= chr)) ||
+      ((0x2060 <= chr) && (0x2063 >= chr)) ||
+      ((0x206a <= chr) && (0x206f >= chr)) ||
+      ((0x20d0 <= chr) && (0x20ef >= chr)) ||
+      ((0x302a <= chr) && (0x302f >= chr)) ||
+      ((0x3099 <= chr) && (0x309a >= chr)) || (0xa806 == chr) ||
+      (0xa80b == chr) || ((0xa825 <= chr) && (0xa826 >= chr)) ||
+      (0xfb1e == chr) || ((0xfe00 <= chr) && (0xfe0f >= chr)) ||
+      ((0xfe20 <= chr) && (0xfe23 >= chr)) || (0xfeff == chr) ||
+      ((0xfff9 <= chr) && (0xfffb >= chr)) ||
+      ((0x10a01 <= chr) && (0x10a03 >= chr)) ||
+      ((0x10a05 <= chr) && (0x10a06 >= chr)) ||
+      ((0x10a0c <= chr) && (0x10a0f >= chr)) ||
+      ((0x10a38 <= chr) && (0x10a3a >= chr)) || (0x10a3f == chr) ||
+      ((0x1d167 <= chr) && (0x1d169 >= chr)) ||
+      ((0x1d173 <= chr) && (0x1d182 >= chr)) ||
+      ((0x1d185 <= chr) && (0x1d18b >= chr)) ||
+      ((0x1d1aa <= chr) && (0x1d1ad >= chr)) ||
+      ((0x1d242 <= chr) && (0x1d244 >= chr)) || (0xe0001 == chr) ||
+      ((0xe0020 <= chr) && (0xe007f >= chr)) ||
+      ((0xe0100 <= chr) && (0xe01ef >= chr))) {
+    return 0;
+  }
+
+  /* Wide (double-width) codepoints, mostly East Asian scripts. */
+  if ((0x1100 <= chr) &&
+      (((0x1100 <= chr) && (0x115f >= chr)) || (0x2329 == chr) ||
+       (0x232a == chr) ||
+       (((0x2e80 <= chr) && (0xa4cf >= chr)) && (0x303f != chr)) ||
+       ((0xac00 <= chr) && (0xd7a3 >= chr)) ||
+       ((0xf900 <= chr) && (0xfaff >= chr)) ||
+       ((0xfe10 <= chr) && (0xfe19 >= chr)) ||
+       ((0xfe30 <= chr) && (0xfe6f >= chr)) ||
+       ((0xff00 <= chr) && (0xff60 >= chr)) ||
+       ((0xffe0 <= chr) && (0xffe6 >= chr)) ||
+       ((0x20000 <= chr) && (0x2fffd >= chr)) ||
+       ((0x30000 <= chr) && (0x3fffd >= chr)))) {
+    return 2;
+  }
+
+  return 1;
 }
 
 utf8_int8_t *utf8catcodepoint(utf8_int8_t *str, utf8_int32_t chr, size_t n) {
@@ -1358,6 +1538,14 @@ utf8_constexpr14_impl utf8_int32_t utf8lwrcodepoint(utf8_int32_t cp) {
     cp += 32;
   } else if ((0x0400 <= cp) && (0x040f >= cp)) {
     cp += 80;
+  } else if ((0x0531 <= cp) && (0x0556 >= cp)) {
+    /* Armenian */
+    cp += 48;
+  } else if ((0x13a0 <= cp) && (0x13ef >= cp)) {
+    /* Cherokee to Cherokee Supplement */
+    cp += 0x97d0;
+  } else if ((0x13f0 <= cp) && (0x13f5 >= cp)) {
+    cp += 8;
   } else if (((0x0100 <= cp) && (0x012f >= cp)) ||
              ((0x0132 <= cp) && (0x0137 >= cp)) ||
              ((0x014a <= cp) && (0x0177 >= cp)) ||
@@ -1521,6 +1709,14 @@ utf8_constexpr14_impl utf8_int32_t utf8uprcodepoint(utf8_int32_t cp) {
     cp -= 32;
   } else if ((0x0450 <= cp) && (0x045f >= cp)) {
     cp -= 80;
+  } else if ((0x0561 <= cp) && (0x0586 >= cp)) {
+    /* Armenian */
+    cp -= 48;
+  } else if ((0xab70 <= cp) && (0xabbf >= cp)) {
+    /* Cherokee Supplement to Cherokee */
+    cp -= 0x97d0;
+  } else if ((0x13f8 <= cp) && (0x13fd >= cp)) {
+    cp -= 8;
   } else if (((0x0100 <= cp) && (0x012f >= cp)) ||
              ((0x0132 <= cp) && (0x0137 >= cp)) ||
              ((0x014a <= cp) && (0x0177 >= cp)) ||
@@ -1547,6 +1743,10 @@ utf8_constexpr14_impl utf8_int32_t utf8uprcodepoint(utf8_int32_t cp) {
       break;
     case 0x00ff:
       cp = 0x0178;
+      break;
+    case 0x03c2:
+      /* final sigma has no uppercase form of its own */
+      cp = 0x03a3;
       break;
     case 0x0180:
       cp = 0x0243;
